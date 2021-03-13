@@ -11,5 +11,4 @@ public class TeamApplication {
         System.out.println("hello");
         SpringApplication.run(TeamApplication.class, args);
     }
-
 }

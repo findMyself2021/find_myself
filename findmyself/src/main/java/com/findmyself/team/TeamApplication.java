@@ -10,6 +10,6 @@ public class TeamApplication {
         System.out.println("hibhye");
         System.out.println("hello");
         SpringApplication.run(TeamApplication.class, args);
-        System.out.println("hihihihiihi");
+        System.out.println("hihihihiihibyeeee");
     }
 }

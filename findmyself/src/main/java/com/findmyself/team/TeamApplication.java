@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TeamApplication {
 
     public static void main(String[] args) {
-        System.out.println("hi");
+        System.out.println("hibhye");
         SpringApplication.run(TeamApplication.class, args);
     }
 

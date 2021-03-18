@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -29,8 +30,21 @@ public class GudongServiceTest {
 
     @Test
     public void 청운효자동_찾기() {
-        Optional<Gudong> gudong = gudongService.findOne((long)1111051500);
-        assertEquals("1111051500의 행정동 이름은 청운효자동이다.", "청운효자동", gudong.get().getH_dong());
+        Gudong gudong = gudongService.findOne((long)1111051500);
+        System.out.println(gudongService.findOne((long)1111051500).getH_dong());
+        assertEquals("1111051500의 행정동 이름은 청운효자동이다.", "청운효자동", gudong.getH_dong());
+    }
+
+    @Test
+    public void 전체리스트_가져오기() {
+        List<Gudong> gudongList = gudongService.findAll();
+        for(int i=0; i<gudongList.size(); i++){
+            String gu = gudongList.get(i).getGu();
+            String dong = gudongList.get(i).getH_dong();
+            long h_code = gudongList.get(i).getH_code();
+
+            System.out.println(gu+','+dong+','+h_code);
+        }
     }
 
 }

@@ -4,12 +4,10 @@ import com.findmyself.team.data.service.GudongService;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name= "gu_dong_code")
 @Getter @Setter
 public class Gudong {
 

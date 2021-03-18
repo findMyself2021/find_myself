@@ -11,5 +11,17 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public interface GudongRepository extends CrudRepository<Gudong, Long> {
+public class GudongRepository {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public Gudong findOne(Long h_code){
+        return em.find(Gudong.class, h_code);
+    }
+
+    public List<Gudong> findAll(){
+        return em.createQuery("select g from Gudong g", Gudong.class)
+                .getResultList();
+    }
 }

@@ -16,7 +16,7 @@ public class ConvenientService {
 
     private final ConvenientRepository convenientRepository;
 
-    public Optional<Convenient> findOne(long h_code){
-        return convenientRepository.findById(h_code);
+    public Convenient findOne(long h_code){
+        return convenientRepository.findOne(h_code);
     }
 }

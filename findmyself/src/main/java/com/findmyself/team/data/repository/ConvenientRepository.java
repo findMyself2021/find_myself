@@ -6,8 +6,20 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
-public interface ConvenientRepository extends CrudRepository<Convenient, Long> {
+public class ConvenientRepository {
+    @PersistenceContext
+    private EntityManager em;
+
+    public Convenient findOne(Long h_code){
+        return em.find(Convenient.class, h_code);
+    }
+
+    public List<Convenient> findAll(){
+        return em.createQuery("select c from Convenient c", Convenient.class)
+                .getResultList();
+    }
 
 }

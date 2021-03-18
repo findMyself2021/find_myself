@@ -16,11 +16,11 @@ public class GudongService {
 
     private final GudongRepository gudongRepository;
 
-    public Optional<Gudong> findOne(long h_code) {
-        return gudongRepository.findById(h_code);
+    public Gudong findOne(long h_code) {
+        return gudongRepository.findOne(h_code);
     }
 
-    public Iterable<Gudong> findAll(){
+    public List<Gudong> findAll(){
         return  gudongRepository.findAll();
     }
 }

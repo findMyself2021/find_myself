@@ -8,7 +8,6 @@ intellij mysql 설정
 * 데이터베이스 이름은 findmyself 로 통일 (아니면 에러남)
 ```
 url: jdbc:mysql://localhost:3306/findmyself?useSSL=false&characterEncoding=UTF8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-
 ```
 
 * mysql 비밀번호는 1234 (아니면 에러남)

@@ -1,5 +1,10 @@
 # find_myself
 
+* push, clone 시 토큰 이용해야 organization repo push, clone 가능함...
+
+* https://velog.io/@ruddms936/github-토큰-생성
+
+
 intellij mysql 설정
 ---
 

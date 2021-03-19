@@ -20,5 +20,10 @@ public class ResidenceGender {
     private String gu;
     private String h_dong;
 
+    private int male;
+    private int female;
 
+    public ResidenceGender(){
+
+    }
 }

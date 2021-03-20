@@ -13,9 +13,6 @@ public class Convenient {
     @Id @GeneratedValue
     private Long h_code;
 
-    private String gu;
-    private String h_dong;
-
     private int joy;
     private int life;
     private int shop;

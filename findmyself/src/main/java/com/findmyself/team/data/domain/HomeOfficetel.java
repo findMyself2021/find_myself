@@ -13,9 +13,6 @@ public class HomeOfficetel {
     @GeneratedValue
     private Long h_code;
 
-    private String gu;
-    private String h_dong;
-
     private String type;
     private int date;
     private int avg_deposit;

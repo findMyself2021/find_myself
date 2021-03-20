@@ -17,9 +17,6 @@ public class ResidenceGender {
     @GeneratedValue
     private Long h_code;
 
-    private String gu;
-    private String h_dong;
-
     private int male;
     private int female;
 

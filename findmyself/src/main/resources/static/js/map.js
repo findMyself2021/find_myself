@@ -11,15 +11,16 @@ function DrawPolygon() {
 
         var data = geojson.features;
         var coordinates = [];    //좌표 저장할 배열
-        var name = '';            //행정 구 이름
+        var name = '';            //행정동 이름
+        var code =''; //행정기관 코드
 
         $.each(data, function(index, val) {
 
             coordinates = val.geometry.coordinates;
-            name = val.properties.SIG_KOR_NM;
+            name = val.properties.adm_nm;
+            code = val.properties.adm_cd2;
 
-
-            displayArea(coordinates, name);
+            displayArea(coordinates, name,code);
 
         })
     })
@@ -38,7 +39,7 @@ for (var i = 0, len = areas.length; i < len; i++) {
 }
 
 // 다각형을 생상하고 이벤트를 등록하는 함수입니다
-function displayArea(coordinates, name) {
+function displayArea(coordinates, name,code) {
 
     var path = [];
     var points = [];

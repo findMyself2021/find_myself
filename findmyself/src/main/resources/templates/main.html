@@ -33,9 +33,10 @@
                             center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
                             level: 9 // 지도의 확대 레벨
                         };
-                    var map =new kakao.maps.Map(mapContainer,mapOption);
 
-                    Initialization(map);
+                    var map = new kakao.maps.Map(mapContainer, mapOption),
+                        customOverlay = new kakao.maps.CustomOverlay({}),
+                        infowindow = new kakao.maps.InfoWindow({removable: true});
 
                     // 서울 전체 지도
                     DrawPolygon();

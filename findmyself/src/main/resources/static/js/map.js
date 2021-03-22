@@ -5,10 +5,9 @@ function Initialization(_map) {
 }
 
 function DrawPolygon() {
-    alert("hihi");
 
-    //여기서 막힘
-    $.getJSON("/json/maplayer.json", function(geojson) {
+    //행정동 기준으로 폴리곤 생성
+    $.getJSON("/json/seoulMap.json", function(geojson) {
 
         var data = geojson.features;
         var coordinates = [];    //좌표 저장할 배열

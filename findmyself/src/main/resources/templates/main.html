@@ -3,6 +3,7 @@
 <head th:replace="fragments/header :: header" />
     <title>FindMyself 메인</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="/js/map.js"></script>
     <style>
         .container{
@@ -30,7 +31,7 @@
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
                             center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-                            level: 8 // 지도의 확대 레벨
+                            level: 9 // 지도의 확대 레벨
                         };
                     var map =new kakao.maps.Map(mapContainer,mapOption);
 

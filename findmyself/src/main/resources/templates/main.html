@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
     <title>FindMyself 메인</title>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
+    <script type="text/javascript" src="/js/map.js"></script>
     <style>
         .container{
             margin-left: 10px; margin-right: 10px;
@@ -23,9 +25,19 @@
 <body>
     <div class="container">
         <div class="map_wrap">
-            <div id="map" style="width:100%;height:700px;position:relative;overflow:hidden; border-radius: 10px"></div>
-            <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
-            <script type="text/javascript" src="/js/map.js"></script>
+            <div id="map" style="width:100%;height:700px;position:relative;overflow:hidden; border-radius: 10px">
+                <script>
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                            level: 8 // 지도의 확대 레벨
+                        };
+                    var map =new kakao.maps.Map(mapContainer,mapOption);
+
+                    Initialization(map);
+                    DrawPolygon();
+                </script>
+            </div>
         </div>
         <div class="choice_wrap">
             <div class="budget">

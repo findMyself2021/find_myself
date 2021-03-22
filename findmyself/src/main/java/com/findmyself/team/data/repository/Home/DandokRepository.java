@@ -21,4 +21,14 @@ public class DandokRepository {
         return em.createQuery("select hd from HomeDandok hd",HomeDandok.class)
                 .getResultList();
     }
+
+    public List<HomeDandok> findCharters(){
+        return em.createQuery("select hd from HomeDandok hd where hd.type like '전세'",HomeDandok.class)
+                .getResultList();
+    }
+
+    public List<HomeDandok> findMonthly(){
+        return em.createQuery("select hd from HomeDandok hd where hd.type like '월세'",HomeDandok.class)
+                .getResultList();
+    }
 }

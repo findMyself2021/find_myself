@@ -1,5 +1,6 @@
 package com.findmyself.team.data.service.Home;
 
+import com.findmyself.team.data.domain.HomeDasede;
 import com.findmyself.team.data.domain.HomeOfficetel;
 import com.findmyself.team.data.repository.Home.OfficetelRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,20 @@ import java.util.List;
 public class OfficetelService {
 
     private final OfficetelRepository officetelRepository;
+
     public HomeOfficetel findOne(long h_code){
         return officetelRepository.findOne(h_code);
     }
+
     public List<HomeOfficetel> findAll(){
         return officetelRepository.findAll();
+    }
+
+    public List<HomeOfficetel> findCharters(){
+        return officetelRepository.findCharters();
+    }
+
+    public List<HomeOfficetel> findMonthly(){
+        return officetelRepository.findMonthly();
     }
 }

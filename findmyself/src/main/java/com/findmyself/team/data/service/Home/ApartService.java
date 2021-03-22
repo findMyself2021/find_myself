@@ -14,11 +14,20 @@ import java.util.List;
 public class ApartService {
 
     private final ApartRepository apartRepository;
+
     public HomeApart findOne(long h_code){
         return apartRepository.findOne(h_code);
     }
 
     public List<HomeApart> findAll(){
         return apartRepository.findAll();
+    }
+
+    public List<HomeApart> findCharters(){
+        return apartRepository.findCharters();
+    }
+
+    public List<HomeApart> findMonthly(){
+       return apartRepository.findMonthly();
     }
 }

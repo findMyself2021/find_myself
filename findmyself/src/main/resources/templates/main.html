@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head/>
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/header.css">
@@ -8,12 +8,21 @@
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="/js/map.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script language = "javascript">
-        // function SetValue(input_id)
-        // {
-        //     var input_value = document.getElementById(input_id);
-        //     input_value.innerHTML = this.value;
-        // }
+        function setValue(val, input_id)
+        {
+            document.getElementById(input_id).value=val;
+            console.log(val);
+        }
+
+        function findAddress(){ //학교 or 직장 찾기 api
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('school_company').value = data.roadAddress;
+                }
+            }).open();
+        }
     </script>
 </head>
 <body>
@@ -48,35 +57,62 @@
             </div>
         </div>
         <div class="choice_wrap">
-            <div class="requirements" id="budget">
-                <p>예산</p>
-                <label><input type="radio" name="home-type" value="charter">전세</label>
-                <label><input type="radio" name="home-type" value="monthly">월세</label><br>
-                보증금 <input id="deposit_bar" type="range" value="50", min="0" max="9000">
-                <input type="text" value="000">만원<br>
-                월세 <input id="monthly_bar" type="range" value="50", min="0" max="400">
-                <input type="text" value="000">만원
-            </div>
-            <div class="requirements" id="traffic">
-                <p>교통</p>
-                학교/직장 <input type="text"/>
-                <button>찾기</button>
-            </div>
-            <div class="requirements" id="convenient">
-                <p>편의시설</p>
-                <input type="range" value="50", min="0" max="100">
-                <button>더보기</button>
-            </div>
-            <div class="requirements" id="safety">
-                <p>안전</p>
-                <input type="range" value="50", min="0" max="100">
-            </div>
-            <div class="requirements" id="environment">
-                <p>주변환경</p>
-                여 <input type="range" value="50", min="0" max="100"> 남<br>
-                <button>유아 및 청소년</button> <button>20대 및 30대</button><br>
-                <button>40대 및 50대</button> <button>60대 이상</button>
-            </div>
+            <form name="chice_form" method="post" action="/find.do">
+                <div class="requirements" id="budget">
+                    <p>예산</p>
+                    <label><input type="radio" name="home-type" value="charter">전세</label>
+                    <label><input type="radio" name="home-type" value="monthly">월세</label><br><br>
+                    보증금 <br>
+                    <input type="range" value="50", min="0" max="10000" step="100" list="mark1"
+                           oninput="document.getElementById('deposit_value').value=this.value;" style="width:75%; ">
+                    <datalist id="mark1">
+                        <option value="0"></option>
+                        <option value="5000">5천만원</option>
+                        <option value="10000">1억 이상</option>
+                    </datalist>
+                    <input id="deposit_value" type="text">만원<br><br>
+                    월세  <br>
+                    <input type="range" value="50", min="0" max="700" step="10" list="mark2"
+                           oninput="document.getElementById('monthly_value').value=this.value;"style="width:75%;">
+                    <datalist id="mark2">
+                        <option value="0"></option>
+                        <option value="350">350만원</option>
+                        <option value="700">700만원</option>
+                    </datalist>
+                    <input id="monthly_value" type="text">만원
+                </div>
+                <div class="requirements" id="traffic">
+                    <p>교통</p>
+                    학교/직장 <input id="school_company" type="text"/>
+                    <input type="button" value="찾기" onclick="findAddress()"><br><br>
+                    <input type="range" value="50", min="0" max="100" style="width:75%;">
+                    <input type="hidden" name="traffic_value">
+
+                </div>
+                <div class="requirements" id="convenient">
+                    <p>편의시설</p>
+                    <input type="range" value="50", min="0" max="100" style="width:75%;">
+                    <input type="button" value="더보기">
+                    <input type="hidden" name="convenient_value">
+                </div>
+                <div class="requirements" id="safety">
+                    <p>안전</p>
+                    <input type="range" value="50", min="0" max="100" style="width:75%;">
+                    <input type="hidden" name="safety_value">
+                </div>
+                <div class="requirements" id="environment">
+                    <p>주변환경</p>
+                    여 <input type="range" value="50", min="0" max="100" style="width:75%;"> 남<br>
+                    <input type="hidden" name="sex_value">
+                    <label><input type="radio" name="age-range" value="charter">유아 및 청소년</label>
+                    <label><input type="radio" name="age-range" value="charter">20대 및 30대</label><br>
+                    <label><input type="radio" name="age-range" value="charter">40대 및 50대</label>
+                    <label><input type="radio" name="age-range" value="charter">60대 이상</label>
+                </div>
+                <div class="requirements" id="find_btn">
+                    <input type="submit" value="찾기"/>
+                </div>
+            </form>
         </div>
     </div>
     <footer>

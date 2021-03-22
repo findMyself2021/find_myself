@@ -1,5 +1,6 @@
 package com.findmyself.team.data.service.Home;
 
+import com.findmyself.team.data.domain.HomeApart;
 import com.findmyself.team.data.domain.HomeDandok;
 import com.findmyself.team.data.repository.Home.DandokRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,20 @@ import java.util.List;
 public class DandokService {
 
     private final DandokRepository dandokRepository;
+
     public HomeDandok findOne(long h_code){
         return dandokRepository.findOne(h_code);
     }
 
     public List<HomeDandok> findAll(){
         return dandokRepository.findAll();
+    }
+
+    public List<HomeDandok> findCharters(){
+        return dandokRepository.findCharters();
+    }
+
+    public List<HomeDandok> findMonthly(){
+        return dandokRepository.findMonthly();
     }
 }

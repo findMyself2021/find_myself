@@ -1,6 +1,7 @@
 package com.findmyself.team.data.repository.Home;
 
 import com.findmyself.team.data.domain.HomeApart;
+import com.findmyself.team.data.domain.HomeDasede;
 import com.findmyself.team.data.domain.HomeOfficetel;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,16 @@ public class OfficetelRepository {
 
     public List<HomeOfficetel> findAll(){
         return em.createQuery("select ho from HomeOfficetel ho",HomeOfficetel.class)
+                .getResultList();
+    }
+
+    public List<HomeOfficetel> findCharters(){
+        return em.createQuery("select ho from HomeDasede ho where ho.type like '전세'",HomeOfficetel.class)
+                .getResultList();
+    }
+
+    public List<HomeOfficetel> findMonthly(){
+        return em.createQuery("select ho from HomeDasede ho where ho.type like '월세'",HomeOfficetel.class)
                 .getResultList();
     }
 }

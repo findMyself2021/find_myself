@@ -20,4 +20,14 @@ public class ApartRepository {
         return em.createQuery("select ha from HomeApart ha",HomeApart.class)
                 .getResultList();
     }
+
+    public List<HomeApart> findCharters(){
+        return em.createQuery("select ha from HomeApart ha where ha.type like '전세'",HomeApart.class)
+                .getResultList();
+    }
+
+    public List<HomeApart> findMonthly(){
+        return em.createQuery("select ha from HomeApart ha where ha.type like '월세'",HomeApart.class)
+                .getResultList();
+    }
 }

@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head/>
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
     <title>FindMyself 메인</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script type="text/javascript" src="/js/map.js"></script>
-    <style>
-        .container{
-            margin-left: 10px; margin-right: 10px;
-            border: 3px solid #FC8C8C;
-            width: 100%; min-height: 700px;
-        }
-        .map_wrap{
-            border: 3px solid seagreen;
-            width: 60%; min-height: 700px;
-            float: left;
-        }
-        .choice_wrap{
-            border: 3px solid seagreen;
-            width: 37%; min-height: 700px;
-            float: right;
-        }
-    </style>
+    <script language = "javascript">
+        // function SetValue(input_id)
+        // {
+        //     var input_value = document.getElementById(input_id);
+        //     input_value.innerHTML = this.value;
+        // }
+    </script>
 </head>
 <body>
+    <div class="header">
+        <div class="logo-wrap">
+            <a th:href="@{/}">
+                <img src="/image/logo.png">
+            </a>
+        </div>
+    </div>
     <div class="container">
         <div class="map_wrap">
             <div id="map" style="width:100%;height:700px;position:relative;overflow:hidden; border-radius: 10px">
@@ -40,23 +40,41 @@
             </div>
         </div>
         <div class="choice_wrap">
-            <div class="budget">
-                <h4>예산</h4>
+            <div class="requirements" id="budget">
+                <p>예산</p>
+                <label><input type="radio" name="home-type" value="charter">전세</label>
+                <label><input type="radio" name="home-type" value="monthly">월세</label><br>
+                보증금 <input id="deposit_bar" type="range" value="50", min="0" max="9000">
+                <input type="text" value="000">만원<br>
+                월세 <input id="monthly_bar" type="range" value="50", min="0" max="400">
+                <input type="text" value="000">만원
             </div>
-            <div class="traffic">
-                <h4>교통</h4>
+            <div class="requirements" id="traffic">
+                <p>교통</p>
+                학교/직장 <input type="text"/>
+                <button>찾기</button>
             </div>
-            <div class="convenient">
-                <h4>편의시설</h4>
+            <div class="requirements" id="convenient">
+                <p>편의시설</p>
+                <input type="range" value="50", min="0" max="100">
+                <button>더보기</button>
             </div>
-            <div class="safety">
-                <h4>안전</h4>
+            <div class="requirements" id="safety">
+                <p>안전</p>
+                <input type="range" value="50", min="0" max="100">
             </div>
-            <div class="environment">
-                <h4>주변환경</h4>
+            <div class="requirements" id="environment">
+                <p>주변환경</p>
+                여 <input type="range" value="50", min="0" max="100"> 남<br>
+                <button>유아 및 청소년</button> <button>20대 및 30대</button><br>
+                <button>40대 및 50대</button> <button>60대 이상</button>
             </div>
         </div>
     </div>
-
+    <footer>
+        <div class="copyright">
+            Copyright © by FindMyself 2021, Inc. All rights reserved
+        </div>
+    </footer>
 </body>
 </html>

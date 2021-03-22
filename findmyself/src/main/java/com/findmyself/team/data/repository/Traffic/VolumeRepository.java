@@ -1,6 +1,5 @@
 package com.findmyself.team.data.repository.Traffic;
 
-import com.findmyself.team.data.domain.TrafficAddress;
 import com.findmyself.team.data.domain.TrafficVolume;
 import org.springframework.stereotype.Repository;
 

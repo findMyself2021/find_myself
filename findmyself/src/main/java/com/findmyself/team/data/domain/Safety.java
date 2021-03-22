@@ -9,16 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "safety_crime")
+@Table(name = "safety")
 @Getter @Setter
-public class SafetyCrime {
+public class Safety {
 
     @Id
     @GeneratedValue
     private String gu;
     private Long num;
 
-    public SafetyCrime() {
+    public Safety() {
 
     }
 }

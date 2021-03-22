@@ -1,12 +1,14 @@
 package com.findmyself.team.data.service;
 
 import com.findmyself.team.data.domain.Convenient;
+import com.findmyself.team.data.domain.Gudong;
 import com.findmyself.team.data.repository.ConvenientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,5 +20,9 @@ public class ConvenientService {
 
     public Convenient findOne(long h_code){
         return convenientRepository.findOne(h_code);
+    }
+
+    public List<Convenient> findAll(){
+        return  convenientRepository.findAll();
     }
 }

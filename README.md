@@ -2,7 +2,11 @@
 
 * push, clone 시 토큰 이용해야 organization repo push, clone 가능함...
 
-* https://velog.io/@ruddms936/github-토큰-생성
+  https://velog.io/@ruddms936/github-토큰-생성
+
+* 행정동 기준 json 파일 출처 
+
+  https://github.com/vuski/admdongkor
 
 
 intellij mysql 설정

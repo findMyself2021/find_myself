@@ -3,7 +3,7 @@
 <head/>
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main.css?after">
     <title>FindMyself 메인</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -15,7 +15,7 @@
     <div class="header">
         <div class="logo-wrap">
             <a th:href="@{/}">
-                <img src="/image/logo.png">
+                <img src="/image/logo.PNG">
             </a>
         </div>
     </div>
@@ -43,8 +43,8 @@
             </div>
         </div>
         <div class="choice_wrap">
-            <!--<form name="chice_form" action="/find.do" th:object="${requirements}" method="post"  onsubmit="return checkRemain()">-->
-            <form name="chice_form" action="/find.do" th:object="${requirements}" method="post">
+            <!--<form name="choice_form" action="/find.do" th:object="${requirements}" method="post"  onsubmit="return checkRemain()">-->
+            <form name="choice_form" action="/find.do" th:object="${requirements}" method="post">
                 <div class="requirements" id="budget">
                     <p>예산</p>
                     <label><input type="radio" name="home-type" value="charter">전세</label>

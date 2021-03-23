@@ -6,7 +6,7 @@
 }
 .map_wrap{
     /*border: 3px solid seagreen;*/
-    width: 60%; min-height: 740px;
+    width: 60%; min-height: 700px;
     float: left;
 }
 .choice_wrap{
@@ -16,14 +16,14 @@
     float: right;
 }
 p{
-    font-size: 25px;
+    font-size: 20px;
     text-align: center;
     font-weight: bold;
 }
 .requirements{
     padding: 10px;
     padding-right: 20px; padding-left: 20px;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .area {

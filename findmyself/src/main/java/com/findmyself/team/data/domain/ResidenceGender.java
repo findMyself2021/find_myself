@@ -19,6 +19,7 @@ public class ResidenceGender {
 
     private int male;
     private int female;
+    private double sex_ratio;
 
     public ResidenceGender(){
 

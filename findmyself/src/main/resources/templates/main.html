@@ -9,21 +9,7 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="/js/map.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
-    <script language = "javascript">
-        function setValue(val, input_id)
-        {
-            document.getElementById(input_id).value=val;
-            console.log(val);
-        }
-
-        function findAddress(){ //학교 or 직장 찾기 api
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    document.getElementById('school_company').value = data.roadAddress;
-                }
-            }).open();
-        }
-    </script>
+    <script type="text/javascript" src="/js/requirements.js"></script>
 </head>
 <body>
     <div class="header">
@@ -57,13 +43,14 @@
             </div>
         </div>
         <div class="choice_wrap">
-            <form name="chice_form" method="post" action="/find.do">
+            <!--<form name="chice_form" action="/find.do" th:object="${requirements}" method="post"  onsubmit="return checkRemain()">-->
+            <form name="chice_form" action="/find.do" th:object="${requirements}" method="post">
                 <div class="requirements" id="budget">
                     <p>예산</p>
                     <label><input type="radio" name="home-type" value="charter">전세</label>
                     <label><input type="radio" name="home-type" value="monthly">월세</label><br><br>
                     보증금 <br>
-                    <input type="range" value="50", min="0" max="10000" step="100" list="mark1"
+                    <input type="range" value="50", min="0" max="10000" step="100" list="mark1" th:field="*{deposit}"
                            oninput="document.getElementById('deposit_value').value=this.value;" style="width:75%; ">
                     <datalist id="mark1">
                         <option value="0"></option>
@@ -72,7 +59,7 @@
                     </datalist>
                     <input id="deposit_value" type="text">만원<br><br>
                     월세  <br>
-                    <input type="range" value="50", min="0" max="700" step="10" list="mark2"
+                    <input type="range" value="50", min="0" max="700" step="10" list="mark2" th:field="*{monthly}"
                            oninput="document.getElementById('monthly_value').value=this.value;"style="width:75%;">
                     <datalist id="mark2">
                         <option value="0"></option>
@@ -85,29 +72,29 @@
                     <p>교통</p>
                     학교/직장 <input id="school_company" type="text"/>
                     <input type="button" value="찾기" onclick="findAddress()"><br><br>
-                    <input type="range" value="50", min="0" max="100" style="width:75%;">
+                    <input type="range" value="50", min="0" max="100" th:field="*{traffic}" style="width:75%;">
                     <input type="hidden" name="traffic_value">
 
                 </div>
                 <div class="requirements" id="convenient">
                     <p>편의시설</p>
-                    <input type="range" value="50", min="0" max="100" style="width:75%;">
+                    <input type="range" value="50", min="0" max="100" th:field="*{convenient}" style="width:75%;">
                     <input type="button" value="더보기">
                     <input type="hidden" name="convenient_value">
                 </div>
                 <div class="requirements" id="safety">
                     <p>안전</p>
-                    <input type="range" value="50", min="0" max="100" style="width:75%;">
+                    <input type="range" value="50", min="0" max="100" th:field="*{safety}" style="width:75%;">
                     <input type="hidden" name="safety_value">
                 </div>
                 <div class="requirements" id="environment">
                     <p>주변환경</p>
-                    여 <input type="range" value="50", min="0" max="100" style="width:75%;"> 남<br>
+                    여 <input type="range" value="50", min="0" max="100" th:field="*{sex_ratio}" style="width:75%;"> 남<br>
                     <input type="hidden" name="sex_value">
-                    <label><input type="radio" name="age-range" value="charter">유아 및 청소년</label>
-                    <label><input type="radio" name="age-range" value="charter">20대 및 30대</label><br>
-                    <label><input type="radio" name="age-range" value="charter">40대 및 50대</label>
-                    <label><input type="radio" name="age-range" value="charter">60대 이상</label>
+                    <label><input type="radio" name="age-type" value="child">유아 및 청소년</label>
+                    <label><input type="radio" name="age-type" value="2030s">20대 및 30대</label><br>
+                    <label><input type="radio" name="age-type" value="4050s">40대 및 50대</label>
+                    <label><input type="radio" name="age-type" value="elder">60대 이상</label>
                 </div>
                 <div class="requirements" id="find_btn">
                     <input type="submit" value="찾기"/>

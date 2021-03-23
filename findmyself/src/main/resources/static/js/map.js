@@ -145,7 +145,8 @@ function displayHangJungDong(coordinates, name,code){
         //
         // deletePolygon(polygons);                    //폴리곤 제거
 
-        document.find_hcode.hdong.value = name;
-        document.find_hcode.hcode.value = code;
+        document.write('<form action="/mapAnalysis" id="smb_form" method="post"><input type="hidden" id="hcode" name="hcode" value="'+ code +'"></form>');
+        document.getElementById("smb_form").submit();
+
     });
 }

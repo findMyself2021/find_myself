@@ -36,11 +36,3 @@ p{
     left: 15px;
     padding:2px;
 }
-
-.info {
-    font-size: 12px;
-    padding: 5px;
-}
-.info .title {
-    font-weight: bold;
-}

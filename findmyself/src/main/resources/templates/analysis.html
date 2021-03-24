@@ -1,5 +1,24 @@
-<html>
-<h1>
-    행정동에 따른 분석 창입니다.
-</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head/>
+
+<title>분석창</title>
+
+</head>
+<body>
+<div class="header">
+    <div class="logo-wrap">
+
+    </div>
+</div>
+<div class="container">
+    <h2 class="gudong" th:text="'서울특별시 ' +${gu} + ' '+ ${hdong} +'의 분석 결과입니다.'"></h2>
+   <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>
+</div>
+<footer>
+    <div class="copyright">
+        Copyright © by FindMyself 2021, Inc. All rights reserved
+    </div>
+</footer>
+</body>
 </html>

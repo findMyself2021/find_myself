@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head/>
-
-<title>분석창</title>
-
+<head>
+    <title>분석창</title>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="/js/map.js"></script>
 </head>
 <body>
 <div class="header">
@@ -13,7 +14,28 @@
 </div>
 <div class="container">
     <h2 class="gudong" th:text="'서울특별시 ' +${gu} + ' '+ ${hdong} +'의 분석 결과입니다.'"></h2>
-   <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>
+<!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
+    <div class="map_wrap">
+        <div id="map" style="width:600px;height:500px;position:relative;overflow:hidden; border-radius: 10px">
+            <script th:inline="javascript">
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                        level: 9 // 지도의 확대 레벨
+                    };
+
+                var map = new kakao.maps.Map(mapContainer, mapOption),
+                    customOverlay = new kakao.maps.CustomOverlay({});
+
+                // 서울 전체 지도
+                DrawPolygon();
+
+                // 행정동 코드 가져오기
+                var hcode = [[${hcode}]];
+                Draw_HangJungDong(hcode);
+            </script>
+        </div>
+    </div>
 </div>
 <footer>
     <div class="copyright">

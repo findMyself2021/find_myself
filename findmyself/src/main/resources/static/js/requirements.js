@@ -1,8 +1,3 @@
-function setValue(val, input_id) //슬라이더 값 표시
-{
-    document.getElementById(input_id).value=val;
-    console.log(val);
-}
 
 function findAddress(){ //학교 or 직장 찾기 api
     new daum.Postcode({
@@ -12,30 +7,49 @@ function findAddress(){ //학교 or 직장 찾기 api
     }).open();
 }
 
-function checkRemain(){ //전월세, 연령 선택 값 얻기
+function check(){ //전월세, 연령 선택 값 얻기
     var chk_home = document.getElementsByName('home-type');
-    var home_type = null;
+    var home_type;
     for(var i=0; i<chk_home.length; i++){
-        if(chk_home[i].checked == true){
+        if(chk_home[i].checked ==true){
             home_type = chk_home[i].value;
         }
     }
 
     var chk_age = document.getElementsByName('age-type');
-    var age_type = null;
+    var age_type;
     for(var i=0; i<chk_age.length; i++){
         if(chk_age[i].checked == true){
             age_type = chk_age[i].value;
         }
     }
 
-    if(home_type==null || age_type==null){
+    if(home_type == "" || age_type == "" ){
+        alert("유형 선택 안됨!");
         return false;
-    }else{ // 여기 수정 하기
-        // /* <![CDATA[ */
-        // /*[[ *{home_type} ]]*/ = home_type;
-        // /*[[ *{age_type} ]]*/ = age_type;
-        // /* ]]> */
+    }else{
+        var form = document.choice_form;
+
+        var home_type_input = document.createElement("input");
+        home_type_input.setAttribute("type","hidden");
+        home_type_input.setAttribute("name","home_type");
+        home_type_input.setAttribute("value",home_type);
+        form.append(home_type_input);
+
+        var age_type_input = document.createElement("input");
+        age_type_input.setAttribute("type","hidden");
+        age_type_input.setAttribute("name","age_type");
+        age_type_input.setAttribute("value",age_type);
+        form.append(age_type_input);
+
         return true;
     }
+    return true;
+}
+
+function hideMonthly(){
+    $('#monthly_wrap').hide();
+}
+function showMonthly(){
+    $('#monthly_wrap').show();
 }

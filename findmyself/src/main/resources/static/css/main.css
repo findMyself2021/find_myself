@@ -10,7 +10,7 @@
     float: left;
 }
 .choice_wrap{
-    border: 5px solid skyblue;
+    border: 5px solid #87ceeb;
     border-radius: 4px;
     width: 37%; min-height: 700px;
     float: right;

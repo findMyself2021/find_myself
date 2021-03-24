@@ -43,58 +43,72 @@
             </div>
         </div>
         <div class="choice_wrap">
-            <!--<form name="choice_form" action="/find.do" th:object="${requirements}" method="post"  onsubmit="return checkRemain()">-->
-            <form name="choice_form" action="/find.do" th:object="${requirements}" method="post">
+            <form name="choice_form" action="/find.do" th:object="${rq}" method="post"  onsubmit="return check()">
                 <div class="requirements" id="budget">
                     <p>예산</p>
-                    <label><input type="radio" name="home-type" value="charter">전세</label>
-                    <label><input type="radio" name="home-type" value="monthly">월세</label><br><br>
-                    보증금 <br>
-                    <input type="range" value="50", min="0" max="10000" step="100" list="mark1" th:field="*{deposit}"
-                           oninput="document.getElementById('deposit_value').value=this.value;" style="width:75%; ">
-                    <datalist id="mark1">
-                        <option value="0"></option>
-                        <option value="5000">5천만원</option>
-                        <option value="10000">1억 이상</option>
-                    </datalist>
-                    <input id="deposit_value" type="text">만원<br><br>
-                    월세  <br>
-                    <input type="range" value="50", min="0" max="700" step="10" list="mark2" th:field="*{monthly}"
-                           oninput="document.getElementById('monthly_value').value=this.value;"style="width:75%;">
-                    <datalist id="mark2">
-                        <option value="0"></option>
-                        <option value="350">350만원</option>
-                        <option value="700">700만원</option>
-                    </datalist>
-                    <input id="monthly_value" type="text">만원
+                    <input type="radio" name="home-type" value="charter"
+                           onclick='hideMonthly()'>전세
+                    <input type="radio" name="home-type" value="monthly"
+                           onclick='showMonthly()' checked="checked">월세<br><br>
+                    <div id="depoist_wrap">
+                        보증금 <input id="deposit_value" type="text" th:field="*{deposit}">만원
+                        <input type="range" min="0" max="20000" step="100"list="mark1" th:field="*{deposit}"
+                               oninput="document.getElementById('deposit_value').value=this.value;"style="width:95%;">
+                        <datalist id="mark1">
+                            <option value="0"></option>
+                            <option value="500">5백</option>
+                            <option value="1000">1천</option>
+                            <option value="2500">2천5백</option>
+                            <option value="5000">5천</option>
+                            <option value="10000">1억</option>
+                            <option value="15000">1억5천</option>
+                            <option value="20000">2억</option>
+                        </datalist>
+                    </div>
+                    <br><br>
+                    <div id="monthly_wrap">
+                        월세 <input id="monthly_value" type="text" th:field="*{monthly}">만원
+                        <input type="range" min="0" max="700" step="10"list="mark2" th:field="*{monthly}"
+                               oninput="document.getElementById('monthly_value').value=this.value;"style="width:95%;">
+                        <datalist id="mark2">
+                            <option value="0"></option>
+                            <option value="100">1백</option>
+                            <option value="200">2백</option>
+                            <option value="300">3백</option>
+                            <option value="400">4백</option>
+                            <option value="500">5백</option>
+                            <option value="600">6백</option>
+                            <option value="700">7백</option>
+                        </datalist>
+                    </div>
                 </div>
                 <div class="requirements" id="traffic">
                     <p>교통</p>
                     학교/직장 <input id="school_company" type="text"/>
                     <input type="button" value="찾기" onclick="findAddress()"><br><br>
-                    <input type="range" value="50", min="0" max="100" th:field="*{traffic}" style="width:75%;">
+                    <input type="range" min="0" max="100" step="10"th:field="*{traffic}" style="width:95%;">
                     <input type="hidden" name="traffic_value">
 
                 </div>
                 <div class="requirements" id="convenient">
                     <p>편의시설</p>
-                    <input type="range" value="50", min="0" max="100" th:field="*{convenient}" style="width:75%;">
+                    <input type="range" min="0" max="100" step="10" th:field="*{convenient}" style="width:95%;">
                     <input type="button" value="더보기">
                     <input type="hidden" name="convenient_value">
                 </div>
                 <div class="requirements" id="safety">
                     <p>안전</p>
-                    <input type="range" value="50", min="0" max="100" th:field="*{safety}" style="width:75%;">
+                    <input type="range" min="0" max="100" step="10" th:field="*{safety}" style="width:95%;">
                     <input type="hidden" name="safety_value">
                 </div>
                 <div class="requirements" id="environment">
                     <p>주변환경</p>
-                    여 <input type="range" value="50", min="0" max="100" th:field="*{sex_ratio}" style="width:75%;"> 남<br>
-                    <input type="hidden" name="sex_value">
-                    <label><input type="radio" name="age-type" value="child">유아 및 청소년</label>
-                    <label><input type="radio" name="age-type" value="2030s">20대 및 30대</label><br>
-                    <label><input type="radio" name="age-type" value="4050s">40대 및 50대</label>
-                    <label><input type="radio" name="age-type" value="elder">60대 이상</label>
+                    여 <input type="range" min="0" max="100" step="10" th:field="*{sex_ratio}" style="width:85%;"> 남<br>
+                    (주요 거주 연령층 선택)<br>
+                    <input type="radio" name="age-type" value="child" th:checked="*{age_type}">유아 및 청소년
+                    <input type="radio" name="age-type" value="2030s" th:checked="*{age_type}" checked="checked">20대 및 30대<br>
+                    <input type="radio" name="age-type" value="4050s" th:checked="*{age_type}">40대 및 50대
+                    <input type="radio" name="age-type" value="elder" th:checked="*{age_type}">60대 이상
                 </div>
                 <div class="requirements" id="find_btn">
                     <input type="submit" value="찾기"/>

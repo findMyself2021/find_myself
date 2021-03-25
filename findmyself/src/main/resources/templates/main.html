@@ -12,6 +12,7 @@
     <script type="text/javascript" src="/js/map.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script type="text/javascript" src="/js/requirements.js"></script>
+    <script type="text/javascript" src="/js/slider.js"></script>
 </head>
 <body>
     <div class="header">
@@ -41,6 +42,7 @@
                     Draw_HangJungDong(1141058500);
                     Draw_HangJungDong(1111057000);
                     Draw_HangJungDong(1114055000);
+
                 </script>
             </div>
         </div>
@@ -61,9 +63,9 @@
                     <div id="depoist_wrap">
                         보증금 <input id="deposit_value" type="text" th:field="*{deposit}">만원
                         <div class="range_container">
-                            <div class="slider-ui color">
+                            <div class="slider-deposit">
                                 <input type="range" min="0" max="20000" step="100"list="mark1" th:field="*{deposit}"
-                                       oninput="document.getElementById('deposit_value').value=this.value;"style="width:95%;">
+                                       oninput="document.getElementById('deposit_value').value=this.value;"style="width:95%; font-size: 7px">
                                 <datalist id="mark1">
                                     <option value="0"></option>
                                     <option value="500">5백</option>
@@ -165,10 +167,10 @@
                 </div>
                 <div class="requirements" id="environment">
                     <p>주변환경</p>
+                    여 남 (주요 거주 연령층 선택)
                     <div class="range_container">
                         <div class="slider-ui color">
-                            여<input type="range" min="0" max="100" step="1" th:field="*{sex_ratio}" style="width:85%;">남<br><br>
-                            (주요 거주 연령층 선택)<br>
+                            <input type="range" min="0" max="100" step="1" th:field="*{sex_ratio}" style="width:85%;">
                             <div class="bar">
                                 <span class="min">0</span>
                                 <span class="max">100</span>
@@ -195,37 +197,12 @@
                         <label for="info6">60대 이상</label>
                     </div>
                 </div>
-                <script>
-                    const sliders = document.querySelectorAll(".slider-ui");
-
-                    sliders.forEach(slider => {
-                        let input = slider.querySelector("input[type=range]");
-                        let min = input.getAttribute("min");
-                        let max = input.getAttribute("max");
-                        let valueElem = slider.querySelector(".value");
-
-                        slider.querySelector(".min").innerText = min;
-                        slider.querySelector(".max").innerText = max;
-
-                        function setValueElem() {
-                            valueElem.innerText = input.value;
-                            let percent = (input.value - min) / (max - min) * 100;
-                            valueElem.style.left = percent + "%";
-                        }
-                        setValueElem();
-
-                        input.addEventListener("input", setValueElem);
-                        input.addEventListener("mousedown", () => {
-                            valueElem.classList.add("up");
-                        });
-                        input.addEventListener("mouseup", () => {
-                            valueElem.classList.remove("up");
-                        });
-                    });
-                </script>
                 <div class="requirements" id="find_btn">
                     <input type="submit" value="찾기"/>
                 </div>
+                <script>
+                    sliderStart();
+                </script>
             </form>
         </div>
     </div>

@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="/css/main.css?after">
     <link rel="stylesheet" href="/css/range.css">
     <link rel="stylesheet" href="/css/icheck-bootstrap.css">
-    <title>FindMyself 메인</title>
+    <link rel="stylesheet" href="/css/toggle-radios.css">
+<title>FindMyself 메인</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="/js/map.js"></script>
@@ -180,21 +181,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="icheck-info">
-                        <input type="radio" id="info3" name="age-type" value="child" th:checked="*{age_type}">
-                        <label for="info3">유아 및 청소년</label>
-                    </div>
-                    <div class="icheck-info">
-                        <input type="radio" id="info4" name="age-type" value="2030s" th:checked="*{age_type}" checked="checked">
-                        <label for="info4">20대 및 30대</label>
-                    </div>
-                    <div class="icheck-info">
-                        <input type="radio" id="info5" name="age-type" value="4050s" th:checked="*{age_type}">
-                        <label for="info5">40대 및 50대</label>
-                    </div>
-                    <div class="icheck-info">
-                        <input type="radio" id="info6" name="age-type" value="elder" th:checked="*{age_type}">
-                        <label for="info6">60대 이상</label>
+                    <div class="radio_container">
+                        <div class="toggle-radio">
+                            <input type="radio" id="info3" name="age-type" value="child" th:checked="*{age_type}">
+                            <label for="info3">유아 및 청소년</label>
+
+                            <input type="radio" id="info4" name="age-type" value="2030s" th:checked="*{age_type}" checked="checked">
+                            <label for="info4">20대 및 30대</label>
+
+                            <input type="radio" id="info5" name="age-type" value="4050s" th:checked="*{age_type}">
+                            <label for="info5">40대 및 50대</label>
+
+                            <input type="radio" id="info6" name="age-type" value="elder" th:checked="*{age_type}">
+                            <label for="info6">60대 이상</label>
+                        </div>
                     </div>
                 </div>
                 <div class="requirements" id="find_btn">

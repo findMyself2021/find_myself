@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/main.css?after">
+    <link rel="stylesheet" href="/css/range.css">
     <title>FindMyself 메인</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -52,64 +53,157 @@
                            onclick='showMonthly()' checked="checked">월세<br><br>
                     <div id="depoist_wrap">
                         보증금 <input id="deposit_value" type="text" th:field="*{deposit}">만원
-                        <input type="range" min="0" max="20000" step="100"list="mark1" th:field="*{deposit}"
-                               oninput="document.getElementById('deposit_value').value=this.value;"style="width:95%;">
-                        <datalist id="mark1">
-                            <option value="0"></option>
-                            <option value="500">5백</option>
-                            <option value="1000">1천</option>
-                            <option value="2500">2천5백</option>
-                            <option value="5000">5천</option>
-                            <option value="10000">1억</option>
-                            <option value="15000">1억5천</option>
-                            <option value="20000">2억</option>
-                        </datalist>
+                        <div class="range_container">
+                            <div class="slider-ui color">
+                                <input type="range" min="0" max="20000" step="100"list="mark1" th:field="*{deposit}"
+                                       oninput="document.getElementById('deposit_value').value=this.value;"style="width:95%;">
+                                <datalist id="mark1">
+                                    <option value="0"></option>
+                                    <option value="500">5백</option>
+                                    <option value="1000">1천</option>
+                                    <option value="2500">2천5백</option>
+                                    <option value="5000">5천</option>
+                                    <option value="10000">1억</option>
+                                    <option value="15000">1억5천</option>
+                                    <option value="20000">2억</option>
+                                </datalist>
+                                <div class="bar">
+                                    <span class="min">0</span>
+                                    <span class="max">20000</span>
+                                </div>
+                                <div class="track">
+                                    <div class="value">50</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <br><br>
                     <div id="monthly_wrap">
                         월세 <input id="monthly_value" type="text" th:field="*{monthly}">만원
-                        <input type="range" min="0" max="700" step="10"list="mark2" th:field="*{monthly}"
-                               oninput="document.getElementById('monthly_value').value=this.value;"style="width:95%;">
-                        <datalist id="mark2">
-                            <option value="0"></option>
-                            <option value="100">1백</option>
-                            <option value="200">2백</option>
-                            <option value="300">3백</option>
-                            <option value="400">4백</option>
-                            <option value="500">5백</option>
-                            <option value="600">6백</option>
-                            <option value="700">7백</option>
-                        </datalist>
+                        <div class="range_container">
+                            <div class="slider-ui color">
+                                <input type="range" min="0" max="700" step="10"list="mark2" th:field="*{monthly}"
+                                       oninput="document.getElementById('monthly_value').value=this.value;"style="width:95%;">
+                                <datalist id="mark2">
+                                    <option value="0"></option>
+                                    <option value="100">1백</option>
+                                    <option value="200">2백</option>
+                                    <option value="300">3백</option>
+                                    <option value="400">4백</option>
+                                    <option value="500">5백</option>
+                                    <option value="600">6백</option>
+                                    <option value="700">7백</option>
+                                </datalist>
+                                <div class="bar">
+                                    <span class="min">0</span>
+                                    <span class="max">700</span>
+                                </div>
+                                <div class="track">
+                                    <div class="value">50</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="requirements" id="traffic">
                     <p>교통</p>
                     학교/직장 <input id="school_company" type="text"/>
                     <input type="button" value="찾기" onclick="findAddress()"><br><br>
-                    <input type="range" min="0" max="100" step="10"th:field="*{traffic}" style="width:95%;">
-                    <input type="hidden" name="traffic_value">
-
+                    <div class="range_container">
+                        <div class="slider-ui color">
+                            <input type="range" min="0" max="100" step="1"th:field="*{traffic}" style="width:95%;">
+                            <input type="hidden" name="traffic_value">
+                            <div class="bar">
+                                <span class="min">0</span>
+                                <span class="max">100</span>
+                            </div>
+                            <div class="track">
+                                <div class="value">50</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="requirements" id="convenient">
                     <p>편의시설</p>
-                    <input type="range" min="0" max="100" step="10" th:field="*{convenient}" style="width:95%;">
                     <input type="button" value="더보기">
-                    <input type="hidden" name="convenient_value">
+                    <div class="range_container">
+                        <div class="slider-ui color">
+                            <input type="range" min="0" max="100" step="1" th:field="*{convenient}" style="width:95%;">
+                            <input type="hidden" name="convenient_value">
+                            <div class="bar">
+                                <span class="min">0</span>
+                                <span class="max">100</span>
+                            </div>
+                            <div class="track">
+                                <div class="value">50</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="requirements" id="safety">
                     <p>안전</p>
-                    <input type="range" min="0" max="100" step="10" th:field="*{safety}" style="width:95%;">
-                    <input type="hidden" name="safety_value">
+                    <div class="range_container">
+                        <div class="slider-ui color">
+                            <input type="range" min="0" max="100" step="1" th:field="*{safety}" style="width:95%;">
+                            <input type="hidden" name="safety_value">
+                            <div class="bar">
+                                <span class="min">0</span>
+                                <span class="max">100</span>
+                            </div>
+                            <div class="track">
+                                <div class="value">50</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="requirements" id="environment">
                     <p>주변환경</p>
-                    여 <input type="range" min="0" max="100" step="10" th:field="*{sex_ratio}" style="width:85%;"> 남<br>
-                    (주요 거주 연령층 선택)<br>
+                    <div class="range_container">
+                        <div class="slider-ui color">
+                            여<input type="range" min="0" max="100" step="1" th:field="*{sex_ratio}" style="width:85%;">남<br><br>
+                            (주요 거주 연령층 선택)<br>
+                            <div class="bar">
+                                <span class="min">0</span>
+                                <span class="max">100</span>
+                            </div>
+                            <div class="track">
+                                <div class="value">50</div>
+                            </div>
+                        </div>
+                    </div>
                     <input type="radio" name="age-type" value="child" th:checked="*{age_type}">유아 및 청소년
                     <input type="radio" name="age-type" value="2030s" th:checked="*{age_type}" checked="checked">20대 및 30대<br>
                     <input type="radio" name="age-type" value="4050s" th:checked="*{age_type}">40대 및 50대
                     <input type="radio" name="age-type" value="elder" th:checked="*{age_type}">60대 이상
                 </div>
+                <script>
+                    const sliders = document.querySelectorAll(".slider-ui");
+
+                    sliders.forEach(slider => {
+                        let input = slider.querySelector("input[type=range]");
+                        let min = input.getAttribute("min");
+                        let max = input.getAttribute("max");
+                        let valueElem = slider.querySelector(".value");
+
+                        slider.querySelector(".min").innerText = min;
+                        slider.querySelector(".max").innerText = max;
+
+                        function setValueElem() {
+                            valueElem.innerText = input.value;
+                            let percent = (input.value - min) / (max - min) * 100;
+                            valueElem.style.left = percent + "%";
+                        }
+                        setValueElem();
+
+                        input.addEventListener("input", setValueElem);
+                        input.addEventListener("mousedown", () => {
+                            valueElem.classList.add("up");
+                        });
+                        input.addEventListener("mouseup", () => {
+                            valueElem.classList.remove("up");
+                        });
+                    });
+                </script>
                 <div class="requirements" id="find_btn">
                     <input type="submit" value="찾기"/>
                 </div>

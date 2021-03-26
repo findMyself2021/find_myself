@@ -1,11 +1,10 @@
 .container{
+    height: 890px;
     margin-top: 50px;
     padding-left: 50px; padding-right: 50px;
 }
 .map_wrap{
     width:62%;
-    min-height: 850px;
-    display: inline-block;
     float: left;
 }
 .choice_wrap{
@@ -14,7 +13,6 @@
     border-radius: 4px;
     min-height: 840px;
     align-content: center;
-    display: inline-block;
     float: right;
 }
 p{

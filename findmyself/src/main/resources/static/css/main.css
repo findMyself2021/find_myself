@@ -1,32 +1,37 @@
 .container{
     margin-top: 50px;
     padding-left: 50px; padding-right: 50px;
-    /*border: 3px solid #FC8C8C;*/
-    min-height: 750px;
 }
 .map_wrap{
-    /*border: 3px solid seagreen;*/
-    width: 60%; min-height: 700px;
+    width:62%;
+    min-height: 850px;
+    display: inline-block;
     float: left;
 }
 .choice_wrap{
+    width: 35%;
     border: 5px solid #87ceeb;
     border-radius: 4px;
-    width: 37%; height: 900px;
+    min-height: 840px;
+    align-content: center;
+    display: inline-block;
     float: right;
 }
 p{
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
     font-weight: bold;
 }
 .requirements{
-    padding: 10px;
-    padding-right: 20px; padding-left: 20px;
-    font-size: 15px;
+    max-height: 250px;
+    padding: 10px; padding-top: 0;
+    font-size: 13px;
+    align-content: center;
     text-align: center;
 }
-
+.radio-icheck-info{
+    padding-left: 5px; padding-right: 5px;
+}
 .area {
     position: absolute;
     background: #fff;
@@ -36,4 +41,12 @@ p{
     top: -5px;
     left: 15px;
     padding:2px;
+}
+#girl{
+    float: left;
+    text-align: left;
+}
+#boy{
+    float: right;
+    text-align: right;
 }

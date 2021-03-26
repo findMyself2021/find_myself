@@ -48,8 +48,8 @@ function check(){ //전월세, 연령 선택 값 얻기
 }
 
 function hideMonthly(){
-    $('#monthly_wrap').hide();
+    $('#monthly_wrap').prop('disabled', true);
 }
 function showMonthly(){
-    $('#monthly_wrap').show();
+    $('#monthly_wrap').attr("disabled", false);
 }

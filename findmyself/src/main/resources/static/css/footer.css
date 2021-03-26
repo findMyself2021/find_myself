@@ -1,9 +1,9 @@
 .copyright{
-    height: 50px;
+    height: 60px;
     margin-top: 40px;
-    /*border: 3px solid #FC8C8C;*/
+    border: 3px solid #FC8C8C;
     padding-left: 50px; padding-right: 50px;
-    display: block;
+    display: flex;
     text-align: center;
     font-size: 13px;
 }

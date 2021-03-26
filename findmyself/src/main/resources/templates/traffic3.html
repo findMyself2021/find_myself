@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>대중교통 정류장 정보 검색하기</title>
+    <title>길찾기 경로 검색하기</title>
     <style type="text/css">
         .box {
             width: 400px;
@@ -16,28 +16,28 @@
     </style>
     <script>
         function searchSubwayStationAJAX() {
-            var stationName = document.getElementById('stationName').value;
+            var pathType = document.getElementById('pathType').value;
             var xhr = new XMLHttpRequest();
-            var url = "https://api.odsay.com/v1/api/searchStation?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&stationName=" + stationName + "&stationClass=2";
+            var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=126.93737555322481&SY=37.55525165729346&EX=126.88265238619182&EY=37.481440035175375&SearchPathType=" + pathType;
             xhr.open("GET", url, true);
             xhr.send();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var resultObj = JSON.parse(xhr.responseText);
                     console.log(resultObj.result);
-                    var resultArr = resultObj["result"]["station"];
+                    var resultArr = resultObj["result"]["path"];
                     console.log(resultArr);
 
                     var str = "";
+                    str += "<div class='box'>";
                     for (var i = 0; i < resultArr.length; i++) {
-                        str += "<div class='box'>";
-                        str += "<p>역이름 : " + resultArr[i].stationName + "</p>";
-                        str += "<p>경위도 x좌표 : " + resultArr[i].x + "</p>";
-                        str += "<p>경위도 y좌표 : " + resultArr[i].y  + "</p>";
-                        str += "<p>도시 이름 : " + resultArr[i].cityName + "</p>";
-                        str += "<p>도시 이름 : " + resultArr[i].cityName + "</p>";
-                        str += "</div>";
+                        if(resultArr[0].subPath[i].trafficType == 1) {
+                            for(var j = 0; j < resultArr[0].subPath[i].passStopList.stations.length; j++)
+                            str += "<p>역이름 : " + resultArr[0].subPath[i].passStopList.stations[j].stationName + "</p>";
+                        }
                     }
+                    str += "</div>";
+
                     document.getElementById("resultDiv").innerHTML = str;
                 }
             }
@@ -46,7 +46,7 @@
 </head>
 <body>
 <div>
-    <input type="text" id="stationName">
+    <input type="text" id="pathType"> // 1 입력 (지하철 경로)
     <button onclick="searchSubwayStationAJAX();">click</button>
 </div>
 <div id="resultDiv">

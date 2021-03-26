@@ -26,17 +26,21 @@ public class HomeService {
     private final DasedeRepository dasedeRepository;
     private final OfficetelRepository officetelRepository;
 
-    public void analysis(Requirements rq){
+    public HashSet<Long> analysis(Requirements rq){
+        HashSet<Long> codeList = new HashSet<>();
+
         if(rq.getHome_type().equals("charter")) { //전세 선택한 경우
             System.out.println("전세 선택함");
-            findCharterList(rq.getDeposit());
+            codeList = findCharterList(rq.getDeposit());
         }else{ //월세 선택한 경우
             System.out.println("월세 선택함");
-            findMonthlyList(rq.getDeposit(),rq.getMonthly());
+            codeList = findMonthlyList(rq.getDeposit(),rq.getMonthly());
         }
+
+        return codeList;
     }
 
-    public void findCharterList(int deposit){
+    public HashSet<Long> findCharterList(int deposit){
 
         HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
 
@@ -69,15 +73,17 @@ public class HomeService {
             }
         }
 
-        Iterator<Long> it = codeList.iterator(); // Iterator(반복자) 생성
+        /*Iterator<Long> it = codeList.iterator(); // Iterator(반복자) 생성
         System.out.println("=====행정동 코드=====");
 
         while (it.hasNext()) { // hasNext() : 데이터가 있으면 true 없으면 false
             System.out.println(it.next()); // next() : 다음 데이터 리턴
-        }
+        }*/
+
+        return codeList;
     }
 
-    public void findMonthlyList(int deposit, int monthly){
+    public HashSet<Long> findMonthlyList(int deposit, int monthly){
 
         HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
 
@@ -110,11 +116,13 @@ public class HomeService {
             }
         }
 
-        Iterator<Long> it = codeList.iterator(); // Iterator(반복자) 생성
+        /*Iterator<Long> it = codeList.iterator(); // Iterator(반복자) 생성
         System.out.println("=====행정동 코드=====");
 
         while (it.hasNext()) { // hasNext() : 데이터가 있으면 true 없으면 false
             System.out.println(it.next()); // next() : 다음 데이터 리턴
-        }
+        }*/
+
+        return codeList;
     }
 }

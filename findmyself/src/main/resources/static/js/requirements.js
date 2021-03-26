@@ -48,8 +48,32 @@ function check(){ //전월세, 연령 선택 값 얻기
 }
 
 function hideMonthly(){
-    $('#monthly_wrap').prop('disabled', true);
+    console.log("전세 누름");
+    $('#monthly_wrap').hide();
 }
 function showMonthly(){
-    $('#monthly_wrap').attr("disabled", false);
+    $('#monthly_wrap').show();
 }
+function divideValue(total){
+    console.log(total);
+    document.getElementById('joy').value = total;
+    document.getElementById('life').value = total;
+    document.getElementById('shop').value = total;
+    document.getElementById('sport').value = total;
+    document.getElementById('food').value = total;
+    document.getElementById('edu').value = total;
+}
+function mergeValues() {
+    var sum = parseInt(document.getElementById('joy').value) +
+        parseInt(document.getElementById('life').value) +
+        parseInt(document.getElementById('shop').value) +
+        parseInt(document.getElementById('sport').value) +
+        parseInt(document.getElementById('food').value) +
+        parseInt(document.getElementById('edu').value);
+    var total = parseInt(sum/6);
+
+    console.log(total);
+
+    document.getElementById('total').value = total;
+}
+

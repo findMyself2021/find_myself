@@ -20,6 +20,9 @@ p{
     text-align: center;
     font-weight: bold;
 }
+#arrow_btn{
+    width: 25px; height: 25px;
+}
 .requirements{
     max-height: 250px;
     padding: 10px; padding-top: 0;
@@ -47,4 +50,8 @@ p{
 #boy{
     float: right;
     text-align: right;
+}
+.convenient_extra{
+    width: 250px;
+    font-size: 12px;
 }

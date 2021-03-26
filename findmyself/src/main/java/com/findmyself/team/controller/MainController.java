@@ -2,23 +2,31 @@ package com.findmyself.team.controller;
 
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.service.Home.HomeService;
+import com.findmyself.team.service.AnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
 @Controller
 public class MainController {
 
     @Autowired
-    HomeService homeService;
+    AnalysisService analysisService;
 
     @GetMapping(value="/")	//로그인 화면으로 이동할때(개발중)
     public String openMain(Model model) {
 
         Requirements rq = new Requirements().defaultRequirements();
+        List<Long> codeList = null;
         model.addAttribute("rq",rq);
+        model.addAttribute("codeList",codeList);
 
         return "main";
     }
@@ -30,13 +38,21 @@ public class MainController {
         System.out.println("보증금: "+rq.getDeposit());
         System.out.println("월세: "+rq.getMonthly());
         System.out.println("교통: "+rq.getTraffic());
-        System.out.println("편의시설: "+rq.getConvenient());
+        //System.out.println("편의시설: "+rq.getConvenient());
         System.out.println("안전: "+rq.getSafety());
         System.out.println("남녀성비: "+rq.getSex_ratio());
         System.out.println("거주연령: "+rq.getAge_type());
 
+        HashSet<Long> tmp = analysisService.analysis(rq);
+        List<Long> codeList = new ArrayList<>();
+
+        Iterator<Long> it = tmp.iterator();
+        while (it.hasNext()) { // hasNext() : 데이터가 있으면 true 없으면 false
+            codeList.add(it.next()); // next() : 다음 데이터 리턴
+        }
+
         model.addAttribute("rq",rq);
-        homeService.analysis(rq);
+        model.addAttribute("codeList",codeList);
         return "main";
     }
 }

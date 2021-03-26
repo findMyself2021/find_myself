@@ -1,6 +1,8 @@
 package com.findmyself.team.controller;
 
 import com.findmyself.team.Requirements;
+import com.findmyself.team.data.service.Home.HomeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MainController {
+
+    @Autowired
+    HomeService homeService;
 
     @GetMapping(value="/")	//로그인 화면으로 이동할때(개발중)
     public String openMain(Model model) {
@@ -31,6 +36,7 @@ public class MainController {
         System.out.println("거주연령: "+rq.getAge_type());
 
         model.addAttribute("rq",rq);
+        homeService.analysis(rq);
         return "main";
     }
 }

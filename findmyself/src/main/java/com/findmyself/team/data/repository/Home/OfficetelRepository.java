@@ -24,12 +24,12 @@ public class OfficetelRepository {
     }
 
     public List<HomeOfficetel> findCharters(){
-        return em.createQuery("select ho from HomeDasede ho where ho.type like '전세'",HomeOfficetel.class)
+        return em.createQuery("select ho from HomeOfficetel ho where ho.type like '전세'",HomeOfficetel.class)
                 .getResultList();
     }
 
     public List<HomeOfficetel> findMonthly(){
-        return em.createQuery("select ho from HomeDasede ho where ho.type like '월세'",HomeOfficetel.class)
+        return em.createQuery("select ho from HomeOfficetel ho where ho.type like '월세'",HomeOfficetel.class)
                 .getResultList();
     }
 }

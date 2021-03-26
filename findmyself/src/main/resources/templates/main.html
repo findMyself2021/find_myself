@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head/>
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css?after">
+    <link rel="stylesheet" href="/css/header.css?after">
     <link rel="stylesheet" href="/css/main.css?after">
-    <link rel="stylesheet" href="/css/range.css">
-    <link rel="stylesheet" href="/css/icheck-bootstrap.css">
-    <link rel="stylesheet" href="/css/toggle-radios.css">
+    <link rel="stylesheet" href="/css/range.css?after">
+    <link rel="stylesheet" href="/css/icheck-bootstrap.css?after">
+    <link rel="stylesheet" href="/css/toggle-radios.css?after">
 <title>FindMyself 메인</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -65,18 +65,8 @@
                         보증금 <input id="deposit_value" type="text" th:field="*{deposit}">만원
                         <div class="range_container">
                             <div class="slider-deposit">
-                                <input type="range" min="0" max="20000" step="100"list="mark1" th:field="*{deposit}"
+                                <input type="range" min="0" max="20000" step="100" th:field="*{deposit}"
                                        oninput="document.getElementById('deposit_value').value=this.value;"style="width:95%; font-size: 7px">
-                                <datalist id="mark1">
-                                    <option value="0"></option>
-                                    <option value="500">5백</option>
-                                    <option value="1000">1천</option>
-                                    <option value="2500">2천5백</option>
-                                    <option value="5000">5천</option>
-                                    <option value="10000">1억</option>
-                                    <option value="15000">1억5천</option>
-                                    <option value="20000">2억</option>
-                                </datalist>
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">20000</span>
@@ -92,18 +82,8 @@
                         월세 <input id="monthly_value" type="text" th:field="*{monthly}">만원
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input type="range" min="0" max="700" step="10"list="mark2" th:field="*{monthly}"
+                                <input type="range" min="0" max="700" step="10" th:field="*{monthly}"
                                        oninput="document.getElementById('monthly_value').value=this.value;"style="width:95%;">
-                                <datalist id="mark2">
-                                    <option value="0"></option>
-                                    <option value="100">1백</option>
-                                    <option value="200">2백</option>
-                                    <option value="300">3백</option>
-                                    <option value="400">4백</option>
-                                    <option value="500">5백</option>
-                                    <option value="600">6백</option>
-                                    <option value="700">7백</option>
-                                </datalist>
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">700</span>
@@ -168,7 +148,7 @@
                 </div>
                 <div class="requirements" id="environment">
                     <p>주변환경</p>
-                    여 남 (주요 거주 연령층 선택)
+                    여 남
                     <div class="range_container">
                         <div class="slider-ui color">
                             <input type="range" min="0" max="100" step="1" th:field="*{sex_ratio}" style="width:85%;">
@@ -181,6 +161,7 @@
                             </div>
                         </div>
                     </div>
+                    주요 거주 연령층
                     <div class="radio_container">
                         <div class="toggle-radio">
                             <input type="radio" id="info3" name="age-type" value="child" th:checked="*{age_type}">

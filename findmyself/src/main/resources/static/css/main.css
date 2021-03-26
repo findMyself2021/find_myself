@@ -12,7 +12,7 @@
 .choice_wrap{
     border: 5px solid #87ceeb;
     border-radius: 4px;
-    width: 37%; min-height: 700px;
+    width: 37%; height: 900px;
     float: right;
 }
 p{
@@ -24,6 +24,7 @@ p{
     padding: 10px;
     padding-right: 20px; padding-left: 20px;
     font-size: 15px;
+    text-align: center;
 }
 
 .area {

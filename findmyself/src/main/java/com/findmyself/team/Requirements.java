@@ -33,4 +33,8 @@ public class Requirements {
         
         return rq;
     }
+
+    public void fittingValue(){ //슬라이더 값 표준화
+
+    }
 }

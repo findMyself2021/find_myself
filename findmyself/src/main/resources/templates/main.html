@@ -60,12 +60,12 @@
             <form name="choice_form" action="/find.do" th:object="${rq}" method="post"  onsubmit="return check()">
                 <div class="requirements" id="budget1">
                     <p>예산</p>
-                    <span class="radio-icheck-info">
+                    <span class="radio icheck-info">
                         <input type="radio" id="info1" name="home-type" value="charter"
                                onclick='hideMonthly()'>
                         <label for="info1">전세</label>
                     </span>
-                    <span class="radio-icheck-info">
+                    <span class="radio icheck-info">
                         <input type="radio" id="info2" name="home-type" value="monthly"
                                onclick='showMonthly()' checked="checked">
                         <label for="info2">월세</label><br><br>

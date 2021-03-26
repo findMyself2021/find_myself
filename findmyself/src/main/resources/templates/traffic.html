@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .box {
+            width: 400px;
+            height: AUTO;
+            border: 1px solid green;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px;
+            overflow-y: scroll;
+        }
+    </style>
+    <script>
+        function searchBusLaneAJAX() {
+            var stationName = document.getElementById('stationName').value;
+            var xhr = new XMLHttpRequest();
+            var url = "https://api.odsay.com/v1/api/searchStation?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&stationName=" + stationName + "&stationClass=2";
+            xhr.open("GET", url, true);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var resultObj = JSON.parse(xhr.responseText);
+                    console.log(resultObj.result);
+                    var resultArr = resultObj["result"]["station"];
+                    console.log(resultArr);
+
+                    var str = "";
+                    for (var i = 0; i < resultArr.length; i++) {
+                        str += "<div class='box'>";
+                        str += "<p>역이름 : " + resultArr[i].stationName + "</p>";
+                        str += "<p>경위도 x좌표 : " + resultArr[i].x + "</p>";
+                        str += "<p>경위도 y좌표 : " + resultArr[i].y  + "</p>";
+                        str += "<p>도시 이름 : " + resultArr[i].cityName + "</p>";
+                        str += "</div>";
+                    }
+                    document.getElementById("resultDiv").innerHTML = str;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div>
+    <input type="text" id="stationName">
+    <button onclick="searchBusLaneAJAX();">click</button>
+</div>
+<div id="resultDiv">
+</div>
+</body>
+</html>

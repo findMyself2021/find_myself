@@ -13,4 +13,14 @@ public class TrafficController {
     public String trafficTest() {
         return "traffic";
     }
+
+    @GetMapping("/traffictest2")
+    public String trafficTest2() {
+        return "traffic2";
+    }
+
+    @GetMapping("/traffictest3")
+    public String trafficTest3() {
+        return "traffic3";
+    }
 }

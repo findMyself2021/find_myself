@@ -30,7 +30,7 @@ p{
     align-content: center;
     text-align: center;
 }
-.radio-icheck-info{
+.radio icheck-info{
     padding-left: 5px; padding-right: 5px;
 }
 .area {
@@ -54,4 +54,26 @@ p{
 .convenient_extra{
     width: 250px;
     font-size: 12px;
+}
+
+.button {
+    display: inline-block;
+    padding: 5px 30px;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #77919d;
+    border: 1px solid #77919d;
+    border-radius: 3px;
+}
+
+.button:hover {background-color: #566872}
+
+.button:active {
+    background-color: #566872;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }

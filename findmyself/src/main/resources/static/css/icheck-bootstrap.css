@@ -94,11 +94,11 @@
 
 .icheck-info > input:first-child:not(:checked):not(:disabled):hover + label::before,
 .icheck-info > input:first-child:not(:checked):not(:disabled):hover + input[type="hidden"] + label::before {
-    border-color: #46b8da;
+    border-color: #77919d;
 }
 
 .icheck-info > input:first-child:checked + label::before,
 .icheck-info > input:first-child:checked + input[type="hidden"] + label::before {
-    background-color: #5bc0de;
-    border-color: #46b8da;
+    background-color: #77919d;
+    border-color: #77919d;
 }

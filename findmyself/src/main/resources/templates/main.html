@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/range.css">
     <link rel="stylesheet" href="/css/icheck-bootstrap.css">
     <link rel="stylesheet" href="/css/toggle-radios.css">
+    <link rel="stylesheet" href="/css/input.css">
 <title>FindMyself 메인</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -20,7 +21,7 @@
     <div class="header">
         <div class="logo-wrap">
             <a th:href="@{/}">
-                <img src="/image/logo3.png">
+                <img src="/image/logo4.png">
             </a>
         </div>
     </div>
@@ -71,7 +72,13 @@
                         <label for="info2">월세</label><br><br>
                     </span>
                     <div id="depoist_wrap">
-                        보증금 <input id="deposit_value" type="text" th:field="*{deposit}">만원
+                        <div class="input_container">
+                            <div class="text-input">
+                                <input id="deposit_value" type="text" th:field="*{deposit}" placeholder="만원">
+                                <label for="deposit_value">보증금(만)</label>
+                            </div>
+                        </div>
+
                         <div class="range_container">
                             <div class="slider-ui color">
                                 <input type="range" min="0" max="20000" step="100" th:field="*{deposit}"
@@ -85,9 +92,14 @@
                                 </div>
                             </div>
                         </div>
-                    </div><br>
+                    </div><br><br><br>
                     <div id="monthly_wrap">
-                        월세 <input id="monthly_value" type="text" th:field="*{monthly}">만원
+                        <div class="input_container">
+                            <div class="text-input">
+                                <input id="monthly_value" type="text" th:field="*{monthly}" placeholder="만원">
+                                <label for="monthly_value">월세(만)</label>
+                            </div>
+                        </div>
                         <div class="range_container">
                             <div class="slider-ui color">
                                 <input type="range" min="0" max="700" step="10" th:field="*{monthly}"
@@ -103,10 +115,16 @@
                         </div>
                     </div>
                 </div>
+                <br><br><br><br><br><br>
                 <div class="requirements" id="traffic">
                     <p>교통</p>
-                    학교/직장 <input id="school_company" type="text"/>
-                    <input type="button" value="찾기" onclick="findAddress()"><br><br>
+                    <div class="input_container">
+                        <div class="text-input">
+                            <input id="school_company" type="text"/>
+                            <label for="school_company">학교/직장</label>
+                        </div>
+                        <input class="button" type="button" value="찾기" onclick="findAddress()"><br><br>
+                    </div>
                     <div class="range_container">
                         <div class="slider-ui color">
                             <input type="range" min="0" max="100" step="10"th:field="*{traffic}">
@@ -271,7 +289,7 @@
                     </div>
                 </div>
                 <div class="requirements" id="find_btn">
-                    <input type="submit" value="찾기"/>
+                    <input class="button" type="submit" value="찾기"/>
                 </div>
                 <script>
                     sliderStart();

@@ -58,22 +58,22 @@ p{
 
 .button {
     display: inline-block;
-    padding: 5px 30px;
-    font-size: 13px;
+    padding: 12px 25px;
+    font-size: 12px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     outline: none;
-    color: #fff;
-    background-color: #77919d;
-    border: 1px solid #77919d;
+    color: black;
+    background-color: #dae9f4;
+    border: 1px solid #dae9f4;
     border-radius: 3px;
 }
 
-.button:hover {background-color: #566872}
+.button:hover {background-color: #77919d}
 
 .button:active {
-    background-color: #566872;
+    background-color: #77919d;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }

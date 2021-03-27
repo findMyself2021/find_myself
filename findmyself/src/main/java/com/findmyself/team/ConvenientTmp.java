@@ -14,13 +14,13 @@ public class ConvenientTmp {
     private int food;
     private int edu;
 
-    public ConvenientTmp(){
-        this.total = 60;
-        this.joy = 10;
-        this.life = 10;
-        this.shop = 10;
-        this.sport = 10;
-        this.food = 10;
-        this.edu = 10;
+    public ConvenientTmp(){ //디폴트 값
+        this.total = 40;
+        this.joy = 40;
+        this.life = 40;
+        this.shop = 40;
+        this.sport = 40;
+        this.food = 40;
+        this.edu = 40;
     }
 }

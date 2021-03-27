@@ -43,7 +43,7 @@ public class MainController {
         System.out.println("남녀성비: "+rq.getSex_ratio());
         System.out.println("거주연령: "+rq.getAge_type());
 
-        HashSet<Long> tmp = analysisService.analysis(rq);
+        List<Long> tmp = analysisService.analysis(rq);
         List<Long> codeList = new ArrayList<>();
 
         Iterator<Long> it = tmp.iterator();

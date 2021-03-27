@@ -22,4 +22,9 @@ public class ConvenientRepository {
                 .getResultList();
     }
 
+    public int findMax(String kind){
+        return em.createQuery("select max(c."+kind+") from Convenient c", Integer.class)
+                .getSingleResult();
+    }
+
 }

@@ -24,7 +24,6 @@ p{
     width: 25px; height: 25px;
 }
 .requirements{
-    max-height: 250px;
     padding: 10px; padding-top: 0;
     font-size: 13px;
     align-content: center;
@@ -51,9 +50,22 @@ p{
     float: right;
     text-align: right;
 }
-.convenient_extra{
-    width: 250px;
+#detail_btn{
+    width: 25px; height: 25px;
+    background: none;
+    border: 0; outline: 0; border: none;
+}
+.convenient_detail{
     font-size: 12px;
+    text-align: center;
+    display: block;
+}
+.convenient_detail_more{
+    width: 40%;
+    padding-top: 10px;
+    font-size: 12px;
+    text-align: center;
+    display: inline-block;
 }
 
 .button {

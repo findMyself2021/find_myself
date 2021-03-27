@@ -23,4 +23,8 @@ public class GudongService {
     public List<Gudong> findAll(){
         return  gudongRepository.findAll();
     }
+
+    public String findNameByCode(Long h_code){
+        return findOne(h_code).getH_dong();
+    }
 }

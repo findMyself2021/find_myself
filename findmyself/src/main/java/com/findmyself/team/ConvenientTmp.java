@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ConvenientTmp {
-    private int total;
+    private int total;  //보기 편하기 위해..(실질적 사용 X)
     private int joy;
     private int life;
     private int shop;

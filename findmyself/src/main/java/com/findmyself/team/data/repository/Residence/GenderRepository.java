@@ -22,4 +22,14 @@ public class GenderRepository {
                 .getResultList();
     }
 
+    public double findMax(){
+        return em.createQuery("select max(rg.sex_ratio) from ResidenceGender rg", Double.class)
+                .getSingleResult();
+    }
+
+    public double findMin(){
+        return em.createQuery("select min(rg.sex_ratio) from ResidenceGender rg", Double.class)
+                .getSingleResult();
+    }
+
 }

@@ -23,7 +23,8 @@ public class ConvenientServiceTest {
     @Autowired
     ConvenientService convenientService;
 
-    @Test
+
+    /*@Test
     public void 전체리스트_가져오기() {
         List<Convenient> convenientsList = convenientService.findAll();
         for(int i=0; i<convenientsList.size(); i++){
@@ -38,5 +39,14 @@ public class ConvenientServiceTest {
 
             System.out.println(h_code + ',' + joy + ',' + life + ',' + shop + ',' + sport + ',' + food + ',' + edu);
         }
+    }*/
+
+    @Test
+    public void 최댓값_가져오기() {
+        int max_joy = convenientService.findMax("joy");
+        System.out.println("값: "+max_joy);
+
+        int max_shop = convenientService.findMax("shop");
+        System.out.println("값: "+max_shop);
     }
 }

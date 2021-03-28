@@ -6,7 +6,7 @@ function sliderStart(){
         let input = slider.querySelector("input[type=range]");
         let min = input.getAttribute("min");
         let max = input.getAttribute("max");
-        let valueElem = slider.querySelector(".value");
+        let valueElem = slider.querySelector(input.getAttribute("value"));
 
         slider.querySelector(".min").innerText = min;
         slider.querySelector(".max").innerText = max;
@@ -31,7 +31,7 @@ function sliderStart(){
         let input = slider.querySelector("input[type=range]");
         let min = input.getAttribute("min");
         let max = input.getAttribute("max");
-        let valueElem = slider.querySelector(".value");
+        let valueElem = slider.querySelector(input.getAttribute("value"));
 
         slider.querySelector(".min").innerText = min;
         slider.querySelector(".max").innerText = max;

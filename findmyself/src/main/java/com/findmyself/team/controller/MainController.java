@@ -39,18 +39,13 @@ public class MainController {
         System.out.println("월세: "+rq.getMonthly());
         System.out.println("학교/직장 주소: "  + rq.getAddress());
         System.out.println("교통: "+rq.getTraffic());
-        //System.out.println("편의시설: "+rq.getConvenient());
+        System.out.println("편의시설: "+rq.getConvenient().getTotal());
+        System.out.println("오락: "+rq.getConvenient().getJoy());
         System.out.println("안전: "+rq.getSafety());
         System.out.println("남녀성비: "+rq.getSex_ratio());
         System.out.println("거주연령: "+rq.getAge_type());
 
-        HashSet<Long> tmp = analysisService.analysis(rq);
-        List<Long> codeList = new ArrayList<>();
-
-        Iterator<Long> it = tmp.iterator();
-        while (it.hasNext()) { // hasNext() : 데이터가 있으면 true 없으면 false
-            codeList.add(it.next()); // next() : 다음 데이터 리턴
-        }
+        List<Long> codeList = analysisService.analysis(rq);
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);

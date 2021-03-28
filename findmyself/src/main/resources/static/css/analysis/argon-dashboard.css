@@ -29,15 +29,15 @@
 }
 
 /*이거보다 작으면 */
-@media (max-width: 1280px) {
+@media (max-width: 1599px) {
   #map {
-    width: 550px;
+    width: inherit;
   }
 }
 /*이거보다 크면 */
-@media (min-width: 1281px) {
+@media (min-width: 1600px) {
   #map{
-    width: 600px;
+    width: 800px;
   }
 }
 

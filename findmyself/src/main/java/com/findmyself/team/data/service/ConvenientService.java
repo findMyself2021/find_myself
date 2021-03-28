@@ -33,11 +33,11 @@ public class ConvenientService {
 
     public HashSet<Long> analysis(ConvenientTmp convenient){
         int joy_std = Math.round(findMax("joy") / 100);
-        int life_std = Math.round(findMax("life"));
-        int shop_std = Math.round(findMax("shop"));
-        int sport_std = Math.round(findMax("sport"));
-        int food_std = Math.round(findMax("food"));
-        int edu_std = Math.round(findMax("edu"));
+        int life_std = Math.round(findMax("life") / 100);
+        int shop_std = Math.round(findMax("shop") / 100);
+        int sport_std = Math.round(findMax("sport") / 100);
+        int food_std = Math.round(findMax("food") / 100);
+        int edu_std = Math.round(findMax("edu") / 100);
 
         HashSet<Long> codeList = new HashSet<>();
 

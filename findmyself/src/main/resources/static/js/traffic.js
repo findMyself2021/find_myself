@@ -1,24 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>길찾기 결과 지도에 표출하기</title>
-</head>
-<body>
-<div id="map" style="width:500px;height:400px;"></div>
+function searchSubwayStationAJAX() {
+    //var stationName = document.getElementById('stationName').value;
+    var xhr = new XMLHttpRequest();
+    var url = "https://api.odsay.com/v1/api/searchStation?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&stationName=종로3가&stationClass=2";
+    xhr.open("GET", url, true);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var resultObj = JSON.parse(xhr.responseText);
+            console.log(resultObj.result);
+            var resultArr = resultObj["result"]["station"];
+            console.log(resultArr);
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8540e925e3604bd63bc892c3ceb7aaca"></script>
+            var subwayNameArr = [];
+            var subwayXArr = [];
+            var subwayYArr = [];
 
-<script>
+            for (var i = 0; i < resultArr.length; i++) {
+                subwayNameArr[i] = resultArr[i].stationName;
+                subwayXArr[i] = resultArr[i].x;
+                subwayYArr[i] = resultArr[i].y;
+            }
+        }
+    }
+}
 
-    var container = document.getElementById('map');
-    var options = {
-        center: new kakao.maps.LatLng(37.566826, 126.9786567),
-        level: 9
-    };
-
-    var map = new kakao.maps.Map(container, options);
+function searchRootAJAX() {
 
     // 출발 위치
     var sx = 126.93737555322481;
@@ -114,6 +120,4 @@
             }
         }
     }
-</script>
-</body>
-</html>
+}

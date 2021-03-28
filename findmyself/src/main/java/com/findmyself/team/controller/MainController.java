@@ -37,6 +37,7 @@ public class MainController {
         System.out.println("거주타입: "+rq.getHome_type());
         System.out.println("보증금: "+rq.getDeposit());
         System.out.println("월세: "+rq.getMonthly());
+        System.out.println("학교/직장 주소: "  + rq.getAddress());
         System.out.println("교통: "+rq.getTraffic());
         //System.out.println("편의시설: "+rq.getConvenient());
         System.out.println("안전: "+rq.getSafety());

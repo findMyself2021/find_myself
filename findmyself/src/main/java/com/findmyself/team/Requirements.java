@@ -11,6 +11,7 @@ public class Requirements extends ConvenientTmp{
     private String home_type; //charter(전세), monthly(월세)
     private int deposit;
     private int monthly;
+    private String address;
     private int traffic;
     private ConvenientTmp convenient;
     private int safety;

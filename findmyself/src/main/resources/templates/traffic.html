@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>대중교통 정류장 정보 검색하기</title>
@@ -29,25 +29,35 @@
                     console.log(resultArr);
 
                     var str = "";
+                    var str2 = "";
                     for (var i = 0; i < resultArr.length; i++) {
                         str += "<div class='box'>";
                         str += "<p>역이름 : " + resultArr[i].stationName + "</p>";
                         str += "<p>경위도 x좌표 : " + resultArr[i].x + "</p>";
                         str += "<p>경위도 y좌표 : " + resultArr[i].y  + "</p>";
-                        str += "<p>도시 이름 : " + resultArr[i].cityName + "</p>";
-                        str += "<p>도시 이름 : " + resultArr[i].cityName + "</p>";
                         str += "</div>";
+                        str2 += resultArr[i].stationName + resultArr[i].x + resultArr[i].y + "";
                     }
                     document.getElementById("resultDiv").innerHTML = str;
+                    document.getElementById("result").value = str2;
                 }
             }
         }
+        document.traffic.result = "test";
     </script>
 </head>
 <body>
 <div>
-    <input type="text" id="stationName">
-    <button onclick="searchSubwayStationAJAX();">click</button>
+        <input type="text" id="stationName">
+        <button onclick="searchSubwayStationAJAX();">click</button>
+</div>
+<div>
+    <form action="/traffictest" method="post" name="traffic">
+        <input type="text" name="title" placeholder="제목" value=""/>
+        <input type="text" name="content" placeholder="내용" value=""/>
+        <input type="hidden" name="result" id="result" value="">
+        <input type="submit" value="전송"/>
+    </form>
 </div>
 <div id="resultDiv">
 </div>

@@ -16,6 +16,7 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
+    <script type="text/javascript" src="/js/traffic.js"></script>
 </head>
 <body>
     <div class="header">
@@ -120,7 +121,7 @@
                     <p>교통</p>
                     <div class="input_container">
                         <div class="text-input">
-                            <input id="school_company" type="text"/>
+                            <input id="school_company" type="text" th:field="*{address}">
                             <label for="school_company">학교/직장</label>
                         </div>
                         <input class="button" type="button" value="찾기" onclick="findAddress()"><br><br>

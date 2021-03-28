@@ -290,38 +290,40 @@
                                     <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="$" data-suffix="k">
                                         <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
                                             <span class="d-none d-md-block" th:text="${gu}"></span>
-                                            <span class="d-md-none">M</span>
+                                            <span class="d-md-none" th:text="${gu}"></span>
                                         </a>
                                     </li>
                                     <li class="nav-item" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix="$" data-suffix="k">
                                         <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
                                             <span class="d-none d-md-block" th:text="${hdong}">Week</span>
-                                            <span class="d-md-none">W</span>
+                                            <span class="d-md-none" th:text="${hdong}"></span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                            <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
-                            <div class="map_wrap">
-                                <div id="map" style="width:600px;height:500px;position:relative;overflow:hidden; border-radius: 10px">
-                                    <script th:inline="javascript">
-                                        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                                            mapOption = {
-                                                center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-                                                level: 9 // 지도의 확대 레벨
-                                            };
+                        </div>
+                    </div>
+                    <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
+                    <div class="card-body">
+                        <div class="map_wrap">
+                            <div id="map" style="height:500px;position:relative;overflow:hidden; border-radius: 10px">
+                                <script th:inline="javascript">
+                                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                                        mapOption = {
+                                            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                                            level: 9 // 지도의 확대 레벨
+                                        };
 
-                                        var map = new kakao.maps.Map(mapContainer, mapOption),
-                                            customOverlay = new kakao.maps.CustomOverlay({});
+                                    var map = new kakao.maps.Map(mapContainer, mapOption),
+                                        customOverlay = new kakao.maps.CustomOverlay({});
 
-                                        // 서울 전체 지도
-                                        DrawPolygon();
+                                    // 서울 전체 지도
+                                    DrawPolygon();
 
-                                        // 행정동 코드 가져오기
-                                        var hcode = [[${hcode}]];
-                                        Draw_HangJungDong(hcode);
-                                    </script>
-                                </div>
+                                    // 행정동 코드 가져오기
+                                    var hcode = [[${hcode}]];
+                                    Draw_HangJungDong(hcode);
+                                </script>
                             </div>
                         </div>
                     </div>

@@ -28,6 +28,7 @@
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx054e772885bf4fd6bff6bbf96c1884af"></script>
     <script type="text/javascript" src="/js/map.js"></script>
     <script type="text/javascript" src="/js/route.js"></script>
+    <script type="text/javascript" src="/js/traffic.js"></script>
 </head>
 
 <body class="">
@@ -299,6 +300,9 @@
                                     <li class="nav-item mr-2 mr-md-0">
                                         <button class="btn btn-sm btn-primary" id="btn_select">경로 검색하기</button>
                                     </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <button class="btn btn-sm btn-primary" id="btn_select2">경로 검색하기2</button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -325,6 +329,7 @@
                                 Draw_HangJungDong(hcode);
 
                                 initTmap();
+                                searchPubTransRoot();
                             </script>
                         </div><br>
                         <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="result"></h6>

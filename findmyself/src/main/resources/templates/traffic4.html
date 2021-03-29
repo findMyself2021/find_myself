@@ -25,13 +25,13 @@
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var resultObj = JSON.parse(xhr.responseText);
                     console.log(resultObj.result);
-                    var resultArr = resultObj["response"]["result"];
-                    console.log(resultArr);
+                    //var resultArr = resultObj["response"]["result"];
+                    //console.log(resultArr);
 
                     var str = "";
                     str += "<div class='box'>";
-                    str += "<p>경위도 x좌표 : " + resultArr.point.x + "</p>";
-                    str += "<p>경위도 y좌표 : " + resultArr.point.y + "</p>";
+                    str += "<p>경위도 x좌표 : " + resultObj.response.result.point.x + "</p>";
+                    str += "<p>경위도 y좌표 : " + resultObj.response.result.point.y + "</p>";
                     str += "</div>";
 
                     document.getElementById("resultDiv").innerHTML = str;
@@ -43,7 +43,7 @@
 <body>
 <div>
     <input type="text" id="placeName" th:value="${placeName}">
-    <button onclick="searchSubwayStationAJAX();">click</button>
+    <button onclick="searchPlaceAJAX();">click</button>
 </div>
 <div id="resultDiv">
 </div>

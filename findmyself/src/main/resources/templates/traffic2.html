@@ -48,7 +48,7 @@
     function callMapObjApiAJAX(mabObj){
         var xhr = new XMLHttpRequest();
         //ODsay apiKey 입력
-        var url = "https://api.odsay.com/v1/api/loadLane?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&mapObject=0:0@"+mabObj+"&apiKey={YOUR_API_KEY}";
+        var url = "https://api.odsay.com/v1/api/loadLane?mapObject=0:0@"+mabObj+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
         xhr.open("GET", url, true);
         xhr.send();
         xhr.onreadystatechange = function() {

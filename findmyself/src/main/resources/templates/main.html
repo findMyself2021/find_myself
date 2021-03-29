@@ -93,7 +93,7 @@
                                     <span class="max">20000</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value">50</div>
+                                    <div class="value" th:text="*{deposit}"></div>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                                     <span class="max">700</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value">50</div>
+                                    <div class="value" th:text="*{monthly}"></div>
                                 </div>
                             </div>
                         </div>
@@ -127,8 +127,7 @@
                         <div class="text-input">
                             <input id="school_company" type="text" th:field="*{address}">
                             <label for="school_company">학교/직장</label>
-                            <input class="button" type="button" value="찾기" onclick="findAddress()"><br><br>
-
+                            <input class="button" type="button" value="찾기" onclick="findAddress();"><br><br>
                         </div>
                     </div>
                     <div class="range_container">
@@ -139,7 +138,7 @@
                                 <span class="max">100</span>
                             </div>
                             <div class="track">
-                                <div class="value">50</div>
+                                <div class="value" th:text="*{traffic}"></div>
                             </div>
                         </div>
                     </div>
@@ -148,33 +147,33 @@
                     <p>편의시설</p>
                     <div class="range_container">
                         <div class="slider-ui color">
-                            <input id="total" type="range" min="0" max="100" step="10" th:field="*{convenient.total}"
-                                   oninput="divideValue(this.value)">
+                            <input id="total" type="range" min="0" max="100" step="1" th:field="*{convenient.total}"
+                                   oninput="divideValue(this.value);">
                             <div class="bar">
                                 <span class="min">0</span>
                                 <span class="max">100</span>
                             </div>
                             <div class="track">
-                                <div class="value" id="total_value">50</div>
+                                <div class="value" id="total_value" th:text="*{convenient.total}"></div>
                             </div>
                         </div>
-                    </div>
+                    </div><br><br>
+                    <button type="button" id="detail_btn" onclick="click_detail_btn();">
+                        <img id="detail_btn_img" src="/image/open.png" style="width: 25px; height: 25px">
+                    </button>
                 </div>
-                <button type="button" id="detail_btn" onclick="click_detail_btn();">
-                    <img id="detail_btn_img" src="/image/open.png" style="width: 25px; height: 25px">
-                </button>
                 <div class="convenient_detail"  id="convenient_detail" style="display: none">
                     <div class="convenient_detail_more">
                         오락
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="joy" type="range" min="0" max="100" step="10" th:field="*{convenient.joy}">
+                                <input id="joy" type="range" min="0" max="100" step="1" th:field="*{convenient.joy}">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value" id="joy_value">50</div>
+                                    <div class="value" id="joy_value" th:text="*{convenient.joy}"></div>
                                 </div>
                             </div>
                         </div>
@@ -183,13 +182,13 @@
                         생활서비스
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="life" type="range" min="0" max="100" step="10" th:field="*{convenient.life}">
+                                <input id="life" type="range" min="0" max="100" step="1" th:field="*{convenient.life}">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value" id="life_value">50</div>
+                                    <div class="value" id="life_value" th:text="*{convenient.life}"></div>
                                 </div>
                             </div>
                         </div>
@@ -198,13 +197,13 @@
                         소매
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="shop" type="range" min="0" max="100" step="10" th:field="*{convenient.shop}">
+                                <input id="shop" type="range" min="0" max="100" step="1" th:field="*{convenient.shop}">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value" id="shop_value">50</div>
+                                    <div class="value" id="shop_value" th:text="*{convenient.shop}"></div>
                                 </div>
                             </div>
                         </div>
@@ -213,13 +212,13 @@
                         스포츠
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="sport" type="range" min="0" max="100" step="10" th:field="*{convenient.sport}">
+                                <input id="sport" type="range" min="0" max="100" step="1" th:field="*{convenient.sport}">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value" id="sport_value">50</div>
+                                    <div class="value" id="sport_value" th:text="*{convenient.sport}"></div>
                                 </div>
                             </div>
                         </div>
@@ -228,13 +227,13 @@
                         음식
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="food" type="range" min="0" max="100" step="10" th:field="*{convenient.food}">
+                                <input id="food" type="range" min="0" max="100" step="1" th:field="*{convenient.food}">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value" id="food_value">50</div>
+                                    <div class="value" id="food_value" th:text="*{convenient.food}"></div>
                                 </div>
                             </div>
                         </div>
@@ -243,13 +242,13 @@
                         교육
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="edu" type="range" min="0" max="100" step="10" th:field="*{convenient.edu}">
+                                <input id="edu" type="range" min="0" max="100" step="1" th:field="*{convenient.edu}">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
                                 </div>
                                 <div class="track">
-                                    <div class="value" id="edu_value">50</div>
+                                    <div class="value" id="edu_value" th:text="*{convenient.edu}"></div>
                                 </div>
                             </div>
                         </div>
@@ -266,7 +265,7 @@
                                 <span class="max">100</span>
                             </div>
                             <div class="track">
-                                <div class="value">50</div>
+                                <div class="value" th:text="*{safety}"></div>
                             </div>
                         </div>
                     </div>
@@ -286,7 +285,7 @@
                                 <span class="max">100</span>
                             </div>
                             <div class="track">
-                                <div class="value">50</div>
+                                <div class="value" th:text="*{sex_ratio}"></div>
                             </div>
                         </div>
                     </div>
@@ -312,8 +311,18 @@
                 <div class="requirements" id="find_btn">
                     <input class="button" type="submit" value="찾기"/>
                 </div>
-                <script>
+                <script type="text/javascript">
                     sliderStart();
+                    // $(function(){
+                    //     // 서버에서 가져온 List 변수에 담기
+                    //     var codeList = "${codeList}";
+                    //     // 변수에 담은 List 루프로 돌리기
+                    //     for (var i in codeList){
+                    //         console.log("코드: "+codeList[i].h_code);
+                    //         console.log("메세지: "+"${msg}");
+                    //         Draw_HangJungDong(codeList[i].h_code);
+                    //     }
+                    // });
                 </script>
             </form>
         </div>

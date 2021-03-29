@@ -1,5 +1,6 @@
 package com.findmyself.team.controller;
 
+import com.findmyself.team.GudongResult;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.service.Home.HomeService;
 import com.findmyself.team.service.AnalysisService;
@@ -24,7 +25,7 @@ public class MainController {
     public String openMain(Model model) {
 
         Requirements rq = new Requirements().defaultRequirements();
-        List<Long> codeList = null;
+        List<GudongResult> codeList = new ArrayList<GudongResult>();
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
 
@@ -45,10 +46,14 @@ public class MainController {
         System.out.println("남녀성비: "+rq.getSex_ratio());
         System.out.println("거주연령: "+rq.getAge_type());
 
-        List<Long> codeList = analysisService.analysis(rq);
+        List<GudongResult> codeList = analysisService.analysis(rq);
+        for(int i=0; i<codeList.size(); i++){
+            System.out.println(codeList.get(i).getGu()+","+codeList.get(i).getH_dong()+", "+codeList.get(i).getH_code());
+        }
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
+        model.addAttribute("msg","하이");
         return "main";
     }
 }

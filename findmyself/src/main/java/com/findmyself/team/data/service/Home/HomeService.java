@@ -72,14 +72,6 @@ public class HomeService {
                 codeList.add(officetelList.get(i).getH_code());
             }
         }
-
-        /*Iterator<Long> it = codeList.iterator(); // Iterator(반복자) 생성
-        System.out.println("=====행정동 코드=====");
-
-        while (it.hasNext()) { // hasNext() : 데이터가 있으면 true 없으면 false
-            System.out.println(it.next()); // next() : 다음 데이터 리턴
-        }*/
-
         return codeList;
     }
 

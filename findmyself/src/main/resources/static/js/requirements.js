@@ -62,7 +62,8 @@ function divideValue(total){
     document.getElementById('sport').value = total;
     document.getElementById('food').value = total;
     document.getElementById('edu').value = total;
-    $("#convenient").load(location.href + " #convenient_detail");
+
+    sliderStart();
 }
 function mergeValues() {
     var sum = parseInt(document.getElementById('joy').value) +
@@ -73,9 +74,9 @@ function mergeValues() {
         parseInt(document.getElementById('edu').value);
     var total = parseInt(sum/6);
 
-    console.log(total);
-
+    //console.log(total);
     document.getElementById('total').value = total;
-    $("#convenient").load(location.href + " #convenient");
+
+    sliderStart();
 }
 

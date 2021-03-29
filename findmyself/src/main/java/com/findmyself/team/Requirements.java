@@ -16,7 +16,7 @@ public class Requirements extends ConvenientTmp{
     private ConvenientTmp convenient;
     private int safety;
     private int sex_ratio;
-    private String age_type; // child, 2030s, 4050s, elder
+    private String age_type; // child, s2030s, s4050, elder
 
     public Requirements(){
 
@@ -28,6 +28,7 @@ public class Requirements extends ConvenientTmp{
         rq.home_type = "monthly";
         rq.deposit = 1000;
         rq.monthly = 50;
+        rq.address = "동국대학교";
         rq.traffic = 50;
         rq.convenient = new ConvenientTmp();
         rq.safety = 50;

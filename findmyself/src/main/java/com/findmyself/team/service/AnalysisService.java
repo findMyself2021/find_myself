@@ -1,8 +1,10 @@
 package com.findmyself.team.service;
 
+import com.findmyself.team.GudongResult;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Convenient;
 import com.findmyself.team.data.service.ConvenientService;
+import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.data.service.Home.HomeService;
 import com.findmyself.team.data.service.Residence.AgeService;
 import com.findmyself.team.data.service.Residence.GenderService;
@@ -31,8 +33,11 @@ public class AnalysisService {
     @Autowired
     AgeService ageService;
 
-    public List<Long> analysis(Requirements rq){
-        List<Long> result;
+    @Autowired
+    GudongService gudongService;
+
+    public List<GudongResult> analysis(Requirements rq){
+        List<GudongResult> result = new ArrayList<GudongResult>();
         HashSet<Long> codeList = new HashSet<>();
 
         HashSet<Long> homeList = homeService.analysis(rq);
@@ -58,7 +63,15 @@ public class AnalysisService {
             codeList.add(it_a.next());
         }
 
-        result = new ArrayList<>(codeList);
+        Iterator<Long> it_code = codeList.iterator();
+        while (it_code.hasNext()) {
+            Long code = it_code.next();
+            result.add(new GudongResult(
+                    gudongService.findGuByCode(code),
+                    gudongService.findNameByCode(code),
+                    code));
+        }
+
         // 안전 요소, 교통요소(길찾기 처리 필요) -> 구별로 나뉨 -> 마지막에 분류해주기
         return result;
     }

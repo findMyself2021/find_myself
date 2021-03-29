@@ -298,7 +298,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item mr-2 mr-md-0">
-                                        <button class="btn btn-sm btn-primary" id="btn_select">경로 검색하기</button>
+                                        <button class="btn btn-sm btn-primary" id="btn_select">자동차 경로 검색</button>
                                     </li>
                                     <li class="nav-item mr-2 mr-md-0">
                                         <button class="btn btn-sm btn-primary" id="btn_select2">경로 검색하기2</button>
@@ -328,6 +328,7 @@
                                 var hcode = [[${hcode}]];
                                 Draw_HangJungDong(hcode);
 
+                                // 여기서 출발지점, 도착지점 x,y 넘겨주면 됨
                                 initTmap();
                                 searchPubTransRoot();
                                 searchSubwayStations();

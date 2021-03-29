@@ -14,12 +14,17 @@ function initTmap(startX,startY,endX,endY) {
     // 2. 시작, 도착 심볼찍기
     // 시작
     // 37.61973596104716, 126.83935558380895
+
+    var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
+    var img= '/image/marker_icon-icons.com_54388.png';
+
+    var markerImage = new kakao.maps.MarkerImage(img,size);
+
     marker_s = new kakao.maps.Marker(
         {
             position : new kakao.maps.LatLng(37.61973596104716,
                 126.83935558380895),
-            icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
-            iconSize : new kakao.maps.Size(24, 38),
+            image: markerImage,
             map : map
         });
 
@@ -29,8 +34,7 @@ function initTmap(startX,startY,endX,endY) {
         {
             position : new kakao.maps.LatLng(37.56093749910637,
                 126.99332009924663),
-            icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
-            iconSize : new kakao.maps.Size(24, 38),
+            image: markerImage,
             map : map
         });
 
@@ -177,10 +181,10 @@ function initTmap(startX,startY,endX,endY) {
                                         var pType = "";
 
                                         if (properties.pointType == "S") { //출발지 마커
-                                            markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+                                            markerImg = "/image/marker_icon-icons.com_54388.png";
                                             pType = "S";
                                         } else if (properties.pointType == "E") { //도착지 마커
-                                            markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+                                            markerImg = "/image/marker_icon-icons.com_54388.png";
                                             pType = "E";
                                         } else { //각 포인트 마커
                                             markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
@@ -227,16 +231,17 @@ function addComma(num) {
 
 //마커 생성하기
 function addMarkers(infoObj) {
-    var size = new kakao.maps.Size(24, 38);//아이콘 크기 설정합니다.
+    var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
 
     if (infoObj.pointType == "P") { //포인트점일때는 아이콘 크기를 줄입니다.
         size = new kakao.maps.Size(8, 8);
     }
 
+    var markerImage = new kakao.maps.MarkerImage(infoObj.markerImage,size);
+
     marker_p = new kakao.maps.Marker({
         position : new kakao.maps.LatLng(infoObj.lat, infoObj.lng),
-        icon : infoObj.markerImage,
-        iconSize : size,
+        image: markerImage,
         map : map
     });
 
@@ -379,8 +384,8 @@ function drawLine(arrPoint, traffic) {
     } else {
         polyline_ = new kakao.maps.Polyline({
             path : arrPoint,
-            strokeColor : "#DD0000",
-            strokeWeight : 6,
+            strokeColor : "#51BBA8",
+            strokeWeight : 3,
             map : map
         });
         resultdrawArr.push(polyline_);

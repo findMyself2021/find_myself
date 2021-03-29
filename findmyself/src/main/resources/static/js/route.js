@@ -13,20 +13,22 @@ var resultMarkerArr = [];
 function initTmap(startX,startY,endX,endY) {
     // 2. 시작, 도착 심볼찍기
     // 시작
+    // 37.61973596104716, 126.83935558380895
     marker_s = new kakao.maps.Marker(
         {
-            position : new kakao.maps.LatLng(37.566567545861645,
-                126.9850380932383),
+            position : new kakao.maps.LatLng(37.61973596104716,
+                126.83935558380895),
             icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
             iconSize : new kakao.maps.Size(24, 38),
             map : map
         });
 
     //도착
+    // 37.56093749910637, 126.99332009924663
     marker_e = new kakao.maps.Marker(
         {
-            position : new kakao.maps.LatLng(37.403049076341794,
-                127.10331814639885),
+            position : new kakao.maps.LatLng(37.56093749910637,
+                126.99332009924663),
             icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
             iconSize : new kakao.maps.Size(24, 38),
             map : map
@@ -54,10 +56,10 @@ function initTmap(startX,startY,endX,endY) {
                         async : false,
                         data : {
                             "appKey" : "l7xx054e772885bf4fd6bff6bbf96c1884af",
-                            "startX" : "126.9850380932383",
-                            "startY" : "37.566567545861645",
-                            "endX" : "127.10331814639885",
-                            "endY" : "37.403049076341794",
+                            "startX" : "126.83935558380895",
+                            "startY" : "37.61973596104716",
+                            "endX" : "126.99332009924663",
+                            "endY" : "37.56093749910637",
                             "reqCoordType" : "WGS84GEO",
                             "resCoordType" : "EPSG3857",
                             "searchOption" : searchOption,
@@ -73,16 +75,13 @@ function initTmap(startX,startY,endX,endY) {
                             var tTime = " 총 시간 : "
                                 + (resultData[0].properties.totalTime / 60)
                                     .toFixed(0) + "분,";
-                            var tFare = " 총 요금 : "
-                                + resultData[0].properties.totalFare
-                                + "원,";
+
                             var taxiFare = " 예상 택시 요금 : "
                                 + resultData[0].properties.taxiFare
                                 + "원";
 
                             $("#result").text(
-                                tDistance + tTime + tFare
-                                + taxiFare);
+                                tDistance + tTime + taxiFare);
 
                             //교통정보 표출 옵션값을 체크
                             if (trafficInfochk == "Y") {

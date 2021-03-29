@@ -187,7 +187,7 @@ function initTmap(startX,startY,endX,endY) {
                                             markerImg = "/image/marker_icon-icons.com_54388.png";
                                             pType = "E";
                                         } else { //각 포인트 마커
-                                            markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
+                                            markerImg = "/image/check.png";
                                             pType = "P"
                                         }
 

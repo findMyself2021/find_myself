@@ -1,17 +1,12 @@
 <!--
-
 =========================================================
 * Argon Dashboard - v1.1.2
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/argon-dashboard
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 * Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md)
-
 * Coded by Creative Tim
-
 =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
@@ -30,7 +25,9 @@
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx054e772885bf4fd6bff6bbf96c1884af"></script>
     <script type="text/javascript" src="/js/map.js"></script>
+    <script type="text/javascript" src="/js/route.js"></script>
 </head>
 
 <body class="">
@@ -299,6 +296,9 @@
                                             <span class="d-md-none" th:text="${hdong}"></span>
                                         </a>
                                     </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <button class="btn btn-sm btn-primary" id="btn_select">경로 검색하기</button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -313,6 +313,7 @@
                                         level: 9 // 지도의 확대 레벨
                                     };
 
+                                // 맵 초기화
                                 var map = new kakao.maps.Map(mapContainer, mapOption),
                                     customOverlay = new kakao.maps.CustomOverlay({});
 
@@ -322,8 +323,11 @@
                                 // 행정동 코드 가져오기
                                 var hcode = [[${hcode}]];
                                 Draw_HangJungDong(hcode);
+
+                                initTmap();
                             </script>
-                        </div>
+                        </div><br>
+                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="result"></h6>
                     </div>
                 </div>
             </div>

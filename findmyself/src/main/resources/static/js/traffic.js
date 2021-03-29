@@ -1,28 +1,4 @@
-function searchSubwayStationAJAX() {
-    //var stationName = document.getElementById('stationName').value;
-    var xhr = new XMLHttpRequest();
-    var url = "https://api.odsay.com/v1/api/searchStation?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&stationName=종로3가&stationClass=2";
-    xhr.open("GET", url, true);
-    xhr.send();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var resultObj = JSON.parse(xhr.responseText);
-            console.log(resultObj.result);
-            var resultArr = resultObj["result"]["station"];
-            console.log(resultArr);
-
-            var subwayNameArr = [];
-            var subwayXArr = [];
-            var subwayYArr = [];
-
-            for (var i = 0; i < resultArr.length; i++) {
-                subwayNameArr[i] = resultArr[i].stationName;
-                subwayXArr[i] = resultArr[i].x;
-                subwayYArr[i] = resultArr[i].y;
-            }
-        }
-    }
-}
+// 대중교통 길찾기 지도에 표시하는 함수
 function searchPubTransRoot(sx, sy, ex, ey) {
 
     // 출발 위치
@@ -71,7 +47,7 @@ function searchPubTransRoot(sx, sy, ex, ey) {
                                     new kakao.maps.LatLng(resultJsonData.result.boundary.top, resultJsonData.result.boundary.left),
                                     new kakao.maps.LatLng(resultJsonData.result.boundary.bottom, resultJsonData.result.boundary.right)
                                 );
-                                map.panToBounds(boundary);
+                                //map.panToBounds(boundary);
                             }
                         }
                     }
@@ -99,7 +75,7 @@ function searchPubTransRoot(sx, sy, ex, ey) {
                     lineArray.push(new kakao.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
                 }
 
-                //지하철결과의 경우 노선에 따른 라인색상 지정하는 부분 (1,2호선의 경우만 예로 들음)
+                //지하철결과의 경우 노선에 따른 라인색상 지정하는 부분 (1,2호선의 경우만 예로 들음 추후 추가 필요)
                 if(data.result.lane[i].type == 1){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
@@ -124,4 +100,44 @@ function searchPubTransRoot(sx, sy, ex, ey) {
             }
         }
     }
+}
+
+// 대중교통 길찾기 경로내의 지하철역 이름 검색하는 함수
+function searchSubwayStations(sx, sy, ex, ey) {
+    $("#btn_select2")
+        .click(
+            function () {
+
+                // 출발 위치
+                var sx1 = 126.93737555322481;
+                var sy1 = 37.55525165729346;
+                // 도착 위치
+                var ex1 = 126.88265238619182;
+                var ey1 = 37.481440035175375;
+
+                var xhr = new XMLHttpRequest();
+                //url => searchPath=1 -> 지하철 한정 (추후 수정)
+                var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=" + sx1 + "&SY=" + sy1 + "&EX=" + ex1 + "&EY=" + ey1 + "&SearchPathType=1";
+                xhr.open("GET", url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var resultObj = JSON.parse(xhr.responseText);
+                        console.log(resultObj.result);
+                        var resultArr = resultObj["result"]["path"];
+                        console.log(resultArr);
+
+                        var str = "";
+                        for (var i = 0; i < resultArr.length; i++) {
+                            if(resultArr[0].subPath[i].trafficType == 1) {
+                                for(var j = 0; j < resultArr[0].subPath[i].passStopList.stations.length - 1; j++) {
+                                    str += "역이름 : " + resultArr[0].subPath[i].passStopList.stations[j].stationName + "/";
+                                }
+                                str += "역이름 : " + resultArr[0].subPath[i].passStopList.stations[j].stationName;
+                            }
+                        }
+                        $("#subwayResult").text(str);
+                    }
+                }
+            });
 }

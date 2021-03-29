@@ -18,7 +18,7 @@
         function searchSubwayStationAJAX() {
             var pathType = document.getElementById('pathType').value;
             var xhr = new XMLHttpRequest();
-            var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=126.93737555322481&SY=37.55525165729346&EX=126.88265238619182&EY=37.481440035175375&SearchPathType=" + pathType;
+            var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=126.93737555322481&SY=37.55525165729346&EX=126.88265238619182&EY=37.481440035175375&SearchPathType=1";
             xhr.open("GET", url, true);
             xhr.send();
             xhr.onreadystatechange = function () {

@@ -28,7 +28,7 @@ public class Requirements extends ConvenientTmp{
         rq.home_type = "monthly";
         rq.deposit = 1000;
         rq.monthly = 50;
-        rq.address = "동국대학교";
+        rq.address = "서울 중구 충무로 2";
         rq.traffic = 50;
         rq.convenient = new ConvenientTmp();
         rq.safety = 50;

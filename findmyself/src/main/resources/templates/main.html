@@ -54,14 +54,14 @@
                     // 서울 전체 지도
                     DrawPolygon();
 
-                    // 특정 행정동 강조하기
                     /*<![CDATA[*/
-                    Draw_HangJungDong(1141058500, /*[[ ${rq.address} ]]*/);
+                    var codeList = /*[[ ${codeList} ]]*/;
+                    if(codeList != null) {
+                        codeList.forEach(function(code) {
+                            Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/);
+                        });
+                    }
                     /*]]*/
-
-                    //Draw_HangJungDong(1141058500);
-                    //Draw_HangJungDong(1111057000);
-                    //Draw_HangJungDong(1114055000);
 
                 </script>
             </div>
@@ -317,16 +317,6 @@
                 </div>
                 <script type="text/javascript">
                     sliderStart();
-                    // $(function(){
-                    //     // 서버에서 가져온 List 변수에 담기
-                    //     var codeList = "${codeList}";
-                    //     // 변수에 담은 List 루프로 돌리기
-                    //     for (var i in codeList){
-                    //         console.log("코드: "+codeList[i].h_code);
-                    //         console.log("메세지: "+"${msg}");
-                    //         Draw_HangJungDong(codeList[i].h_code);
-                    //     }
-                    // });
                 </script>
             </form>
         </div>

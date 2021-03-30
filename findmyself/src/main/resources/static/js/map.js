@@ -62,7 +62,8 @@ function Draw_HangJungDong(h_code, addr){
             //특정 행정동만 그리기
             if(h_code == code)
             {
-                displayHangJungDong(coordinates, name,code,addr);
+                console.log("주소: "+addr);
+                displayHangJungDong(coordinates, name,code);
             }
         })
     })
@@ -77,7 +78,7 @@ for (var i = 0, len = areas.length; i < len; i++) {
 
 
 // 특정 행정동 색칠
-function displayHangJungDong(coordinates, name,code,addr){
+function displayHangJungDong(coordinates, name,code){
     var path = [];
     var points = [];
 
@@ -147,7 +148,6 @@ function displayHangJungDong(coordinates, name,code,addr){
 
         document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
             '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
-            '<input type="hidden" id="addr" name="addr" value="'+ addr +'">' +
             '</form>');
         document.getElementById("smb_form").submit();
 

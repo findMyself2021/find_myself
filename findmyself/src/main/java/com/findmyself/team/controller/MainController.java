@@ -1,8 +1,6 @@
 package com.findmyself.team.controller;
 
-import com.findmyself.team.GudongResult;
 import com.findmyself.team.Requirements;
-import com.findmyself.team.data.service.Home.HomeService;
 import com.findmyself.team.service.AnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -25,7 +20,7 @@ public class MainController {
     public String openMain(Model model) {
 
         Requirements rq = new Requirements().defaultRequirements();
-        List<GudongResult> codeList = new ArrayList<GudongResult>();
+        List<Long> codeList = null;
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
 
@@ -46,10 +41,8 @@ public class MainController {
         System.out.println("남녀성비: "+rq.getSex_ratio());
         System.out.println("거주연령: "+rq.getAge_type());
 
-        List<GudongResult> codeList = analysisService.analysis(rq);
-        for(int i=0; i<codeList.size(); i++){
-            System.out.println(codeList.get(i).getGu()+","+codeList.get(i).getH_dong()+", "+codeList.get(i).getH_code());
-        }
+        List<Long> codeList = analysisService.analysis(rq);
+
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);

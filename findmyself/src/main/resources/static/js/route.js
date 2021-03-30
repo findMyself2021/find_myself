@@ -129,10 +129,11 @@ function initTmap(endX,endY) {
 
                             // 커스텀 오버레이를 생성합니다
                             var customOverlay = new kakao.maps.CustomOverlay({
-                                position: new kakao.maps.LatLng(37.56093749910637,
-                                    126.99332009924663),
+                                position: new kakao.maps.LatLng(endX,endY),
                                 content: content,
-                                xAnchor: 0.3,
+                                //왼쪽 오른쪽
+                                xAnchor: 0,
+                                //위 아래
                                 yAnchor: 1.2
                             });
 

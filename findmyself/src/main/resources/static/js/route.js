@@ -104,17 +104,45 @@ function initTmap(endX,endY) {
 
                             var tDistance = "총 거리 : "
                                 + (resultData[0].properties.totalDistance / 1000)
-                                    .toFixed(1) + "km,";
+                                    .toFixed(1) + "km";
                             var tTime = " 총 시간 : "
                                 + (resultData[0].properties.totalTime / 60)
-                                    .toFixed(0) + "분,";
+                                    .toFixed(0) + "분";
 
                             var taxiFare = " 예상 택시 요금 : "
                                 + resultData[0].properties.taxiFare
                                 + "원";
 
-                            $("#result").text(
-                                tDistance + tTime + taxiFare);
+                            var content = '<div class="overlaybox">' +
+                                '<div class="boxtitle">자동차 경로 검색 결과</div>'+
+                                '   <ul>' +
+                                '       <li class="up">' +
+                                '           <span class="title">'+tDistance+'</span>'+
+                                '       </li>'+
+                                '       <li>'+
+                                '           <span class="title">'+tTime+'</span>'+
+                                '       </li>'+
+                                '       <li>'+
+                                '           <span class="title">'+taxiFare+'</span>'+
+                                '       </li>'+
+                                '   </ul>'+
+                                '</div>';
+
+
+                            // 커스텀 오버레이를 생성합니다
+                            var customOverlay = new kakao.maps.CustomOverlay({
+                                position: new kakao.maps.LatLng(endX,endY),
+                                content: content,
+                                //왼쪽 오른쪽
+                                xAnchor: 0,
+                                //위 아래
+                                yAnchor: 1.2
+                            });
+
+                            customOverlay.setMap(map);
+
+                            // $("#result").text(
+                            //     tDistance + tTime + taxiFare);
 
                             //교통정보 표출 옵션값을 체크
                             if (trafficInfochk == "Y") {

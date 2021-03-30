@@ -41,6 +41,9 @@ function initCarSearch(addr){
             //도착지 좌표값 전달
             initTmap(result[0].y,result[0].x);
         }
+        else{
+            alert('도로명 주소를 입력해주세요');
+        }
     });
 }
 

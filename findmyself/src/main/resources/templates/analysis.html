@@ -326,7 +326,12 @@
 
                                 // 행정동 코드 가져오기
                                 var hcode = [[${hcode}]];
-                                Draw_HangJungDong(hcode);
+                                //목적지
+                                var dest = [[${addr}]];
+
+                                alert(dest);
+
+                                Draw_HangJungDong(hcode,dest);
 
                                 // 여기서 출발지점, 도착지점 x,y 넘겨주면 됨
                                 initTmap();

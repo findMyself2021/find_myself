@@ -21,6 +21,8 @@ public class MapController {
         String s_hcode = httpServletRequest.getParameter("hcode");
         long h_code = Long.parseLong(s_hcode);
 
+        String address = httpServletRequest.getParameter("addr");
+
         //행정구
         final String gu = gudongService.findOne(h_code).getGu();
         //행정동
@@ -29,6 +31,7 @@ public class MapController {
         model.addAttribute("hcode",h_code);
         model.addAttribute("gu",gu);
         model.addAttribute("hdong",h_dong);
+        model.addAttribute("addr",address);
 
         return "analysis";
     }

@@ -9,11 +9,46 @@ var chktraffic = [];
 var resultdrawArr = [];
 var resultMarkerArr = [];
 
+//목적지 마커 표시
+function initCarSearch(addr){
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+    geocoder.addressSearch(addr, function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+
+            // 목적지 좌표
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
+            var img= '/image/marker_icon-icons.com_54388.png';
+
+            var markerImage = new kakao.maps.MarkerImage(img,size);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords,
+                image: markerImage
+            });
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+
+            //도착지 좌표값 전달
+            initTmap(result[0].y,result[0].x);
+        }
+    });
+}
+
 // 나중에 값 전달받기
-function initTmap(startX,startY,endX,endY) {
+function initTmap(endX,endY) {
     // 2. 시작, 도착 심볼찍기
     // 시작
-    // 37.61973596104716, 126.83935558380895
+    // 37.56093749910637, 126.99332009924663
 
     var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
     var img= '/image/marker_icon-icons.com_54388.png';
@@ -22,18 +57,17 @@ function initTmap(startX,startY,endX,endY) {
 
     marker_s = new kakao.maps.Marker(
         {
-            position : new kakao.maps.LatLng(37.61973596104716,
-                126.83935558380895),
+            position : new kakao.maps.LatLng(37.56093749910637,
+                126.99332009924663),
             image: markerImage,
             map : map
         });
 
     //도착
-    // 37.56093749910637, 126.99332009924663
     marker_e = new kakao.maps.Marker(
         {
-            position : new kakao.maps.LatLng(37.56093749910637,
-                126.99332009924663),
+            position : new kakao.maps.LatLng(endX,
+                endY),
             image: markerImage,
             map : map
         });
@@ -60,10 +94,10 @@ function initTmap(startX,startY,endX,endY) {
                         async : false,
                         data : {
                             "appKey" : "l7xx054e772885bf4fd6bff6bbf96c1884af",
-                            "startX" : "126.83935558380895",
-                            "startY" : "37.61973596104716",
-                            "endX" : "126.99332009924663",
-                            "endY" : "37.56093749910637",
+                            "startX" : "126.99332009924663",
+                            "startY" : "37.56093749910637",
+                            "endX" : endY,
+                            "endY" : endX,
                             "reqCoordType" : "WGS84GEO",
                             "resCoordType" : "EPSG3857",
                             "searchOption" : searchOption,

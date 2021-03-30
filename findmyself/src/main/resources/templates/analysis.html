@@ -329,12 +329,11 @@
                                 //목적지
                                 var dest = [[${addr}]];
 
-                                alert(dest);
-
                                 Draw_HangJungDong(hcode,dest);
 
-                                // 여기서 출발지점, 도착지점 x,y 넘겨주면 됨
-                                initTmap();
+                                // 도착지점 지정
+                                initCarSearch(dest);
+
                                 searchPubTransRoot();
                                 searchSubwayStations();
                             </script>

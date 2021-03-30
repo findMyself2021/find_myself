@@ -43,7 +43,7 @@ function displayArea(coordinates) {
 }
 
 //행정동 기준으로 폴리곤 생성
-function Draw_HangJungDong(h_code){
+function Draw_HangJungDong(h_code, addr){
 
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
@@ -62,6 +62,7 @@ function Draw_HangJungDong(h_code){
             //특정 행정동만 그리기
             if(h_code == code)
             {
+                console.log("주소: "+addr);
                 displayHangJungDong(coordinates, name,code);
             }
         })
@@ -145,7 +146,9 @@ function displayHangJungDong(coordinates, name,code){
         //
         // deletePolygon(polygons);                    //폴리곤 제거
 
-        document.write('<form action="/mapAnalysis" id="smb_form" method="post"><input type="hidden" id="hcode" name="hcode" value="'+ code +'"></form>');
+        document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
+            '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
+            '</form>');
         document.getElementById("smb_form").submit();
 
     });

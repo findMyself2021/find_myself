@@ -42,16 +42,15 @@ function initCarSearch(addr){
             initTmap(result[0].y,result[0].x);
         }
         else{
-            alert('도로명 주소를 입력 후 찾기를 눌러주세요');
+            alert('도로명 주소를 입력해주세요');
         }
     });
 }
 
 // 나중에 값 전달받기
 function initTmap(endX,endY) {
-    // 2. 시작, 도착 심볼찍기
-    // 시작
-    // 37.56093749910637, 126.99332009924663
+
+    // 출발지점
 
     var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
     var img= '/image/marker_icon-icons.com_54388.png';
@@ -424,10 +423,8 @@ function drawLine(arrPoint, traffic) {
 //초기화 기능
 function resettingMap() {
     //기존마커는 삭제
-
     marker_s.setMap(null);
     marker_e.setMap(null);
-    marker_p.setMap(null);
 
     if (resultMarkerArr.length > 0) {
         for (var i = 0; i < resultMarkerArr.length; i++) {

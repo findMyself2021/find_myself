@@ -30,7 +30,7 @@
     function searchPubTransPathAJAX() {
         var xhr = new XMLHttpRequest();
         //ODsay apiKey 입력
-        var url = "https://api.odsay.com/v1/api/searchPubTransPath?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&apiKey={YOUR_API_KEY}";
+        var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
         xhr.open("GET", url, true);
         xhr.send();
         xhr.onreadystatechange = function() {

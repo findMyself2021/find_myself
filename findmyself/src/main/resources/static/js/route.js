@@ -133,7 +133,7 @@ function initTmap(endX,endY) {
                                     126.99332009924663),
                                 content: content,
                                 xAnchor: 0.3,
-                                yAnchor: 1.1
+                                yAnchor: 1.2
                             });
 
                             customOverlay.setMap(map);

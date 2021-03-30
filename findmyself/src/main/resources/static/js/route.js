@@ -28,8 +28,8 @@ function initCarSearch(addr){
 
             var markerImage = new kakao.maps.MarkerImage(img,size);
 
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
+            // 결과값으로 받은 위치를 마커로 표시합니다 (도착지)
+            marker_e = new kakao.maps.Marker({
                 map: map,
                 position: coords,
                 image: markerImage
@@ -42,7 +42,7 @@ function initCarSearch(addr){
             initTmap(result[0].y,result[0].x);
         }
         else{
-            alert('도로명 주소를 입력해주세요');
+            alert('도로명 주소를 입력 후 찾기를 눌러주세요');
         }
     });
 }
@@ -62,15 +62,6 @@ function initTmap(endX,endY) {
         {
             position : new kakao.maps.LatLng(37.56093749910637,
                 126.99332009924663),
-            image: markerImage,
-            map : map
-        });
-
-    //도착
-    marker_e = new kakao.maps.Marker(
-        {
-            position : new kakao.maps.LatLng(endX,
-                endY),
             image: markerImage,
             map : map
         });
@@ -433,8 +424,10 @@ function drawLine(arrPoint, traffic) {
 //초기화 기능
 function resettingMap() {
     //기존마커는 삭제
+
     marker_s.setMap(null);
     marker_e.setMap(null);
+    marker_p.setMap(null);
 
     if (resultMarkerArr.length > 0) {
         for (var i = 0; i < resultMarkerArr.length; i++) {

@@ -31,4 +31,8 @@ public class GudongService {
     public String findGuByCode(Long h_code){
         return findOne(h_code).getGu();
     }
+
+    public Long findCodeByDong(String name){
+        return gudongRepository.findCodeByDong(name);
+    }
 }

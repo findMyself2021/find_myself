@@ -24,4 +24,9 @@ public class GudongRepository {
         return em.createQuery("select g from Gudong g", Gudong.class)
                 .getResultList();
     }
+
+    public Long findCodeByDong(String h_dong){ //행정동 이름으로 행정동 코드 찾기
+        return em.createQuery("select g.h_code from Gudong g where g.h_dong like "+h_dong+"", Long.class)
+                .getSingleResult();
+    }
 }

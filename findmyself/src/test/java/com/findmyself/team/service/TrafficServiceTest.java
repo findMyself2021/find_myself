@@ -3,7 +3,7 @@ package com.findmyself.team.service;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.TrafficData;
 import com.findmyself.team.data.service.GudongService;
-import com.findmyself.team.data.service.Traffic.SubwayService;
+import com.findmyself.team.data.service.traffic.SubwayService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

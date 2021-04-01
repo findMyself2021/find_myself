@@ -20,5 +20,9 @@ public class TrafficBus {
 
     private double x;
     private double y;
+
     private Long h_code;
+
+    public TrafficBus(){}
+
 }

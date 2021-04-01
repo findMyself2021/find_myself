@@ -15,11 +15,12 @@ public class BusService {
 
     private final BusRepository busRepository;
 
-    public TrafficBus findOne(String name){
-        return busRepository.findOne(name);
-    }
-
     public List<TrafficBus> findAll(){
         return busRepository.findAll();
+    }
+
+    @Transactional(readOnly = false)
+    public void updateCodeByName(Long h_code, String name){ //정류장 이름으로 행정동 코드 업뎃
+        busRepository.updateCode(h_code, name);
     }
 }

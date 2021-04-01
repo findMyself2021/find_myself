@@ -13,12 +13,12 @@ public class BusRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public TrafficBus findOne(String name) {
-        return em.find(TrafficBus.class, name);
-    }
-
     public List<TrafficBus> findAll() {
         return em.createQuery("select tb from TrafficBus tb", TrafficBus.class)
                 .getResultList();
+    }
+
+    public void updateCode(Long h_code, String name){
+        em.createQuery("update TrafficBus tb set tb.h_code = :h_code where tb.name = :name");
     }
 }

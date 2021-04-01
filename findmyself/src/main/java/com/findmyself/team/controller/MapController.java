@@ -27,7 +27,7 @@ public class MapController {
 
         // 테스트중
         String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
-        String test = trafficService.searchSubwayInfo(stations); 
+        String test = trafficService.searchSubwayInfo(stations);
 
         //행정구
         final String gu = gudongService.findOne(h_code).getGu();

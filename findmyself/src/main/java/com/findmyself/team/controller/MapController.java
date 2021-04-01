@@ -1,7 +1,7 @@
 package com.findmyself.team.controller;
 
-import com.findmyself.team.data.domain.Gudong;
 import com.findmyself.team.data.service.GudongService;
+import com.findmyself.team.service.TrafficService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +15,8 @@ public class MapController {
 
     private final GudongService gudongService;
 
+    private final TrafficService trafficService;
+
     @PostMapping(value = "/mapAnalysis")
     public String Analysis(HttpServletRequest httpServletRequest, Model model){
 
@@ -22,6 +24,10 @@ public class MapController {
         long h_code = Long.parseLong(s_hcode);
 
         String address = httpServletRequest.getParameter("addr");
+
+        // 테스트중
+        String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
+        String test = trafficService.searchSubwayInfo(stations); 
 
         //행정구
         final String gu = gudongService.findOne(h_code).getGu();

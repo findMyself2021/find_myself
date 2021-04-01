@@ -14,7 +14,7 @@ function searchPubTransRoot(ex, ey) {
                 function searchPubTransPathAJAX() {
                     var xhr = new XMLHttpRequest();
                     //ODsay apiKey 입력
-                    var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+sx1+"&SY="+sy1+"&EX="+ex+"&EY="+ey+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
+                    var url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx1+"&SY="+sy1+"&EX="+ex+"&EY="+ey+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
                     xhr.open("GET", url, true);
                     xhr.send();
                     xhr.onreadystatechange = function() {
@@ -32,7 +32,7 @@ function searchPubTransRoot(ex, ey) {
                 function callMapObjApiAJAX(mabObj){
                     var xhr = new XMLHttpRequest();
                     //ODsay apiKey 입력
-                    var url = "https://api.odsay.com/v1/api/loadLane?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&mapObject=0:0@"+mabObj+"&apiKey={YOUR_API_KEY}";
+                    var url = "https://api.odsay.com/v1/api/loadLane?mapObject=0:0@"+mabObj+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
                     xhr.open("POST", url, true);
                     xhr.send();
                     xhr.onreadystatechange = function() {
@@ -87,7 +87,7 @@ function searchPubTransRoot(ex, ey) {
                     lineArray.push(new kakao.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
                 }
 
-                //지하철결과의 경우 노선에 따른 라인색상 지정하는 부분 (1~9호선 색상 추가 / 도보 표시 수정 필요)
+                //지하철결과, 버스결과의 경우 노선에 따른 라인색상 지정하는 부분 (1~9호선 색상 추가 / 도보 표시 추가 필요)
                 if(data.result.lane[i].type === 1){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
@@ -151,12 +151,12 @@ function searchPubTransRoot(ex, ey) {
                         strokeWeight: 3,
                         strokeColor: '#8c8279'
                     });
-                }else{
+                }else{ // 버스의 경우
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
                         strokeWeight: 3,
-                        strokeColor: '#b2ccff'
+                        strokeColor: '#86E57F'
                     });
                 }
 
@@ -173,8 +173,8 @@ function searchSubwayStations(ex, ey) {
             function () {
 
                 // 출발 위치
-                var sx1 = 126.93737555322481;
-                var sy1 = 37.55525165729346;
+                var sx1 = 126.99332009924663;
+                var sy1 = 37.56093749910637;
 
                 var xhr = new XMLHttpRequest();
                 //url => searchPath=1 -> 지하철 한정 (추후 수정)
@@ -185,19 +185,18 @@ function searchSubwayStations(ex, ey) {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         var resultObj = JSON.parse(xhr.responseText);
                         console.log(resultObj.result);
-                        var resultArr = resultObj["result"]["path"];
-                        console.log(resultArr);
 
                         var str = "";
-                        for (var i = 0; i < resultArr.length; i++) {
-                            if(resultArr[0].subPath[i].trafficType == 1) {
-                                for(var j = 0; j < resultArr[0].subPath[i].passStopList.stations.length - 1; j++) {
-                                    str += "역이름 : " + resultArr[0].subPath[i].passStopList.stations[j].stationName + "/";
+                        for (var i = 0; i < resultObj.result.path[0].subPath.length; i++) {
+                            if(resultObj.result.path[0].subPath[i].trafficType == 1) {
+                                for(var j = 0; j < resultObj.result.path[0].subPath[i].passStopList.stations.length - 1; j++) {
+                                    str += "역이름 : " + resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
                                 }
-                                str += "역이름 : " + resultArr[0].subPath[i].passStopList.stations[j].stationName;
+                                str += "역이름 : " + resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
                             }
                         }
                         $("#subwayResult").text(str);
+                        console.log(str);
                     }
                 }
             });

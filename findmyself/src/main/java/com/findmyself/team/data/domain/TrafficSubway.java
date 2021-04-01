@@ -9,62 +9,59 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "traffic_subway")
+@Table(name = "traffic_subway1")
 @Getter @Setter
 public class TrafficSubway {
 
+    // date, name 기준으로 찾아야함. repository findone 수정 필요!
     @Id
     @GeneratedValue
-    private String line;
-    private String station;
+    private String name;
 
-    private Long date;
-    private Long in_4h;
-    private Long out_4h;
-    private Long in_5h;
-    private Long out_5h;
-    private Long in_6h;
-    private Long out_6h;
-    private Long in_7h;
-    private Long out_7h;
-    private Long in_8h;
-    private Long out_8h;
-    private Long in_9h;
-    private Long out_9h;
-    private Long in_10h;
-    private Long out_10h;
-    private Long in_11h;
-    private Long out_11h;
-    private Long in_12h;
-    private Long out_12h;
-    private Long in_13h;
-    private Long out_13h;
-    private Long in_14h;
-    private Long out_14h;
-    private Long in_15h;
-    private Long out_15h;
-    private Long in_16h;
-    private Long out_16h;
-    private Long in_17h;
-    private Long out_17h;
-    private Long in_18h;
-    private Long out_18h;
-    private Long in_19h;
-    private Long out_19h;
-    private Long in_20h;
-    private Long out_20h;
-    private Long in_21h;
-    private Long out_21h;
-    private Long in_22h;
-    private Long out_22h;
-    private Long in_23h;
-    private Long out_23h;
-    private Long in_0h;
-    private Long out_0h;
-    private Long in_1h;
-    private Long out_1h;
-    private Long in_2h;
-    private Long out_2h;
+    private int in_4h;
+    private int out_4h;
+    private int in_5h;
+    private int out_5h;
+    private int in_6h;
+    private int out_6h;
+    private int in_7h;
+    private int out_7h;
+    private int in_8h;
+    private int out_8h;
+    private int in_9h;
+    private int out_9h;
+    private int in_10h;
+    private int out_10h;
+    private int in_11h;
+    private int out_11h;
+    private int in_12h;
+    private int out_12h;
+    private int in_13h;
+    private int out_13h;
+    private int in_14h;
+    private int out_14h;
+    private int in_15h;
+    private int out_15h;
+    private int in_16h;
+    private int out_16h;
+    private int in_17h;
+    private int out_17h;
+    private int in_18h;
+    private int out_18h;
+    private int in_19h;
+    private int out_19h;
+    private int in_20h;
+    private int out_20h;
+    private int in_21h;
+    private int out_21h;
+    private int in_22h;
+    private int out_22h;
+    private int in_23h;
+    private int out_23h;
+    private int in_0h;
+    private int out_0h;
+    private int in_1h;
+    private int out_1h;
 
     public TrafficSubway() {
 

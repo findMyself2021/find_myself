@@ -13,8 +13,8 @@ public class SubwayRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public TrafficSubway findOne(String station) {
-        return em.find(TrafficSubway.class, station);
+    public TrafficSubway findOne(String name) {
+        return em.find(TrafficSubway.class, name);
     }
 
     public List<TrafficSubway> findAll() {

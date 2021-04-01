@@ -15,8 +15,8 @@ public class SubwayService {
 
     private final SubwayRepository subwayRepository;
 
-    public TrafficSubway findOne(String station) {
-        return subwayRepository.findOne(station);
+    public TrafficSubway findOne(String name) {
+        return subwayRepository.findOne(name);
     }
 
     public List<TrafficSubway> findAll() {

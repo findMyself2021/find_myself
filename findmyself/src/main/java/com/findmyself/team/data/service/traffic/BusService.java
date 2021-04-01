@@ -1,6 +1,7 @@
 package com.findmyself.team.data.service.traffic;
 
 import com.findmyself.team.data.domain.traffic.TrafficBus;
+import com.findmyself.team.data.repository.traffic.BusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,13 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BusService {
 
-    private final BusService busService;
+    private final BusRepository busRepository;
 
     public TrafficBus findOne(String name){
-        return busService.findOne(name);
+        return busRepository.findOne(name);
     }
 
     public List<TrafficBus> findAll(){
-        return busService.findAll();
+        return busRepository.findAll();
     }
 }

@@ -15,6 +15,20 @@
     align-content: center;
     float: right;
 }
+/*!*1300보다 작은 경우에*!*/
+/*@media (max-width: 1300px){*/
+/*    .map_wrap{*/
+/*        width: 55%;*/
+/*    }*/
+/*    .choice_wrap{*/
+/*        width: 42%;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 1100px) {*/
+/*    */
+/*}*/
+
 p{
     font-size: 15px;
     text-align: center;
@@ -70,11 +84,14 @@ p{
 
 .button {
     display: inline-block;
-    padding-top: 12px;
-    padding-bottom: 10px;
+    position: relative;
+    right: 3px;
+    top:4.5px;
+    padding-top: 11px;
+    padding-bottom: 11px;
     padding-left: 25px;
     padding-right: 25px;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;

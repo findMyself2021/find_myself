@@ -1,6 +1,6 @@
-var markerInfo;
 //출발지,도착지 마커
 var marker_s, marker_e, marker_p;
+var customOverlay;
 //경로그림정보
 var drawInfoArr = [];
 var drawInfoArr2 = [];
@@ -133,7 +133,7 @@ function searchCarRoute(endX,endY) {
 
 
                             // 커스텀 오버레이를 생성합니다
-                            var customOverlay = new kakao.maps.CustomOverlay({
+                            customOverlay = new kakao.maps.CustomOverlay({
                                 position: new kakao.maps.LatLng(endX,endY),
                                 content: content,
                                 //왼쪽 오른쪽
@@ -458,6 +458,7 @@ function resettingMap() {
     //기존마커는 삭제
     marker_s.setMap(null);
     marker_e.setMap(null);
+    customOverlay.setMap(null);
 
     if (resultMarkerArr.length > 0) {
         for (var i = 0; i < resultMarkerArr.length; i++) {

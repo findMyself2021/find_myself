@@ -42,7 +42,7 @@ function initDestSearch(addr){
             searchCarRoute(result[0].y,result[0].x);
             searchPubTransRoute(result[0].x, result[0].y);
             searchSubwayStations(result[0].x, result[0].y);
-            searchWalkRoute(0, 0, result[0].x, result[0].y);
+            //searchWalkRoute(0, 0, result[0].x, result[0].y);
         }
         else{
             alert('도로명 주소를 입력해주세요');

@@ -34,11 +34,11 @@ function displayArea(coordinates) {
     var polygon = new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: path,
-        strokeWeight: 2,
+        strokeWeight: 3.4,
         strokeColor: '#4F7AAB',
-        strokeOpacity: 0.8,
+        strokeOpacity: 0.72,
         fillColor: '#fff',
-        fillOpacity: 0.7,
+        fillOpacity: 0.8,
     });
 }
 
@@ -96,9 +96,9 @@ function displayHangJungDong(coordinates, name,code,dest){
         path: path,
         strokeWeight: 2,
         strokeColor: '#4F7AAB',
-        strokeOpacity: 0.8,
+        strokeOpacity: 0.7,
         fillColor: '#4F7AAB',
-        fillOpacity: 0.7,
+        fillOpacity: 0.8,
     });
 
     polygons.push(polygon);            //폴리곤 제거하기 위한 배열

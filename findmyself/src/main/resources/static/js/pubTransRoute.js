@@ -1,10 +1,14 @@
+var sxArr = [], syArr = [];
+var exArr = [], eyArr = [];
+var startArrIdx = 0, endArrIdx = 0;
+var test = 0;
+
 // 대중교통 길찾기 지도에 표시하는 함수
 function searchPubTransRoute(ex, ey) {
 
     // 출발 위치
     var sx1 = 126.99332009924663;
     var sy1 = 37.56093749910637;
-    // 도착 위치
 
     $("#btn_select2")
         .click(
@@ -14,7 +18,7 @@ function searchPubTransRoute(ex, ey) {
                 function searchPubTransPathAJAX() {
                     var xhr = new XMLHttpRequest();
                     //ODsay apiKey 입력
-                    var url = "https://api.odsay.com/v1/api/searchPubTransPathT?SX="+sx1+"&SY="+sy1+"&EX="+ex+"&EY="+ey+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
+                    var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+sx1+"&SY="+sy1+"&EX="+ex+"&EY="+ey+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
                     xhr.open("GET", url, true);
                     xhr.send();
                     xhr.onreadystatechange = function() {
@@ -38,17 +42,25 @@ function searchPubTransRoute(ex, ey) {
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState == 4 && xhr.status == 200) {
                             var resultJsonData = JSON.parse(xhr.responseText);
-                            drawKakaoMarker(sx1,sy1, 0);					// 출발지 마커 표시
-                            drawKakaoMarker(ex,ey, 1);					// 도착지 마커 표시
-                            drawKakaoPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
-                            // boundary 데이터가 있을경우, 해당 boundary로 지도이동
-                            if(resultJsonData.result.boundary){
-                                var boundary = new kakao.maps.LatLngBounds(
-                                    new kakao.maps.LatLng(resultJsonData.result.boundary.top, resultJsonData.result.boundary.left),
-                                    new kakao.maps.LatLng(resultJsonData.result.boundary.bottom, resultJsonData.result.boundary.right)
-                                );
-                                map.panToBounds(boundary);
-                            }
+
+                            //즉시 실행 함수로 closure 발생 방지
+                            (function () {
+                                var currentsx1 = sx1;
+                                var currentsy1 = sy1;
+                                var currentex = ex;
+                                var currentey = ey;
+                                var currentResultJsonData = resultJsonData;
+
+                                //도보 경로 표시와 시간 맞추기
+                                setTimeout(function () {
+                                    drawKakaoMarker(currentsx1,currentsy1, 0);					// 출발지 마커 표시
+                                    drawKakaoMarker(currentex,currentey, 1);					// 도착지 마커 표시
+                                    drawKakaoPolyLine(currentResultJsonData);
+                                }, 1000);
+                            }());
+                            //drawKakaoMarker(sx1,sy1, 0);					// 출발지 마커 표시
+                            //drawKakaoMarker(ex,ey, 1);					// 도착지 마커 표시
+                            //drawKakaoPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
                         }
                     }
                 }
@@ -176,9 +188,11 @@ function searchSubwayStations(ex, ey) {
                 var sx1 = 126.99332009924663;
                 var sy1 = 37.56093749910637;
 
+                clearSEArray();
+                insertSEArray(sx1, sy1, 0);
+
                 var xhr = new XMLHttpRequest();
-                //url => searchPath=1 -> 지하철 한정 (추후 수정)
-                var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=" + sx1 + "&SY=" + sy1 + "&EX=" + ex + "&EY=" + ey + "&SearchPathType=1";
+                var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=" + sx1 + "&SY=" + sy1 + "&EX=" + ex + "&EY=" + ey + "&SearchPathType=0";
                 xhr.open("GET", url, true);
                 xhr.send();
                 xhr.onreadystatechange = function () {
@@ -193,150 +207,137 @@ function searchSubwayStations(ex, ey) {
                                     str += "역이름 : " + resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
                                 }
                                 str += "역이름 : " + resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
+                                insertSEArray(resultObj.result.path[0].subPath[i].startX, resultObj.result.path[0].subPath[i].startY, 1);
+                                insertSEArray(resultObj.result.path[0].subPath[i].endX, resultObj.result.path[0].subPath[i].endY, 0);
+                            } else if(resultObj.result.path[0].subPath[i].trafficType == 2) {
+                                insertSEArray(resultObj.result.path[0].subPath[i].startX, resultObj.result.path[0].subPath[i].startY, 1);
+                                insertSEArray(resultObj.result.path[0].subPath[i].endX, resultObj.result.path[0].subPath[i].endY, 0);
                             }
                         }
+                        insertSEArray(ex, ey, 1);
+
                         $("#subwayResult").text(str);
                         console.log(str);
+
+                        //약간의 좌표 오차 어떻게 처리할 지 생각하기
+                        for(var i = 0; i < startArrIdx; i++) {
+                            // Tmap 경로찾기 초당 처리횟수 2회 제한
+                            if(i > 1) {
+                                //즉시 실행 함수로 closure 발생 방지
+                                (function () {
+                                    var currentI = i;
+                                    setTimeout(function () {
+                                        searchWalkRoute(sxArr[currentI], syArr[currentI], exArr[currentI], eyArr[currentI], 2);
+                                        console.log(sxArr[currentI]);
+                                    }, 1000);
+                                }());
+                            } else if(i == 0){
+                                searchWalkRoute(sxArr[i], syArr[i], exArr[i], eyArr[i], 0);
+                                console.log(sxArr[i]);
+                            } else {
+                                searchWalkRoute(sxArr[i], syArr[i], exArr[i], eyArr[i], 1);
+                                console.log(sxArr[i]);
+                            }
+                            console.log(i);
+                            console.log(test);
+                        }
                     }
                 }
             });
 }
 
 // 보행자 길찾기 경로 탐색 함수
-function searchWalkRoute(sx, sy, ex, ey) {
+function searchWalkRoute(sx, sy, ex, ey, option) {
 
-    var marker_s, marker_e;
     var drawInfoArr = [];
-    var resultdrawArr = [];
 
-    initTmap(sx, sy, ex, ey);
+    searchRoute(sx, sy, ex, ey, option);
 
-    function initTmap(sx, sy, ex, ey) {
+    function searchRoute(sx, sy, ex, ey, option) {
 
         var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정.
         var img= '/image/marker_icon-icons.com_54388.png';
 
         var markerImage = new kakao.maps.MarkerImage(img,size);
 
-        marker_s = new kakao.maps.Marker(
-            {
-                position : new kakao.maps.LatLng(37.56689860,
-                    126.97871544),
-                image: markerImage,
-                map : map
-            });
+        //기존 맵에 있던 정보들 초기화
+        if(option === 0) {
+            resettingMap();
+        }
 
-        // 도착
-        marker_e = new kakao.maps.Marker(
-            {
-                position : new kakao.maps.LatLng(37.57081522,
-                    127.00160213),
-                image: markerImage,
-                map : map
-            });
+        //JSON TYPE EDIT [S]
+        $
+            .ajax({
+                method : "POST",
+                url : "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
+                async : false,
+                data : {
+                    "appKey" : "l7xxb9472bf6b9384348b0109b1ba92a9c43",
+                    "startX" : sx,
+                    "startY" : sy,
+                    "endX" : ex,
+                    "endY" : ey,
+                    "reqCoordType" : "WGS84GEO",
+                    "resCoordType" : "EPSG3857",
+                    "startName" : "출발지",
+                    "endName" : "도착지"
+                },
+                success : function(response) {
+                    var resultData = response.features;
 
-        // 3. 경로탐색 API 사용요청
-        $("#btn_select2")
-            .click(
-                function () {
-                    //기존 맵에 있던 정보들 초기화
-                    resettingMap();
+                    drawInfoArr = [];
 
-                    //JSON TYPE EDIT [S]
-                    $
-                        .ajax({
-                            method : "POST",
-                            url : "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
-                            async : false,
-                            data : {
-                                "appKey" : "l7xxb9472bf6b9384348b0109b1ba92a9c43",
-                                "startX" : "126.97871544",
-                                "startY" : "37.56689860",
-                                "endX" : "127.00160213",
-                                "endY" : "37.57081522",
-                                "reqCoordType" : "WGS84GEO",
-                                "resCoordType" : "EPSG3857",
-                                "startName" : "출발지",
-                                "endName" : "도착지"
-                            },
-                            success : function(response) {
-                                var resultData = response.features;
+                    for ( var i in resultData) { //for문 [S]
+                        var geometry = resultData[i].geometry;
 
-                                //기존 그려진 라인 & 마커가 있다면 초기화
-                                if (resultdrawArr.length > 0) {
-                                    for ( var i in resultdrawArr) {
-                                        resultdrawArr[i]
-                                            .setMap(null);
-                                    }
-                                    resultdrawArr = [];
-                                }
-
-                                drawInfoArr = [];
-
-                                for ( var i in resultData) { //for문 [S]
-                                    var geometry = resultData[i].geometry;
-                                    var properties = resultData[i].properties;
-
-                                    if (geometry.type == "LineString") {
-                                        for ( var j in geometry.coordinates) {
-                                            // 경로들의 결과값(구간)들을 포인트 객체로 변환
-                                            var latlng = new kakao.maps.Point(
-                                                geometry.coordinates[j][0],
-                                                geometry.coordinates[j][1]);
-                                            // 포인트 객체를 받아 좌표값으로 변환
-                                            var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                                                latlng);
-                                            // 포인트객체의 정보로 좌표값 변환 객체로 저장
-                                            var convertChange = new kakao.maps.LatLng(
-                                                convertPoint._lat,
-                                                convertPoint._lng);
-                                            // 배열에 담기
-                                            drawInfoArr.push(convertChange);
-                                        }
-                                    } else {
-                                        var markerImg = "";
-                                        var pType = "";
-                                        var size;
-
-                                        if (properties.pointType == "S") { //출발지 마커
-                                            markerImg = "/image/marker_icon-icons.com_54388.png";
-                                            pType = "S";
-                                        } else if (properties.pointType == "E") { //도착지 마커
-                                            markerImg = "/image/marker_icon-icons.com_54388.png";
-                                            pType = "E";
-                                        } else { //각 포인트 마커
-                                            markerImg = "/image/check.png";
-                                            pType = "P";
-                                        }
-
-                                        // 경로들의 결과값들을 포인트 객체로 변환
-                                        var latlon = new kakao.maps.Point(
-                                            geometry.coordinates[0],
-                                            geometry.coordinates[1]);
-
-                                        // 포인트 객체를 받아 좌표값으로 다시 변환
-                                        var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                                            latlon);
-
-                                        var routeInfoObj = {
-                                            markerImage : markerImg,
-                                            lng : convertPoint._lng,
-                                            lat : convertPoint._lat,
-                                            pointType : pType
-                                        };
-
-                                    }
-                                }//for문 [E]
-                                drawLine(drawInfoArr);
-                            },
-                            error : function(request, status, error) {
-                                console.log("code:" + request.status + "\n"
-                                    + "message:" + request.responseText + "\n"
-                                    + "error:" + error);
+                        if (geometry.type == "LineString") {
+                            for ( var j in geometry.coordinates) {
+                                // 경로들의 결과값(구간)들을 포인트 객체로 변환
+                                var latlng = new kakao.maps.Point(
+                                    geometry.coordinates[j][0],
+                                    geometry.coordinates[j][1]);
+                                // 포인트 객체를 받아 좌표값으로 변환
+                                var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+                                    latlng);
+                                // 포인트객체의 정보로 좌표값 변환 객체로 저장
+                                var convertChange = new kakao.maps.LatLng(
+                                    convertPoint._lat,
+                                    convertPoint._lng);
+                                // 배열에 담기
+                                drawInfoArr.push(convertChange);
                             }
-                        });
+                        }
+                    }//for문 [E]
+
+                    //즉시 실행 함수로 closure 발생 방지
+                    if(option === 0) {
+                        (function () {
+                            var currentDrawInfoArr = drawInfoArr;
+
+                            //두번째 이후의 도보 경로 표시와 시간 맞추기
+                            setTimeout(function () {
+                                drawLine(currentDrawInfoArr);
+                            }, 1300);
+                        }());
+                    } else if (option === 1) {
+                        (function () {
+                            var currentDrawInfoArr = drawInfoArr;
+
+                            //두번째 이후의 도보 경로 표시와 시간 맞추기
+                            setTimeout(function () {
+                                drawLine(currentDrawInfoArr);
+                            }, 1000);
+                        }());
+                    } else {
+                        drawLine(drawInfoArr);
+                    }
+                },
+                error : function(request, status, error) {
+                    console.log("code:" + request.status + "\n"
+                        + "message:" + request.responseText + "\n"
+                        + "error:" + error);
                 }
-            );
+            });
     }
 
     function drawLine(arrPoint) {
@@ -350,4 +351,30 @@ function searchWalkRoute(sx, sy, ex, ey) {
         });
         resultdrawArr.push(polyline_);
     }
+}
+
+function insertSEArray(x, y, select) {
+
+    if(select == 0) {
+        sxArr[startArrIdx] = x;
+        syArr[startArrIdx] = y;
+        startArrIdx++;
+        console.log('start success');
+    } else if(select == 1) {
+        exArr[endArrIdx] = x;
+        eyArr[endArrIdx] = y;
+        endArrIdx++;
+        console.log('end success');
+    } else {
+        console.log('insertSEArray Error');
+    }
+}
+
+function  clearSEArray() {
+    sxArr = [];
+    syArr = [];
+    exArr = [];
+    eyArr = [];
+    startArrIdx = 0;
+    endArrIdx = 0;
 }

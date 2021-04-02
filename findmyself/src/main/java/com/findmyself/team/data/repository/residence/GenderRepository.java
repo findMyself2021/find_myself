@@ -1,10 +1,6 @@
 package com.findmyself.team.data.repository.residence;
 
-<<<<<<< HEAD:findmyself/src/main/java/com/findmyself/team/data/repository/residence/GenderRepository.java
-import com.findmyself.team.data.domain.ResidenceGender;
-=======
 import com.findmyself.team.data.domain.residence.ResidenceGender;
->>>>>>> master:findmyself/src/main/java/com/findmyself/team/data/repository/Residence/GenderRepository.java
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

@@ -1,7 +1,7 @@
-package com.findmyself.team.data.service.Traffic;
+package com.findmyself.team.data.service.traffic;
 
 import com.findmyself.team.data.domain.TrafficVolume;
-import com.findmyself.team.data.repository.Traffic.VolumeRepository;
+import com.findmyself.team.data.repository.traffic.VolumeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

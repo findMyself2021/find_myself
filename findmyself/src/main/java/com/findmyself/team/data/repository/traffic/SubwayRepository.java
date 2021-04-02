@@ -1,4 +1,4 @@
-package com.findmyself.team.data.repository.Traffic;
+package com.findmyself.team.data.repository.traffic;
 
 import com.findmyself.team.data.domain.TrafficSubway;
 import org.springframework.stereotype.Repository;

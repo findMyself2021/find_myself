@@ -1,9 +1,7 @@
-package com.findmyself.team.data.service.Residence;
+package com.findmyself.team.data.service.residence;
 
-import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.ResidenceGender;
-import com.findmyself.team.data.domain.Safety;
-import com.findmyself.team.data.repository.Residence.GenderRepository;
+import com.findmyself.team.data.repository.residence.GenderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

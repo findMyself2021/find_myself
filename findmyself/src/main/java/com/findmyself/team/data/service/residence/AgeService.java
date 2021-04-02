@@ -1,7 +1,7 @@
-package com.findmyself.team.data.service.Residence;
+package com.findmyself.team.data.service.residence;
 
 import com.findmyself.team.data.domain.ResidenceAge;
-import com.findmyself.team.data.repository.Residence.AgeRepository;
+import com.findmyself.team.data.repository.residence.AgeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

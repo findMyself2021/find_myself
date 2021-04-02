@@ -1,19 +1,16 @@
-package com.findmyself.team.data.service.Home;
+package com.findmyself.team.data.service.home;
 
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.*;
-import com.findmyself.team.data.repository.Home.ApartRepository;
-import com.findmyself.team.data.repository.Home.DandokRepository;
-import com.findmyself.team.data.repository.Home.DasedeRepository;
-import com.findmyself.team.data.repository.Home.OfficetelRepository;
-import com.findmyself.team.data.service.GudongService;
+import com.findmyself.team.data.repository.home.ApartRepository;
+import com.findmyself.team.data.repository.home.DandokRepository;
+import com.findmyself.team.data.repository.home.DasedeRepository;
+import com.findmyself.team.data.repository.home.OfficetelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 @Service

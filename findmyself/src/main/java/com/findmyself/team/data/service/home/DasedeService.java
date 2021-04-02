@@ -1,8 +1,7 @@
-package com.findmyself.team.data.service.Home;
+package com.findmyself.team.data.service.home;
 
-import com.findmyself.team.data.domain.HomeDandok;
 import com.findmyself.team.data.domain.HomeDasede;
-import com.findmyself.team.data.repository.Home.DasedeRepository;
+import com.findmyself.team.data.repository.home.DasedeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

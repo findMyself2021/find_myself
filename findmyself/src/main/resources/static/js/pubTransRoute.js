@@ -1,5 +1,5 @@
 // 대중교통 길찾기 지도에 표시하는 함수
-function searchPubTransRoot(ex, ey) {
+function searchPubTransRoute(ex, ey) {
 
     // 출발 위치
     var sx1 = 126.99332009924663;
@@ -87,7 +87,7 @@ function searchPubTransRoot(ex, ey) {
                     lineArray.push(new kakao.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
                 }
 
-                //지하철결과, 버스결과의 경우 노선에 따른 라인색상 지정하는 부분 (1~9호선 색상 추가 / 도보 표시 추가 필요)
+                //지하철결과, 버스결과의 경우 노선에 따른 라인색상 지정하는 부분 (1~9호선 색상 추가)
                 if(data.result.lane[i].type === 1){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
@@ -200,4 +200,154 @@ function searchSubwayStations(ex, ey) {
                     }
                 }
             });
+}
+
+// 보행자 길찾기 경로 탐색 함수
+function searchWalkRoute(sx, sy, ex, ey) {
+
+    var marker_s, marker_e;
+    var drawInfoArr = [];
+    var resultdrawArr = [];
+
+    initTmap(sx, sy, ex, ey);
+
+    function initTmap(sx, sy, ex, ey) {
+
+        var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정.
+        var img= '/image/marker_icon-icons.com_54388.png';
+
+        var markerImage = new kakao.maps.MarkerImage(img,size);
+
+        marker_s = new kakao.maps.Marker(
+            {
+                position : new kakao.maps.LatLng(37.56689860,
+                    126.97871544),
+                image: markerImage,
+                map : map
+            });
+
+        // 도착
+        marker_e = new kakao.maps.Marker(
+            {
+                position : new kakao.maps.LatLng(37.57081522,
+                    127.00160213),
+                image: markerImage,
+                map : map
+            });
+
+        // 3. 경로탐색 API 사용요청
+        $("#btn_select2")
+            .click(
+                function () {
+                    //기존 맵에 있던 정보들 초기화
+                    resettingMap();
+
+                    //JSON TYPE EDIT [S]
+                    $
+                        .ajax({
+                            method : "POST",
+                            url : "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
+                            async : false,
+                            data : {
+                                "appKey" : "l7xxb9472bf6b9384348b0109b1ba92a9c43",
+                                "startX" : "126.97871544",
+                                "startY" : "37.56689860",
+                                "endX" : "127.00160213",
+                                "endY" : "37.57081522",
+                                "reqCoordType" : "WGS84GEO",
+                                "resCoordType" : "EPSG3857",
+                                "startName" : "출발지",
+                                "endName" : "도착지"
+                            },
+                            success : function(response) {
+                                var resultData = response.features;
+
+                                //기존 그려진 라인 & 마커가 있다면 초기화
+                                if (resultdrawArr.length > 0) {
+                                    for ( var i in resultdrawArr) {
+                                        resultdrawArr[i]
+                                            .setMap(null);
+                                    }
+                                    resultdrawArr = [];
+                                }
+
+                                drawInfoArr = [];
+
+                                for ( var i in resultData) { //for문 [S]
+                                    var geometry = resultData[i].geometry;
+                                    var properties = resultData[i].properties;
+
+                                    if (geometry.type == "LineString") {
+                                        for ( var j in geometry.coordinates) {
+                                            // 경로들의 결과값(구간)들을 포인트 객체로 변환
+                                            var latlng = new kakao.maps.Point(
+                                                geometry.coordinates[j][0],
+                                                geometry.coordinates[j][1]);
+                                            // 포인트 객체를 받아 좌표값으로 변환
+                                            var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+                                                latlng);
+                                            // 포인트객체의 정보로 좌표값 변환 객체로 저장
+                                            var convertChange = new kakao.maps.LatLng(
+                                                convertPoint._lat,
+                                                convertPoint._lng);
+                                            // 배열에 담기
+                                            drawInfoArr.push(convertChange);
+                                        }
+                                    } else {
+                                        var markerImg = "";
+                                        var pType = "";
+                                        var size;
+
+                                        if (properties.pointType == "S") { //출발지 마커
+                                            markerImg = "/image/marker_icon-icons.com_54388.png";
+                                            pType = "S";
+                                        } else if (properties.pointType == "E") { //도착지 마커
+                                            markerImg = "/image/marker_icon-icons.com_54388.png";
+                                            pType = "E";
+                                        } else { //각 포인트 마커
+                                            markerImg = "/image/check.png";
+                                            pType = "P";
+                                        }
+
+                                        // 경로들의 결과값들을 포인트 객체로 변환
+                                        var latlon = new kakao.maps.Point(
+                                            geometry.coordinates[0],
+                                            geometry.coordinates[1]);
+
+                                        // 포인트 객체를 받아 좌표값으로 다시 변환
+                                        var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+                                            latlon);
+
+                                        var routeInfoObj = {
+                                            markerImage : markerImg,
+                                            lng : convertPoint._lng,
+                                            lat : convertPoint._lat,
+                                            pointType : pType
+                                        };
+
+                                    }
+                                }//for문 [E]
+                                drawLine(drawInfoArr);
+                            },
+                            error : function(request, status, error) {
+                                console.log("code:" + request.status + "\n"
+                                    + "message:" + request.responseText + "\n"
+                                    + "error:" + error);
+                            }
+                        });
+                }
+            );
+    }
+
+    function drawLine(arrPoint) {
+        var polyline_;
+
+        polyline_ = new kakao.maps.Polyline({
+            path : arrPoint,
+            strokeColor : "#DD0000",
+            strokeWeight : 3,
+            map: map
+        });
+        resultdrawArr.push(polyline_);
+    }
 }

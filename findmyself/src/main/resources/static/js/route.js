@@ -40,8 +40,9 @@ function initCarSearch(addr){
 
             //도착지 좌표값 전달
             initTmap(result[0].y,result[0].x);
-            searchPubTransRoot(result[0].x, result[0].y);
+            searchPubTransRoute(result[0].x, result[0].y);
             searchSubwayStations(result[0].x, result[0].y);
+            searchWalkRoute(0, 0, result[0].x, result[0].y);
         }
         else{
             alert('도로명 주소를 입력해주세요');

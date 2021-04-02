@@ -1,6 +1,5 @@
-package com.findmyself.team.data.repository.Residence;
+package com.findmyself.team.data.repository.residence;
 
-import com.findmyself.team.data.domain.HomeApart;
 import com.findmyself.team.data.domain.ResidenceGender;
 import org.springframework.stereotype.Repository;
 

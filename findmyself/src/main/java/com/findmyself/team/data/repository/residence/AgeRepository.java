@@ -1,7 +1,6 @@
-package com.findmyself.team.data.repository.Residence;
+package com.findmyself.team.data.repository.residence;
 
 import com.findmyself.team.data.domain.ResidenceAge;
-import com.findmyself.team.data.domain.ResidenceGender;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

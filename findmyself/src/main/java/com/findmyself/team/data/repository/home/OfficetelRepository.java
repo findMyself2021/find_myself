@@ -1,7 +1,5 @@
-package com.findmyself.team.data.repository.Home;
+package com.findmyself.team.data.repository.home;
 
-import com.findmyself.team.data.domain.HomeApart;
-import com.findmyself.team.data.domain.HomeDasede;
 import com.findmyself.team.data.domain.HomeOfficetel;
 import org.springframework.stereotype.Repository;
 

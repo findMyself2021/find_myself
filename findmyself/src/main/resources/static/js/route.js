@@ -1,4 +1,3 @@
-var markerInfo;
 //출발지,도착지 마커
 var marker_s, marker_e, marker_p;
 //경로그림정보

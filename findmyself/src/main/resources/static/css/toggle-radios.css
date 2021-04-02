@@ -69,7 +69,7 @@ CORE STYLES ABOVE - NO TOUCHY
 
 
 /* Large (lg) and up */
-@media (min-width:992px) {
+@media (min-width:1300px) {
 	.toggle-radio > input + label				{display:inline-block; float:left; border-width:1px 0 1px 1px;}
 	.toggle-radio > input:last-of-type + label 	{border-right-width:1px;}
 	.toggle-radio > input + label:before		{display:none;}
@@ -83,7 +83,7 @@ CORE STYLES ABOVE - NO TOUCHY
 	.toggle-radio[data-style='rounded'] > input:last-of-type + label {border-radius:0 500px 500px 0;}
 }
 
-/* Extra Large (xl) and up */
-@media (min-width:1200px) {
+/*!* Extra Large (xl) and up *!*/
+/*@media (min-width:1200px) {*/
 
-}
+/*}*/

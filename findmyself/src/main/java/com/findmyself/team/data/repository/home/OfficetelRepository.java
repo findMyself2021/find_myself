@@ -1,6 +1,6 @@
 package com.findmyself.team.data.repository.home;
 
-import com.findmyself.team.data.domain.HomeOfficetel;
+import com.findmyself.team.data.domain.home.HomeOfficetel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

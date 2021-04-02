@@ -1,6 +1,6 @@
 package com.findmyself.team.data.service.home;
 
-import com.findmyself.team.data.domain.HomeApart;
+import com.findmyself.team.data.domain.home.HomeApart;
 import com.findmyself.team.data.repository.home.ApartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

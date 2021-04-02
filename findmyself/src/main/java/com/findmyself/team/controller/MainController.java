@@ -43,7 +43,6 @@ public class MainController {
 
         List<Long> codeList = analysisService.analysis(rq);
 
-
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("msg","하이");

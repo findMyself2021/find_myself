@@ -1,6 +1,6 @@
 package com.findmyself.team.data.service.traffic;
 
-import com.findmyself.team.data.domain.TrafficSubway;
+import com.findmyself.team.data.domain.traffic.TrafficSubway;
 import com.findmyself.team.data.repository.traffic.SubwayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

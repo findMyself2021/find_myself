@@ -1,6 +1,6 @@
 package com.findmyself.team.data.repository.traffic;
 
-import com.findmyself.team.data.domain.TrafficAddress;
+import com.findmyself.team.data.domain.traffic.TrafficAddress;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

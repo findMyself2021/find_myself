@@ -1,4 +1,4 @@
-package com.findmyself.team.data.domain;
+package com.findmyself.team.data.domain.home;
 
 import lombok.Getter;
 import lombok.Setter;

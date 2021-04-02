@@ -1,6 +1,6 @@
 package com.findmyself.team.data.service.residence;
 
-import com.findmyself.team.data.domain.ResidenceGender;
+import com.findmyself.team.data.domain.residence.ResidenceGender;
 import com.findmyself.team.data.repository.residence.GenderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

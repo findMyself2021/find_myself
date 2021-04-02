@@ -1,6 +1,6 @@
 package com.findmyself.team.data.service.home;
 
-import com.findmyself.team.data.domain.HomeDandok;
+import com.findmyself.team.data.domain.home.HomeDandok;
 import com.findmyself.team.data.repository.home.DandokRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

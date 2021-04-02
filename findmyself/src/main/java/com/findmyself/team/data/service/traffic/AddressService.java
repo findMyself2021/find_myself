@@ -1,6 +1,6 @@
 package com.findmyself.team.data.service.traffic;
 
-import com.findmyself.team.data.domain.TrafficAddress;
+import com.findmyself.team.data.domain.traffic.TrafficAddress;
 import com.findmyself.team.data.repository.traffic.AddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

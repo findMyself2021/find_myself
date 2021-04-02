@@ -1,4 +1,4 @@
-package com.findmyself.team.data.domain;
+package com.findmyself.team.data.domain.residence;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,20 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "home_dasede")
+@Table(name = "gender")
 @Getter @Setter
-public class HomeDasede {
+public class ResidenceGender {
 
     @Id
     @GeneratedValue
     private Long h_code;
 
-    private String type;
-    private int date;
-    private int avg_deposit;
-    private int avg_monthly;
+    private int male;
+    private int female;
+    private double sex_ratio;
 
-    public HomeDasede(){
+    public ResidenceGender(){
 
     }
 }

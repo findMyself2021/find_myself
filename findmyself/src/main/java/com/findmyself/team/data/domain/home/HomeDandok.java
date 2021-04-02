@@ -1,4 +1,5 @@
-package com.findmyself.team.data.domain;
+package com.findmyself.team.data.domain.home;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,10 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "home_officetel")
-@Getter
-@Setter
-public class HomeOfficetel {
+@Table(name = "home_dandok")
+@Getter @Setter
+public class HomeDandok {
 
     @Id
     @GeneratedValue
@@ -23,7 +23,8 @@ public class HomeOfficetel {
     private int avg_deposit;
     private int avg_monthly;
 
-    public HomeOfficetel(){
+    public HomeDandok(){
 
     }
+
 }

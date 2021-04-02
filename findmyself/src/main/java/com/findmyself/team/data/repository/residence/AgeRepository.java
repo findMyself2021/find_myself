@@ -1,6 +1,10 @@
 package com.findmyself.team.data.repository.residence;
 
+<<<<<<< HEAD:findmyself/src/main/java/com/findmyself/team/data/repository/residence/AgeRepository.java
 import com.findmyself.team.data.domain.ResidenceAge;
+=======
+import com.findmyself.team.data.domain.residence.ResidenceAge;
+>>>>>>> master:findmyself/src/main/java/com/findmyself/team/data/repository/Residence/AgeRepository.java
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

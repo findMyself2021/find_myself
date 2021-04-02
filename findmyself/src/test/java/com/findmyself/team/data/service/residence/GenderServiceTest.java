@@ -1,6 +1,9 @@
-package com.findmyself.team.data.service.Residence;
+package com.findmyself.team.data.service.residence;
 
+<<<<<<< HEAD:findmyself/src/test/java/com/findmyself/team/data/service/residence/GenderServiceTest.java
+=======
 import com.findmyself.team.data.service.residence.GenderService;
+>>>>>>> master:findmyself/src/test/java/com/findmyself/team/data/service/Residence/GenderServiceTest.java
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

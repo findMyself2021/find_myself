@@ -1,6 +1,6 @@
-var markerInfo;
 //출발지,도착지 마커
 var marker_s, marker_e, marker_p;
+var customOverlay;
 //경로그림정보
 var drawInfoArr = [];
 var drawInfoArr2 = [];
@@ -10,7 +10,7 @@ var resultdrawArr = [];
 var resultMarkerArr = [];
 
 //목적지 마커 표시
-function initCarSearch(addr){
+function initDestSearch(addr){
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
 
@@ -39,9 +39,10 @@ function initCarSearch(addr){
             map.setCenter(coords);
 
             //도착지 좌표값 전달
-            initTmap(result[0].y,result[0].x);
-            searchPubTransRoot(result[0].x, result[0].y);
+            searchCarRoute(result[0].y,result[0].x);
+            searchPubTransRoute(result[0].x, result[0].y);
             searchSubwayStations(result[0].x, result[0].y);
+            //searchWalkRoute(0, 0, result[0].x, result[0].y);
         }
         else{
             alert('도로명 주소를 입력해주세요');
@@ -50,10 +51,13 @@ function initCarSearch(addr){
 }
 
 // 나중에 값 전달받기
-function initTmap(endX,endY) {
+function searchCarRoute(endX,endY) {
 
     // 출발지점
+    var startX = 37.56093749910637;
+    var startY = 126.99332009924663;
 
+    // 마커 이미지 및 사이즈 설정
     var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
     var img= '/image/marker_icon-icons.com_54388.png';
 
@@ -61,8 +65,7 @@ function initTmap(endX,endY) {
 
     marker_s = new kakao.maps.Marker(
         {
-            position : new kakao.maps.LatLng(37.56093749910637,
-                126.99332009924663),
+            position : new kakao.maps.LatLng(startX,startY),
             image: markerImage,
             map : map
         });
@@ -89,8 +92,8 @@ function initTmap(endX,endY) {
                         async : false,
                         data : {
                             "appKey" : "l7xx054e772885bf4fd6bff6bbf96c1884af",
-                            "startX" : "126.99332009924663",
-                            "startY" : "37.56093749910637",
+                            "startX" : startY,
+                            "startY" : startX,
                             "endX" : endY,
                             "endY" : endX,
                             "reqCoordType" : "WGS84GEO",
@@ -130,7 +133,7 @@ function initTmap(endX,endY) {
 
 
                             // 커스텀 오버레이를 생성합니다
-                            var customOverlay = new kakao.maps.CustomOverlay({
+                            customOverlay = new kakao.maps.CustomOverlay({
                                 position: new kakao.maps.LatLng(endX,endY),
                                 content: content,
                                 //왼쪽 오른쪽
@@ -455,6 +458,7 @@ function resettingMap() {
     //기존마커는 삭제
     marker_s.setMap(null);
     marker_e.setMap(null);
+    customOverlay.setMap(null);
 
     if (resultMarkerArr.length > 0) {
         for (var i = 0; i < resultMarkerArr.length; i++) {

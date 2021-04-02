@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>지하철역 좌표기반 행정동 얻기</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3307bbc0407ac229de9a6bffbd700bed&libraries=services"></script>
+    <script type="text/javascript" src="/js/map.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<script th:inline="javascript">
+    var result_list = new Map();   //추출한 행정동 맵
+    let cnt=1;
+    /*<![CDATA[*/
+    var subwayList = /*[[ ${subwayList} ]]*/; //지하철역 좌표 리스트 by DB
+    /*]]*/
+    console.log("원본 사이즈: "+subwayList.length);
+    function bringHdong(x,y,cnt) {   //좌표를 통해 행정동 리스트 얻기 by api
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        geocoder.coord2RegionCode(x, y, function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                for(var i = 0; i < result.length; i++) {
+                    // 행정동의 region_type 값은 'H' 이므로
+                    if (result[i].region_type === 'H') {
+                        console.log(x+"좌표의 행정동: "+result[i].code);
+                        result_list.set(x,result[i].code);
+                        console.log(result_list.get(x));
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    //api는 한번만 사용 가능 -> 원격으로 하나씩 api 호출
+    console.log("2번째 확인: "+subwayList.length);
+    for(var j=0; j<subwayList.length; j++){
+        document.write('<p>지하철역이름: ' +subwayList[j].name+' </p>' +
+            '<button id="'+cnt+'" type="button" onclick="bringHdong('+subwayList[j].longitude+','+subwayList[j].latitude+','+cnt+');">변환</button>' +
+            '<br>');
+        document.getElementById(cnt).click();   //원격 클릭 조종
+        cnt++;
+    }
+    console.log("클릭 완료");
+</script>
+<!--<input class="button" type="button" value="리스트 전송하기" onclick="gogo();"/>-->
+<!--<script>-->
+<!--    function gogo(){-->
+<!--        result_list.forEach((value, key, mapObject) =>-->
+<!--                console.log(key +' , ' +value));-->
+
+<!--        $.ajax({-->
+<!--            method: 'post',-->
+<!--            url: '/postSubwayInfo',-->
+<!--            contentType: "application/json",-->
+<!--            data: JSON.stringify(result_list),-->
+<!--            success: function (res) {-->
+<!--                if (res.result) {-->
+<!--                    alert("완료 되었습니다");-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+</script>
+<form action="/postSubwayInfo" method="post" onsubmit="return transResult()">
+    <input type="hidden" id="result_input" name="resultList" value="">
+    <input class="button" type="submit" value="리스트 전송하기"/>
+</form>
+<script>
+    //결과 리스트 전달
+    function transResult(){
+        document.getElementById("result_input").value=JSON.stringify(result_list);
+
+        result_list.forEach((value, key, mapObject) =>
+            console.log(key +' , ' +value)
+        );
+
+        if(result_list != null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

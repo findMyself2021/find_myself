@@ -9,20 +9,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "bus")
+@Table(name = "subway_location")
 @Getter
 @Setter
-public class TrafficBus {
+public class TrafficSubwayLocation {
+
+    private String name;
 
     @Id
     @GeneratedValue
-    private String name;
+    private double longitude;
 
-    private double x;
-    private double y;
+    private double latitude;
 
     private Long h_code;
 
-    public TrafficBus(){}
-
+    public TrafficSubwayLocation(){}
 }
+
+

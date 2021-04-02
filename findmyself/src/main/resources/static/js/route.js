@@ -10,7 +10,7 @@ var resultdrawArr = [];
 var resultMarkerArr = [];
 
 //목적지 마커 표시
-function initCarSearch(addr){
+function initDestSearch(addr){
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
 
@@ -39,7 +39,7 @@ function initCarSearch(addr){
             map.setCenter(coords);
 
             //도착지 좌표값 전달
-            initTmap(result[0].y,result[0].x);
+            searchCarRoute(result[0].y,result[0].x);
             searchPubTransRoute(result[0].x, result[0].y);
             searchSubwayStations(result[0].x, result[0].y);
             searchWalkRoute(0, 0, result[0].x, result[0].y);
@@ -51,10 +51,13 @@ function initCarSearch(addr){
 }
 
 // 나중에 값 전달받기
-function initTmap(endX,endY) {
+function searchCarRoute(endX,endY) {
 
     // 출발지점
+    var startX = 37.56093749910637;
+    var startY = 126.99332009924663;
 
+    // 마커 이미지 및 사이즈 설정
     var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
     var img= '/image/marker_icon-icons.com_54388.png';
 
@@ -62,8 +65,7 @@ function initTmap(endX,endY) {
 
     marker_s = new kakao.maps.Marker(
         {
-            position : new kakao.maps.LatLng(37.56093749910637,
-                126.99332009924663),
+            position : new kakao.maps.LatLng(startX,startY),
             image: markerImage,
             map : map
         });
@@ -90,8 +92,8 @@ function initTmap(endX,endY) {
                         async : false,
                         data : {
                             "appKey" : "l7xx054e772885bf4fd6bff6bbf96c1884af",
-                            "startX" : "126.99332009924663",
-                            "startY" : "37.56093749910637",
+                            "startX" : startY,
+                            "startY" : startX,
                             "endX" : endY,
                             "endY" : endX,
                             "reqCoordType" : "WGS84GEO",

@@ -26,6 +26,7 @@
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx054e772885bf4fd6bff6bbf96c1884af"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="/js/map.js"></script>
     <script type="text/javascript" src="/js/route.js"></script>
     <script type="text/javascript" src="/js/pubTransRoute.js"></script>
@@ -261,6 +262,9 @@
                                     <li class="nav-item mr-2 mr-md-0">
                                         <button class="btn btn-sm btn-primary" id="btn_select2">대중교통 경로 검색</button>
                                     </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postStationInfo()">테스트</button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -419,6 +423,27 @@
         </footer>
     </div>
 </div>
+<script>
+    function postStationInfo() {
+        console.log(subwayStationResults);
+        $('.sub_Result').val(subwayStationResults);
+
+        $.ajax({
+            type : "POST",
+            url : "/mapAnalysis2",
+            data : $("#postStationForm").serialize(),
+            error : function(error) {
+                console.log("error");
+            },
+            success : function(data) {
+                console.log("success");
+            }
+        });
+    }
+</script>
+<form id="postStationForm" name="postStationForm">
+    <input class="sub_Result" id="sub_Result" name="sub_Result" type="hidden">
+</form>
 </body>
 
 </html>

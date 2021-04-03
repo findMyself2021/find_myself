@@ -40,9 +40,8 @@ function initDestSearch(startX,startY,addr){
 
             //도착지 좌표값 전달
             searchCarRoute(startX,startY,result[0].y,result[0].x);
-            searchPubTransRoute(result[0].x, result[0].y);
-            searchSubwayStations(result[0].x, result[0].y);
-            //searchWalkRoute(0, 0, result[0].x, result[0].y);
+            searchPubTransRoute(startY, startX, result[0].x, result[0].y);
+            searchSubwayStations(startY, startX, result[0].x, result[0].y);
         }
         else{
             alert('도로명 주소를 입력해주세요');

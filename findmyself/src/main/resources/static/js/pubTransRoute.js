@@ -2,13 +2,9 @@ var sxArr = [], syArr = [];
 var exArr = [], eyArr = [];
 var startArrIdx = 0, endArrIdx = 0;
 var test = 0;
-
+var subwayStationResults = "";
 // 대중교통 길찾기 지도에 표시하는 함수
-function searchPubTransRoute(ex, ey) {
-
-    // 출발 위치
-    var sx1 = 126.99332009924663;
-    var sy1 = 37.56093749910637;
+function searchPubTransRoute(sx, sy, ex, ey) {
 
     $("#btn_select2")
         .click(
@@ -18,7 +14,7 @@ function searchPubTransRoute(ex, ey) {
                 function searchPubTransPathAJAX() {
                     var xhr = new XMLHttpRequest();
                     //ODsay apiKey 입력
-                    var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+sx1+"&SY="+sy1+"&EX="+ex+"&EY="+ey+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
+                    var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ";
                     xhr.open("GET", url, true);
                     xhr.send();
                     xhr.onreadystatechange = function() {
@@ -45,22 +41,19 @@ function searchPubTransRoute(ex, ey) {
 
                             //즉시 실행 함수로 closure 발생 방지
                             (function () {
-                                var currentsx1 = sx1;
-                                var currentsy1 = sy1;
+                                var currentsx = sx;
+                                var currentsy = sy;
                                 var currentex = ex;
                                 var currentey = ey;
                                 var currentResultJsonData = resultJsonData;
 
                                 //도보 경로 표시와 시간 맞추기
                                 setTimeout(function () {
-                                    drawKakaoMarker(currentsx1,currentsy1, 0);					// 출발지 마커 표시
+                                    drawKakaoMarker(currentsx,currentsy, 0);					// 출발지 마커 표시
                                     drawKakaoMarker(currentex,currentey, 1);					// 도착지 마커 표시
                                     drawKakaoPolyLine(currentResultJsonData);
                                 }, 1000);
                             }());
-                            //drawKakaoMarker(sx1,sy1, 0);					// 출발지 마커 표시
-                            //drawKakaoMarker(ex,ey, 1);					// 도착지 마커 표시
-                            //drawKakaoPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
                         }
                     }
                 }
@@ -179,7 +172,7 @@ function searchPubTransRoute(ex, ey) {
 }
 
 // 대중교통 길찾기 경로내의 지하철역 이름 검색하는 함수
-function searchSubwayStations(ex, ey) {
+function searchSubwayStations(sx, sy, ex, ey) {
     $("#btn_select2")
         .click(
             function () {
@@ -189,10 +182,10 @@ function searchSubwayStations(ex, ey) {
                 var sy1 = 37.56093749910637;
 
                 clearSEArray();
-                insertSEArray(sx1, sy1, 0);
+                insertSEArray(sx, sy, 0);
 
                 var xhr = new XMLHttpRequest();
-                var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=" + sx1 + "&SY=" + sy1 + "&EX=" + ex + "&EY=" + ey + "&SearchPathType=0";
+                var url = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey=VYYJtQrZq5ere3U%2BvOoPhLmqgvRTrFzcpLKrRaKvpcQ&lang=0&SX=" + sx + "&SY=" + sy + "&EX=" + ex + "&EY=" + ey + "&SearchPathType=0";
                 xhr.open("GET", url, true);
                 xhr.send();
                 xhr.onreadystatechange = function () {
@@ -204,9 +197,9 @@ function searchSubwayStations(ex, ey) {
                         for (var i = 0; i < resultObj.result.path[0].subPath.length; i++) {
                             if(resultObj.result.path[0].subPath[i].trafficType == 1) {
                                 for(var j = 0; j < resultObj.result.path[0].subPath[i].passStopList.stations.length - 1; j++) {
-                                    str += "역이름 : " + resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
+                                    str += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
                                 }
-                                str += "역이름 : " + resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
+                                str += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
                                 insertSEArray(resultObj.result.path[0].subPath[i].startX, resultObj.result.path[0].subPath[i].startY, 1);
                                 insertSEArray(resultObj.result.path[0].subPath[i].endX, resultObj.result.path[0].subPath[i].endY, 0);
                             } else if(resultObj.result.path[0].subPath[i].trafficType == 2) {
@@ -217,30 +210,43 @@ function searchSubwayStations(ex, ey) {
                         insertSEArray(ex, ey, 1);
 
                         $("#subwayResult").text(str);
+
                         console.log(str);
 
                         //약간의 좌표 오차 어떻게 처리할 지 생각하기
                         for(var i = 0; i < startArrIdx; i++) {
                             // Tmap 경로찾기 초당 처리횟수 2회 제한
-                            if(i > 1) {
+                            if(i > 3) {
                                 //즉시 실행 함수로 closure 발생 방지
                                 (function () {
                                     var currentI = i;
                                     setTimeout(function () {
                                         searchWalkRoute(sxArr[currentI], syArr[currentI], exArr[currentI], eyArr[currentI], 2);
                                         console.log(sxArr[currentI]);
+                                    }, 2000);
+                                }());
+                            } else if(i === 2 || i === 3) {
+                                //즉시 실행 함수로 closure 발생 방지
+                                (function () {
+                                    var currentI2 = i;
+                                    setTimeout(function () {
+                                        searchWalkRoute(sxArr[currentI2], syArr[currentI2], exArr[currentI2], eyArr[currentI2], 2);
+                                        console.log(sxArr[currentI2]);
                                     }, 1000);
                                 }());
-                            } else if(i == 0){
-                                searchWalkRoute(sxArr[i], syArr[i], exArr[i], eyArr[i], 0);
-                                console.log(sxArr[i]);
                             } else {
                                 searchWalkRoute(sxArr[i], syArr[i], exArr[i], eyArr[i], 1);
                                 console.log(sxArr[i]);
                             }
-                            console.log(i);
+
+                            //오류 확인용
                             console.log(test);
+                            test++;
+                            if(test > 30)
+                                break;
                         }
+                        console.log(str);
+                        subwayStationResults = str;
                     }
                 }
             });
@@ -254,11 +260,6 @@ function searchWalkRoute(sx, sy, ex, ey, option) {
     searchRoute(sx, sy, ex, ey, option);
 
     function searchRoute(sx, sy, ex, ey, option) {
-
-        var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정.
-        var img= '/image/marker_icon-icons.com_54388.png';
-
-        var markerImage = new kakao.maps.MarkerImage(img,size);
 
         //기존 맵에 있던 정보들 초기화
         if(option === 0) {

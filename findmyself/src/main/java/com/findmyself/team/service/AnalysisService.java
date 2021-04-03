@@ -1,11 +1,15 @@
 package com.findmyself.team.service;
 
 import com.findmyself.team.Requirements;
+import com.findmyself.team.data.repository.traffic.InfoResultRepository;
 import com.findmyself.team.data.service.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.data.service.home.HomeService;
 import com.findmyself.team.data.service.residence.AgeService;
 import com.findmyself.team.data.service.residence.GenderService;
+import com.findmyself.team.data.service.traffic.BusLocationService;
+import com.findmyself.team.data.service.traffic.InfoResultService;
+import com.findmyself.team.data.service.traffic.SubwayLocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +27,16 @@ public class AnalysisService {
 
     @Autowired
     HomeService homeService;
+
+    @Autowired
+    InfoResultService infoResultService;
+
     @Autowired
     ConvenientService convenientService;
+
     @Autowired
     GenderService genderService;
+
     @Autowired
     AgeService ageService;
 
@@ -35,37 +45,40 @@ public class AnalysisService {
 
     public List<Long> analysis(Requirements rq){
         List<Long> result = new ArrayList<>();
-        HashSet<Long> codeList = new HashSet<>();
+        List<Long> codeList = new ArrayList<>();
 
         HashSet<Long> homeList = homeService.analysis(rq);
+        HashSet<Long> trafficList = infoResultService.analysis(rq.getTraffic());
         HashSet<Long> convenientList = convenientService.analysis(rq.getConvenient());
         HashSet<Long> genderList = genderService.analysis(rq.getSex_ratio());
         HashSet<Long> ageList = ageService.analysis(rq.getAge_type());
 
         //중복된 행정동 정리
+        //각 리스트에 공통으로 포함되는 행정동만 추출  !
+        Long tmp;
+        int cnt=0;
         Iterator<Long> it_h = homeList.iterator();
         while (it_h.hasNext()) {
-            codeList.add(it_h.next());
-        }
-        Iterator<Long> it_c = convenientList.iterator();
-        while (it_c.hasNext()) {
-            codeList.add(it_c.next());
-        }
-        Iterator<Long> it_g = genderList.iterator();
-        while (it_g.hasNext()) {
-            codeList.add(it_g.next());
-        }
-        Iterator<Long> it_a = ageList.iterator();
-        while (it_a.hasNext()) {
-            codeList.add(it_a.next());
+            tmp = it_h.next();
+            if(trafficList.contains(tmp)){
+               cnt++;
+            }if(convenientList.contains(tmp)){
+                cnt++;
+            }if(genderList.contains(tmp)){
+                cnt++;
+            }if(ageList.contains(tmp)) {
+                cnt++;
+            }
+            if(cnt>2){
+                codeList.add(tmp);
+            }
         }
 
-        Iterator<Long> it_code = codeList.iterator();
-        while (it_code.hasNext()) {
-            result.add(it_code.next());
+        for(Long tt:codeList){
+            System.out.println(tt);
         }
 
         // 안전 요소, 교통요소(길찾기 처리 필요) -> 구별로 나뉨 -> 마지막에 분류해주기
-        return result;
+        return codeList;
     }
 }

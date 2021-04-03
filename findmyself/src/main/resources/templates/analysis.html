@@ -287,10 +287,14 @@
                                 //목적지
                                 var dest = [[${addr}]];
 
+                                //행정동 별 중심 위도, 경도
+                                var center_x = [[${center_x}]];
+                                var center_y = [[${center_y}]];
+
                                 Draw_HangJungDong(hcode,dest);
 
                                 // 도착지점 지정
-                                initDestSearch(dest);
+                                initDestSearch(center_x,center_y,dest);
                             </script>
                         </div><br>
                         <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>

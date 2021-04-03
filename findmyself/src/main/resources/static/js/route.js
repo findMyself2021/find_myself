@@ -10,7 +10,7 @@ var resultdrawArr = [];
 var resultMarkerArr = [];
 
 //목적지 마커 표시
-function initDestSearch(addr){
+function initDestSearch(startX,startY,addr){
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
 
@@ -39,7 +39,7 @@ function initDestSearch(addr){
             map.setCenter(coords);
 
             //도착지 좌표값 전달
-            searchCarRoute(result[0].y,result[0].x);
+            searchCarRoute(startX,startY,result[0].y,result[0].x);
             searchPubTransRoute(result[0].x, result[0].y);
             searchSubwayStations(result[0].x, result[0].y);
             //searchWalkRoute(0, 0, result[0].x, result[0].y);
@@ -51,11 +51,11 @@ function initDestSearch(addr){
 }
 
 // 나중에 값 전달받기
-function searchCarRoute(endX,endY) {
+function searchCarRoute(startX,startY,endX,endY) {
 
     // 출발지점
-    var startX = 37.56093749910637;
-    var startY = 126.99332009924663;
+    // var startX = 37.56093749910637;
+    // var startY = 126.99332009924663;
 
     // 마커 이미지 및 사이즈 설정
     var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.

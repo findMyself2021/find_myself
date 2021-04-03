@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -50,5 +52,16 @@ public class MapController {
         model.addAttribute("center_y",lng);
 
         return "analysis";
+    }
+
+    @RequestMapping(value = "/mapAnalysis2")
+    @ResponseBody
+    public String getStationInfo(HttpServletRequest httpServletRequest) {
+
+        String stations = httpServletRequest.getParameter("sub_Result");
+        System.out.println("test : " + stations);
+        trafficService.searchSubwayInfo(stations);
+
+        return null;
     }
 }

@@ -26,7 +26,6 @@ public class TrafficService {
 
         //for(int i=0; i<stations.length; i++) {
         for(int i=0; i<stations.length; i++) {
-            System.out.println(stations[i]);
             td.setIn_0h(subwayService.findOne(stations[i]).getIn_0h());
             td.setIn_1h(subwayService.findOne(stations[i]).getIn_1h());
             td.setIn_4h(subwayService.findOne(stations[i]).getIn_4h());
@@ -50,7 +49,7 @@ public class TrafficService {
             td.setIn_22h(subwayService.findOne(stations[i]).getIn_22h());
             td.setIn_23h(subwayService.findOne(stations[i]).getIn_23h());
 
-            System.out.println(subwayService.findOne(stations[i]).getIn_23h());
+            System.out.println(stations[i] + "역 1년간 23~24시 승차인원 : " +subwayService.findOne(stations[i]).getIn_23h());
         }
 
         test = Integer.toString(subwayService.findOne(stations[0]).getIn_23h());

@@ -8,13 +8,14 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
+<input class="button" type="button" value="데이터 전송" onclick="postSubwayInfo();"/>
 <script th:inline="javascript">
-    var result_list = new Map();   //추출한 행정동 맵
     let cnt=1;
     /*<![CDATA[*/
     var subwayList = /*[[ ${subwayList} ]]*/; //지하철역 좌표 리스트 by DB
     /*]]*/
-    console.log("원본 사이즈: "+subwayList.length);
+    var resultObj = {}; //추출한 정보 (경도 : 행정동 코드)
+
     function bringHdong(x,y,cnt) {   //좌표를 통해 행정동 리스트 얻기 by api
         var geocoder = new kakao.maps.services.Geocoder();
 
@@ -24,8 +25,7 @@
                     // 행정동의 region_type 값은 'H' 이므로
                     if (result[i].region_type === 'H') {
                         console.log(x+"좌표의 행정동: "+result[i].code);
-                        result_list.set(x,result[i].code);
-                        console.log(result_list.get(x));
+                        resultObj[x]=result[i].code;
                         break;
                     }
                 }
@@ -34,7 +34,6 @@
     }
 
     //api는 한번만 사용 가능 -> 원격으로 하나씩 api 호출
-    console.log("2번째 확인: "+subwayList.length);
     for(var j=0; j<subwayList.length; j++){
         document.write('<p>지하철역이름: ' +subwayList[j].name+' </p>' +
             '<button id="'+cnt+'" type="button" onclick="bringHdong('+subwayList[j].longitude+','+subwayList[j].latitude+','+cnt+');">변환</button>' +
@@ -42,45 +41,25 @@
         document.getElementById(cnt).click();   //원격 클릭 조종
         cnt++;
     }
-    console.log("클릭 완료");
+    alert("데이터 추출 완료");
 </script>
-<!--<input class="button" type="button" value="리스트 전송하기" onclick="gogo();"/>-->
-<!--<script>-->
-<!--    function gogo(){-->
-<!--        result_list.forEach((value, key, mapObject) =>-->
-<!--                console.log(key +' , ' +value));-->
-
-<!--        $.ajax({-->
-<!--            method: 'post',-->
-<!--            url: '/postSubwayInfo',-->
-<!--            contentType: "application/json",-->
-<!--            data: JSON.stringify(result_list),-->
-<!--            success: function (res) {-->
-<!--                if (res.result) {-->
-<!--                    alert("완료 되었습니다");-->
-<!--                }-->
-<!--            }-->
-<!--        });-->
-<!--    }-->
-</script>
-<form action="/postSubwayInfo" method="post" onsubmit="return transResult()">
-    <input type="hidden" id="result_input" name="resultList" value="">
-    <input class="button" type="submit" value="리스트 전송하기"/>
-</form>
 <script>
-    //결과 리스트 전달
-    function transResult(){
-        document.getElementById("result_input").value=JSON.stringify(result_list);
+    function postSubwayInfo(){
+        // for(var key in resultObj){
+        //     var personObj = resultObj[key];
+        //     console.log(key + ", " + personObj);
+        // }
 
-        result_list.forEach((value, key, mapObject) =>
-            console.log(key +' , ' +value)
-        );
-
-        if(result_list != null){
-            return true;
-        }else{
-            return false;
-        }
+        $.ajax({
+            method: 'post',
+            url: '/postSubwayInfo',
+            dataType   : 'json',
+            contentType: "application/json",
+            data: JSON.stringify(resultObj),
+            success: function (data) {
+                alert("데이터 업뎃 완료.");
+            }
+        });
     }
 </script>
 </body>

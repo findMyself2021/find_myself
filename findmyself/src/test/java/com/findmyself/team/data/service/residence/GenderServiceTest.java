@@ -1,9 +1,6 @@
-package com.findmyself.team.data.service.residence;
+package com.findmyself.team.data.service.Residence;
 
-<<<<<<< HEAD:findmyself/src/test/java/com/findmyself/team/data/service/residence/GenderServiceTest.java
-=======
 import com.findmyself.team.data.service.residence.GenderService;
->>>>>>> master:findmyself/src/test/java/com/findmyself/team/data/service/Residence/GenderServiceTest.java
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

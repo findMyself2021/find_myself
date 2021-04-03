@@ -5,17 +5,11 @@ import com.findmyself.team.data.domain.traffic.TrafficSubwayLocation;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.data.service.traffic.BusLocationService;
 import com.findmyself.team.data.service.traffic.SubwayLocationService;
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,18 +31,17 @@ public class TrafficInfoController {
         return "busLocation";
     }
 
-    @PostMapping(value = "/postBusInfo")
-    public String loadBusInfo(@RequestParam("resultList") List<String> result){
-        System.out.println("크기: "+result.size());
-        List<TrafficBusLocation> busList = busLocationService.findAll();
-        for(int i=0; i<result.size(); i++){
-            //System.out.println(result.get(i));
-            busLocationService.updateCodeByLongitude(
-                    gudongService.findCodeByDong(result.get(i)),
-                    busList.get(i).getLongitude());
+    @ResponseBody
+    @RequestMapping("/postBusInfo")
+    public String loadBusInfo(@RequestBody Map<String, String> param) throws Exception {
+
+        for(String key : param.keySet()){
+            //System.out.println(key+", "+param.get(key));
+            busLocationService.updateCodeByLongitude(Double.parseDouble(key), Long.parseLong(param.get(key)));
         }
-        System.out.println("정류장 위치기반 행정동 코드 가져오기 완료");
-        return "empty";
+        System.out.println("정류장 좌표기반 행정동 코드 업뎃 완료.");
+
+        return JSONObject.toJSONString(param);
     }
 
     @GetMapping(value = "/getSubwayInfo")    //로그인 화면으로 이동할때(개발중)
@@ -59,24 +52,17 @@ public class TrafficInfoController {
         return "subwayLocation";
     }
 
-    //@ResponseBody
-    //@RequestMapping(path = "/postSubwayInfo")
-    @PostMapping(value = "/postSubwayInfo")
-    public String loadSubwayInfo(@RequestParam("resultList") String data) throws Exception {
-//        System.out.println("크기: "+map.size());
-//////        List<TrafficSubwayLocation> subwayList = subwayLocationService.findAll();
-//        for(String key : map.keySet()){
-//            System.out.println(key+", "+map.get(key));
-//            //subwayLocationService.updateCodeByLongitude(Long.parseLong(map.get(key)),Double.parseDouble(key));
-//        }
-//        System.out.println("지하철역 위치기반 행정동 코드 가져오기 완료");
+    @ResponseBody
+    @RequestMapping(value="/postSubwayInfo", method=RequestMethod.POST)
+    public String loadSubwayInfo(@RequestBody Map<String, String> param) {
 
-//        JSONParser jsonParser = new JSONParser();
-//        JSONArray insertParam = (JSONArray) jsonParser.parse(data);
-//        for(int i=0; i<insertParam.size(); i++) {
-//            //배열 안에 있는것도 JSON형식 이기 때문에 JSON Object 로 추출
-//            JSONObject insertData = (JSONObject) insertParam.get(i);
-//        }
-        return "empty";
+        for(String key : param.keySet()){
+            System.out.println(key+", "+param.get(key));
+            subwayLocationService.updateCodeByLongitude(Double.parseDouble(key), Long.parseLong(param.get(key)));
+        }
+        System.out.println("지하철역 좌표기반 행정동 코드 업뎃 완료.");
+
+        return JSONObject.toJSONString(param);
     }
+
 }

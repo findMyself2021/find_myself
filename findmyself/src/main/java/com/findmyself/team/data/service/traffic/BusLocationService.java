@@ -20,7 +20,7 @@ public class BusLocationService {
     }
 
     @Transactional
-    public void updateCodeByLongitude(Long h_code, double longitude){ //정류장 이름으로 행정동 코드 업뎃
+    public void updateCodeByLongitude(double longitude, Long h_code){ //경도로 행정동 코드 업뎃
         TrafficBusLocation bus = busLocationRepository.findOneByLongitude(longitude);
         bus.setH_code(h_code);
     }

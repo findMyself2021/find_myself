@@ -5,56 +5,64 @@
     <title>정류장 좌표기반 행정동 얻기</title>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3307bbc0407ac229de9a6bffbd700bed&libraries=services"></script>
     <script type="text/javascript" src="/js/map.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
+<input class="button" type="button" value="데이터 전송" onclick="postBusInfo();"/>
 <script th:inline="javascript">
-    var result_list = new Map();   //추출한 행정동 맵
     let cnt=1;
     /*<![CDATA[*/
     var busList = /*[[ ${busList} ]]*/; //정류장 좌표 리스트 by DB
     /*]]*/
-    console.log("원본 사이즈: "+busList.length);
+    var resultObj = {}; //추출한 정보 (경도 : 행정동 코드)
+
     function bringHdong(x,y,cnt) {   //좌표를 통해 행정동 리스트 얻기 by api
         var geocoder = new kakao.maps.services.Geocoder();
 
-        var callback = function (result, status) {
+        geocoder.coord2RegionCode(x, y, function (result, status) {
             if (status === kakao.maps.services.Status.OK) {
                 for(var i = 0; i < result.length; i++) {
                     // 행정동의 region_type 값은 'H' 이므로
                     if (result[i].region_type === 'H') {
-                        window.result_list.set(result[i].region_3depth_name);
+                        console.log(x+"좌표의 행정동: "+result[i].code);
+                        resultObj[x]=result[i].code;
                         break;
                     }
                 }
             }
-        };
-        geocoder.coord2RegionCode(x, y, callback);
+        });
     }
 
+    alert("크기: "+busList.length);
     //api는 한번만 사용 가능 -> 원격으로 하나씩 api 호출
-    console.log("2번째 확인: "+busList.length);
     for(var j=0; j<busList.length; j++){
-        document.write('<p>정류장이름: ' +busList[j].name+' </p>' +
-            '<button id="'+cnt+'" type="button" onclick="bringHdong('+busList[j].longitude+','+busList[j].latitude+','+cnt+');">변환</button>' +
-            '<br>');
-        document.getElementById(cnt).click();   //원격 클릭 조종
-        cnt++;
-    }
-    console.log("클릭 완료");
-</script>
-<form action="/postBusInfo" method="post" onsubmit="return transResult()">
-    <input type="hidden" id="result_input" name="resultList" value="">
-    <input class="button" type="submit" value="리스트 전송하기"/>
-</form>
-<script>
-    //결과 리스트 전달
-    function transResult(){
-        document.getElementById("result_input").value=window.result_list;
-        if(window.result_list != null){
-            return true;
-        }else{
-            return false;
+        if(busList[j].h_code == 0) {
+            document.write('<p>정류장이름: ' + busList[j].name + ' </p>' +
+                '<button id="' + cnt + '" type="button" onclick="bringHdong(' + busList[j].longitude + ',' + busList[j].latitude + ',' + cnt + ');">변환</button>' +
+                '<br>');
+            document.getElementById(cnt).click();   //원격 클릭 조종
+            cnt++;
         }
+    }
+    alert("데이터 추출 완료");
+</script>
+<script>
+    function postBusInfo(){
+        // for(var key in resultObj){
+        //     var personObj = resultObj[key];
+        //     console.log(key + ", " + personObj);
+        // }
+
+        $.ajax({
+            method: 'post',
+            url: '/postBusInfo',
+            dataType   : 'json',
+            contentType: "application/json",
+            data: JSON.stringify(resultObj),
+            success: function (data) {
+                alert("데이터 업뎃 완료.");
+            }
+        });
     }
 </script>
 </body>

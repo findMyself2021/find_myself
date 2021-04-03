@@ -194,6 +194,9 @@
                                         <button class="btn btn-sm btn-primary" id="btn_select2"
                                                 style="font-size: 14px">대중교통 경로 검색</button>
                                     </li>
+                                    <li class="nav-item mr-2 mr-md-0">
+                                        <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postStationInfo()">테스트</button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -411,6 +414,26 @@
     <div class="copyright">
         Copyright © by FindMyself 2021, Inc. All rights reserved
     </div>
-</body>
+    <script>
+        function postStationInfo() {
+            console.log(subwayStationResults);
+            $('.sub_Result').val(subwayStationResults);
 
+            $.ajax({
+                type : "POST",
+                url : "/mapAnalysis2",
+                data : $("#postStationForm").serialize(),
+                error : function(error) {
+                    console.log("error");
+                },
+                success : function(data) {
+                    console.log("success");
+                }
+            });
+        }
+    </script>
+    <form id="postStationForm" name="postStationForm">
+        <input class="sub_Result" id="sub_Result" name="sub_Result" type="hidden">
+    </form>
+</body>
 </html>

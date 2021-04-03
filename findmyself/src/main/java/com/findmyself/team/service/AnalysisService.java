@@ -55,6 +55,7 @@ public class AnalysisService {
 
         //중복된 행정동 정리
         //각 리스트에 공통으로 포함되는 행정동만 추출  !
+        //이후 일치율 높은 행정동 추천기능 수행 !
         Long tmp;
         int cnt=0;
         Iterator<Long> it_h = homeList.iterator();

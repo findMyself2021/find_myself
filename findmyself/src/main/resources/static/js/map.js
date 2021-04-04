@@ -81,6 +81,7 @@ for (var i = 0, len = areas.length; i < len; i++) {
 function displayHangJungDong(coordinates, name,code,dest){
     var path = [];
     var points = [];
+    var bounds = new Tmapv2.LatLngBounds();
 
     $.each(coordinates[0], function(index, coordinate) {        //console.log(coordinates)를 확인해보면 보면 [0]번째에 배열이 주로 저장이 됨.  그래서 [0]번째 배열에서 꺼내줌.
         var point = new Object();
@@ -88,7 +89,11 @@ function displayHangJungDong(coordinates, name,code,dest){
         point.y = coordinate[0];
         points.push(point);
         path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));            //new kako.maps.LatLng가 없으면 인식을 못해서 path 배열에 추가
+        bounds.extend(new Tmapv2.LatLng(coordinate[1], coordinate[0]));
     })
+
+    var center = bounds.getCenter();
+    // console.log(center.lat(),center.lng());
 
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
@@ -148,6 +153,8 @@ function displayHangJungDong(coordinates, name,code,dest){
 
         document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
             '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
+            '<input type="hidden" id="center_x" name="center_x" value="'+ center.lat() +'">' +
+            '<input type="hidden" id="center_y" name="center_y" value="'+ center.lng() +'">' +
             '<input type="hidden" id="addr" name="addr" value="'+ dest +'">' +
             '</form>');
         document.getElementById("smb_form").submit();

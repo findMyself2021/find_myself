@@ -31,6 +31,14 @@ public class MapController {
         //받아온 도착지
         String address = httpServletRequest.getParameter("addr");
 
+        //행정동 중심좌표
+        String s_center_x = httpServletRequest.getParameter("center_x");
+        Double lat = Double.valueOf(s_center_x);
+
+        String s_center_y = httpServletRequest.getParameter("center_y");
+        Double lng = Double.valueOf(s_center_y);
+
+
         // 테스트중
         String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
         //String test = trafficService.searchSubwayInfo(stations);
@@ -39,10 +47,6 @@ public class MapController {
         final String gu = gudongService.findOne(h_code).getGu();
         //행정동
         final String h_dong = gudongService.findOne(h_code).getH_dong();
-
-        //위도, 경도
-        double lat = centerLocationService.findOne(h_code).getLat();
-        double lng = centerLocationService.findOne(h_code).getLng();
 
         model.addAttribute("hcode",h_code);
         model.addAttribute("gu",gu);

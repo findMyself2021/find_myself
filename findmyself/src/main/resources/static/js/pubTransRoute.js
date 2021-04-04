@@ -194,12 +194,15 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         console.log(resultObj.result);
 
                         var str = "";
+                        var dupCheck = ""; // 환승시 중복역 확인
                         for (var i = 0; i < resultObj.result.path[0].subPath.length; i++) {
                             if(resultObj.result.path[0].subPath[i].trafficType == 1) {
-                                for(var j = 0; j < resultObj.result.path[0].subPath[i].passStopList.stations.length - 1; j++) {
-                                    str += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
+                                for(var j = 0; j < resultObj.result.path[0].subPath[i].passStopList.stations.length; j++) {
+                                    if(dupCheck !== resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName) {
+                                        str += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
+                                    }
+                                    dupCheck = resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
                                 }
-                                str += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
                                 insertSEArray(resultObj.result.path[0].subPath[i].startX, resultObj.result.path[0].subPath[i].startY, 1);
                                 insertSEArray(resultObj.result.path[0].subPath[i].endX, resultObj.result.path[0].subPath[i].endY, 0);
                             } else if(resultObj.result.path[0].subPath[i].trafficType == 2) {

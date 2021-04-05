@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "traffic_address")
+@Table(name = "traffic_address1")
 @Getter @Setter
 public class TrafficAddress {
 
@@ -19,8 +19,8 @@ public class TrafficAddress {
     private String name;
     private String address;
 
-    private Long latitude;
-    private Long longitude;
+    private float latitude;
+    private float longitude;
 
     public TrafficAddress() {
 

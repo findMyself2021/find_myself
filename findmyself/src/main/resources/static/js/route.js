@@ -9,6 +9,7 @@ var chktraffic = [];
 var resultdrawArr = [];
 var resultMarkerArr = [];
 
+var carLocationResults = "";
 //목적지 마커 표시
 function initDestSearch(startX,startY,addr){
     // 주소-좌표 변환 객체를 생성합니다
@@ -40,6 +41,7 @@ function initDestSearch(startX,startY,addr){
 
             //도착지 좌표값 전달
             searchCarRoute(startX,startY,result[0].y,result[0].x);
+            searchCarRouteLocation(startX,startY,result[0].y,result[0].x);
             searchPubTransRoute(startY, startX, result[0].x, result[0].y);
             searchSubwayStations(startY, startX, result[0].x, result[0].y);
         }
@@ -141,7 +143,8 @@ function searchCarRoute(startX,startY,endX,endY) {
                                 yAnchor: 1.2
                             });
 
-                            customOverlay.setMap(map);
+                            //임시
+                            //customOverlay.setMap(map);
 
                             // $("#result").text(
                             //     tDistance + tTime + taxiFare);
@@ -283,9 +286,53 @@ function searchCarRoute(startX,startY,endX,endY) {
             });
 }
 
-function addComma(num) {
-    var regexp = /\B(?=(\d{3})+(?!\d))/g;
-    return num.toString().replace(regexp, ',');
+// 자동차 경로 좌표 찾기
+function searchCarRouteLocation(startX,startY,endX,endY) {
+    $("#btn_select")
+        .click(
+            function() {
+                // 교통최적 + 최소시간
+                var searchOption = "2";
+
+                // 교통 정보 표출 옵션
+                var trafficInfochk = "N";
+
+                $
+                    .ajax({
+                        type : "POST",
+                        url : "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
+                        async : false,
+                        data : {
+                            "appKey" : "l7xx054e772885bf4fd6bff6bbf96c1884af",
+                            "startX" : startY,
+                            "startY" : startX,
+                            "endX" : endY,
+                            "endY" : endX,
+                            "reqCoordType" : "WGS84GEO",
+                            "resCoordType" : "WGS84GEO",
+                            "searchOption" : searchOption,
+                            "trafficInfo" : trafficInfochk
+                        },
+                        success : function(response) {
+
+                            var resultData = response.features;
+
+                            console.log(resultData);
+
+                            var str = "";
+                            for (var i = 0; i < resultData.length; i++) {
+                                for(var j = 0; j < resultData[i].geometry.coordinates.length; j++) {
+                                    str += resultData[i].geometry.coordinates[j] + ",";
+                                }
+                            }
+                            console.log(str);
+                            carLocationResults = str;
+                        },
+                        error : function(error) {
+                            console.log("error");
+                        }
+                    });
+            });
 }
 
 //마커 생성하기

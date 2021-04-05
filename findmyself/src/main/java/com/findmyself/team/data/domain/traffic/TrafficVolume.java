@@ -9,19 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "traffic_volume")
+@Table(name = "traffic_volume1")
 @Getter @Setter
 public class TrafficVolume {
 
     @Id
     @GeneratedValue
-    private String day;
     private String name;
     private String num;
-    private String direction;
-    private String section;
 
-    private Long date;
     private Long _0h;
     private Long _1h;
     private Long _2h;

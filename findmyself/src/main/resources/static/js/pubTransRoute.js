@@ -3,6 +3,8 @@ var exArr = [], eyArr = [];
 var startArrIdx = 0, endArrIdx = 0;
 var test = 0;
 var subwayStationResults = "";
+var stationInfo = "";
+
 // 대중교통 길찾기 지도에 표시하는 함수
 function searchPubTransRoute(sx, sy, ex, ey) {
 

@@ -15,8 +15,8 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
 
-    public TrafficAddress findOne(String num) {
-        return addressRepository.findOne(num);
+    public TrafficAddress findOne(float longitude) {
+        return addressRepository.findOne(longitude);
     }
 
     public List<TrafficAddress> findAll() {

@@ -1,11 +1,16 @@
 package com.findmyself.team.service;
 
 import com.findmyself.team.TrafficData;
+import com.findmyself.team.data.service.traffic.AddressService;
 import com.findmyself.team.data.service.traffic.SubwayService;
+import com.findmyself.team.data.service.traffic.VolumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -14,6 +19,12 @@ public class TrafficService {
 
     @Autowired
     SubwayService subwayService;
+
+    @Autowired
+    AddressService addressService;
+
+    @Autowired
+    VolumeService volumeService;
 
     TrafficData td = new TrafficData();
 
@@ -24,7 +35,6 @@ public class TrafficService {
         //subwayStations 문자열 리스트로 나누고 검색하고 리턴
         String[] stations = subwayStations.split("/");
 
-        //for(int i=0; i<stations.length; i++) {
         for(int i=0; i<stations.length; i++) {
             td.setIn_0h(subwayService.findOne(stations[i]).getIn_0h());
             td.setIn_1h(subwayService.findOne(stations[i]).getIn_1h());
@@ -52,8 +62,28 @@ public class TrafficService {
             System.out.println(stations[i] + "역 1년간 23~24시 승차인원 : " +subwayService.findOne(stations[i]).getIn_23h());
         }
 
-        test = Integer.toString(subwayService.findOne(stations[0]).getIn_23h());
+        test = stations[0] + "역 1년간 23~24시 승차인원 : " + subwayService.findOne(stations[0]).getIn_23h();
 
         return test;
+    }
+
+    public String searchCarRootInfo(String carRouteInfo) {
+
+        //subwayStations 문자열 리스트로 나누고 검색하고 리턴
+        String[] carRoute = carRouteInfo.split(",");
+        List<Float> carRouteLocation = new ArrayList<Float>();
+
+        for(int i = 0; i < carRoute.length; i++) {
+            carRoute[i] = carRoute[i].substring(0, 10);
+            carRouteLocation.add((float)(Math.round(Float.parseFloat(carRoute[i])*10000)/10000.0));
+        }
+        for(Float idx : carRouteLocation) {
+            if(idx > 100 && addressService.findOne(idx) != null) {
+                
+            }
+            System.out.print("check:" + idx);
+        }
+
+        return "";
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +22,9 @@ public class MapController {
     private final CenterLocationService centerLocationService;
 
     private final TrafficService trafficService;
+
+    private String test;
+    private String test2;
 
     @PostMapping(value = "/mapAnalysis")
     public String Analysis(HttpServletRequest httpServletRequest, Model model){
@@ -63,9 +68,23 @@ public class MapController {
     public String getStationInfo(HttpServletRequest httpServletRequest) {
 
         String stations = httpServletRequest.getParameter("sub_Result");
+        String carRouteInfo = httpServletRequest.getParameter("car_Result");
+
         System.out.println("test : " + stations);
-        trafficService.searchSubwayInfo(stations);
+        System.out.println("test2 : " + carRouteInfo);
+
+        test = trafficService.searchSubwayInfo(stations);
+        test2 = trafficService.searchCarRootInfo(carRouteInfo);
 
         return null;
+    }
+
+    @RequestMapping(value = "/mapAnalysis3")
+    @ResponseBody
+    public String postStationInfo() {
+
+        System.out.println("확인용 : " + test);
+
+        return test;
     }
 }

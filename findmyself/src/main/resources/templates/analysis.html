@@ -195,7 +195,7 @@
                                                 style="font-size: 14px">대중교통 경로 검색</button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postStationInfo()"
+                                        <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postStationInfo(); getStationInfo();"
                                                 style="font-size: 14px">경로내 교통량 분석</button>
                                     </li>
                                 </ul>
@@ -235,6 +235,7 @@
                             </script>
                         </div><br>
                         <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>
+                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayTest"></h6>
                     </div>
                 </div>
             </div>
@@ -419,7 +420,7 @@
         function postStationInfo() {
             console.log(subwayStationResults);
             $('.sub_Result').val(subwayStationResults);
-
+            $('.car_Result').val(carLocationResults);
             $.ajax({
                 type : "POST",
                 url : "/mapAnalysis2",
@@ -429,12 +430,43 @@
                 },
                 success : function(data) {
                     console.log("success");
+
                 }
             });
+        }
+
+        function  getStationInfo() {
+            /*$.ajax({
+                type : "GET",
+                url : "/mapAnalysis3",
+                error : function(error) {
+                    console.log("error");
+                },
+                success : function(data) {
+                    console.log("success");
+                    stationInfo = data;
+                    console.log(stationInfo);
+                }
+            });*/
+            setTimeout(function () {
+                $.ajax({
+                    type : "GET",
+                    url : "/mapAnalysis3",
+                    error : function(error) {
+                        console.log("error");
+                    },
+                    success : function(data) {
+                        console.log("success");
+                        stationInfo = data;
+                        console.log(stationInfo);
+                    }
+                });
+            }, 300);
         }
     </script>
     <form id="postStationForm" name="postStationForm">
         <input class="sub_Result" id="sub_Result" name="sub_Result" type="hidden">
+        <input class="car_Result" id="car_Result" name="car_Result" type="hidden">
     </form>
 </body>
 </html>

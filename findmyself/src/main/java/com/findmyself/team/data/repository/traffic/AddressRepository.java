@@ -14,8 +14,8 @@ public class AddressRepository {
     private EntityManager em;
 
     // 무엇을 기준으로 찾아야 편할지 고민해봐야 함
-    public TrafficAddress findOne(String num) {
-        return em.find(TrafficAddress.class, num);
+    public TrafficAddress findOne(float longitude) {
+        return em.find(TrafficAddress.class, longitude);
     }
 
     public List<TrafficAddress> findAll() {

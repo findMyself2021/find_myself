@@ -4,6 +4,7 @@ import com.findmyself.team.Requirements;
 import com.findmyself.team.data.repository.traffic.InfoResultRepository;
 import com.findmyself.team.data.service.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
+import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.home.HomeService;
 import com.findmyself.team.data.service.residence.AgeService;
 import com.findmyself.team.data.service.residence.GenderService;
@@ -35,6 +36,9 @@ public class AnalysisService {
     ConvenientService convenientService;
 
     @Autowired
+    SafetyService safetyService;
+
+    @Autowired
     GenderService genderService;
 
     @Autowired
@@ -50,36 +54,34 @@ public class AnalysisService {
         HashSet<Long> homeList = homeService.analysis(rq);
         HashSet<Long> trafficList = infoResultService.analysis(rq.getTraffic());
         HashSet<Long> convenientList = convenientService.analysis(rq.getConvenient());
+        HashSet<Long> safetyList = safetyService.analysis(rq.getSafety());
         HashSet<Long> genderList = genderService.analysis(rq.getSex_ratio());
         HashSet<Long> ageList = ageService.analysis(rq.getAge_type());
 
         //중복된 행정동 정리
         //각 리스트에 공통으로 포함되는 행정동만 추출  !
         //이후 일치율 높은 행정동 추천기능 수행 !
-        Long tmp;
+        Long code;
         int cnt=0;
         Iterator<Long> it_h = homeList.iterator();
         while (it_h.hasNext()) {
-            tmp = it_h.next();
-            if(trafficList.contains(tmp)){
+            code = it_h.next();
+            if(trafficList.contains(code)){
                cnt++;
-            }if(convenientList.contains(tmp)){
+            }if(convenientList.contains(code)){
                 cnt++;
-            }if(genderList.contains(tmp)){
+            }if(safetyList.contains(code)){
                 cnt++;
-            }if(ageList.contains(tmp)) {
+            }if(genderList.contains(code)){
+                cnt++;
+            }if(ageList.contains(code)) {
                 cnt++;
             }
-            if(cnt>2){
-                codeList.add(tmp);
+            if(cnt>2){ //조건 3개 이상 충족하면 추천
+                codeList.add(code);
             }
         }
 
-        for(Long tt:codeList){
-            System.out.println(tt);
-        }
-
-        // 안전 요소, 교통요소(길찾기 처리 필요) -> 구별로 나뉨 -> 마지막에 분류해주기
         return codeList;
     }
 }

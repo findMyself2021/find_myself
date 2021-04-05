@@ -13,12 +13,17 @@ public class SafetyRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Safety findOne(String gu) {
-        return em.find(Safety.class, gu);
+    public Safety findOne(Long h_code) {
+        return em.find(Safety.class, h_code);
     }
 
     public List<Safety> findAll() {
         return em.createQuery("select s from Safety s", Safety.class)
                 .getResultList();
+    }
+
+    public int findMax(){
+        return em.createQuery("select max(s.num) from Safety s", Integer.class)
+                .getSingleResult();
     }
 }

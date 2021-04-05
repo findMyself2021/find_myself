@@ -15,8 +15,8 @@ public class Safety {
 
     @Id
     @GeneratedValue
-    private String gu;
-    private Long num;
+    private Long h_code;
+    private int num;
 
     public Safety() {
 

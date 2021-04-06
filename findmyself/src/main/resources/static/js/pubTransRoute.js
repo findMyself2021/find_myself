@@ -212,11 +212,35 @@ function searchSubwayStations(sx, sy, ex, ey) {
                                 insertSEArray(resultObj.result.path[0].subPath[i].endX, resultObj.result.path[0].subPath[i].endY, 0);
                             }
                         }
+
+                        var content = '<div class="overlaybox">' +
+                            '<div class="boxtitle">대중교통 경로 검색 결과</div>'+
+                            '   <ul>' +
+                            '       <li class="up">' +
+                            '           <span class="title">'+str+'</span>'+
+                            '       </li>'+
+                            '   </ul>'+
+                            '</div>';
+
+
                         insertSEArray(ex, ey, 1);
 
-                        $("#subwayResult").text(str);
+                        // 커스텀 오버레이를 생성합니다
+                        customOverlay = new kakao.maps.CustomOverlay({
+                            position: new kakao.maps.LatLng(ey,ex),
+                            content: content,
+                            //왼쪽 오른쪽
+                            xAnchor: 0,
+                            //위 아래
+                            yAnchor: 1.2
+                        });
 
-                        console.log(str);
+                        customOverlay.setMap(map);
+
+                        // 대중교통 결과 띄움
+                        // $("#subwayResult").text(str);
+
+                        // console.log(str);
 
                         //약간의 좌표 오차 어떻게 처리할 지 생각하기
                         for(var i = 0; i < startArrIdx; i++) {

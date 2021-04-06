@@ -143,8 +143,7 @@ function searchCarRoute(startX,startY,endX,endY) {
                                 yAnchor: 1.2
                             });
 
-                            //임시
-                            //customOverlay.setMap(map);
+                            customOverlay.setMap(map);
 
                             // $("#result").text(
                             //     tDistance + tTime + taxiFare);

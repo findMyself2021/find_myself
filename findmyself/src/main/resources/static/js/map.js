@@ -93,7 +93,9 @@ function displayHangJungDong(coordinates, name,code,dest){
     })
 
     var center = bounds.getCenter();
-    // console.log(center.lat(),center.lng());
+
+    // 나중에 추천 정도에 따라 이거 색 바꿈 => 변수 추가해야함
+    var fillColor = "#4F7AAB";
 
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
@@ -102,7 +104,7 @@ function displayHangJungDong(coordinates, name,code,dest){
         strokeWeight: 2,
         strokeColor: '#4F7AAB',
         strokeOpacity: 0.7,
-        fillColor: '#4F7AAB',
+        fillColor: fillColor,
         fillOpacity: 0.8,
     });
 

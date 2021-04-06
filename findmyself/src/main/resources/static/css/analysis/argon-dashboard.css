@@ -45,7 +45,6 @@
 .overlaybox div, ul {overflow:hidden;margin:0;padding:0;}
 .overlaybox li {list-style: none;}
 .overlaybox .boxtitle {color:#fff;font-size:14px;font-weight:bold;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png') no-repeat right 2px center;margin-bottom:8px;}
-.first .text {color:#fff;font-weight:bold;}
 .overlaybox ul {width:220px;}
 .overlaybox li {position:relative;margin-bottom:2px;background:#6fb0d1;padding:5px 10px;color:white;line-height: 1;}
 .overlaybox li span {display:inline-block;}

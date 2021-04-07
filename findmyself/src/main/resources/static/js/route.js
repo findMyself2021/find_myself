@@ -1,6 +1,9 @@
 //출발지,도착지 마커
 var marker_s, marker_e, marker_p;
 var customOverlay;
+var customOverlay_start;
+var customOverlay_end;
+
 //경로그림정보
 var drawInfoArr = [];
 var drawInfoArr2 = [];
@@ -44,6 +47,20 @@ function initDestSearch(startX,startY,addr){
             searchCarRouteLocation(startX,startY,result[0].y,result[0].x);
             searchPubTransRoute(startY, startX, result[0].x, result[0].y);
             searchSubwayStations(startY, startX, result[0].x, result[0].y);
+
+            var content = '<div class="customoverlay">' +
+                '  <a href="#" target="_blank">' +
+                '    <span class="title">도착지</span>' +
+                '  </a>' +
+                '</div>';
+
+
+            customOverlay_end = new kakao.maps.CustomOverlay({
+                map:map,
+                position: new kakao.maps.LatLng(result[0].y,result[0].x),
+                content: content,
+                yAnchor: 0.2
+            });
         }
         else{
             alert('도로명 주소를 입력해주세요');
@@ -71,6 +88,20 @@ function searchCarRoute(startX,startY,endX,endY) {
             map : map
         });
 
+    var content = '<div class="customoverlay">' +
+        '  <a href="#" target="_blank">' +
+        '    <span class="title">출발지</span>' +
+        '  </a>' +
+        '</div>';
+
+
+    customOverlay_start = new kakao.maps.CustomOverlay({
+        map:map,
+        position: new kakao.maps.LatLng(startX,startY),
+        content: content,
+        yAnchor: 0.2
+    });
+
     // 3. 경로탐색 API 사용요청
     $("#btn_select")
         .click(
@@ -78,6 +109,9 @@ function searchCarRoute(startX,startY,endX,endY) {
 
                 //기존 맵에 있던 정보들 초기화
                 resettingMap();
+
+                customOverlay_start.setMap(null);
+                customOverlay_end.setMap(null);
 
                 // 교통최적 + 최소시간
                 var searchOption = "2";

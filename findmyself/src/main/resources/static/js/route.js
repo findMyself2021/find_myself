@@ -324,7 +324,6 @@ function searchCarRouteLocation(startX,startY,endX,endY) {
                                     str += resultData[i].geometry.coordinates[j] + ",";
                                 }
                             }
-                            console.log(str);
                             carLocationResults = str;
                         },
                         error : function(error) {

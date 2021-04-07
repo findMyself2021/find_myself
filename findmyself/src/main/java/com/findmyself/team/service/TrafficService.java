@@ -28,7 +28,7 @@ public class TrafficService {
 
     TrafficData td = new TrafficData();
 
-    String test = "";
+    String result = "";
 
     public String searchSubwayInfo(String subwayStations) {
 
@@ -62,12 +62,18 @@ public class TrafficService {
             System.out.println(stations[i] + "역 1년간 23~24시 승차인원 : " +subwayService.findOne(stations[i]).getIn_23h());
         }
 
-        test = stations[0] + "역 1년간 23~24시 승차인원 : " + subwayService.findOne(stations[0]).getIn_23h();
+        result = stations[0] + "역 1년간 23~24시 승차인원 : " + subwayService.findOne(stations[0]).getIn_23h();
 
-        return test;
+        return result;
     }
 
     public String searchCarRootInfo(String carRouteInfo) {
+
+        int longitudeIdx;
+        int latitudeIdx = 0;
+        int dupCheck = 0;
+        String result = "";
+        List<String> trafficPoints = new ArrayList<String>();
 
         //subwayStations 문자열 리스트로 나누고 검색하고 리턴
         String[] carRoute = carRouteInfo.split(",");
@@ -77,13 +83,44 @@ public class TrafficService {
             carRoute[i] = carRoute[i].substring(0, 10);
             carRouteLocation.add((float)(Math.round(Float.parseFloat(carRoute[i])*10000)/10000.0));
         }
+
+        //교통량 지점 DB에서 지점을 지나는 경로가 있는지 확인
         for(Float idx : carRouteLocation) {
-            if(idx > 100 && addressService.findOne(idx) != null) {
-                
+            for(double i = -0.001; i <= 0.001; i = (i+0.0001)) {
+                if(idx < 100 && null != addressService.findOne((float) (idx + i))) {
+                    longitudeIdx = 0;
+                    for (Float idx2 : carRouteLocation) {
+                        if (Math.abs(addressService.findOne((float) (idx + i)).getLongitude() - idx2) <= 0.003 && latitudeIdx == longitudeIdx + 1) {
+                            //중복 지점 확인
+                            for(String idx3 : trafficPoints) {
+                                if(idx3 == addressService.findOne((float) (idx + i)).getNum())
+                                    dupCheck = 1;
+                            }
+
+                            if(dupCheck == 0)
+                                trafficPoints.add(addressService.findOne((float) (idx + i)).getNum());
+
+                            dupCheck = 0;
+                        }
+                        longitudeIdx++;
+                    }
+                }
             }
-            System.out.print("check:" + idx);
+            latitudeIdx++;
         }
 
-        return "";
+        int check = 0;
+
+        for(String point : trafficPoints) {
+            System.out.println("경유 지점 확인 :" + point);
+            if(check == 0) {
+                result = result + "경유지 지점 확인 : " + point;
+                check++;
+            } else {
+                result = result + ", 경유지 지점 확인 : " + point;
+            }
+        }
+
+        return result;
     }
 }

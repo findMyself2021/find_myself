@@ -13,9 +13,8 @@ public class AddressRepository {
     @PersistenceContext
     private EntityManager em;
 
-    // 무엇을 기준으로 찾아야 편할지 고민해봐야 함
-    public TrafficAddress findOne(float longitude) {
-        return em.find(TrafficAddress.class, longitude);
+    public TrafficAddress findOne(float latitude) {
+        return em.find(TrafficAddress.class, latitude);
     }
 
     public List<TrafficAddress> findAll() {

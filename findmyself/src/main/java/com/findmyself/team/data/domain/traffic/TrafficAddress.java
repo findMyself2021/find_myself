@@ -15,11 +15,11 @@ public class TrafficAddress {
 
     @Id
     @GeneratedValue
+    private float latitude;
+
     private String num;
     private String name;
     private String address;
-
-    private float latitude;
     private float longitude;
 
     public TrafficAddress() {

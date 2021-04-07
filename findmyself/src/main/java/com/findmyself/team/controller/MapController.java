@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class MapController {
 
     private String test;
     private String test2;
-
+    private int finishCheck;
     @PostMapping(value = "/mapAnalysis")
     public String Analysis(HttpServletRequest httpServletRequest, Model model){
 
@@ -67,6 +69,8 @@ public class MapController {
     @ResponseBody
     public String getStationInfo(HttpServletRequest httpServletRequest) {
 
+        finishCheck = 0;
+
         String stations = httpServletRequest.getParameter("sub_Result");
         String carRouteInfo = httpServletRequest.getParameter("car_Result");
 
@@ -75,7 +79,9 @@ public class MapController {
 
         test = trafficService.searchSubwayInfo(stations);
         test2 = trafficService.searchCarRootInfo(carRouteInfo);
+        test += "/" + test2;
 
+        finishCheck = 1;
         return null;
     }
 
@@ -83,7 +89,10 @@ public class MapController {
     @ResponseBody
     public String postStationInfo() {
 
-        System.out.println("확인용 : " + test);
+        while(true) {
+            if(finishCheck == 1)
+                break;
+        }
 
         return test;
     }

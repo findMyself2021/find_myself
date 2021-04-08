@@ -21,4 +21,9 @@ public class AgeRepository {
                 .getResultList();
     }
 
+    public int findMax(String type){
+        return em.createQuery("select max(c."+type+") from Convenient c", Integer.class)
+                .getSingleResult();
+    }
+
 }

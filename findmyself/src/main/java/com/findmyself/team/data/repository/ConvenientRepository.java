@@ -27,4 +27,22 @@ public class ConvenientRepository {
                 .getSingleResult();
     }
 
+    public int findAvg(){
+        int sum = 0;
+        sum += em.createQuery("select max(c.joy) from Convenient c", Integer.class)
+                .getSingleResult();
+        sum += em.createQuery("select max(c.shop) from Convenient c", Integer.class)
+                .getSingleResult();
+        sum += em.createQuery("select max(c.food) from Convenient c", Integer.class)
+                .getSingleResult();
+        sum += em.createQuery("select max(c.life) from Convenient c", Integer.class)
+                .getSingleResult();
+        sum += em.createQuery("select max(c.sport) from Convenient c", Integer.class)
+                .getSingleResult();
+        sum += em.createQuery("select max(c.edu) from Convenient c", Integer.class)
+                .getSingleResult();
+
+        return Math.round(sum/6);
+    }
+
 }

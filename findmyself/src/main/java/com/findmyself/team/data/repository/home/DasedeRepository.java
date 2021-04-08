@@ -21,6 +21,16 @@ public class DasedeRepository {
                 .getResultList();
     }
 
+    public int findDepositMax(){
+        return em.createQuery("select max(hd.avg_deposit) from HomeDasede hd", Integer.class)
+                .getSingleResult();
+    }
+
+    public int findMonthlyMax(){
+        return em.createQuery("select max(hd.avg_monthly) from HomeDasede hd", Integer.class)
+                .getSingleResult();
+    }
+
     public List<HomeDasede> findCharters(){
         return em.createQuery("select hd from HomeDasede hd where hd.type like '전세'",HomeDasede.class)
                 .getResultList();

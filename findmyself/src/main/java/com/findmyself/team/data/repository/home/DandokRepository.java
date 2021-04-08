@@ -21,6 +21,16 @@ public class DandokRepository {
                 .getResultList();
     }
 
+    public int findDepositMax(){
+        return em.createQuery("select max(hd.avg_deposit) from HomeDandok hd", Integer.class)
+                .getSingleResult();
+    }
+
+    public int findMonthlyMax(){
+        return em.createQuery("select max(hd.avg_monthly) from HomeDandok hd", Integer.class)
+                .getSingleResult();
+    }
+
     public List<HomeDandok> findCharters(){
         return em.createQuery("select hd from HomeDandok hd where hd.type like '전세'",HomeDandok.class)
                 .getResultList();

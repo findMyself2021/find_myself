@@ -21,6 +21,16 @@ public class OfficetelRepository {
                 .getResultList();
     }
 
+    public int findDepositMax(){
+        return em.createQuery("select max(ho.avg_deposit) from HomeOfficetel ho", Integer.class)
+                .getSingleResult();
+    }
+
+    public int findMonthlyMax(){
+        return em.createQuery("select max(ho.avg_monthly) from HomeOfficetel ho", Integer.class)
+                .getSingleResult();
+    }
+
     public List<HomeOfficetel> findCharters(){
         return em.createQuery("select ho from HomeOfficetel ho where ho.type like '전세'",HomeOfficetel.class)
                 .getResultList();

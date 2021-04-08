@@ -26,4 +26,9 @@ public class SafetyRepository {
         return em.createQuery("select max(s.num) from Safety s", Integer.class)
                 .getSingleResult();
     }
+
+    public int findMin(){
+        return em.createQuery("select min(s.num) from Safety s", Integer.class)
+                .getSingleResult();
+    }
 }

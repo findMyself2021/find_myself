@@ -33,7 +33,7 @@ public class Requirements extends ConvenientTmp{
         rq.convenient = new ConvenientTmp();
         rq.safety = 50;
         rq.sex_ratio = 20;
-        rq.age_type = "s2030";
+        rq.age_type = "child";
         
         return rq;
     }

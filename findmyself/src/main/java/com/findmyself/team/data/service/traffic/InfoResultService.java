@@ -1,9 +1,11 @@
 package com.findmyself.team.data.service.traffic;
 
 import com.findmyself.team.ConvenientTmp;
+import com.findmyself.team.data.domain.Convenient;
 import com.findmyself.team.data.domain.traffic.TrafficBusLocation;
 import com.findmyself.team.data.domain.traffic.TrafficInfoResult;
 import com.findmyself.team.data.repository.traffic.InfoResultRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,10 @@ import java.util.List;
 public class InfoResultService {
 
     private final InfoResultRepository infoResultRepository;
+
+    public TrafficInfoResult findOne(long h_code){
+        return infoResultRepository.findOne(h_code);
+    }
 
     public List<TrafficInfoResult> findAll(){
         return infoResultRepository.findAll();

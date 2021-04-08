@@ -1,5 +1,6 @@
 package com.findmyself.team.data.repository.traffic;
 
+import com.findmyself.team.data.domain.Convenient;
 import com.findmyself.team.data.domain.traffic.TrafficBusLocation;
 import com.findmyself.team.data.domain.traffic.TrafficInfoResult;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,10 @@ public class InfoResultRepository {
 
     @PersistenceContext
     private EntityManager em;
+
+    public TrafficInfoResult findOne(Long h_code){
+        return em.find(TrafficInfoResult.class, h_code);
+    }
 
     public List<TrafficInfoResult> findAll() {
         return em.createQuery("select tir from TrafficInfoResult tir", TrafficInfoResult.class)

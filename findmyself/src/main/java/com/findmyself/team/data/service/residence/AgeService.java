@@ -26,6 +26,8 @@ public class AgeService {
         return ageRepository.findAll();
     }
 
+    public int findMax(String type){return ageRepository.findMax(type);}
+
     public String findFirst(ResidenceAge ra){ //1순위 연령대 칼럼명 반환
 
         if(ra.getFirst() == ra.getChild()){
@@ -59,7 +61,7 @@ public class AgeService {
 
         for(int i=0; i<ageList.size(); i++){
             if(findFirst(ageList.get(i)).equals(age_type)
-                || findSecond(ageList.get(i)).equals(age_type)){
+                || findSecond(ageList.get(i)).equals(age_type)){    //1 or 2순위 연령대인 경우 추천
                 codeList.add(ageList.get(i).getH_code());
             }
         }

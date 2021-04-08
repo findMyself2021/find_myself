@@ -29,6 +29,8 @@ public class SafetyService {
         return safetyRepository.findMax();
     }
 
+    public int findMin(){ return safetyRepository.findMin(); }
+
     public HashSet<Long> analysis(int safety){  //데이터 값 낮을수록 안전이 좋은..
         int max = findMax();
         int std = Math.round(max / 100);

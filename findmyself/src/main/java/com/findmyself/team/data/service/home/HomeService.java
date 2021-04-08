@@ -9,6 +9,7 @@ import com.findmyself.team.data.repository.home.ApartRepository;
 import com.findmyself.team.data.repository.home.DandokRepository;
 import com.findmyself.team.data.repository.home.DasedeRepository;
 import com.findmyself.team.data.repository.home.OfficetelRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,20 +22,85 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeService {
 
+    @Getter
+    private static int input_max = 20000;
+
     private final ApartRepository apartRepository;
     private final DandokRepository dandokRepository;
     private final DasedeRepository dasedeRepository;
     private final OfficetelRepository officetelRepository;
 
-    public HashSet<Long> analysis(Requirements rq){
+    public int findDepositByAvg(Long code){
+
+        int d_sum = 0;
+
+        d_sum = apartRepository.findOne(code).getAvg_deposit()
+                + dandokRepository.findOne(code).getAvg_deposit()
+                + dasedeRepository.findOne(code).getAvg_deposit()
+                + officetelRepository.findOne(code).getAvg_deposit();
+
+        return Math.abs(d_sum/4);
+    }
+
+    public int findMonthlyByAvg(Long code){
+
+        int m_sum = 0;
+
+        m_sum = apartRepository.findOne(code).getAvg_monthly()
+                + dandokRepository.findOne(code).getAvg_monthly()
+                + dasedeRepository.findOne(code).getAvg_monthly()
+                + officetelRepository.findOne(code).getAvg_monthly();
+
+        return Math.abs(m_sum/4);
+    }
+
+    public int findDepositMax(){
+
+        int deposit_max = apartRepository.findDepositMax();
+
+        if(deposit_max < dandokRepository.findDepositMax()){
+            deposit_max = dandokRepository.findDepositMax();
+        }
+
+        if(deposit_max < dandokRepository.findDepositMax()){
+            deposit_max = dandokRepository.findDepositMax();
+        }
+
+        if(deposit_max < officetelRepository.findDepositMax()){
+            deposit_max = officetelRepository.findDepositMax();
+        }
+
+        return  deposit_max;
+    }
+
+    public int findMonthlyMax(){
+
+        int monthly_max = apartRepository.findMonthlyMax();
+
+        if(monthly_max < dandokRepository.findMonthlyMax()){
+            monthly_max  = dandokRepository.findMonthlyMax();
+        }
+
+        if(monthly_max < dandokRepository.findMonthlyMax()){
+            monthly_max = dandokRepository.findMonthlyMax();
+        }
+
+        if(monthly_max < officetelRepository.findMonthlyMax()){
+            monthly_max = officetelRepository.findMonthlyMax();
+        }
+
+        return monthly_max;
+    }
+
+    public HashSet<Long> analysis(String home_type, int deposit, int monthly){
         HashSet<Long> codeList = new HashSet<>();
 
-        if(rq.getHome_type().equals("charter")) { //전세 선택한 경우
+        if(home_type.equals("charter")) { //전세 선택한 경우
             System.out.println("전세 선택함");
-            codeList = findCharterList(rq.getDeposit());
+            codeList = findCharterList(deposit);
         }else{ //월세 선택한 경우
             System.out.println("월세 선택함");
-            codeList = findMonthlyList(rq.getDeposit(),rq.getMonthly());
+            codeList = findMonthlyList(deposit,monthly);
         }
 
         return codeList;
@@ -117,4 +183,5 @@ public class HomeService {
 
         return codeList;
     }
+
 }

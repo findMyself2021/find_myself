@@ -31,6 +31,8 @@ public class ConvenientService {
 
     public int findMax(String kind){return convenientRepository.findMax(kind);}
 
+    public int findAvg(){return convenientRepository.findAvg(); }
+
     public HashSet<Long> analysis(ConvenientTmp convenient){
         int joy_std = Math.round(findMax("joy") / 100);
         int life_std = Math.round(findMax("life") / 100);

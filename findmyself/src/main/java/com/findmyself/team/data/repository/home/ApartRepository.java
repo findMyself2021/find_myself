@@ -21,6 +21,16 @@ public class ApartRepository {
                 .getResultList();
     }
 
+    public int findDepositMax(){
+        return em.createQuery("select max(ha.avg_deposit) from HomeApart ha", Integer.class)
+                .getSingleResult();
+    }
+
+    public int findMonthlyMax(){
+        return em.createQuery("select max(ha.avg_monthly) from HomeApart ha", Integer.class)
+                .getSingleResult();
+    }
+
     public List<HomeApart> findCharters(){
         return em.createQuery("select ha from HomeApart ha where ha.type like '전세'",HomeApart.class)
                 .getResultList();

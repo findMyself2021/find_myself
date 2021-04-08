@@ -71,9 +71,9 @@ function makeMultiPolygon(coordinates){
     return new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: path,
-        strokeWeight: 3.4,
-        strokeColor: '#aeaeae',
-        strokeOpacity: 0.72,
+        strokeWeight: 0,
+        strokeColor: '#eeecec',
+        strokeOpacity: 0,
         fillColor: '#aeaeae',
         fillOpacity: 0.6,
     });
@@ -95,9 +95,9 @@ function makePolygon(coordinates){
     return new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: path,
-        strokeWeight: 3.4,
-        strokeColor: '#aeaeae',
-        strokeOpacity: 0.72,
+        strokeWeight: 0,
+        strokeColor: '#eeecec',
+        strokeOpacity: 0,
         fillColor: '#aeaeae',
         fillOpacity: 0.6,
     });
@@ -121,9 +121,9 @@ function displayArea(coordinates) {
     var polygon = new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: path,
-        strokeWeight: 3,
-        strokeColor: '#4F7AAB',
-        strokeOpacity: 0.72,
+        strokeWeight: 4,
+        strokeColor: '#dae9f4',
+        strokeOpacity: 0.2,
         fillColor: '#fff',
         fillOpacity: 0.3,
     });
@@ -182,17 +182,17 @@ function displayHangJungDong(coordinates, name,code,dest){
     var center = bounds.getCenter();
 
     // 나중에 추천 정도에 따라 이거 색 바꿈 => 변수 추가해야함
-    var fillColor = "#4F7AAB";
+    var fillColor = "#83A1C4";
 
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: path,
         strokeWeight: 2,
-        strokeColor: '#4F7AAB',
+        strokeColor: fillColor,
         strokeOpacity: 0.7,
         fillColor: fillColor,
-        fillOpacity: 0.7,
+        fillOpacity: 0.9,
     });
 
     polygons.push(polygon);            //폴리곤 제거하기 위한 배열
@@ -201,7 +201,8 @@ function displayHangJungDong(coordinates, name,code,dest){
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
     kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
         polygon.setOptions({
-            fillColor : '#09f'
+            fillColor : '#09f',
+            strokeColor: '#09f'
         });
 
         customOverlay.setContent('<div class="area">' + name + '</div>');
@@ -220,7 +221,8 @@ function displayHangJungDong(coordinates, name,code,dest){
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function() {
         polygon.setOptions({
-            fillColor : '#4F7AAB'
+            fillColor : fillColor,
+            strokeColor: fillColor
         });
         customOverlay.setMap(null);
     });

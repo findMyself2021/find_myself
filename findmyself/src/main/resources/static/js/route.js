@@ -59,7 +59,7 @@ function initDestSearch(startX,startY,addr){
                 map:map,
                 position: new kakao.maps.LatLng(result[0].y,result[0].x),
                 content: content,
-                yAnchor: 0.2
+                yAnchor: 0
             });
         }
         else{
@@ -99,7 +99,7 @@ function searchCarRoute(startX,startY,endX,endY) {
         map:map,
         position: new kakao.maps.LatLng(startX,startY),
         content: content,
-        yAnchor: 0.2
+        yAnchor: 0
     });
 
     // 3. 경로탐색 API 사용요청

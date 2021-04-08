@@ -1,6 +1,27 @@
 
 function DrawPolygon() {
 
+    //한국 전체 폴리곤 생성
+    $.getJSON("/json/koreaMap.json", function(geojson) {
+
+        var data = geojson.features;
+        var coordinates = [];    //좌표 저장할 배열
+
+        $.each(data, function(index, val) {
+
+            coordinates = val.geometry.coordinates;
+
+            if(val.geometry.type =="MultiPolygon")
+            {
+                displayKorea(coordinates,true);
+            }
+            else
+            {
+                displayKorea(coordinates,false);
+            }
+        });
+    });
+
     //서울 전체 폴리곤 생성
     $.getJSON("/json/seoulCity.json", function(geojson) {
 
@@ -12,8 +33,74 @@ function DrawPolygon() {
             coordinates = val.geometry.coordinates;
 
             displayArea(coordinates);
-        })
+        });
+    });
+}
+
+// 다각형을 생성, 색칠
+function displayKorea(coordinates,multi) {
+
+    if(multi)
+    {
+        polygon = makeMultiPolygon(coordinates);
+    }
+    else
+    {
+        polygon = makePolygon(coordinates);
+    }
+
+    polygon.setMap(map);
+}
+
+function makeMultiPolygon(coordinates){
+    var path = [];
+    var points = [];
+
+    $.each(coordinates,function (index,val2)
+    {
+        var coordinates2 = [];
+
+        $.each(val2[0],function (index,coordinate)
+        {
+            coordinates2.push(new kakao.maps.LatLng(coordinate[1],coordinate[0]));
+        });
+        path.push(coordinates2);
+    });
+
+    // 다각형을 생성합니다
+    return new kakao.maps.Polygon({
+        map: map, // 다각형을 표시할 지도 객체
+        path: path,
+        strokeWeight: 0,
+        strokeColor: '#eeecec',
+        strokeOpacity: 0,
+        fillColor: '#aeaeae',
+        fillOpacity: 0.6,
+    });
+}
+
+function makePolygon(coordinates){
+    var path = [];
+    var points = [];
+
+    $.each(coordinates[0], function(index, coordinate) {        //console.log(coordinates)를 확인해보면 보면 [0]번째에 배열이 주로 저장이 됨.  그래서 [0]번째 배열에서 꺼내줌.
+        var point = new Object();
+        point.x = coordinate[1];
+        point.y = coordinate[0];
+        points.push(point);
+        path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));            //new kako.maps.LatLng가 없으면 인식을 못해서 path 배열에 추가
     })
+
+    // 다각형을 생성합니다
+    return new kakao.maps.Polygon({
+        map: map, // 다각형을 표시할 지도 객체
+        path: path,
+        strokeWeight: 0,
+        strokeColor: '#eeecec',
+        strokeOpacity: 0,
+        fillColor: '#aeaeae',
+        fillOpacity: 0.6,
+    });
 }
 
 // 다각형을 생성, 색칠
@@ -34,11 +121,11 @@ function displayArea(coordinates) {
     var polygon = new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: path,
-        strokeWeight: 3.4,
-        strokeColor: '#4F7AAB',
-        strokeOpacity: 0.72,
+        strokeWeight: 4,
+        strokeColor: '#dae9f4',
+        strokeOpacity: 0.2,
         fillColor: '#fff',
-        fillOpacity: 0.8,
+        fillOpacity: 0.3,
     });
 }
 
@@ -95,17 +182,17 @@ function displayHangJungDong(coordinates, name,code,dest){
     var center = bounds.getCenter();
 
     // 나중에 추천 정도에 따라 이거 색 바꿈 => 변수 추가해야함
-    var fillColor = "#4F7AAB";
+    var fillColor = "#83A1C4";
 
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: path,
         strokeWeight: 2,
-        strokeColor: '#4F7AAB',
+        strokeColor: fillColor,
         strokeOpacity: 0.7,
         fillColor: fillColor,
-        fillOpacity: 0.8,
+        fillOpacity: 0.9,
     });
 
     polygons.push(polygon);            //폴리곤 제거하기 위한 배열
@@ -114,7 +201,8 @@ function displayHangJungDong(coordinates, name,code,dest){
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
     kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
         polygon.setOptions({
-            fillColor : '#09f'
+            fillColor : '#09f',
+            strokeColor: '#09f'
         });
 
         customOverlay.setContent('<div class="area">' + name + '</div>');
@@ -133,7 +221,8 @@ function displayHangJungDong(coordinates, name,code,dest){
     // 커스텀 오버레이를 지도에서 제거합니다
     kakao.maps.event.addListener(polygon, 'mouseout', function() {
         polygon.setOptions({
-            fillColor : '#4F7AAB'
+            fillColor : fillColor,
+            strokeColor: fillColor
         });
         customOverlay.setMap(null);
     });

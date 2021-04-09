@@ -180,7 +180,7 @@ function displayHangJungDong(coordinates, name,code,dest, fillColor){
         path: path,
         strokeWeight: 2,
         strokeColor: fillColor,
-        strokeOpacity: 0.7,
+        strokeOpacity: 0.8,
         fillColor: fillColor,
         fillOpacity: 0.9,
     });

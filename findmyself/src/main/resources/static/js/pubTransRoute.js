@@ -262,7 +262,7 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         }
 
                         // 도착지가 왼쪽이라면
-                        if(sy>ey){
+                        if(sx>ex){
                             var xanchor = 1;
                         }
                         else{

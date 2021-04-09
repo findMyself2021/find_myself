@@ -17,8 +17,19 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
-    <script>
-        //loadTop5(${topCodeList});   //매칭률 top5 행정동 로드
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var topInfoList = /*[[ ${topInfoList} ]]*/;
+        /*]]*/
+        function loadTopList(){
+            if(topInfoList != null) {
+                document.getElementById("top1").innerText = topInfoList[0].gu+" "+topInfoList[0].h_dong;
+                document.getElementById("top2").innerText = topInfoList[1].gu+" "+topInfoList[1].h_dong;
+                document.getElementById("top3").innerText = topInfoList[2].gu+" "+topInfoList[2].h_dong;
+                document.getElementById("top4").innerText = topInfoList[3].gu+" "+topInfoList[3].h_dong;
+                document.getElementById("top5").innerText = topInfoList[4].gu+" "+topInfoList[4].h_dong;
+            }
+        }
 
         var click_cnt = 1;
         function click_detail_btn(){
@@ -31,13 +42,6 @@
             }
             click_cnt++;
         }
-
-        /*function loadTop5(topCodeList){
-            topCodeList.forEach(function(code) {
-                document.getElementById("top1").innerHTML="ㅇㅇㅇ";
-                document.getElementById("top1").href =
-            });
-        }*/
     </script>
 </head>
 <body>
@@ -66,9 +70,24 @@
 
                     /*<![CDATA[*/
                     var codeList = /*[[ ${codeList} ]]*/;
+                    var topInfoList = /*[[ ${topInfoList} ]]*/;
+
                     if(codeList != null) {
                         codeList.forEach(function(code) {
-                            Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/);
+                            if(topInfoList[0].h_code == code){
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#ff0000");
+                            }else if(topInfoList[1].h_code == code){
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#ff8400");
+                            }else if(topInfoList[2].h_code == code){
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#ffd900");
+                            }else if(topInfoList[3].h_code == code){
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#00ff00");
+                            }else if(topInfoList[4].h_code == code){
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#0048ff");
+                            }else{
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#a5b6c9");
+                            }
+
                         });
                     }
                     /*]]*/
@@ -80,26 +99,29 @@
                 <ul class="lists bottom-line">
                     <li>
                         <b>1위</b><br>
-                        <a href=""></a>
+                        <a id="top1" href="#"></a>
                     </li>
                     <li>
                         <b>2위</b><br>
-                        <a href=""></a>
+                        <a id="top2" href="#"></a>
                     </li>
                     <li>
                         <b>3위</b><br>
-                        <a href=""></a>
+                        <a id="top3" href="#"></a>
                     </li>
                     <li>
                         <b>4위</b><br>
-                        <a href=""></a>
+                        <a id="top4" href="#"></a>
                     </li>
                     <li>
                         <b>5위</b><br>
-                        <a href=""></a>
+                        <a id="top5" href="#"></a>
                     </li>
                 </ul>
             </div>
+            <script>
+                loadTopList();
+            </script>
         </div>
         <div class="choice_wrap">
             <form name="choice_form" action="/find.do" th:object="${rq}" method="post"  onsubmit="return check()">
@@ -335,7 +357,7 @@
                             <input type="radio" id="info3" name="age-type" value="child" th:checked="*{age_type}">
                             <label for="info3">유아 및 청소년</label>
 
-                            <input type="radio" id="info4" name="age-type" value="s2030ss" th:checked="*{age_type}">
+                            <input type="radio" id="info4" name="age-type" value="s2030" th:checked="*{age_type}">
                             <label for="info4">20대 및 30대</label>
 
                             <input type="radio" id="info5" name="age-type" value="s4050" th:checked="*{age_type}">

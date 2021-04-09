@@ -1,5 +1,6 @@
 package com.findmyself.team.controller;
 
+import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.service.AnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ public class MainController {
 
         Requirements rq = new Requirements().defaultRequirements();
         List<Long> codeList = null;
+        List<DongInfo> topInfoList = null;
+
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
+        model.addAttribute("topInfoList", topInfoList);
 
         return "main";
     }
@@ -42,11 +46,11 @@ public class MainController {
 //        System.out.println("거주연령: "+rq.getAge_type());
 
         List<Long> codeList = analysisService.analysis(rq);
-        //List<Long> topCodeList = analysisService.findMatchingTop5(rq,codeList);
+        List<DongInfo> topInfoList = analysisService.findMatchingTop5(rq,codeList);
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
-        //model.addAttribute("topCodeList", topCodeList);
+        model.addAttribute("topInfoList", topInfoList);
 
         return "main";
     }

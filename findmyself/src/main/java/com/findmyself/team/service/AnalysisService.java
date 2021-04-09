@@ -1,5 +1,6 @@
 package com.findmyself.team.service;
 
+import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Convenient;
 import com.findmyself.team.data.service.ConvenientService;
@@ -80,9 +81,9 @@ public class AnalysisService {
         return codeList;
     }
 
-    public List<Long> findMatchingTop5(Requirements rq, List<Long> codeList){
+    public List<DongInfo> findMatchingTop5(Requirements rq, List<Long> codeList){
 
-        List<Long> topCodeList = new ArrayList<>();
+        List<DongInfo> topInfoList = new ArrayList<>();
 
         Map<Integer, Long> intervalList = new HashMap<Integer, Long>();
 
@@ -144,9 +145,9 @@ public class AnalysisService {
         }
 
         //인터벌값 오름차순 정렬 top5
-        topCodeList = sortIntervalList(intervalList);
+        topInfoList = sortIntervalList(intervalList);
 
-        return topCodeList;
+        return topInfoList;
     }
 
     public int findConvenientInterval(Long code){
@@ -164,9 +165,9 @@ public class AnalysisService {
         return Math.round(interval/6);
     }
 
-    public List<Long> sortIntervalList(Map<Integer, Long> intervalList){    //인터벌값 오름차순 정렬 top5
+    public List<DongInfo> sortIntervalList(Map<Integer, Long> intervalList){    //인터벌값 오름차순 정렬 top5
 
-        List<Long> topCodeList = new ArrayList<>();
+        List<DongInfo> topInfoList = new ArrayList<>();
 
         List<Integer> keys = new ArrayList<>(intervalList.keySet());
         Collections.sort(keys);
@@ -177,13 +178,15 @@ public class AnalysisService {
         {
             int itv = keys.get(i);
             Long h_code = intervalList.get(keys.get(i));
+            String gu = gudongService.findOne(h_code).getGu();
             String h_dong = gudongService.findOne(h_code).getH_dong();
 
             System.out.println("interval: "+itv+", h_dong: "+h_dong);
 
-            //topCodeList.add(gudongService.findOne(h_code));
+            DongInfo dongInfo = new DongInfo(gu,h_dong,h_code);
+            topInfoList.add(dongInfo);
         }
 
-        return topCodeList;
+        return topInfoList;
     }
 }

@@ -130,8 +130,7 @@ function displayArea(coordinates) {
 }
 
 //행정동 기준으로 폴리곤 생성
-function Draw_HangJungDong(h_code, addr){
-
+function Draw_HangJungDong(h_code, addr, fillColor){
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -150,7 +149,7 @@ function Draw_HangJungDong(h_code, addr){
             if(h_code == code)
             {
                 // alert(addr);
-                displayHangJungDong(coordinates, name,code,addr);
+                displayHangJungDong(coordinates, name,code,addr, fillColor);
             }
         })
     })
@@ -165,7 +164,7 @@ for (var i = 0, len = areas.length; i < len; i++) {
 
 
 // 특정 행정동 색칠
-function displayHangJungDong(coordinates, name,code,dest){
+function displayHangJungDong(coordinates, name,code,dest, fillColor){
     var path = [];
     var points = [];
     var bounds = new Tmapv2.LatLngBounds();
@@ -180,9 +179,6 @@ function displayHangJungDong(coordinates, name,code,dest){
     })
 
     var center = bounds.getCenter();
-
-    // 나중에 추천 정도에 따라 이거 색 바꿈 => 변수 추가해야함
-    var fillColor = "#83A1C4";
 
     // 다각형을 생성합니다
     var polygon = new kakao.maps.Polygon({
@@ -201,8 +197,8 @@ function displayHangJungDong(coordinates, name,code,dest){
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
     kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
         polygon.setOptions({
-            fillColor : '#09f',
-            strokeColor: '#09f'
+            fillColor : fillColor,
+            strokeColor: fillColor
         });
 
         customOverlay.setContent('<div class="area">' + name + '</div>');

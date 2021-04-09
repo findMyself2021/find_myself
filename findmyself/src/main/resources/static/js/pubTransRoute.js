@@ -195,6 +195,9 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         var resultObj = JSON.parse(xhr.responseText);
                         console.log(resultObj.result);
 
+                        //경유역, 정류장 카운트
+                        var station_cnt = 0, bus_cnt = 0;
+
                         var stationResult = "";
                         var pathGuide = "";
                         var dupCheck = ""; // 환승시 중복역 확인
@@ -204,6 +207,7 @@ function searchSubwayStations(sx, sy, ex, ey) {
                                 for(var j = 0; j < resultObj.result.path[0].subPath[i].passStopList.stations.length; j++) {
                                     if(dupCheck !== resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName) {
                                         stationResult += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
+                                        station_cnt++;
                                     }
                                     dupCheck = resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
                                 }
@@ -240,12 +244,18 @@ function searchSubwayStations(sx, sy, ex, ey) {
                                 }
                             }
                         }
-
+                        
                         var content = '<div class="overlaybox">' +
                             '<div class="boxtitle">대중교통 경로 검색 결과</div>'+
                             '   <ul>' +
                             '       <li class="up">' +
-                            '           <span class="title">'+stationResult+'</span>'+
+                            '           <span class="title">'+totalTime+'</span>'+
+                            '       </li>'+
+                            '       <li>'+
+                            '           <span class="title">'+"경유 횟수 : 지하철"+station_cnt+"개, 버스 "+bus_cnt+'</span>'+
+                            '       </li>'+
+                            '       <li>'+
+                            '          <span class="title">'+"환승 횟수 : 0번 "+bus_cnt+'</span>'+
                             '       </li>'+
                             '   </ul>'+
                             '</div>';

@@ -15,6 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
 /*map 관련 */
 
 .area {
@@ -41,13 +42,13 @@
   }
 }*/
 
-.overlaybox {position:relative;width:245px;height:200px;background-color: #9fc0d1; padding:15px 10px; border:1px solid #9fc0d1; border-radius: 8px;}
+.overlaybox {position:relative;width:245px;height:210px;background-color: #9fc0d1; padding:15px 10px; border:1px solid #9fc0d1; border-radius: 8px;}
 .overlaybox div, ul {overflow:hidden;margin:0;padding:0;}
 .overlaybox li {list-style: none;}
 .overlaybox .boxtitle {color:#fff;font-size:14px;font-weight:bold;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png') no-repeat right 2px center;margin-bottom:8px;}
 .overlaybox ul {width:220px;}
 .overlaybox li {position:relative;margin-bottom:2px;background:#6fb0d1;padding:5px 10px;color:white;line-height: 1;}
-.overlaybox li span {display:inline-block;}
+.overlaybox li span {display:inline-block;padding-bottom: 10px;}
 .overlaybox li .title {font-size:13px;}
 .overlaybox li:hover {color:#fff;background:#d24545;}
 .overlaybox li:hover .up {background-position:0 0px;}

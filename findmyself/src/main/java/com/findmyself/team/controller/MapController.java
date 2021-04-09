@@ -1,9 +1,12 @@
 package com.findmyself.team.controller;
 
+import com.findmyself.team.DongInfo;
 import com.findmyself.team.data.service.CenterLocationService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.service.TrafficService;
 import lombok.RequiredArgsConstructor;
+import netscape.javascript.JSObject;
+import org.json.simple.JSONValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -47,6 +47,33 @@ public class MapController {
         String s_center_y = httpServletRequest.getParameter("center_y");
         Double lng = Double.valueOf(s_center_y);
 
+        String listByDistance = httpServletRequest.getParameter("listByDistance");
+        System.out.println("!!!!!: "+ listByDistance);
+
+        // 거리1,코드1/거리2,코드2/...
+        Map<Float,Long> listByDistanceResult = new HashMap<>();
+        String[] setArray1 = listByDistance.split("/"); //거리1,코드1
+        String[] setArray2;
+        for(int i=0; i<setArray1.length; i++){
+            setArray2 = setArray1[i].split(",");
+            listByDistanceResult.put(Float.parseFloat(setArray2[0]),Long.parseLong(setArray2[1]));
+        }
+
+        List<Float> keys = new ArrayList<>(listByDistanceResult.keySet());
+        Collections.sort(keys);
+
+        List<DongInfo> topDisInfoList = new ArrayList<>();
+        for(int i=0; i<4; i++){
+            float dis = keys.get(i);
+            Long code = listByDistanceResult.get(keys.get(i));
+            String gu = gudongService.findOne(code).getGu();
+            String dong = gudongService.findOne(code).getH_dong();
+
+            System.out.println("distance: "+dis+", h_dong: "+dong);
+
+            DongInfo dongInfo = new DongInfo(gu,dong,code);
+            topDisInfoList.add(dongInfo);
+        }
 
         // 테스트중
         String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
@@ -63,6 +90,7 @@ public class MapController {
         model.addAttribute("addr",address);
         model.addAttribute("center_x",lat);
         model.addAttribute("center_y",lng);
+        model.addAttribute("topDisInfoList",topDisInfoList);
 
         return "analysis";
     }

@@ -44,7 +44,6 @@ public class AnalysisService {
     GudongService gudongService;
 
     public List<Long> analysis(Requirements rq){
-        List<Long> result = new ArrayList<>();
         List<Long> codeList = new ArrayList<>();
 
         HashSet<Long> homeList = homeService.analysis(rq.getHome_type(), rq.getDeposit(), rq.getMonthly());
@@ -171,10 +170,9 @@ public class AnalysisService {
 
         List<Integer> keys = new ArrayList<>(intervalList.keySet());
         Collections.sort(keys);
-        keys.sort(Collections.reverseOrder());
 
         // 결과 출력
-        for (int i=0; i<5; i++)
+        for (int i=0; i<20; i++)
         {
             int itv = keys.get(i);
             Long h_code = intervalList.get(keys.get(i));

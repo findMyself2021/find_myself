@@ -64,8 +64,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
 
     // 지도위 마커 표시해주는 함수
     function drawKakaoMarker(x,y, position){
-        var size = new kakao.maps.Size(25, 32);
-        var markerImage = new kakao.maps.MarkerImage("/image/marker_icon-icons.com_54388.png", size);
+        var markerImage = new kakao.maps.MarkerImage(start_marker,size_marker);
 
         if(position == 0) {
             marker_s = new kakao.maps.Marker({
@@ -74,6 +73,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                 map : map
             });
         } else {
+            markerImage = new kakao.maps.MarkerImage(end_marker,size_marker);
             marker_e = new kakao.maps.Marker({
                 position: new kakao.maps.LatLng(y, x),
                 image : markerImage,
@@ -253,14 +253,30 @@ function searchSubwayStations(sx, sy, ex, ey) {
 
                         insertSEArray(ex, ey, 1);
 
+                        // 도착지가 출발지보다 아래에 있으면 => 커스텀 오버레이 밑으로 나타나게 하기
+                        if(sy>ey){
+                            var yanchor = 0;
+                        }
+                        else{
+                            var yanchor = 1.2;
+                        }
+
+                        // 도착지가 왼쪽이라면
+                        if(sy>ey){
+                            var xanchor = 1;
+                        }
+                        else{
+                            var xanchor = 0;
+                        }
+
                         // 커스텀 오버레이를 생성합니다
                         customOverlay = new kakao.maps.CustomOverlay({
                             position: new kakao.maps.LatLng(ey,ex),
                             content: content,
                             //왼쪽 오른쪽
-                            xAnchor: 0,
+                            xAnchor: xanchor,
                             //위 아래
-                            yAnchor: 1.2
+                            yAnchor: yanchor
                         });
 
                         customOverlay.setMap(map);

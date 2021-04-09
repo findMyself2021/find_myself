@@ -4,6 +4,11 @@ var customOverlay;
 var customOverlay_start;
 var customOverlay_end;
 
+//마커
+var start_marker = '/image/start.png';
+var end_marker = '/image/end2.png';
+var size_marker = new kakao.maps.Size(32, 32);
+
 //경로그림정보
 var drawInfoArr = [];
 var drawInfoArr2 = [];
@@ -28,11 +33,7 @@ function initDestSearch(startX,startY,addr){
 
             // 목적지 좌표
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
-            var img= '/image/marker_icon-icons.com_54388.png';
-
-            var markerImage = new kakao.maps.MarkerImage(img,size);
+            var markerImage = new kakao.maps.MarkerImage(end_marker,size_marker);
 
             // 결과값으로 받은 위치를 마커로 표시합니다 (도착지)
             marker_e = new kakao.maps.Marker({
@@ -74,14 +75,10 @@ function initDestSearch(startX,startY,addr){
 function searchCarRoute(startX,startY,endX,endY) {
 
     // 출발지점
-    // var startX = 37.56093749910637;
+    // var startX = 37.56093749910637; => 경도(세로)
     // var startY = 126.99332009924663;
 
-    // 마커 이미지 및 사이즈 설정
-    var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
-    var img= '/image/marker_icon-icons.com_54388.png';
-
-    var markerImage = new kakao.maps.MarkerImage(img,size);
+    var markerImage = new kakao.maps.MarkerImage(start_marker,size_marker);
 
     marker_s = new kakao.maps.Marker(
         {
@@ -90,7 +87,7 @@ function searchCarRoute(startX,startY,endX,endY) {
             map : map
         });
 
-    var content = '<div class="customoverlay">' +
+    var content = '<div class="start_customoverlay">' +
         '  <a href="#" target="_blank">' +
         '    <span class="title">출발지</span>' +
         '  </a>' +
@@ -111,9 +108,6 @@ function searchCarRoute(startX,startY,endX,endY) {
 
                 //기존 맵에 있던 정보들 초기화
                 resettingMap();
-
-                customOverlay_start.setMap(null);
-                customOverlay_end.setMap(null);
 
                 // 교통최적 + 최소시간
                 var searchOption = "2";
@@ -168,15 +162,29 @@ function searchCarRoute(startX,startY,endX,endY) {
                                 '   </ul>'+
                                 '</div>';
 
+                            // 도착지가 출발지보다 아래에 있으면 => 커스텀 오버레이 밑으로 나타나게 하기
+                            if(startX>endX){
+                                var yanchor = 0;
+                            }
+                            else{
+                                var yanchor = 1.2;
+                            }
+                            // 도착지가 왼쪽이라면
+                            if(startY>endY){
+                                var xanchor = 1;
+                            }
+                            else{
+                                var xanchor = 0;
+                            }
 
                             // 커스텀 오버레이를 생성합니다
                             customOverlay = new kakao.maps.CustomOverlay({
-                                position: new kakao.maps.LatLng(endX,endY),
+                                position: new kakao.maps.LatLng(endX,endY),// 도착지에 나타나게
                                 content: content,
                                 //왼쪽 오른쪽
-                                xAnchor: 0,
+                                xAnchor: xanchor, //0 => 오른쪽에 나타남
                                 //위 아래
-                                yAnchor: 1.2
+                                yAnchor: yanchor
                             });
 
                             customOverlay.setMap(map);
@@ -212,39 +220,40 @@ function searchCarRoute(startX,startY,endX,endY) {
 
                                         drawLine(sectionInfos,
                                             trafficArr);
-                                    } else {
-
-                                        var markerImg = "";
-                                        var pType = "";
-
-                                        if (properties.pointType == "S") { //출발지 마커
-                                            markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
-                                            pType = "S";
-                                        } else if (properties.pointType == "E") { //도착지 마커
-                                            markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
-                                            pType = "E";
-                                        } else { //각 포인트 마커
-                                            markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
-                                            pType = "P"
-                                        }
-
-                                        // 경로들의 결과값들을 포인트 객체로 변환
-                                        var latlon = new kakao.maps.Point(
-                                            geometry.coordinates[0],
-                                            geometry.coordinates[1]);
-                                        // 포인트 객체를 받아 좌표값으로 다시 변환
-                                        var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                                            latlon);
-
-                                        var routeInfoObj = {
-                                            markerImage : markerImg,
-                                            lng : convertPoint._lng,
-                                            lat : convertPoint._lat,
-                                            pointType : pType
-                                        };
-                                        // 마커 추가
-                                        addMarkers(routeInfoObj);
                                     }
+                                    // else {
+                                    //
+                                    //     var markerImg = "";
+                                    //     var pType = "";
+                                    //
+                                    //     if (properties.pointType == "S") { //출발지 마커
+                                    //         markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+                                    //         pType = "S";
+                                    //     } else if (properties.pointType == "E") { //도착지 마커
+                                    //         markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+                                    //         pType = "E";
+                                    //     } else { //각 포인트 마커
+                                    //         markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
+                                    //         pType = "P"
+                                    //     }
+                                    //
+                                    //     // 경로들의 결과값들을 포인트 객체로 변환
+                                    //     var latlon = new kakao.maps.Point(
+                                    //         geometry.coordinates[0],
+                                    //         geometry.coordinates[1]);
+                                    //     // 포인트 객체를 받아 좌표값으로 다시 변환
+                                    //     var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+                                    //         latlon);
+                                    //
+                                    //     var routeInfoObj = {
+                                    //         markerImage : markerImg,
+                                    //         lng : convertPoint._lng,
+                                    //         lat : convertPoint._lat,
+                                    //         pointType : pType
+                                    //     };
+                                    //     // 마커 추가
+                                    //     addMarkers(routeInfoObj);
+                                    // }
                                 }//for문 [E]
 
                             } else {
@@ -278,10 +287,10 @@ function searchCarRoute(startX,startY,endX,endY) {
                                         var pType = "";
 
                                         if (properties.pointType == "S") { //출발지 마커
-                                            markerImg = "/image/marker_icon-icons.com_54388.png";
+                                            markerImg = start_marker;
                                             pType = "S";
                                         } else if (properties.pointType == "E") { //도착지 마커
-                                            markerImg = "/image/marker_icon-icons.com_54388.png";
+                                            markerImg = end_marker;
                                             pType = "E";
                                         } else { //각 포인트 마커
                                             markerImg = "/image/check.png";
@@ -371,10 +380,10 @@ function searchCarRouteLocation(startX,startY,endX,endY) {
 
 //마커 생성하기
 function addMarkers(infoObj) {
-    var size = new kakao.maps.Size(25, 32);//아이콘 크기 설정합니다.
+    var size = size_marker;
 
     if (infoObj.pointType == "P") { //포인트점일때는 아이콘 크기를 줄입니다.
-        size = new kakao.maps.Size(8, 8);
+        size = new kakao.maps.Size(4, 4);
     }
 
     var markerImage = new kakao.maps.MarkerImage(infoObj.markerImage,size);
@@ -524,7 +533,7 @@ function drawLine(arrPoint, traffic) {
     } else {
         polyline_ = new kakao.maps.Polyline({
             path : arrPoint,
-            strokeColor : "#51BBA8",
+            strokeColor : "#4a6eff",
             strokeWeight : 3,
             map : map
         });
@@ -539,6 +548,8 @@ function resettingMap() {
     marker_s.setMap(null);
     marker_e.setMap(null);
     customOverlay.setMap(null);
+    customOverlay_start.setMap(null);
+    customOverlay_end.setMap(null);
 
     if (resultMarkerArr.length > 0) {
         for (var i = 0; i < resultMarkerArr.length; i++) {

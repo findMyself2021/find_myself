@@ -13,7 +13,11 @@ public class DandokRepository {
     private EntityManager em;
 
     public HomeDandok findOne(Long h_code){
-        return em.find(HomeDandok.class,h_code);
+        if(em.find(HomeDandok.class,h_code) == null){
+            return null;
+        }else{
+            return em.find(HomeDandok.class,h_code);
+        }
     }
 
     public List<HomeDandok> findAll(){

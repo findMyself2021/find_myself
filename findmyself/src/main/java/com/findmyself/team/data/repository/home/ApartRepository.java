@@ -13,7 +13,11 @@ public class ApartRepository {
     private EntityManager em;
 
     public HomeApart findOne(Long h_code){
-        return em.find(HomeApart.class,h_code);
+        if(em.find(HomeApart.class,h_code) == null){
+            return null;
+        }else{
+            return em.find(HomeApart.class,h_code);
+        }
     }
 
     public List<HomeApart> findAll(){

@@ -22,7 +22,7 @@ public class AgeRepository {
     }
 
     public int findMax(String type){
-        return em.createQuery("select max(c."+type+") from Convenient c", Integer.class)
+        return em.createQuery("select max(ra."+type+") from ResidenceAge ra", Integer.class)
                 .getSingleResult();
     }
 

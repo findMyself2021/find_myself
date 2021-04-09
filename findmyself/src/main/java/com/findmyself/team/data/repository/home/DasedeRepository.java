@@ -1,5 +1,6 @@
 package com.findmyself.team.data.repository.home;
 
+import com.findmyself.team.data.domain.home.HomeDandok;
 import com.findmyself.team.data.domain.home.HomeDasede;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,11 @@ public class DasedeRepository {
     private EntityManager em;
 
     public HomeDasede findOne(Long h_code){
-        return em.find(HomeDasede.class,h_code);
+        if(em.find(HomeDasede.class,h_code) == null){
+            return null;
+        }else{
+            return em.find(HomeDasede.class,h_code);
+        }
     }
 
     public List<HomeDasede> findAll(){

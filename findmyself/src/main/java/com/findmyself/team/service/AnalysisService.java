@@ -1,19 +1,14 @@
 package com.findmyself.team.service;
 
-import com.findmyself.team.ConvenientTmp;
-import com.findmyself.team.IntervalData;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Convenient;
-import com.findmyself.team.data.repository.traffic.InfoResultRepository;
 import com.findmyself.team.data.service.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.home.HomeService;
 import com.findmyself.team.data.service.residence.AgeService;
 import com.findmyself.team.data.service.residence.GenderService;
-import com.findmyself.team.data.service.traffic.BusLocationService;
 import com.findmyself.team.data.service.traffic.InfoResultService;
-import com.findmyself.team.data.service.traffic.SubwayLocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,7 +83,8 @@ public class AnalysisService {
     public List<Long> findMatchingTop5(Requirements rq, List<Long> codeList){
 
         List<Long> topCodeList = new ArrayList<>();
-        List<IntervalData> intervalList = new ArrayList<>();
+
+        Map<Integer, Long> intervalList = new HashMap<Integer, Long>();
 
         int interval = 0;
 
@@ -96,12 +92,13 @@ public class AnalysisService {
         // 인터벌 값이 작을수록 좋음
         for(Long code_tmp: codeList){
 
+            System.out.println("행정동 코드: "+ code_tmp);
             // 전월세 설정값에 가까운
             if(rq.getHome_type().equals("charter")){    //전세
-                interval += Math.abs(homeService.findDepositByAvg(code_tmp) - rq.getDeposit());
+                interval += homeService.findDepositByAvg(code_tmp) - rq.getDeposit();
             }else{  //월세
-                interval += Math.abs(homeService.findDepositByAvg(code_tmp) - rq.getDeposit())
-                        + Math.abs(homeService.findMonthlyByAvg(code_tmp) - rq.getMonthly());
+                interval += homeService.findDepositByAvg(code_tmp) - rq.getDeposit();
+                interval += homeService.findMonthlyByAvg(code_tmp) - rq.getMonthly();
             }
 
             // 교통량 최댓값에 가까운
@@ -131,7 +128,7 @@ public class AnalysisService {
                         - genderService.getMidValue()));
             }
 
-            //연령
+            //선택 연령대 인구수의 최대값에 가까운
             String age_type = rq.getAge_type();
             if(age_type.equals("child")){
                 interval += ageService.findOne(code_tmp).getChild()- ageService.findMax(age_type);
@@ -143,8 +140,7 @@ public class AnalysisService {
                 interval += ageService.findOne(code_tmp).getElder()- ageService.findMax(age_type);
             }
 
-            IntervalData itvData = new IntervalData(interval, code_tmp);
-            intervalList.add(itvData);
+            intervalList.put(interval, code_tmp);
         }
 
         //인터벌값 오름차순 정렬 top5
@@ -168,9 +164,26 @@ public class AnalysisService {
         return Math.round(interval/6);
     }
 
-    public List<Long> sortIntervalList(List<IntervalData> intervalList){    //인터벌값 오름차순 정렬 top5
+    public List<Long> sortIntervalList(Map<Integer, Long> intervalList){    //인터벌값 오름차순 정렬 top5
+
         List<Long> topCodeList = new ArrayList<>();
-        //Arrays.sort(intervalList,Collections.reverseOrder()); 클래스 정렬 생각
+
+        List<Integer> keys = new ArrayList<>(intervalList.keySet());
+        Collections.sort(keys);
+        keys.sort(Collections.reverseOrder());
+
+        // 결과 출력
+        for (int i=0; i<5; i++)
+        {
+            int itv = keys.get(i);
+            Long h_code = intervalList.get(keys.get(i));
+            String h_dong = gudongService.findOne(h_code).getH_dong();
+
+            System.out.println("interval: "+itv+", h_dong: "+h_dong);
+
+            //topCodeList.add(gudongService.findOne(h_code));
+        }
+
         return topCodeList;
     }
 }

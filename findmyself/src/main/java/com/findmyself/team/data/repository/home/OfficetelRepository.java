@@ -1,5 +1,6 @@
 package com.findmyself.team.data.repository.home;
 
+import com.findmyself.team.data.domain.home.HomeDasede;
 import com.findmyself.team.data.domain.home.HomeOfficetel;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,11 @@ public class OfficetelRepository {
     private EntityManager em;
 
     public HomeOfficetel findOne(Long h_code){
-        return em.find(HomeOfficetel.class,h_code);
+        if(em.find(HomeOfficetel.class,h_code) == null){
+            return null;
+        }else{
+            return em.find(HomeOfficetel.class,h_code);
+        }
     }
 
     public List<HomeOfficetel> findAll(){

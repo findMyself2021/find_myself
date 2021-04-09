@@ -33,25 +33,78 @@ public class HomeService {
     public int findDepositByAvg(Long code){
 
         int d_sum = 0;
+        int cnt = 0;
 
-        d_sum = apartRepository.findOne(code).getAvg_deposit()
+        if(apartRepository.findOne(code) == null){
+            d_sum += 0;
+        }else{
+            d_sum += apartRepository.findOne(code).getAvg_deposit();
+            cnt++;
+        }
+
+        if(dandokRepository.findOne(code) == null){
+            d_sum += 0;
+        }else{
+            d_sum += dandokRepository.findOne(code).getAvg_deposit();
+            cnt++;
+        }
+
+        if(dasedeRepository.findOne(code) == null){
+            d_sum += 0;
+        }else{
+            d_sum += dasedeRepository.findOne(code).getAvg_deposit();
+            cnt++;
+        }
+
+        if(officetelRepository.findOne(code) == null){
+            d_sum += 0;
+        }else{
+            d_sum += officetelRepository.findOne(code).getAvg_deposit();
+            cnt++;
+        }
+
+        /*d_sum = apartRepository.findOne(code).getAvg_deposit()
                 + dandokRepository.findOne(code).getAvg_deposit()
                 + dasedeRepository.findOne(code).getAvg_deposit()
-                + officetelRepository.findOne(code).getAvg_deposit();
+                + officetelRepository.findOne(code).getAvg_deposit();*/
 
-        return Math.abs(d_sum/4);
+        return Math.round(d_sum/cnt);
     }
 
     public int findMonthlyByAvg(Long code){
 
         int m_sum = 0;
+        int cnt = 0;
 
-        m_sum = apartRepository.findOne(code).getAvg_monthly()
-                + dandokRepository.findOne(code).getAvg_monthly()
-                + dasedeRepository.findOne(code).getAvg_monthly()
-                + officetelRepository.findOne(code).getAvg_monthly();
+        if(apartRepository.findOne(code) == null){
+            m_sum += 0;
+        }else{
+            m_sum += apartRepository.findOne(code).getAvg_monthly();
+            cnt++;
+        }
 
-        return Math.abs(m_sum/4);
+        if(dandokRepository.findOne(code) == null){
+            m_sum += 0;
+        }else{
+            m_sum += dandokRepository.findOne(code).getAvg_monthly();
+            cnt++;
+        }
+
+        if(dasedeRepository.findOne(code) == null){
+            m_sum += 0;
+        }else{
+            m_sum += dasedeRepository.findOne(code).getAvg_monthly();
+            cnt++;
+        }
+
+        if(officetelRepository.findOne(code) == null){
+            m_sum += 0;
+        }else{
+            m_sum += officetelRepository.findOne(code).getAvg_monthly();
+            cnt++;
+        }
+
+        return Math.round(m_sum/cnt);
     }
 
     public int findDepositMax(){

@@ -42,11 +42,12 @@ public class MainController {
 //        System.out.println("거주연령: "+rq.getAge_type());
 
         List<Long> codeList = analysisService.analysis(rq);
-        List<Long> topCodeList = analysisService.findMatchingTop5(rq,codeList);
+        //List<Long> topCodeList = analysisService.findMatchingTop5(rq,codeList);
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
-        model.addAttribute("topCodeList", topCodeList);
+        //model.addAttribute("topCodeList", topCodeList);
+
         return "main";
     }
 }

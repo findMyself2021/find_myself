@@ -158,12 +158,6 @@ function Draw_HangJungDong(h_code, addr){
 
 var polygons = [];
 
-// 지도에 영역데이터를 폴리곤으로 표시합니다
-for (var i = 0, len = areas.length; i < len; i++) {
-    displayArea(areas[i]);
-}
-
-
 // 특정 행정동 색칠
 function displayHangJungDong(coordinates, name,code,dest){
     var path = [];

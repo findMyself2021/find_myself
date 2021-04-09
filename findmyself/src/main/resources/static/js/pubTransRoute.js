@@ -261,12 +261,20 @@ function searchSubwayStations(sx, sy, ex, ey) {
                             var yanchor = 1.2;
                         }
 
+                        // 도착지가 왼쪽이라면
+                        if(sy>ey){
+                            var xanchor = 1;
+                        }
+                        else{
+                            var xanchor = 0;
+                        }
+
                         // 커스텀 오버레이를 생성합니다
                         customOverlay = new kakao.maps.CustomOverlay({
                             position: new kakao.maps.LatLng(ey,ex),
                             content: content,
                             //왼쪽 오른쪽
-                            xAnchor: 0,
+                            xAnchor: xanchor,
                             //위 아래
                             yAnchor: yanchor
                         });

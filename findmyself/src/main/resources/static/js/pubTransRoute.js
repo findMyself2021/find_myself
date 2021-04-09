@@ -195,21 +195,49 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         var resultObj = JSON.parse(xhr.responseText);
                         console.log(resultObj.result);
 
-                        var str = "";
+                        var stationResult = "";
+                        var pathGuide = "";
                         var dupCheck = ""; // 환승시 중복역 확인
+                        var totalTime = "총 소요시간 : " + resultObj.result.path[0].info.totalTime + "분";
                         for (var i = 0; i < resultObj.result.path[0].subPath.length; i++) {
-                            if(resultObj.result.path[0].subPath[i].trafficType == 1) {
+                            if(resultObj.result.path[0].subPath[i].trafficType === 1) {
                                 for(var j = 0; j < resultObj.result.path[0].subPath[i].passStopList.stations.length; j++) {
                                     if(dupCheck !== resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName) {
-                                        str += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
+                                        stationResult += resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName + "/";
                                     }
                                     dupCheck = resultObj.result.path[0].subPath[i].passStopList.stations[j].stationName;
                                 }
                                 insertSEArray(resultObj.result.path[0].subPath[i].startX, resultObj.result.path[0].subPath[i].startY, 1);
                                 insertSEArray(resultObj.result.path[0].subPath[i].endX, resultObj.result.path[0].subPath[i].endY, 0);
-                            } else if(resultObj.result.path[0].subPath[i].trafficType == 2) {
+                            } else if(resultObj.result.path[0].subPath[i].trafficType === 2) {
                                 insertSEArray(resultObj.result.path[0].subPath[i].startX, resultObj.result.path[0].subPath[i].startY, 1);
                                 insertSEArray(resultObj.result.path[0].subPath[i].endX, resultObj.result.path[0].subPath[i].endY, 0);
+                            }
+
+                            if(i !== resultObj.result.path[0].subPath.length-1) {
+                                if(resultObj.result.path[0].subPath[i].trafficType === 1) {
+                                    pathGuide += resultObj.result.path[0].subPath[i].startName + "역에서 "
+                                        + resultObj.result.path[0].subPath[i].endName + "역으로 지하철 탑승하여 "
+                                        + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 -> ";
+                                } else if (resultObj.result.path[0].subPath[i].trafficType === 2) {
+                                    pathGuide += resultObj.result.path[0].subPath[i].startName + " 정거장에서 "
+                                        + resultObj.result.path[0].subPath[i].endName + " 정거장으로 버스 탑승하여 "
+                                        + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 -> ";
+                                } else {
+                                    pathGuide += resultObj.result.path[0].subPath[i].sectionTime + "분 가량 도보 이동 -> "
+                                }
+                            } else {
+                                if(resultObj.result.path[0].subPath[i].trafficType === 1) {
+                                    pathGuide += resultObj.result.path[0].subPath[i].startName + "역에서 "
+                                        + resultObj.result.path[0].subPath[i].endName + "역으로 지하철 탑승하여 "
+                                        + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 후 목적지 도착 ";
+                                } else if (resultObj.result.path[0].subPath[i].trafficType === 2) {
+                                    pathGuide += resultObj.result.path[0].subPath[i].startName + " 정거장에서 "
+                                        + resultObj.result.path[0].subPath[i].endName + " 정거장으로 버스 탑승하여 "
+                                        + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 후 목적지 도착 ";
+                                } else {
+                                    pathGuide += resultObj.result.path[0].subPath[i].sectionTime + "분 가량 도보 이동 후 목적지 도착"
+                                }
                             }
                         }
 
@@ -217,7 +245,7 @@ function searchSubwayStations(sx, sy, ex, ey) {
                             '<div class="boxtitle">대중교통 경로 검색 결과</div>'+
                             '   <ul>' +
                             '       <li class="up">' +
-                            '           <span class="title">'+str+'</span>'+
+                            '           <span class="title">'+stationResult+'</span>'+
                             '       </li>'+
                             '   </ul>'+
                             '</div>';
@@ -274,8 +302,10 @@ function searchSubwayStations(sx, sy, ex, ey) {
                             if(test > 30)
                                 break;
                         }
-                        console.log(str);
-                        subwayStationResults = str;
+                        console.log(stationResult);
+                        console.log(totalTime);
+                        console.log(pathGuide);
+                        subwayStationResults = stationResult;
                     }
                 }
             });

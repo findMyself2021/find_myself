@@ -26,43 +26,61 @@ public class TrafficService {
     @Autowired
     VolumeService volumeService;
 
-    TrafficData td = new TrafficData();
-
-    String result = "";
-
     public String searchSubwayInfo(String subwayStations) {
+
+        String result = "";
 
         //subwayStations 문자열 리스트로 나누고 검색하고 리턴
         String[] stations = subwayStations.split("/");
 
         for(int i=0; i<stations.length; i++) {
-            td.setIn_0h(subwayService.findOne(stations[i]).getIn_0h());
-            td.setIn_1h(subwayService.findOne(stations[i]).getIn_1h());
-            td.setIn_4h(subwayService.findOne(stations[i]).getIn_4h());
-            td.setIn_5h(subwayService.findOne(stations[i]).getIn_5h());
-            td.setIn_6h(subwayService.findOne(stations[i]).getIn_7h());
-            td.setIn_7h(subwayService.findOne(stations[i]).getIn_7h());
-            td.setIn_8h(subwayService.findOne(stations[i]).getIn_8h());
-            td.setIn_9h(subwayService.findOne(stations[i]).getIn_9h());
-            td.setIn_10h(subwayService.findOne(stations[i]).getIn_10h());
-            td.setIn_11h(subwayService.findOne(stations[i]).getIn_11h());
-            td.setIn_12h(subwayService.findOne(stations[i]).getIn_12h());
-            td.setIn_13h(subwayService.findOne(stations[i]).getIn_13h());
-            td.setIn_14h(subwayService.findOne(stations[i]).getIn_14h());
-            td.setIn_15h(subwayService.findOne(stations[i]).getIn_15h());
-            td.setIn_16h(subwayService.findOne(stations[i]).getIn_16h());
-            td.setIn_17h(subwayService.findOne(stations[i]).getIn_17h());
-            td.setIn_18h(subwayService.findOne(stations[i]).getIn_18h());
-            td.setIn_19h(subwayService.findOne(stations[i]).getIn_19h());
-            td.setIn_20h(subwayService.findOne(stations[i]).getIn_20h());
-            td.setIn_21h(subwayService.findOne(stations[i]).getIn_21h());
-            td.setIn_22h(subwayService.findOne(stations[i]).getIn_22h());
-            td.setIn_23h(subwayService.findOne(stations[i]).getIn_23h());
+            // 시간 구분 : "," , 역 구분 : "/"
+            result += stations[i] + "역 일 평균 0~1시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_0h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 0~1시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_0h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 1~2시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_1h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 1~2시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_1h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 4~5시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_4h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 4~5시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_4h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 5~6시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_5h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 5~6시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_5h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 6~7시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_6h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 6~7시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_6h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 7~8시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_7h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 7~8시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_7h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 8~9시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_8h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 8~9시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_8h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 9~10시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_9h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 9~10시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_9h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 10~11시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_10h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 10~11시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_10h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 11~12시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_11h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 11~12시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_11h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 12~13시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_12h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 12~13시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_12h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 13~14시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_13h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 13~14시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_13h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 14~15시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_14h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 14~15시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_14h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 15~16시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_15h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 15~16시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_15h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 16~17시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_16h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 16~17시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_16h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 17~18시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_17h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 17~18시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_17h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 18~19시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_18h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 18~19시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_18h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 19~20시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_19h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 19~20시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_19h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 20~21시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_20h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 20~21시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_20h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 21~22시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_21h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 21~22시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_21h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 22~23시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_22h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 22~23시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_22h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 23~24시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_23h()/365 + 1) + "명,";
+            result += stations[i] + "역 일 평균 23~24시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_23h()/365 + 1) + "명/";
 
-            System.out.println(stations[i] + "역 1년간 23~24시 승차인원 : " +subwayService.findOne(stations[i]).getIn_23h());
         }
-
-        result = stations[0] + "역 1년간 23~24시 승차인원 : " + subwayService.findOne(stations[0]).getIn_23h();
 
         return result;
     }
@@ -109,16 +127,35 @@ public class TrafficService {
             latitudeIdx++;
         }
 
-        int check = 0;
-
         for(String point : trafficPoints) {
-            System.out.println("경유 지점 확인 :" + point);
-            if(check == 0) {
-                result = result + "경유지 지점 확인 : " + point;
-                check++;
-            } else {
-                result = result + ", 경유지 지점 확인 : " + point;
-            }
+            volumeService.findOne(point);
+
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 0~1시 교통량 : " + (int)(volumeService.findOne(point).get_0h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 1~2시 교통량 : " + (int)(volumeService.findOne(point).get_1h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 2~3시 교통량 : " + (int)(volumeService.findOne(point).get_2h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 3~4시 교통량 : " + (int)(volumeService.findOne(point).get_3h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 4~5시 교통량 : " + (int)(volumeService.findOne(point).get_4h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 5~6시 교통량 : " + (int)(volumeService.findOne(point).get_5h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 6~7시 교통량 : " + (int)(volumeService.findOne(point).get_6h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 7~8시 교통량 : " + (int)(volumeService.findOne(point).get_7h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 8~9시 교통량 : " + (int)(volumeService.findOne(point).get_8h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 9~10시 교통량 : " + (int)(volumeService.findOne(point).get_9h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 10~11시 교통량 : " + (int)(volumeService.findOne(point).get_10h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 11~12시 교통량 : " + (int)(volumeService.findOne(point).get_11h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 12~13시 교통량 : " + (int)(volumeService.findOne(point).get_12h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 13~14시 교통량 : " + (int)(volumeService.findOne(point).get_13h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 14~15시 교통량 : " + (int)(volumeService.findOne(point).get_14h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 15~16시 교통량 : " + (int)(volumeService.findOne(point).get_15h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 16~17시 교통량 : " + (int)(volumeService.findOne(point).get_16h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 17~18시 교통량 : " + (int)(volumeService.findOne(point).get_17h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 18~19시 교통량 : " + (int)(volumeService.findOne(point).get_18h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 19~20시 교통량 : " + (int)(volumeService.findOne(point).get_19h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 20~21시 교통량 : " + (int)(volumeService.findOne(point).get_20h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 21~22시 교통량 : " + (int)(volumeService.findOne(point).get_21h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 22~23시 교통량 : " + (int)(volumeService.findOne(point).get_22h()/30) + ",";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 23~24시 교통량 : " + (int)(volumeService.findOne(point).get_23h()/30) + "/";
+
+            System.out.println("경유 지점 확인 :" + volumeService.findOne(point).getName());
         }
 
         return result;

@@ -15,9 +15,9 @@ public class TrafficVolume {
 
     @Id
     @GeneratedValue
-    private String name;
     private String num;
 
+    private String name;
     private Long _0h;
     private Long _1h;
     private Long _2h;

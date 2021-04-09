@@ -13,6 +13,8 @@ var resultdrawArr = [];
 var resultMarkerArr = [];
 
 var carLocationResults = "";
+var carInfo = "";
+
 //목적지 마커 표시
 function initDestSearch(startX,startY,addr){
     // 주소-좌표 변환 객체를 생성합니다

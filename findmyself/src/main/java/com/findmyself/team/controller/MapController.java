@@ -27,7 +27,9 @@ public class MapController {
 
     private String test;
     private String test2;
-    private int finishCheck;
+    private int pubFinishCheck;
+    private int carFinishCheck;
+
     @PostMapping(value = "/mapAnalysis")
     public String Analysis(HttpServletRequest httpServletRequest, Model model){
 
@@ -69,19 +71,13 @@ public class MapController {
     @ResponseBody
     public String getStationInfo(HttpServletRequest httpServletRequest) {
 
-        finishCheck = 0;
+        pubFinishCheck = 0;
 
         String stations = httpServletRequest.getParameter("sub_Result");
-        String carRouteInfo = httpServletRequest.getParameter("car_Result");
-
         System.out.println("test : " + stations);
-        System.out.println("test2 : " + carRouteInfo);
-
         test = trafficService.searchSubwayInfo(stations);
-        test2 = trafficService.searchCarRootInfo(carRouteInfo);
-        test += "/" + test2;
 
-        finishCheck = 1;
+        pubFinishCheck = 1;
         return null;
     }
 
@@ -90,10 +86,36 @@ public class MapController {
     public String postStationInfo() {
 
         while(true) {
-            if(finishCheck == 1)
+            if(pubFinishCheck == 1)
                 break;
         }
 
         return test;
+    }
+
+    @RequestMapping(value = "/mapAnalysis4")
+    @ResponseBody
+    public String getCarRouteInfo(HttpServletRequest httpServletRequest) {
+
+        carFinishCheck = 0;
+
+        String carRouteInfo = httpServletRequest.getParameter("car_Result");
+        System.out.println("test2 : " + carRouteInfo);
+        test2 = trafficService.searchCarRootInfo(carRouteInfo);
+
+        carFinishCheck = 1;
+        return null;
+    }
+
+    @RequestMapping(value = "/mapAnalysis5")
+    @ResponseBody
+    public String postCarRouteInfo() {
+
+        while(true) {
+            if(carFinishCheck == 1)
+                break;
+        }
+
+        return test2;
     }
 }

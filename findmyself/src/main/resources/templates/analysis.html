@@ -195,9 +195,14 @@
                                                 style="font-size: 14px">대중교통 경로 검색</button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postStationInfo(); getStationInfo();"
-                                                style="font-size: 14px">경로내 교통량 분석</button>
+                                        <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postCarRouteInfo(); getCarRouteInfo();"
+                                                style="font-size: 14px">자동차 경로내 교통량 분석</button>
                                     </li>
+                                    <li class="nav-item">
+                                        <button class="btn btn-sm btn-primary" id="btn_select4" onclick="postStationInfo(); getStationInfo();"
+                                                style="font-size: 14px">대중교통 경로내 교통량 분석</button>
+                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -484,7 +489,6 @@
         function postStationInfo() {
             console.log(subwayStationResults);
             $('.sub_Result').val(subwayStationResults);
-            $('.car_Result').val(carLocationResults);
             $.ajax({
                 type : "POST",
                 url : "/mapAnalysis2",
@@ -500,18 +504,6 @@
         }
 
         function  getStationInfo() {
-            /*$.ajax({
-                type : "GET",
-                url : "/mapAnalysis3",
-                error : function(error) {
-                    console.log("error");
-                },
-                success : function(data) {
-                    console.log("success");
-                    stationInfo = data;
-                    console.log(stationInfo);
-                }
-            });*/
             setTimeout(function () {
                 $.ajax({
                     type : "GET",
@@ -527,9 +519,44 @@
                 });
             }, 300);
         }
+
+        function postCarRouteInfo() {
+            $('.car_Result').val(carLocationResults);
+            $.ajax({
+                type : "POST",
+                url : "/mapAnalysis4",
+                data : $("#postCarRouteForm").serialize(),
+                error : function(error) {
+                    console.log("error");
+                },
+                success : function(data) {
+                    console.log("success");
+
+                }
+            });
+        }
+
+        function  getCarRouteInfo() {
+            setTimeout(function () {
+                $.ajax({
+                    type : "GET",
+                    url : "/mapAnalysis5",
+                    error : function(error) {
+                        console.log("error");
+                    },
+                    success : function(data) {
+                        console.log("success");
+                        carInfo = data;
+                        console.log(carInfo);
+                    }
+                });
+            }, 300);
+        }
     </script>
     <form id="postStationForm" name="postStationForm">
         <input class="sub_Result" id="sub_Result" name="sub_Result" type="hidden">
+    </form>
+    <form id="postCarRouteForm" name="postCarRouteForm">
         <input class="car_Result" id="car_Result" name="car_Result" type="hidden">
     </form>
 </body>

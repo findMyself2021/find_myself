@@ -536,6 +536,7 @@ function drawLine(arrPoint, traffic) {
             path : arrPoint,
             strokeColor : "#4a6eff",
             strokeWeight : 3,
+            strokeOpacity : 0.8,
             map : map
         });
         resultdrawArr.push(polyline_);

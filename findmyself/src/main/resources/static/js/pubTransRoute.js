@@ -100,71 +100,81 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#003499'
                     });
                 }else if(data.result.lane[i].type === 2){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#37b42d'
                     });
                 }else if(data.result.lane[i].type === 3){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#fc4c02'
                     });
                 }else if(data.result.lane[i].type == 4){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
-                        strokeColor: '#00a9e0'
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
+                        strokeColor: '#0448be'
                     });
                 }else if(data.result.lane[i].type == 5){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#a05eb5'
                     });
                 }else if(data.result.lane[i].type == 6){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#a9431e'
                     });
                 }else if(data.result.lane[i].type == 7){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#67823a'
                     });
                 }else if(data.result.lane[i].type == 8){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#e31c79'
                     });
                 }else if(data.result.lane[i].type == 9){
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
                         strokeColor: '#8c8279'
                     });
                 }else{ // 버스의 경우
                     var polyline = new kakao.maps.Polyline({
                         map: map,
                         path: lineArray,
-                        strokeWeight: 3,
-                        strokeColor: '#86E57F'
+                        strokeWeight : 3,
+                        strokeOpacity : 0.8,
+                        strokeColor: '#184f12'
                     });
                 }
 
@@ -442,6 +452,7 @@ function searchWalkRoute(sx, sy, ex, ey, option) {
             path : arrPoint,
             strokeColor : "#DD0000",
             strokeWeight : 3,
+            strokeOpacity : 0.8,
             map: map
         });
         resultdrawArr.push(polyline_);

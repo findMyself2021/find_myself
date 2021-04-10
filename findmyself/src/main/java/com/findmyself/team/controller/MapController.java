@@ -51,20 +51,20 @@ public class MapController {
         System.out.println("!!!!!: "+ listByDistance);
 
         // 거리1,코드1/거리2,코드2/...
-        Map<Float,Long> listByDistanceResult = new HashMap<>();
+        Map<Double,Long> listByDistanceResult = new HashMap<>();
         String[] setArray1 = listByDistance.split("/"); //거리1,코드1
         String[] setArray2;
         for(int i=0; i<setArray1.length; i++){
             setArray2 = setArray1[i].split(",");
-            listByDistanceResult.put(Float.parseFloat(setArray2[0]),Long.parseLong(setArray2[1]));
+            listByDistanceResult.put(Double.parseDouble(setArray2[0]),Long.parseLong(setArray2[1]));
         }
 
-        List<Float> keys = new ArrayList<>(listByDistanceResult.keySet());
+        List<Double> keys = new ArrayList<>(listByDistanceResult.keySet());
         Collections.sort(keys);
 
         List<DongInfo> topDisInfoList = new ArrayList<>();
         for(int i=0; i<4; i++){
-            float dis = keys.get(i);
+            double dis = keys.get(i);
             Long code = listByDistanceResult.get(keys.get(i));
             String gu = gudongService.findOne(code).getGu();
             String dong = gudongService.findOne(code).getH_dong();

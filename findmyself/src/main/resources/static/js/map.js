@@ -320,7 +320,7 @@ function findDestCoord(i,code,startX,startY,dest){
     });
 }
 function findRouteDistance(i,code,startX,startY,endX,endY) {
-    var tDistance = Math.sqrt(Math.pow(startX-endX,2)+Math.pow(startY-endY,2))
+    var tDistance = distance(startX,startY,endX,endY);
     var input = document.getElementById("listByDistance");
     var value_tmp = input.getAttribute("value");
 
@@ -331,4 +331,26 @@ function findRouteDistance(i,code,startX,startY,endX,endY) {
     if(i == 19){
         document.getElementById("smb_form").submit();
     }
+}
+
+function distance(startX,startY,endX,endY) {
+
+    var theta = startY - endY;
+    var dist = Math.sin(deg2rad(startX)) * Math.sin(deg2rad(endX)) + Math.cos(deg2rad(startX)) * Math.cos(deg2rad(endX)) * Math.cos(deg2rad(theta));
+
+    dist = Math.acos(dist);
+    dist = rad2deg(dist);
+    dist = dist * 60 * 1.1515;
+
+    dist = dist * 1.609344;
+
+    return (dist);
+}
+
+function deg2rad(deg) {
+    return (deg * Math.PI / 180.0);
+}
+
+function rad2deg(rad) {
+    return (rad * 180 / Math.PI);
 }

@@ -4,6 +4,7 @@ import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Convenient;
+import com.findmyself.team.data.domain.residence.ResidenceGender;
 import com.findmyself.team.data.service.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.data.service.SafetyService;
@@ -44,6 +45,7 @@ public class AnalysisService {
     @Autowired
     GudongService gudongService;
 
+    // 필터링 분석
     public List<Long> analysis(Requirements rq){
         List<Long> codeList = new ArrayList<>();
 
@@ -73,7 +75,7 @@ public class AnalysisService {
             }if(ageList.contains(code)) {
                 cnt++;
             }
-            if(cnt>2){ //조건 3개 이상 충족하면 추천
+            if(cnt>=2){ //예산 외 조건 2개 이상 충족하면 추천
                 codeList.add(code);
             }
         }
@@ -81,30 +83,32 @@ public class AnalysisService {
         return codeList;
     }
 
+    // 매칭률 top5 분석
+    // (위 분석에서)필터링 된 리스트 이용
     public List<DongInfo> findMatchingTop5(Requirements rq, List<Long> codeList){
 
-        List<DongInfo> topInfoList = new ArrayList<>();
+        List<DongInfo> topInfoList;
 
-        Map<Integer, Long> intervalList = new HashMap<Integer, Long>();
+        Map<Integer, Long> intervalList = new HashMap<>();
 
         int interval = 0;
 
         // 추출한 추천 행정동 리스트에서 매칭률 높은곳 찾기
         // 인터벌 값이 작을수록 좋음
         for(Long code_tmp: codeList){
+            //System.out.println("행정동 코드: "+ code_tmp);
 
-            System.out.println("행정동 코드: "+ code_tmp);
             // 전월세 설정값에 가까운
-            if(rq.getHome_type().equals("charter")){    //전세
-                interval += homeService.findDepositByAvg(code_tmp) - rq.getDeposit();
-            }else{  //월세
-                interval += homeService.findDepositByAvg(code_tmp) - rq.getDeposit();
-                interval += homeService.findMonthlyByAvg(code_tmp) - rq.getMonthly();
+            if(rq.getHome_type().equals("charter")){    //전세 필터링 경우
+                interval += rq.getDeposit() - homeService.findDepositAvgByCharter(code_tmp);
+            }else{  //월세 필터링 경우
+                interval += rq.getDeposit() - homeService.findDepositAvgByMonthly(code_tmp);
+                interval += rq.getMonthly() - homeService.findMonthlyAvgByMonthly(code_tmp);
             }
 
             // 교통량 최댓값에 가까운
-            interval += infoResultService.findMax()
-                    - infoResultService.findOne(code_tmp).getNum();
+            interval += Math.abs(infoResultService.findMax()
+                    - infoResultService.findOne(code_tmp).getNum());
 
             // 편의 수치 최댓값에 가까운
             interval += findConvenientInterval(code_tmp);
@@ -119,11 +123,11 @@ public class AnalysisService {
             );
 
             if(preferGender.equals("w")){  //여초 선호
-                interval += (int)(genderService.findOne(code_tmp).getSex_ratio()
-                        - genderService.findMin());
+                interval += Math.abs((int)(genderService.findOne(code_tmp).getSex_ratio()
+                        - genderService.findMin()));
             }else if(preferGender.equals("m")){    //남초 선호
-                interval += (int)(genderService.findOne(code_tmp).getSex_ratio()
-                        - genderService.findMax());
+                interval += Math.abs((int)(genderService.findOne(code_tmp).getSex_ratio()
+                        - genderService.findMax()));
             }else{  //반반
                 interval += Math.abs((int)(genderService.findOne(code_tmp).getSex_ratio()
                         - genderService.getMidValue()));
@@ -132,13 +136,13 @@ public class AnalysisService {
             //선택 연령대 인구수의 최대값에 가까운
             String age_type = rq.getAge_type();
             if(age_type.equals("child")){
-                interval += ageService.findOne(code_tmp).getChild()- ageService.findMax(age_type);
+                interval += Math.abs(ageService.findOne(code_tmp).getChild()- ageService.findMax(age_type));
             }else if(age_type.equals("s2030")){
-                interval += ageService.findOne(code_tmp).getS2030()- ageService.findMax(age_type);
+                interval += Math.abs(ageService.findOne(code_tmp).getS2030()- ageService.findMax(age_type));
             }else if(age_type.equals("s4050")){
-                interval += ageService.findOne(code_tmp).getS4050() - ageService.findMax(age_type);
+                interval += Math.abs(ageService.findOne(code_tmp).getS4050() - ageService.findMax(age_type));
             }else{
-                interval += ageService.findOne(code_tmp).getElder()- ageService.findMax(age_type);
+                interval += Math.abs(ageService.findOne(code_tmp).getElder()- ageService.findMax(age_type));
             }
 
             intervalList.put(interval, code_tmp);
@@ -150,22 +154,24 @@ public class AnalysisService {
         return topInfoList;
     }
 
+    // 편의시설 인터벌값 계산
     public int findConvenientInterval(Long code){
         int interval = 0;
 
         Convenient conv = convenientService.findOne(code);
 
-        interval += convenientService.findMax("joy") - conv.getJoy();
-        interval += convenientService.findMax("shop") - conv.getShop();
-        interval += convenientService.findMax("food") - conv.getFood();
-        interval += convenientService.findMax("life") - conv.getLife();
-        interval += convenientService.findMax("sport") - conv.getSport();
-        interval += convenientService.findMax("edu") - conv.getEdu();
+        interval += Math.abs(convenientService.findMax("joy") - conv.getJoy());
+        interval += Math.abs(convenientService.findMax("shop") - conv.getShop());
+        interval += Math.abs(convenientService.findMax("food") - conv.getFood());
+        interval += Math.abs(convenientService.findMax("life") - conv.getLife());
+        interval += Math.abs(convenientService.findMax("sport") - conv.getSport());
+        interval += Math.abs(convenientService.findMax("edu") - conv.getEdu());
 
         return Math.round(interval/6);
     }
 
-    public List<DongInfo> sortIntervalList(Map<Integer, Long> intervalList){    //인터벌값 오름차순 정렬 top5
+    //인터벌값 오름차순 정렬 top5
+    public List<DongInfo> sortIntervalList(Map<Integer, Long> intervalList){
 
         List<DongInfo> topInfoList = new ArrayList<>();
 
@@ -192,12 +198,20 @@ public class AnalysisService {
     //상세분석 관련 서비스
     public AnalysisInfo analysisDetail(Long code){
 
-        //int deposit_avg = homeService.findDepositByAvg(code);
-        //int monthly_avg = homeService.findMonthlyByAvg(code);
+        int deposit_avg_charter = homeService.findDepositAvgByCharter(code);
 
-        //AnalysisInfo result = new AnalysisInfo(deposit_avg,monthly_avg);
+        int deposit_avg_monthly = homeService.findDepositAvgByMonthly(code);
+        int monthly_avg_monthly = homeService.findMonthlyAvgByMonthly(code);
 
-        AnalysisInfo result = new AnalysisInfo(100,100);
+        // 성비 구하기
+        ResidenceGender gender = genderService.findOne(code);
+        int sum = gender.getMale()+gender.getFemale();
+        double man_ratio = Math.round(((double) gender.getMale()/(double) sum*100)*100)/100.0;
+        double woman_ratio = Math.round(((double) gender.getFemale()/(double) sum*100)*100)/100.0;
+        System.out.println(man_ratio+", "+woman_ratio);
+
+        AnalysisInfo result = new AnalysisInfo(deposit_avg_charter,deposit_avg_monthly,monthly_avg_monthly,man_ratio,woman_ratio);
+
         return result;
     }
 }

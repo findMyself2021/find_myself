@@ -18,7 +18,6 @@ public class HomeApart {
     private Long h_code;
 
     private String type;
-    private int date;
     private int avg_deposit;
     private int avg_monthly;
 

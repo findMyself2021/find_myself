@@ -13,25 +13,19 @@ public class ApartRepository {
     private EntityManager em;
 
     public HomeApart findOne(Long h_code, String type){
-        HomeApart homeApart;
         if(type.equals("charter")){
-            try{
-                homeApart = em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '전세'",HomeApart.class)
-                        .setParameter("h_code",h_code)
-                        .getSingleResult();
-            }catch (Exception e){
-                return null;
-            }
-            return homeApart;
+            return em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '전세'",HomeApart.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult();
         }else{
-            try{
-                homeApart = em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '월세'",HomeApart.class)
-                        .setParameter("h_code",h_code)
-                        .getSingleResult();
-            }catch (Exception e){
-                return null;
-            }
-            return homeApart;
+            System.out.println("아파트 월세가: "+em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '월세'",HomeApart.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult().getAvg_deposit()+", "+em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '월세'",HomeApart.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult().getAvg_monthly());
+            return em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '월세'",HomeApart.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult();
         }
     }
 
@@ -40,13 +34,21 @@ public class ApartRepository {
                 .getResultList();
     }
 
-    public int findDepositMax(){
-        return em.createQuery("select max(ha.avg_deposit) from HomeApart ha", Integer.class)
+    //전세 - 최대 보증금값
+    public int findDepositMaxByCharter(){
+        return em.createQuery("select max(ha.avg_deposit) from HomeApart ha where ha.type like '전세'", Integer.class)
                 .getSingleResult();
     }
 
-    public int findMonthlyMax(){
-        return em.createQuery("select max(ha.avg_monthly) from HomeApart ha", Integer.class)
+    //월세 - 최대 보증금값
+    public int findDepositMaxByMonthly(){
+        return em.createQuery("select max(ha.avg_deposit) from HomeApart ha where ha.type like '월세'", Integer.class)
+                .getSingleResult();
+    }
+
+    //월세 - 최대 월세값
+    public int findMonthlyMaxByMonthly(){
+        return em.createQuery("select max(ha.avg_monthly) from HomeApart ha where ha.type like '월세'", Integer.class)
                 .getSingleResult();
     }
 

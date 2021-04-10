@@ -15,25 +15,14 @@ public class OfficetelRepository {
     private EntityManager em;
 
     public HomeOfficetel findOne(Long h_code, String type){
-        HomeOfficetel homeOfficetel;
         if(type.equals("charter")){
-            try{
-                homeOfficetel = em.createQuery("select ha from HomeOfficetel ha where ha.h_code = :h_code and ha.type like '전세'",HomeOfficetel.class)
-                        .setParameter("h_code",h_code)
-                        .getSingleResult();
-            }catch (Exception e){
-                return null;
-            }
-            return homeOfficetel;
+            return em.createQuery("select ho from HomeOfficetel ho where ho.h_code = :h_code and ho.type like '전%'",HomeOfficetel.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult();
         }else{
-            try{
-                homeOfficetel = em.createQuery("select ha from HomeOfficetel ha where ha.h_code = :h_code and ha.type like '월세'",HomeOfficetel.class)
-                        .setParameter("h_code",h_code)
-                        .getSingleResult();
-            }catch (Exception e){
-                return null;
-            }
-            return homeOfficetel;
+            return em.createQuery("select ho from HomeOfficetel ho where ho.h_code = :h_code and ho.type like '월%'",HomeOfficetel.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult();
         }
     }
 
@@ -42,13 +31,21 @@ public class OfficetelRepository {
                 .getResultList();
     }
 
-    public int findDepositMax(){
-        return em.createQuery("select max(ho.avg_deposit) from HomeOfficetel ho", Integer.class)
+    //전세 - 최대 보증금값
+    public int findDepositMaxByCharter(){
+        return em.createQuery("select max(ha.avg_deposit) from HomeOfficetel ha where ha.type like '전세'", Integer.class)
                 .getSingleResult();
     }
 
-    public int findMonthlyMax(){
-        return em.createQuery("select max(ho.avg_monthly) from HomeOfficetel ho", Integer.class)
+    //월세 - 최대 보증금값
+    public int findDepositMaxByMonthly(){
+        return em.createQuery("select max(ha.avg_deposit) from HomeOfficetel ha where ha.type like '월세'", Integer.class)
+                .getSingleResult();
+    }
+
+    //월세 - 최대 월세값
+    public int findMonthlyMaxByMonthly(){
+        return em.createQuery("select max(ha.avg_monthly) from HomeOfficetel ha where ha.type like '월세'", Integer.class)
                 .getSingleResult();
     }
 

@@ -30,125 +30,132 @@ public class HomeService {
     private final DasedeRepository dasedeRepository;
     private final OfficetelRepository officetelRepository;
 
-    public int findDepositByAvg(Long code){
-
-        /*int d_sum = 0;
+    //전세 - 보증금 평균
+    public int findDepositAvgByCharter(Long code){
+        int sum = 0;
         int cnt = 0;
 
-        if(apartRepository.findOne(code,"charter") == null){
-            d_sum += 0;
+        if(apartRepository.findOne(code,"charter").getAvg_deposit() == 0){
+            sum+=0;
         }else{
-            d_sum += apartRepository.findOne(code,"charter").getAvg_deposit();
+            sum+=apartRepository.findOne(code,"charter").getAvg_deposit();
+            cnt++;
+            System.out.println("아파트 전세: "+sum);
+        }
+
+        if(dandokRepository.findOne(code,"charter").getAvg_deposit() == 0){
+            sum+=0;
+        }else{
+            sum+=dandokRepository.findOne(code,"charter").getAvg_deposit();
             cnt++;
         }
 
-        if(dandokRepository.findOne(code,"charter") == null){
-            d_sum += 0;
+        if(dasedeRepository.findOne(code,"charter").getAvg_deposit() == 0){
+            sum+=0;
         }else{
-            d_sum += dandokRepository.findOne(code,"charter").getAvg_deposit();
+            sum+=dasedeRepository.findOne(code,"charter").getAvg_deposit();
             cnt++;
         }
 
-        if(dasedeRepository.findOne(code,"charter") == null){
-            d_sum += 0;
+        if(officetelRepository.findOne(code,"charter").getAvg_deposit() == 0){
+            sum+=0;
         }else{
-            d_sum += dasedeRepository.findOne(code,"charter").getAvg_deposit();
+            sum+=officetelRepository.findOne(code,"charter").getAvg_deposit();
             cnt++;
         }
 
-        if(officetelRepository.findOne(code,"charter") == null){
-            d_sum += 0;
+        if(cnt==0){
+            System.out.println("!!!!!!해당 전세 보증금값 존재 X !!!!!!");
+            return 0;
         }else{
-            d_sum += officetelRepository.findOne(code,"charter").getAvg_deposit();
-            cnt++;
+            return Math.round(sum/cnt);
         }
-
-        /*d_sum = apartRepository.findOne(code).getAvg_deposit()
-                + dandokRepository.findOne(code).getAvg_deposit()
-                + dasedeRepository.findOne(code).getAvg_deposit()
-                + officetelRepository.findOne(code).getAvg_deposit();*/
-
-        //return Math.round(d_sum/cnt);
-
-        return 1;
     }
 
-    public int findMonthlyByAvg(Long code){
-
-        /*int m_sum = 0;
+    //월세 - 보증금 평균
+    public int findDepositAvgByMonthly(Long code){
+        int sum = 0;
         int cnt = 0;
 
-        if(apartRepository.findOne(code,"monthly") == null){
-            m_sum += 0;
+        if(apartRepository.findOne(code,"monthly").getAvg_deposit() == 0){
+            sum+=0;
         }else{
-            m_sum += apartRepository.findOne(code,"monthly").getAvg_monthly();
+            sum+=apartRepository.findOne(code,"monthly").getAvg_deposit();
+            cnt++;
+            System.out.println("아파트 월세: "+sum);
+        }
+
+        if(dandokRepository.findOne(code,"monthly").getAvg_deposit() == 0){
+            sum+=0;
+        }else{
+            sum+=dandokRepository.findOne(code,"monthly").getAvg_deposit();
             cnt++;
         }
 
-        if(dandokRepository.findOne(code,"monthly") == null){
-            m_sum += 0;
+        if(dasedeRepository.findOne(code,"monthly").getAvg_deposit() == 0){
+            sum+=0;
         }else{
-            m_sum += dandokRepository.findOne(code,"monthly").getAvg_monthly();
+            sum+=dasedeRepository.findOne(code,"monthly").getAvg_deposit();
             cnt++;
         }
 
-        if(dasedeRepository.findOne(code,"monthly") == null){
-            m_sum += 0;
+        if(officetelRepository.findOne(code,"monthly").getAvg_deposit() == 0){
+            sum+=0;
         }else{
-            m_sum += dasedeRepository.findOne(code,"monthly").getAvg_monthly();
+            sum+=officetelRepository.findOne(code,"monthly").getAvg_deposit();
             cnt++;
         }
 
-        if(officetelRepository.findOne(code,"monthly") == null){
-            m_sum += 0;
+        if(cnt==0){
+            System.out.println("!!!!!!해당 월세 보증금값 존재 X !!!!!!");
+            return 0;
         }else{
-            m_sum += officetelRepository.findOne(code,"monthly").getAvg_monthly();
-            cnt++;
+            return Math.round(sum/cnt);
         }
-
-        return Math.round(m_sum/cnt);*/
-
-        return 1;
     }
 
-    public int findDepositMax(){
+    //월세 - 월세 평균
+    public int findMonthlyAvgByMonthly(Long code){
+        int sum = 0;
+        int cnt = 0;
 
-        int deposit_max = apartRepository.findDepositMax();
-
-        if(deposit_max < dandokRepository.findDepositMax()){
-            deposit_max = dandokRepository.findDepositMax();
+        if(apartRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+            sum+=0;
+        }else{
+            sum+=apartRepository.findOne(code,"monthly").getAvg_monthly();
+            cnt++;
         }
 
-        if(deposit_max < dandokRepository.findDepositMax()){
-            deposit_max = dandokRepository.findDepositMax();
+        if(dandokRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+            sum+=0;
+        }else{
+            sum+=dandokRepository.findOne(code,"monthly").getAvg_monthly();
+            cnt++;
         }
 
-        if(deposit_max < officetelRepository.findDepositMax()){
-            deposit_max = officetelRepository.findDepositMax();
+        if(dasedeRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+            sum+=0;
+        }else{
+            sum+=dasedeRepository.findOne(code,"monthly").getAvg_monthly();
+            cnt++;
         }
 
-        return  deposit_max;
+        if(officetelRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+            sum+=0;
+        }else{
+            sum+=officetelRepository.findOne(code,"monthly").getAvg_monthly();
+            cnt++;
+        }
+
+        if(cnt==0){
+            System.out.println("!!!!!!해당 월세 월세값 존재 X !!!!!!");
+            return 0;
+        }else{
+            return Math.round(sum/cnt);
+        }
     }
 
-    public int findMonthlyMax(){
-
-        int monthly_max = apartRepository.findMonthlyMax();
-
-        if(monthly_max < dandokRepository.findMonthlyMax()){
-            monthly_max  = dandokRepository.findMonthlyMax();
-        }
-
-        if(monthly_max < dandokRepository.findMonthlyMax()){
-            monthly_max = dandokRepository.findMonthlyMax();
-        }
-
-        if(monthly_max < officetelRepository.findMonthlyMax()){
-            monthly_max = officetelRepository.findMonthlyMax();
-        }
-
-        return monthly_max;
-    }
-
+    // 예산 필터링 분석
     public HashSet<Long> analysis(String home_type, int deposit, int monthly){
         HashSet<Long> codeList = new HashSet<>();
 
@@ -163,6 +170,7 @@ public class HomeService {
         return codeList;
     }
 
+    // 전세 예산 분석
     public HashSet<Long> findCharterList(int deposit){
 
         HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
@@ -173,31 +181,32 @@ public class HomeService {
         List<HomeOfficetel> officetelList =  officetelRepository.findCharters();
 
         for(int i=0; i<apartList.size(); i++){
-            if(apartList.get(i).getAvg_deposit() <= deposit){
+            if(apartList.get(i).getAvg_deposit() <= deposit && apartList.get(i).getAvg_deposit()!=0){
                 codeList.add(apartList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dandokList.size(); i++){
-            if(dandokList.get(i).getAvg_deposit() <= deposit){
+            if(dandokList.get(i).getAvg_deposit() <= deposit && dandokList.get(i).getAvg_deposit()!=0){
                 codeList.add(dandokList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dasedeList.size(); i++){
-            if(dasedeList.get(i).getAvg_deposit() <= deposit){
+            if(dasedeList.get(i).getAvg_deposit() <= deposit && dasedeList.get(i).getAvg_deposit()!=0){
                 codeList.add(dasedeList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<officetelList.size(); i++){
-            if(officetelList.get(i).getAvg_deposit() <= deposit){
+            if(officetelList.get(i).getAvg_deposit() <= deposit && officetelList.get(i).getAvg_deposit()!=0){
                 codeList.add(officetelList.get(i).getH_code());
             }
         }
         return codeList;
     }
 
+    // 월세 예산 분석
     public HashSet<Long> findMonthlyList(int deposit, int monthly){
 
         HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
@@ -208,25 +217,29 @@ public class HomeService {
         List<HomeOfficetel> officetelList =  officetelRepository.findMonthly();
 
         for(int i=0; i<apartList.size(); i++){
-            if(apartList.get(i).getAvg_deposit() <= deposit && apartList.get(i).getAvg_monthly() <= monthly){
+            if(apartList.get(i).getAvg_deposit() <= deposit && apartList.get(i).getAvg_monthly() <= monthly
+                && apartList.get(i).getAvg_deposit()!=0){
                 codeList.add(apartList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dandokList.size(); i++){
-            if(dandokList.get(i).getAvg_deposit() <= deposit && dandokList.get(i).getAvg_monthly() <= monthly){
+            if(dandokList.get(i).getAvg_deposit() <= deposit && dandokList.get(i).getAvg_monthly() <= monthly
+                    && dandokList.get(i).getAvg_deposit()!=0){
                 codeList.add(dandokList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dasedeList.size(); i++){
-            if(dasedeList.get(i).getAvg_deposit() <= deposit && dasedeList.get(i).getAvg_monthly() <= monthly){
+            if(dasedeList.get(i).getAvg_deposit() <= deposit && dasedeList.get(i).getAvg_monthly() <= monthly
+                    && dasedeList.get(i).getAvg_deposit()!=0){
                 codeList.add(dasedeList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<officetelList.size(); i++){
-            if(officetelList.get(i).getAvg_deposit() <= deposit && officetelList.get(i).getAvg_monthly() <= monthly){
+            if(officetelList.get(i).getAvg_deposit() <= deposit && officetelList.get(i).getAvg_monthly() <= monthly
+                    && officetelList.get(i).getAvg_deposit()!=0){
                 codeList.add(officetelList.get(i).getH_code());
             }
         }
@@ -240,30 +253,5 @@ public class HomeService {
 
         return codeList;
     }
-    /*
-    public int findDeposit(String type, Long code){
-
-        if(type.equals("apart")){
-            return apartRepository.findOne(code,"charter").getAvg_deposit();
-        }else if(type.equals("dandok")){
-            return dandokRepository.findOne(code).getAvg_deposit();
-        }else if(type.equals("dasede")){
-            return dasedeRepository.findOne(code).getAvg_deposit();
-        }else{
-            return officetelRepository.findOne(code).getAvg_deposit();
-        }
-    }
-    public int findMonthly(String type, Long code){
-
-        if(type.equals("apart")){
-            return apartRepository.findOne(code,"monthly").getAvg_monthly();
-        }else if(type.equals("dandok")){
-            return dandokRepository.findOne(code).getAvg_monthly();
-        }else if(type.equals("dasede")){
-            return dasedeRepository.findOne(code).getAvg_monthly();
-        }else{
-            return officetelRepository.findOne(code).getAvg_monthly();
-        }
-    }*/
 
 }

@@ -16,25 +16,14 @@ public class DandokRepository {
     private EntityManager em;
 
     public HomeDandok findOne(Long h_code, String type){
-        HomeDandok homeDandok;
         if(type.equals("charter")){
-            try{
-                homeDandok = em.createQuery("select ha from HomeDandok ha where ha.h_code = :h_code and ha.type like '전세'",HomeDandok.class)
-                        .setParameter("h_code",h_code)
-                        .getSingleResult();
-            }catch (Exception e){
-                return null;
-            }
-            return homeDandok;
+            return em.createQuery("select hd from HomeDandok hd where hd.h_code = :h_code and hd.type like '전세'",HomeDandok.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult();
         }else{
-            try{
-                homeDandok = em.createQuery("select ha from HomeDandok ha where ha.h_code = :h_code and ha.type like '월세'",HomeDandok.class)
-                        .setParameter("h_code",h_code)
-                        .getSingleResult();
-            }catch (Exception e){
-                return null;
-            }
-            return homeDandok;
+            return em.createQuery("select hd from HomeDandok hd where hd.h_code = :h_code and hd.type like '월세'",HomeDandok.class)
+                    .setParameter("h_code",h_code)
+                    .getSingleResult();
         }
     }
 
@@ -43,13 +32,21 @@ public class DandokRepository {
                 .getResultList();
     }
 
-    public int findDepositMax(){
-        return em.createQuery("select max(hd.avg_deposit) from HomeDandok hd", Integer.class)
+    //전세 - 최대 보증금값
+    public int findDepositMaxByCharter(){
+        return em.createQuery("select max(ha.avg_deposit) from HomeDandok ha where ha.type like '전%'", Integer.class)
                 .getSingleResult();
     }
 
-    public int findMonthlyMax(){
-        return em.createQuery("select max(hd.avg_monthly) from HomeDandok hd", Integer.class)
+    //월세 - 최대 보증금값
+    public int findDepositMaxByMonthly(){
+        return em.createQuery("select max(ha.avg_deposit) from HomeDandok ha where ha.type like '월%'", Integer.class)
+                .getSingleResult();
+    }
+
+    //월세 - 최대 월세값
+    public int findMonthlyMaxByMonthly(){
+        return em.createQuery("select max(ha.avg_monthly) from HomeDandok ha where ha.type like '월세'", Integer.class)
                 .getSingleResult();
     }
 

@@ -131,13 +131,15 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">평균시세</h5>
-                                            <span class="h2 font-weight-bold mb-0" th:text="${analysisInfos.deposit_avg} "></span>
-                                            <span class="h2 font-weight-bold mb-0">만원</span>
-                                            <span class="h2 font-weight-bold mb-0" th:text="${analysisInfos.monthly_avg} "></span>
-                                            <span class="h2 font-weight-bold mb-0" >만원</span>
+                                            <span class="h2 font-weight-bold mb-0" id="charter-info1" th:text="${analysisInfos.deposit_avg_charter} "></span>
+                                            <span class="h3 font-weight-bold mb-0" id="charter-info2">만원</span>
+                                            <span class="h2 font-weight-bold mb-0" id="monthly-info1" th:text="${analysisInfos.deposit_avg_monthly} "></span>
+                                            <span class="h3 font-weight-bold mb-0" id="monthly-info2">만원</span>
+                                            <span class="h2 font-weight-bold mb-0" id="monthly-info3" th:text="${analysisInfos.monthly_avg_monthly} "></span>
+                                            <span class="h3 font-weight-bold mb-0" id="monthly-info4">만원</span>
                                         </div>
-                                        <a href="#!" class="btn btn-sm btn-primary" id="charter-info-btn">전세가</a>
-                                        <a href="#!" class="btn btn-sm btn-primary" id="monthly-info-btn">월세가</a>
+                                        <a href="#!" class="btn btn-sm btn-primary" id="charter-info-btn" onclick="charter_info_click()">전세가</a>
+                                        <a href="#!" class="btn btn-sm btn-primary" id="monthly-info-btn" onclick="monthly_info_click()">월세가</a>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
                                                 <i class="fas fa-chart-bar"></i>
@@ -220,7 +222,6 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">남녀비율</h5>
-                                            <span class="h2 font-weight-bold mb-0">924</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -228,10 +229,30 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                                        <span class="text-nowrap">Since yesterday</span>
-                                    </p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="h3 font-weight-bold mb-0">남</span>
+                                        <span class="mr-2" th:text="${analysisInfos.man_ratio}"></span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-danger" role="progressbar" th:attr="aria-valuenow=${analysisInfos.man_ratio}" aria-valuemin="0" aria-valuemax="100"
+                                                     th:style="'width:'+ ${analysisInfos.man_ratio}+'%;'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="h3 font-weight-bold mb-0">여</span>
+                                        <span class="mr-2" th:text="${analysisInfos.woman_ratio}"></span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-danger" role="progressbar" th:attr="aria-valuenow=${analysisInfos.woman_ratio}" aria-valuemin="0" aria-valuemax="100"
+                                                     th:style="'width:'+ ${analysisInfos.woman_ratio}+'%;'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+<!--                                    <p class="mt-3 mb-0 text-muted text-sm">-->
+<!--                                        <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>-->
+<!--                                        <span class="text-nowrap">Since yesterday</span>-->
+<!--                                    </p>-->
                                 </div>
                             </div>
                         </div>
@@ -454,6 +475,25 @@
                 document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis+"km";
 
             }
+        }
+
+        document.getElementById("monthly-info-btn").click();
+
+        function charter_info_click(){  //전세가 클릭시
+            document.getElementById("monthly-info1").style.display="none";
+            document.getElementById("monthly-info2").style.display="none";
+            document.getElementById("monthly-info3").style.display="none";
+            document.getElementById("monthly-info4").style.display="none";
+            document.getElementById("charter-info1").style.display="inline-block";
+            document.getElementById("charter-info2").style.display="inline-block";
+        }
+        function monthly_info_click(){  //월세가 클릭시
+            document.getElementById("charter-info1").style.display="none";
+            document.getElementById("charter-info2").style.display="none";
+            document.getElementById("monthly-info1").style.display="inline-block";
+            document.getElementById("monthly-info2").style.display="inline-block";
+            document.getElementById("monthly-info3").style.display="inline-block";
+            document.getElementById("monthly-info4").style.display="inline-block";
         }
     </script>
     <form id="postStationForm" name="postStationForm">

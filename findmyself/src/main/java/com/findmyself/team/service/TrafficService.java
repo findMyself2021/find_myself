@@ -83,7 +83,8 @@ public class TrafficService {
             result += stations[i] + "역 일 평균 23~24시 승차인원 : " + (int)(subwayService.findOne(stations[i]).getIn_23h()/365 + 1) + "명,";
             result += stations[i] + "역 일 평균 23~24시 하차인원 : " + (int)(subwayService.findOne(stations[i]).getOut_23h()/365 + 1) + "명/";
 
-            summarizeResult(stations[i], 1);
+            if(i == 0 || i == stations.length - 1)
+                summarizeResult(stations[i], 1);
         }
         result += "|" + subResult2;
         return result;
@@ -216,11 +217,11 @@ public class TrafficService {
                 }
 
                 if(volumeService.findOne(point).get_19h() < 30000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
                 } else if(volumeService.findOne(point).get_19h() < 60000 && volumeService.findOne(point).get_19h() >= 30000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
                 } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
                 }
             } else if(volumeService.findOne(point).getName().charAt(0) == 'B') {
                 if(volumeService.findOne(point).get_6h() < 60000) {
@@ -264,11 +265,11 @@ public class TrafficService {
                 }
 
                 if(volumeService.findOne(point).get_19h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
                 } else if(volumeService.findOne(point).get_19h() < 150000 && volumeService.findOne(point).get_19h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
                 } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
                 }
             } else if(volumeService.findOne(point).getName().charAt(0) == 'C') {
                 if(volumeService.findOne(point).get_6h() < 60000) {
@@ -312,11 +313,11 @@ public class TrafficService {
                 }
 
                 if(volumeService.findOne(point).get_19h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
                 } else if(volumeService.findOne(point).get_19h() < 150000 && volumeService.findOne(point).get_19h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
                 } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
                 }
             } else if(volumeService.findOne(point).getName().charAt(0) == 'D') {
                 if(volumeService.findOne(point).get_6h() < 50000) {
@@ -360,11 +361,11 @@ public class TrafficService {
                 }
 
                 if(volumeService.findOne(point).get_19h() < 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
                 } else if(volumeService.findOne(point).get_19h() < 80000 && volumeService.findOne(point).get_19h() >= 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
                 } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
                 }
             } else {
                 if(volumeService.findOne(point).get_6h() < 100000) {
@@ -408,11 +409,11 @@ public class TrafficService {
                 }
 
                 if(volumeService.findOne(point).get_19h() < 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
                 } else if(volumeService.findOne(point).get_19h() < 200000 && volumeService.findOne(point).get_19h() >= 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
                 } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다,";
+                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
                 }
             }
         } else {
@@ -457,11 +458,11 @@ public class TrafficService {
                 subResult2 += point + "역에서 오후 6~7시에는 매우 혼잡할 것으로 예상됩니다,";
             }
             if((subwayService.findOne(point).getIn_19h() + subwayService.findOne(point).getOut_19h()) < 800000) {
-                subResult2 += point + "역에서 오후 7~8시에는 사람이 붐비지 않을 것으로 예상됩니다,";
+                subResult2 += point + "역에서 오후 7~8시에는 사람이 붐비지 않을 것으로 예상됩니다/";
             } else if((subwayService.findOne(point).getIn_19h() + subwayService.findOne(point).getOut_19h()) < 1600000 && (subwayService.findOne(point).getIn_19h() + subwayService.findOne(point).getOut_19h()) >= 800000 ) {
-                subResult2 += point + "역에서 오후 7~8시에는 다소 혼잡할 것으로 예상됩니다,";
+                subResult2 += point + "역에서 오후 7~8시에는 다소 혼잡할 것으로 예상됩니다/";
             } else {
-                subResult2 += point + "역에서 오후 7~8시에는 매우 혼잡할 것으로 예상됩니다,";
+                subResult2 += point + "역에서 오후 7~8시에는 매우 혼잡할 것으로 예상됩니다/";
             }
         }
 

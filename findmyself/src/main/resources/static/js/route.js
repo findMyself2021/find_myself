@@ -18,7 +18,8 @@ var resultdrawArr = [];
 var resultMarkerArr = [];
 
 var carLocationResults = "";
-var carInfo = "";
+var carInfo = ""; // 자동차 경로 분석 결과 요약 데이터
+var carInfoArr, carTrafficArr, carSummaryArr;
 
 //목적지 마커 표시
 function initDestSearch(startX,startY,addr){
@@ -567,4 +568,23 @@ function resettingMap() {
     drawInfoArr = [];
     resultMarkerArr = [];
     resultdrawArr = [];
+}
+
+function summarizeCarResult() {
+    carInfoArr = carInfo.split('|');
+    carTrafficArr = carInfoArr[0].split('/');
+    carSummaryArr = carInfoArr[1].split('/');
+
+    // 자세한 정보
+    for(var i = 0; i < carTrafficArr.length-1; i++) {
+        carTrafficArr[i] = carTrafficArr[i].split(',');
+    }
+
+    //요약 정보
+    for(var j = 0; j < carSummaryArr.length-1; j++) {
+        carSummaryArr[j] = carSummaryArr[j].split(',');
+    }
+
+    console.log(carTrafficArr);
+    console.log(carSummaryArr);
 }

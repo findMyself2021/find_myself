@@ -390,7 +390,7 @@
                     success : function(data) {
                         console.log("success");
                         stationInfo = data;
-                        console.log(stationInfo);
+                        summarizePubResult();
                     }
                 });
             }, 300);
@@ -423,7 +423,7 @@
                     success : function(data) {
                         console.log("success");
                         carInfo = data;
-                        console.log(carInfo);
+                        summarizeCarResult();
                     }
                 });
             }, 300);

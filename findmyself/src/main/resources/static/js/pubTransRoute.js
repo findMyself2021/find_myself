@@ -102,7 +102,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                         path: lineArray,
                         strokeWeight : 3,
                         strokeOpacity : 0.8,
-                        strokeColor: '#003499'
+                        strokeColor: '#0D347F'
                     });
                 }else if(data.result.lane[i].type === 2){
                     var polyline = new kakao.maps.Polyline({
@@ -110,7 +110,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                         path: lineArray,
                         strokeWeight : 3,
                         strokeOpacity : 0.8,
-                        strokeColor: '#37b42d'
+                        strokeColor: '#3B9F37'
                     });
                 }else if(data.result.lane[i].type === 3){
                     var polyline = new kakao.maps.Polyline({
@@ -126,7 +126,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                         path: lineArray,
                         strokeWeight : 3,
                         strokeOpacity : 0.8,
-                        strokeColor: '#0448be'
+                        strokeColor: '#3165A8'
                     });
                 }else if(data.result.lane[i].type == 5){
                     var polyline = new kakao.maps.Polyline({
@@ -142,7 +142,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                         path: lineArray,
                         strokeWeight : 3,
                         strokeOpacity : 0.8,
-                        strokeColor: '#a9431e'
+                        strokeColor: '#904D23'
                     });
                 }else if(data.result.lane[i].type == 7){
                     var polyline = new kakao.maps.Polyline({
@@ -150,7 +150,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                         path: lineArray,
                         strokeWeight : 3,
                         strokeOpacity : 0.8,
-                        strokeColor: '#67823a'
+                        strokeColor: '#5B692E'
                     });
                 }else if(data.result.lane[i].type == 8){
                     var polyline = new kakao.maps.Polyline({
@@ -166,7 +166,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                         path: lineArray,
                         strokeWeight : 3,
                         strokeOpacity : 0.8,
-                        strokeColor: '#8c8279'
+                        strokeColor: '#B39627'
                     });
                 }else{ // 버스의 경우
                     var polyline = new kakao.maps.Polyline({
@@ -174,7 +174,7 @@ function searchPubTransRoute(sx, sy, ex, ey) {
                         path: lineArray,
                         strokeWeight : 3,
                         strokeOpacity : 0.8,
-                        strokeColor: '#184f12'
+                        strokeColor: '#3673dd'
                     });
                 }
 

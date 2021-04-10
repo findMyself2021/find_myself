@@ -131,8 +131,13 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">평균시세</h5>
-                                            <span class="h2 font-weight-bold mb-0">350,897</span>
+                                            <span class="h2 font-weight-bold mb-0" th:text="${analysisInfos.deposit_avg} "></span>
+                                            <span class="h2 font-weight-bold mb-0">만원</span>
+                                            <span class="h2 font-weight-bold mb-0" th:text="${analysisInfos.monthly_avg} "></span>
+                                            <span class="h2 font-weight-bold mb-0" >만원</span>
                                         </div>
+                                        <a href="#!" class="btn btn-sm btn-primary" id="charter-info-btn">전세가</a>
+                                        <a href="#!" class="btn btn-sm btn-primary" id="monthly-info-btn">월세가</a>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
                                                 <i class="fas fa-chart-bar"></i>
@@ -193,7 +198,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">남녀비율</h5>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">편의시설</h5>
                                             <span class="h2 font-weight-bold mb-0">924</span>
                                         </div>
                                         <div class="col-auto">
@@ -263,9 +268,9 @@
                             <div class="col">
                                 <h2 class="mb-0">추천 동네</h2>
                             </div>
-                            <div class="col text-right">
-                                <a href="#!" class="btn btn-sm btn-primary">See all</a>
-                            </div>
+<!--                            <div class="col text-right">-->
+<!--                                <a href="#!" class="btn btn-sm btn-primary">See all</a>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -273,18 +278,22 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col">학교/직장과 가까운</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                                <th scope="col" colspan="2">학교/직장과 가까운</th>
+                                <th scope="col" colspan="2"></th>
+                                <th scope="col" colspan="2"></th>
+                                <th scope="col" colspan="2" th:text="${addr}" style="text-align: right"></th>
                             </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td id="disTop1"></td>
+                                    <td class="disKm" id="disTop1Km" style="padding-left:0; padding-right:0"></td>
                                     <td id="disTop2"></td>
+                                    <td class="disKm" id="disTop2Km" style="padding-left:0; padding-right:0"></td>
                                     <td id="disTop3"></td>
+                                    <td class="disKm" id="disTop3Km" style="padding-left:0; padding-right:0"></td>
                                     <td id="disTop4"></td>
+                                    <td class="disKm" id="disTop4Km" style="padding-left:0; padding-right:0"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -316,9 +325,9 @@
                             <div class="col">
                                 <h2 class="mb-0">여긴 뭐하지?</h2>
                             </div>
-                            <div class="col text-right">
-                                <a href="#!" class="btn btn-sm btn-primary">See all</a>
-                            </div>
+<!--                            <div class="col text-right">-->
+<!--                                <a href="#!" class="btn btn-sm btn-primary">See all</a>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -436,9 +445,14 @@
         function loadDisTopList(){
             if(topDisInfoList != null) {
                 document.getElementById("disTop1").innerText = topDisInfoList[0].gu+" "+topDisInfoList[0].h_dong;
+                document.getElementById("disTop1Km").innerText = topDisInfoList[0].dis+"km";
                 document.getElementById("disTop2").innerText = topDisInfoList[1].gu+" "+topDisInfoList[1].h_dong;
+                document.getElementById("disTop2Km").innerText = topDisInfoList[1].dis+"km";
                 document.getElementById("disTop3").innerText = topDisInfoList[2].gu+" "+topDisInfoList[2].h_dong;
+                document.getElementById("disTop3Km").innerText = topDisInfoList[2].dis+"km";
                 document.getElementById("disTop4").innerText = topDisInfoList[3].gu+" "+topDisInfoList[3].h_dong;
+                document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis+"km";
+
             }
         }
     </script>

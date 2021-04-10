@@ -1,5 +1,6 @@
 package com.findmyself.team.data.repository.home;
 
+import com.findmyself.team.data.domain.home.HomeDandok;
 import com.findmyself.team.data.domain.home.HomeDasede;
 import com.findmyself.team.data.domain.home.HomeOfficetel;
 import org.springframework.stereotype.Repository;
@@ -13,11 +14,26 @@ public class OfficetelRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public HomeOfficetel findOne(Long h_code){
-        if(em.find(HomeOfficetel.class,h_code) == null){
-            return null;
+    public HomeOfficetel findOne(Long h_code, String type){
+        HomeOfficetel homeOfficetel;
+        if(type.equals("charter")){
+            try{
+                homeOfficetel = em.createQuery("select ha from HomeOfficetel ha where ha.h_code = :h_code and ha.type like '전세'",HomeOfficetel.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeOfficetel;
         }else{
-            return em.find(HomeOfficetel.class,h_code);
+            try{
+                homeOfficetel = em.createQuery("select ha from HomeOfficetel ha where ha.h_code = :h_code and ha.type like '월세'",HomeOfficetel.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeOfficetel;
         }
     }
 

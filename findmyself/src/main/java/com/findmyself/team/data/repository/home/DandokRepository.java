@@ -1,6 +1,9 @@
 package com.findmyself.team.data.repository.home;
 
+import com.findmyself.team.data.domain.home.HomeApart;
 import com.findmyself.team.data.domain.home.HomeDandok;
+import com.findmyself.team.data.domain.home.HomeDasede;
+import com.findmyself.team.data.domain.home.HomeOfficetel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,11 +15,26 @@ public class DandokRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public HomeDandok findOne(Long h_code){
-        if(em.find(HomeDandok.class,h_code) == null){
-            return null;
+    public HomeDandok findOne(Long h_code, String type){
+        HomeDandok homeDandok;
+        if(type.equals("charter")){
+            try{
+                homeDandok = em.createQuery("select ha from HomeDandok ha where ha.h_code = :h_code and ha.type like '전세'",HomeDandok.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeDandok;
         }else{
-            return em.find(HomeDandok.class,h_code);
+            try{
+                homeDandok = em.createQuery("select ha from HomeDandok ha where ha.h_code = :h_code and ha.type like '월세'",HomeDandok.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeDandok;
         }
     }
 

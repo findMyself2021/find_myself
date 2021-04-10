@@ -15,8 +15,8 @@ public class DandokService {
 
     private final DandokRepository dandokRepository;
 
-    public HomeDandok findOne(long h_code){
-        return dandokRepository.findOne(h_code);
+    public HomeDandok findOne(long h_code, String type){
+        return dandokRepository.findOne(h_code, type);
     }
 
     public List<HomeDandok> findAll(){

@@ -1,5 +1,6 @@
 package com.findmyself.team.service;
 
+import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Convenient;
@@ -186,5 +187,17 @@ public class AnalysisService {
         }
 
         return topInfoList;
+    }
+
+    //상세분석 관련 서비스
+    public AnalysisInfo analysisDetail(Long code){
+
+        //int deposit_avg = homeService.findDepositByAvg(code);
+        //int monthly_avg = homeService.findMonthlyByAvg(code);
+
+        //AnalysisInfo result = new AnalysisInfo(deposit_avg,monthly_avg);
+
+        AnalysisInfo result = new AnalysisInfo(100,100);
+        return result;
     }
 }

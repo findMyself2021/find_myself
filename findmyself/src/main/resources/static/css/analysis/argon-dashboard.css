@@ -16,7 +16,13 @@
 
 */
 
-/*map 관련 */
+
+.disKm{
+  color: red;
+}
+#charter-info-btn, #monthly-info-btn{
+  height: 30px;
+}
 
 .area {
   position: absolute;

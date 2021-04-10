@@ -15,8 +15,8 @@ public class DasedeService {
 
     private final DasedeRepository dasedeRepository;
 
-    public HomeDasede findOne(long h_code){
-        return dasedeRepository.findOne(h_code);
+    public HomeDasede findOne(long h_code, String type){
+        return dasedeRepository.findOne(h_code, type);
     }
 
     public List<HomeDasede> findAll(){

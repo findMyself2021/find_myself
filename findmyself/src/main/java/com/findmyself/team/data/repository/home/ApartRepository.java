@@ -12,11 +12,26 @@ public class ApartRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public HomeApart findOne(Long h_code){
-        if(em.find(HomeApart.class,h_code) == null){
-            return null;
+    public HomeApart findOne(Long h_code, String type){
+        HomeApart homeApart;
+        if(type.equals("charter")){
+            try{
+                homeApart = em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '전세'",HomeApart.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeApart;
         }else{
-            return em.find(HomeApart.class,h_code);
+            try{
+                homeApart = em.createQuery("select ha from HomeApart ha where ha.h_code = :h_code and ha.type like '월세'",HomeApart.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeApart;
         }
     }
 

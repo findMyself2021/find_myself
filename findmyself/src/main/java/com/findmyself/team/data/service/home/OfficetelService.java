@@ -15,8 +15,8 @@ public class OfficetelService {
 
     private final OfficetelRepository officetelRepository;
 
-    public HomeOfficetel findOne(long h_code){
-        return officetelRepository.findOne(h_code);
+    public HomeOfficetel findOne(long h_code, String type){
+        return officetelRepository.findOne(h_code, type);
     }
 
     public List<HomeOfficetel> findAll(){

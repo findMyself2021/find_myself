@@ -32,34 +32,34 @@ public class HomeService {
 
     public int findDepositByAvg(Long code){
 
-        int d_sum = 0;
+        /*int d_sum = 0;
         int cnt = 0;
 
-        if(apartRepository.findOne(code) == null){
+        if(apartRepository.findOne(code,"charter") == null){
             d_sum += 0;
         }else{
-            d_sum += apartRepository.findOne(code).getAvg_deposit();
+            d_sum += apartRepository.findOne(code,"charter").getAvg_deposit();
             cnt++;
         }
 
-        if(dandokRepository.findOne(code) == null){
+        if(dandokRepository.findOne(code,"charter") == null){
             d_sum += 0;
         }else{
-            d_sum += dandokRepository.findOne(code).getAvg_deposit();
+            d_sum += dandokRepository.findOne(code,"charter").getAvg_deposit();
             cnt++;
         }
 
-        if(dasedeRepository.findOne(code) == null){
+        if(dasedeRepository.findOne(code,"charter") == null){
             d_sum += 0;
         }else{
-            d_sum += dasedeRepository.findOne(code).getAvg_deposit();
+            d_sum += dasedeRepository.findOne(code,"charter").getAvg_deposit();
             cnt++;
         }
 
-        if(officetelRepository.findOne(code) == null){
+        if(officetelRepository.findOne(code,"charter") == null){
             d_sum += 0;
         }else{
-            d_sum += officetelRepository.findOne(code).getAvg_deposit();
+            d_sum += officetelRepository.findOne(code,"charter").getAvg_deposit();
             cnt++;
         }
 
@@ -68,43 +68,47 @@ public class HomeService {
                 + dasedeRepository.findOne(code).getAvg_deposit()
                 + officetelRepository.findOne(code).getAvg_deposit();*/
 
-        return Math.round(d_sum/cnt);
+        //return Math.round(d_sum/cnt);
+
+        return 1;
     }
 
     public int findMonthlyByAvg(Long code){
 
-        int m_sum = 0;
+        /*int m_sum = 0;
         int cnt = 0;
 
-        if(apartRepository.findOne(code) == null){
+        if(apartRepository.findOne(code,"monthly") == null){
             m_sum += 0;
         }else{
-            m_sum += apartRepository.findOne(code).getAvg_monthly();
+            m_sum += apartRepository.findOne(code,"monthly").getAvg_monthly();
             cnt++;
         }
 
-        if(dandokRepository.findOne(code) == null){
+        if(dandokRepository.findOne(code,"monthly") == null){
             m_sum += 0;
         }else{
-            m_sum += dandokRepository.findOne(code).getAvg_monthly();
+            m_sum += dandokRepository.findOne(code,"monthly").getAvg_monthly();
             cnt++;
         }
 
-        if(dasedeRepository.findOne(code) == null){
+        if(dasedeRepository.findOne(code,"monthly") == null){
             m_sum += 0;
         }else{
-            m_sum += dasedeRepository.findOne(code).getAvg_monthly();
+            m_sum += dasedeRepository.findOne(code,"monthly").getAvg_monthly();
             cnt++;
         }
 
-        if(officetelRepository.findOne(code) == null){
+        if(officetelRepository.findOne(code,"monthly") == null){
             m_sum += 0;
         }else{
-            m_sum += officetelRepository.findOne(code).getAvg_monthly();
+            m_sum += officetelRepository.findOne(code,"monthly").getAvg_monthly();
             cnt++;
         }
 
-        return Math.round(m_sum/cnt);
+        return Math.round(m_sum/cnt);*/
+
+        return 1;
     }
 
     public int findDepositMax(){
@@ -236,5 +240,30 @@ public class HomeService {
 
         return codeList;
     }
+    /*
+    public int findDeposit(String type, Long code){
+
+        if(type.equals("apart")){
+            return apartRepository.findOne(code,"charter").getAvg_deposit();
+        }else if(type.equals("dandok")){
+            return dandokRepository.findOne(code).getAvg_deposit();
+        }else if(type.equals("dasede")){
+            return dasedeRepository.findOne(code).getAvg_deposit();
+        }else{
+            return officetelRepository.findOne(code).getAvg_deposit();
+        }
+    }
+    public int findMonthly(String type, Long code){
+
+        if(type.equals("apart")){
+            return apartRepository.findOne(code,"monthly").getAvg_monthly();
+        }else if(type.equals("dandok")){
+            return dandokRepository.findOne(code).getAvg_monthly();
+        }else if(type.equals("dasede")){
+            return dasedeRepository.findOne(code).getAvg_monthly();
+        }else{
+            return officetelRepository.findOne(code).getAvg_monthly();
+        }
+    }*/
 
 }

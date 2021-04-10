@@ -15,8 +15,8 @@ public class ApartService {
 
     private final ApartRepository apartRepository;
 
-    public HomeApart findOne(long h_code){
-        return apartRepository.findOne(h_code);
+    public HomeApart findOne(long h_code, String type){
+        return apartRepository.findOne(h_code, type);
     }
 
     public List<HomeApart> findAll(){

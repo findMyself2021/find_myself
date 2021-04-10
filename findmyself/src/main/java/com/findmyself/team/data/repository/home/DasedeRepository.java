@@ -1,5 +1,6 @@
 package com.findmyself.team.data.repository.home;
 
+import com.findmyself.team.data.domain.home.HomeApart;
 import com.findmyself.team.data.domain.home.HomeDandok;
 import com.findmyself.team.data.domain.home.HomeDasede;
 import org.springframework.stereotype.Repository;
@@ -13,11 +14,26 @@ public class DasedeRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public HomeDasede findOne(Long h_code){
-        if(em.find(HomeDasede.class,h_code) == null){
-            return null;
+    public HomeDasede findOne(Long h_code, String type){
+        HomeDasede homeDasede;
+        if(type.equals("charter")){
+            try{
+                homeDasede = em.createQuery("select ha from HomeDasede ha where ha.h_code = :h_code and ha.type like '전세'",HomeDasede.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeDasede;
         }else{
-            return em.find(HomeDasede.class,h_code);
+            try{
+                homeDasede = em.createQuery("select ha from HomeDasede ha where ha.h_code = :h_code and ha.type like '월세'",HomeDasede.class)
+                        .setParameter("h_code",h_code)
+                        .getSingleResult();
+            }catch (Exception e){
+                return null;
+            }
+            return homeDasede;
         }
     }
 

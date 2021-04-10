@@ -367,16 +367,16 @@
                     주요 거주 연령층
                     <div class="radio_container">
                         <div class="toggle-radio">
-                            <input type="radio" id="info3" name="age-type" value="child" th:checked="*{age_type}">
+                            <input type="radio" id="info3" name="age-type" value="child" th:checked="${#strings.equals(rq.age_type, 'child')}">
                             <label for="info3">유아 및 청소년</label>
 
-                            <input type="radio" id="info4" name="age-type" value="s2030" th:checked="*{age_type}">
+                            <input type="radio" id="info4" name="age-type" value="s2030" th:checked="${#strings.equals(rq.age_type, 's2030')}">
                             <label for="info4">20대 및 30대</label>
 
-                            <input type="radio" id="info5" name="age-type" value="s4050" th:checked="*{age_type}">
+                            <input type="radio" id="info5" name="age-type" value="s4050" th:checked="${#strings.equals(rq.age_type, 's4050')}">
                             <label for="info5">40대 및 50대</label>
 
-                            <input type="radio" id="info6" name="age-type" value="elder" th:checked="*{age_type}">
+                            <input type="radio" id="info6" name="age-type" value="elder" th:checked="${#strings.equals(rq.age_type, 'elder')}">
                             <label for="info6">60대 이상</label>
                         </div>
                     </div>

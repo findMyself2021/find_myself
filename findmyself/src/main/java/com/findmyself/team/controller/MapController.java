@@ -1,12 +1,15 @@
 package com.findmyself.team.controller;
 
+import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.data.service.CenterLocationService;
 import com.findmyself.team.data.service.GudongService;
+import com.findmyself.team.service.AnalysisService;
 import com.findmyself.team.service.TrafficService;
 import lombok.RequiredArgsConstructor;
 import netscape.javascript.JSObject;
 import org.json.simple.JSONValue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +27,9 @@ public class MapController {
     private final CenterLocationService centerLocationService;
 
     private final TrafficService trafficService;
+
+    @Autowired
+    AnalysisService analysisService;
 
     private String test;
     private String test2;
@@ -64,16 +70,18 @@ public class MapController {
 
         List<DongInfo> topDisInfoList = new ArrayList<>();
         for(int i=0; i<4; i++){
-            double dis = keys.get(i);
+            double dis = Math.ceil((keys.get(i))*100)/100;   //둘쨋자리 까지 반올림
             Long code = listByDistanceResult.get(keys.get(i));
             String gu = gudongService.findOne(code).getGu();
             String dong = gudongService.findOne(code).getH_dong();
 
             System.out.println("distance: "+dis+", h_dong: "+dong);
 
-            DongInfo dongInfo = new DongInfo(gu,dong,code);
+            DongInfo dongInfo = new DongInfo(gu,dong,code,dis);
             topDisInfoList.add(dongInfo);
         }
+
+        AnalysisInfo analysisInfos = analysisService.analysisDetail(h_code);
 
         // 테스트중
         String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
@@ -91,6 +99,7 @@ public class MapController {
         model.addAttribute("center_x",lat);
         model.addAttribute("center_y",lng);
         model.addAttribute("topDisInfoList",topDisInfoList);
+        model.addAttribute("analysisInfos",analysisInfos);
 
         return "analysis";
     }

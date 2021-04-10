@@ -312,56 +312,23 @@ function findDestCoord(i,code,startX,startY,dest){
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
             //도착지 좌표값 전달
-            findCarRouteDistance(i,code,startX,startY,result[0].y,result[0].x);
+            findRouteDistance(i,code,startX,startY,result[0].y,result[0].x);
         }
         else{
             alert('도로명 주소를 입력해주세요');
         }
     });
 }
-function findCarRouteDistance(i,code,startX,startY,endX,endY) {
-    $.ajax({
-        type : "POST",
-        url : "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
-        //async : false,
-        data : {
-            "appKey" : "l7xx054e772885bf4fd6bff6bbf96c1884af",
-            "startX" : startY,
-            "startY" : startX,
-            "endX" : endY,
-            "endY" : endX,
-            "reqCoordType" : "WGS84GEO",
-            "resCoordType" : "EPSG3857",
-            "searchOption" : "2",
-            "trafficInfo" : "N"
-        },
-        success : function(response) {
-            var resultData = response.features;
+function findRouteDistance(i,code,startX,startY,endX,endY) {
+    var tDistance = Math.sqrt(Math.pow(startX-endX,2)+Math.pow(startY-endY,2))
+    var input = document.getElementById("listByDistance");
+    var value_tmp = input.getAttribute("value");
 
-            var tDistance = (resultData[0].properties.totalDistance / 1000)
-                .toFixed(1); //km
+    value_tmp+=tDistance+","+code+"/";
+    input.setAttribute("value", value_tmp);
 
-            console.log("ajax: "+tDistance);
-
-            var input = document.getElementById("listByDistance");
-            var value_tmp = input.getAttribute("value");
-            value_tmp+=tDistance+","+code+"/";
-            input.setAttribute("value", value_tmp);
-
-            console.log(value_tmp);
-            if(i == 19){
-                document.getElementById("smb_form").submit();
-            }
-        },
-        error : function(request, status, error) {
-            console.log("code:"
-                + request.status + "\n"
-                + "message:"
-                + request.responseText
-                + "\n" + "error:" + error);
-            if(i == 19){    //api 1초당 2건 제한.. error 해결해야함
-                document.getElementById("smb_form").submit();
-            }
-        }
-    });
+    console.log(value_tmp);
+    if(i == 19){
+        document.getElementById("smb_form").submit();
+    }
 }

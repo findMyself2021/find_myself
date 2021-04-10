@@ -195,8 +195,8 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         var resultObj = JSON.parse(xhr.responseText);
                         console.log(resultObj.result);
 
-                        //경유역, 정류장 카운트
-                        var station_cnt = 0, bus_cnt = 0;
+                        //경유역, 정류장, 환승회수 카운트
+                        var station_cnt = 0, bus_cnt = 0, transfer_cnt = -1;
 
                         var stationResult = "";
                         var pathGuide = "";
@@ -223,10 +223,13 @@ function searchSubwayStations(sx, sy, ex, ey) {
                                     pathGuide += resultObj.result.path[0].subPath[i].startName + "역에서 "
                                         + resultObj.result.path[0].subPath[i].endName + "역으로 지하철 탑승하여 "
                                         + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 -> ";
+                                    transfer_cnt++;
                                 } else if (resultObj.result.path[0].subPath[i].trafficType === 2) {
                                     pathGuide += resultObj.result.path[0].subPath[i].startName + " 정거장에서 "
                                         + resultObj.result.path[0].subPath[i].endName + " 정거장으로 버스 탑승하여 "
                                         + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 -> ";
+                                    bus_cnt += resultObj.result.path[0].subPath[i].passStopList.stations.length;
+                                    transfer_cnt++;
                                 } else {
                                     pathGuide += resultObj.result.path[0].subPath[i].sectionTime + "분 가량 도보 이동 -> "
                                 }
@@ -235,16 +238,21 @@ function searchSubwayStations(sx, sy, ex, ey) {
                                     pathGuide += resultObj.result.path[0].subPath[i].startName + "역에서 "
                                         + resultObj.result.path[0].subPath[i].endName + "역으로 지하철 탑승하여 "
                                         + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 후 목적지 도착 ";
+                                    transfer_cnt++;
                                 } else if (resultObj.result.path[0].subPath[i].trafficType === 2) {
                                     pathGuide += resultObj.result.path[0].subPath[i].startName + " 정거장에서 "
                                         + resultObj.result.path[0].subPath[i].endName + " 정거장으로 버스 탑승하여 "
                                         + resultObj.result.path[0].subPath[i].sectionTime + "분 가량 이동 후 목적지 도착 ";
+                                    bus_cnt += resultObj.result.path[0].subPath[i].passStopList.stations.length;
+                                    transfer_cnt++;
                                 } else {
                                     pathGuide += resultObj.result.path[0].subPath[i].sectionTime + "분 가량 도보 이동 후 목적지 도착"
                                 }
                             }
                         }
-                        
+                        if(transfer_cnt === -1)
+                            transfer_cnt = 0;
+
                         var content = '<div class="overlaybox">' +
                             '<div class="boxtitle">대중교통 경로 검색 결과</div>'+
                             '   <ul>' +
@@ -252,10 +260,10 @@ function searchSubwayStations(sx, sy, ex, ey) {
                             '           <span class="title">'+totalTime+'</span>'+
                             '       </li>'+
                             '       <li>'+
-                            '           <span class="title">'+"경유 횟수 : 지하철"+station_cnt+"개, 버스 "+bus_cnt+'</span>'+
+                            '           <span class="title">'+"경유 횟수 : 지하철"+station_cnt+"개, 버스 "+bus_cnt+"개"+'</span>'+
                             '       </li>'+
                             '       <li>'+
-                            '          <span class="title">'+"환승 횟수 : 0번 "+bus_cnt+'</span>'+
+                            '          <span class="title">'+"환승 횟수 : "+transfer_cnt+"번"+'</span>'+
                             '       </li>'+
                             '   </ul>'+
                             '</div>';

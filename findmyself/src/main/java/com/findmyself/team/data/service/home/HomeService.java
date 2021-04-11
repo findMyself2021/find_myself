@@ -35,37 +35,36 @@ public class HomeService {
         int sum = 0;
         int cnt = 0;
 
-        if(apartRepository.findOne(code,"charter").getAvg_deposit() == 0){
+        if(apartRepository.findOne(code).getCharter_deposit() == 0){
             sum+=0;
         }else{
-            sum+=apartRepository.findOne(code,"charter").getAvg_deposit();
-            cnt++;
-            System.out.println("아파트 전세: "+sum);
-        }
-
-        if(dandokRepository.findOne(code,"charter").getAvg_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=dandokRepository.findOne(code,"charter").getAvg_deposit();
+            sum+=apartRepository.findOne(code).getCharter_deposit();
             cnt++;
         }
 
-        if(dasedeRepository.findOne(code,"charter").getAvg_deposit() == 0){
+        if(dandokRepository.findOne(code).getCharter_deposit() == 0){
             sum+=0;
         }else{
-            sum+=dasedeRepository.findOne(code,"charter").getAvg_deposit();
+            sum+=dandokRepository.findOne(code).getCharter_deposit();
             cnt++;
         }
 
-        if(officetelRepository.findOne(code,"charter").getAvg_deposit() == 0){
+        if(dasedeRepository.findOne(code).getCharter_deposit() == 0){
             sum+=0;
         }else{
-            sum+=officetelRepository.findOne(code,"charter").getAvg_deposit();
+            sum+=dasedeRepository.findOne(code).getCharter_deposit();
             cnt++;
         }
 
+        if(officetelRepository.findOne(code).getCharter_deposit() == 0){
+            sum+=0;
+        }else{
+            sum+=officetelRepository.findOne(code).getCharter_deposit();
+            cnt++;
+        }
+
+        System.out.println("행정동 "+code+"에는 "+cnt+"가지 유형 거주 데이터 존재");
         if(cnt==0){
-            System.out.println("!!!!!!해당 전세 보증금값 존재 X !!!!!!");
             return 0;
         }else{
             return Math.round(sum/cnt);
@@ -77,37 +76,36 @@ public class HomeService {
         int sum = 0;
         int cnt = 0;
 
-        if(apartRepository.findOne(code,"monthly").getAvg_deposit() == 0){
+        if(apartRepository.findOne(code).getMonthly_deposit() == 0){
             sum+=0;
         }else{
-            sum+=apartRepository.findOne(code,"monthly").getAvg_deposit();
-            cnt++;
-            System.out.println("아파트 월세: "+sum);
-        }
-
-        if(dandokRepository.findOne(code,"monthly").getAvg_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=dandokRepository.findOne(code,"monthly").getAvg_deposit();
+            sum+=apartRepository.findOne(code).getMonthly_deposit();
             cnt++;
         }
 
-        if(dasedeRepository.findOne(code,"monthly").getAvg_deposit() == 0){
+        if(dandokRepository.findOne(code).getMonthly_deposit() == 0){
             sum+=0;
         }else{
-            sum+=dasedeRepository.findOne(code,"monthly").getAvg_deposit();
+            sum+=dandokRepository.findOne(code).getMonthly_deposit();
             cnt++;
         }
 
-        if(officetelRepository.findOne(code,"monthly").getAvg_deposit() == 0){
+        if(dasedeRepository.findOne(code).getMonthly_deposit() == 0){
             sum+=0;
         }else{
-            sum+=officetelRepository.findOne(code,"monthly").getAvg_deposit();
+            sum+=dasedeRepository.findOne(code).getMonthly_deposit();
             cnt++;
         }
 
+        if(officetelRepository.findOne(code).getMonthly_deposit() == 0){
+            sum+=0;
+        }else{
+            sum+=officetelRepository.findOne(code).getMonthly_deposit();
+            cnt++;
+        }
+
+        System.out.println("행정동 "+code+"에는 "+cnt+"가지 유형 거주 데이터 존재");
         if(cnt==0){
-            System.out.println("!!!!!!해당 월세 보증금값 존재 X !!!!!!");
             return 0;
         }else{
             return Math.round(sum/cnt);
@@ -119,36 +117,36 @@ public class HomeService {
         int sum = 0;
         int cnt = 0;
 
-        if(apartRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+        if(apartRepository.findOne(code).getMonthly_monthly() == 0){
             sum+=0;
         }else{
-            sum+=apartRepository.findOne(code,"monthly").getAvg_monthly();
+            sum+=apartRepository.findOne(code).getMonthly_monthly();
             cnt++;
         }
 
-        if(dandokRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+        if(dandokRepository.findOne(code).getMonthly_monthly() == 0){
             sum+=0;
         }else{
-            sum+=dandokRepository.findOne(code,"monthly").getAvg_monthly();
+            sum+=dandokRepository.findOne(code).getMonthly_monthly();
             cnt++;
         }
 
-        if(dasedeRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+        if(dasedeRepository.findOne(code).getMonthly_monthly() == 0){
             sum+=0;
         }else{
-            sum+=dasedeRepository.findOne(code,"monthly").getAvg_monthly();
+            sum+=dasedeRepository.findOne(code).getMonthly_monthly();
             cnt++;
         }
 
-        if(officetelRepository.findOne(code,"monthly").getAvg_monthly() == 0){
+        if(officetelRepository.findOne(code).getMonthly_monthly() == 0){
             sum+=0;
         }else{
-            sum+=officetelRepository.findOne(code,"monthly").getAvg_monthly();
+            sum+=officetelRepository.findOne(code).getMonthly_monthly();
             cnt++;
         }
 
+        System.out.println("행정동 "+code+"에는 "+cnt+"가지 유형 거주 데이터 존재");
         if(cnt==0){
-            System.out.println("!!!!!!해당 월세 월세값 존재 X !!!!!!");
             return 0;
         }else{
             return Math.round(sum/cnt);
@@ -175,31 +173,31 @@ public class HomeService {
 
         HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
 
-        List<HomeApart> apartList = apartRepository.findCharters();
-        List<HomeDandok> dandokList = dandokRepository.findCharters();
-        List<HomeDasede> dasedeList = dasedeRepository.findCharters();
-        List<HomeOfficetel> officetelList =  officetelRepository.findCharters();
+        List<HomeApart> apartList = apartRepository.findAll();
+        List<HomeDandok> dandokList = dandokRepository.findAll();
+        List<HomeDasede> dasedeList = dasedeRepository.findAll();
+        List<HomeOfficetel> officetelList =  officetelRepository.findAll();
 
         for(int i=0; i<apartList.size(); i++){
-            if(apartList.get(i).getAvg_deposit() <= deposit && apartList.get(i).getAvg_deposit()!=0){
+            if(apartList.get(i).getCharter_deposit() <= deposit && apartList.get(i).getCharter_deposit()!=0){
                 codeList.add(apartList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dandokList.size(); i++){
-            if(dandokList.get(i).getAvg_deposit() <= deposit && dandokList.get(i).getAvg_deposit()!=0){
+            if(dandokList.get(i).getCharter_deposit() <= deposit && dandokList.get(i).getCharter_deposit()!=0){
                 codeList.add(dandokList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dasedeList.size(); i++){
-            if(dasedeList.get(i).getAvg_deposit() <= deposit && dasedeList.get(i).getAvg_deposit()!=0){
+            if(dasedeList.get(i).getCharter_deposit() <= deposit && dasedeList.get(i).getCharter_deposit()!=0){
                 codeList.add(dasedeList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<officetelList.size(); i++){
-            if(officetelList.get(i).getAvg_deposit() <= deposit && officetelList.get(i).getAvg_deposit()!=0){
+            if(officetelList.get(i).getCharter_deposit() <= deposit && officetelList.get(i).getCharter_deposit()!=0){
                 codeList.add(officetelList.get(i).getH_code());
             }
         }
@@ -211,35 +209,35 @@ public class HomeService {
 
         HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
 
-        List<HomeApart> apartList = apartRepository.findMonthly();
-        List<HomeDandok> dandokList = dandokRepository.findMonthly();
-        List<HomeDasede> dasedeList = dasedeRepository.findMonthly();
-        List<HomeOfficetel> officetelList =  officetelRepository.findMonthly();
+        List<HomeApart> apartList = apartRepository.findAll();
+        List<HomeDandok> dandokList = dandokRepository.findAll();
+        List<HomeDasede> dasedeList = dasedeRepository.findAll();
+        List<HomeOfficetel> officetelList =  officetelRepository.findAll();
 
         for(int i=0; i<apartList.size(); i++){
-            if(apartList.get(i).getAvg_deposit() <= deposit && apartList.get(i).getAvg_monthly() <= monthly
-                && apartList.get(i).getAvg_deposit()!=0){
+            if(apartList.get(i).getMonthly_deposit() <= deposit && apartList.get(i).getMonthly_monthly() <= monthly
+                && apartList.get(i).getMonthly_deposit()!=0){
                 codeList.add(apartList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dandokList.size(); i++){
-            if(dandokList.get(i).getAvg_deposit() <= deposit && dandokList.get(i).getAvg_monthly() <= monthly
-                    && dandokList.get(i).getAvg_deposit()!=0){
+            if(dandokList.get(i).getMonthly_deposit() <= deposit && dandokList.get(i).getMonthly_monthly() <= monthly
+                    && dandokList.get(i).getMonthly_deposit()!=0){
                 codeList.add(dandokList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<dasedeList.size(); i++){
-            if(dasedeList.get(i).getAvg_deposit() <= deposit && dasedeList.get(i).getAvg_monthly() <= monthly
-                    && dasedeList.get(i).getAvg_deposit()!=0){
+            if(dasedeList.get(i).getMonthly_deposit() <= deposit && dasedeList.get(i).getMonthly_monthly() <= monthly
+                    && dasedeList.get(i).getMonthly_deposit()!=0){
                 codeList.add(dasedeList.get(i).getH_code());
             }
         }
 
         for(int i=0; i<officetelList.size(); i++){
-            if(officetelList.get(i).getAvg_deposit() <= deposit && officetelList.get(i).getAvg_monthly() <= monthly
-                    && officetelList.get(i).getAvg_deposit()!=0){
+            if(officetelList.get(i).getMonthly_deposit() <= deposit && officetelList.get(i).getMonthly_monthly() <= monthly
+                    && officetelList.get(i).getMonthly_deposit()!=0){
                 codeList.add(officetelList.get(i).getH_code());
             }
         }

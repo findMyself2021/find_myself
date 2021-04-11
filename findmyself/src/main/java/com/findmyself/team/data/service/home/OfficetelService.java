@@ -15,19 +15,11 @@ public class OfficetelService {
 
     private final OfficetelRepository officetelRepository;
 
-    public HomeOfficetel findOne(long h_code, String type){
-        return officetelRepository.findOne(h_code, type);
+    public HomeOfficetel findOne(Long h_code){
+        return officetelRepository.findOne(h_code);
     }
 
     public List<HomeOfficetel> findAll(){
         return officetelRepository.findAll();
-    }
-
-    public List<HomeOfficetel> findCharters(){
-        return officetelRepository.findCharters();
-    }
-
-    public List<HomeOfficetel> findMonthly(){
-        return officetelRepository.findMonthly();
     }
 }

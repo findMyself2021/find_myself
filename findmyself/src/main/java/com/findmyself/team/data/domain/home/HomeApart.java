@@ -17,9 +17,9 @@ public class HomeApart {
     @GeneratedValue
     private Long h_code;
 
-    private String type;
-    private int avg_deposit;
-    private int avg_monthly;
+    private int charter_deposit;
+    private int monthly_deposit;
+    private int monthly_monthly;
 
     public HomeApart(){
 

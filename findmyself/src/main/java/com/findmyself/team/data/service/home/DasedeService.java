@@ -15,19 +15,12 @@ public class DasedeService {
 
     private final DasedeRepository dasedeRepository;
 
-    public HomeDasede findOne(long h_code, String type){
-        return dasedeRepository.findOne(h_code, type);
+    public HomeDasede findOne(Long h_code){
+        return dasedeRepository.findOne(h_code);
     }
 
     public List<HomeDasede> findAll(){
         return dasedeRepository.findAll();
     }
 
-    public List<HomeDasede> findCharters(){
-        return dasedeRepository.findCharters();
-    }
-
-    public List<HomeDasede> findMonthly(){
-        return dasedeRepository.findMonthly();
-    }
 }

@@ -2,6 +2,7 @@ package com.findmyself.team.service;
 
 import com.findmyself.team.TrafficData;
 import com.findmyself.team.data.service.traffic.AddressService;
+import com.findmyself.team.data.service.traffic.SpeedService;
 import com.findmyself.team.data.service.traffic.SubwayService;
 import com.findmyself.team.data.service.traffic.VolumeService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,9 @@ public class TrafficService {
 
     @Autowired
     VolumeService volumeService;
+
+    @Autowired
+    SpeedService speedService;
 
     String subResult = "";
     String subResult2 = "";
@@ -136,30 +140,30 @@ public class TrafficService {
         for(String point : trafficPoints) {
             volumeService.findOne(point);
 
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 0~1시 교통량 : " + (int)(volumeService.findOne(point).get_0h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 1~2시 교통량 : " + (int)(volumeService.findOne(point).get_1h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 2~3시 교통량 : " + (int)(volumeService.findOne(point).get_2h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 3~4시 교통량 : " + (int)(volumeService.findOne(point).get_3h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 4~5시 교통량 : " + (int)(volumeService.findOne(point).get_4h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 5~6시 교통량 : " + (int)(volumeService.findOne(point).get_5h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 6~7시 교통량 : " + (int)(volumeService.findOne(point).get_6h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 7~8시 교통량 : " + (int)(volumeService.findOne(point).get_7h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 8~9시 교통량 : " + (int)(volumeService.findOne(point).get_8h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 9~10시 교통량 : " + (int)(volumeService.findOne(point).get_9h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 10~11시 교통량 : " + (int)(volumeService.findOne(point).get_10h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 11~12시 교통량 : " + (int)(volumeService.findOne(point).get_11h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 12~13시 교통량 : " + (int)(volumeService.findOne(point).get_12h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 13~14시 교통량 : " + (int)(volumeService.findOne(point).get_13h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 14~15시 교통량 : " + (int)(volumeService.findOne(point).get_14h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 15~16시 교통량 : " + (int)(volumeService.findOne(point).get_15h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 16~17시 교통량 : " + (int)(volumeService.findOne(point).get_16h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 17~18시 교통량 : " + (int)(volumeService.findOne(point).get_17h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 18~19시 교통량 : " + (int)(volumeService.findOne(point).get_18h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 19~20시 교통량 : " + (int)(volumeService.findOne(point).get_19h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 20~21시 교통량 : " + (int)(volumeService.findOne(point).get_20h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 21~22시 교통량 : " + (int)(volumeService.findOne(point).get_21h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 22~23시 교통량 : " + (int)(volumeService.findOne(point).get_22h()/30) + ",";
-            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 23~24시 교통량 : " + (int)(volumeService.findOne(point).get_23h()/30) + "/";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 0~1시 교통량 : " + (int)(volumeService.findOne(point).get_0h()/30) + " 평균 시속 : " + speedService.findOne(point).get_0h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 1~2시 교통량 : " + (int)(volumeService.findOne(point).get_1h()/30) + " 평균 시속 : " + speedService.findOne(point).get_1h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 2~3시 교통량 : " + (int)(volumeService.findOne(point).get_2h()/30) + " 평균 시속 : " + speedService.findOne(point).get_2h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 3~4시 교통량 : " + (int)(volumeService.findOne(point).get_3h()/30) + " 평균 시속 : " + speedService.findOne(point).get_3h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 4~5시 교통량 : " + (int)(volumeService.findOne(point).get_4h()/30) + " 평균 시속 : " + speedService.findOne(point).get_4h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 5~6시 교통량 : " + (int)(volumeService.findOne(point).get_5h()/30) + " 평균 시속 : " + speedService.findOne(point).get_5h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 6~7시 교통량 : " + (int)(volumeService.findOne(point).get_6h()/30) + " 평균 시속 : " + speedService.findOne(point).get_6h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 7~8시 교통량 : " + (int)(volumeService.findOne(point).get_7h()/30) + " 평균 시속 : " + speedService.findOne(point).get_7h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 8~9시 교통량 : " + (int)(volumeService.findOne(point).get_8h()/30) + " 평균 시속 : " + speedService.findOne(point).get_8h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 9~10시 교통량 : " + (int)(volumeService.findOne(point).get_9h()/30) + " 평균 시속 : " + speedService.findOne(point).get_9h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 10~11시 교통량 : " + (int)(volumeService.findOne(point).get_10h()/30) + " 평균 시속 : " + speedService.findOne(point).get_10h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 11~12시 교통량 : " + (int)(volumeService.findOne(point).get_11h()/30) + " 평균 시속 : " + speedService.findOne(point).get_11h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 12~13시 교통량 : " + (int)(volumeService.findOne(point).get_12h()/30) + " 평균 시속 : " + speedService.findOne(point).get_12h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 13~14시 교통량 : " + (int)(volumeService.findOne(point).get_13h()/30) + " 평균 시속 : " + speedService.findOne(point).get_13h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 14~15시 교통량 : " + (int)(volumeService.findOne(point).get_14h()/30) + " 평균 시속 : " + speedService.findOne(point).get_14h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 15~16시 교통량 : " + (int)(volumeService.findOne(point).get_15h()/30) + " 평균 시속 : " + speedService.findOne(point).get_15h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 16~17시 교통량 : " + (int)(volumeService.findOne(point).get_16h()/30) + " 평균 시속 : " + speedService.findOne(point).get_16h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 17~18시 교통량 : " + (int)(volumeService.findOne(point).get_17h()/30) + " 평균 시속 : " + speedService.findOne(point).get_17h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 18~19시 교통량 : " + (int)(volumeService.findOne(point).get_18h()/30) + " 평균 시속 : " + speedService.findOne(point).get_18h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 19~20시 교통량 : " + (int)(volumeService.findOne(point).get_19h()/30) + " 평균 시속 : " + speedService.findOne(point).get_19h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 20~21시 교통량 : " + (int)(volumeService.findOne(point).get_20h()/30) + " 평균 시속 : " + speedService.findOne(point).get_20h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 21~22시 교통량 : " + (int)(volumeService.findOne(point).get_21h()/30) + " 평균 시속 : " + speedService.findOne(point).get_21h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 22~23시 교통량 : " + (int)(volumeService.findOne(point).get_22h()/30) + " 평균 시속 : " + speedService.findOne(point).get_22h() + "km,";
+            result += volumeService.findOne(point).getName() + "부근에서의 일 평균 23~24시 교통량 : " + (int)(volumeService.findOne(point).get_23h()/30) + " 평균 시속 : " + speedService.findOne(point).get_23h() + "km/";
 
             summarizeResult(point, 0);
 
@@ -175,242 +179,101 @@ public class TrafficService {
         if(select == 0) {
 
             // 자동차
-            if(volumeService.findOne(point).getName().charAt(0) == 'A') {
-                if(volumeService.findOne(point).get_6h() < 30000) {
+            if(volumeService.findOne(point).getName().charAt(0) == 'A'
+                    || volumeService.findOne(point).getName().charAt(0) == 'B'
+                    || volumeService.findOne(point).getName().charAt(0) == 'C'
+                    || volumeService.findOne(point).getName().charAt(0) == 'D') { // 일반 도로일 경우
+                if(speedService.findOne(point).get_6h() > 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_6h() < 60000 && volumeService.findOne(point).get_6h() >= 30000) {
+                } else if(speedService.findOne(point).get_6h() > 20 && speedService.findOne(point).get_6h() <= 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_7h() < 30000) {
+                if(speedService.findOne(point).get_7h() > 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_7h() < 60000 && volumeService.findOne(point).get_7h() >= 30000) {
+                } else if(speedService.findOne(point).get_7h() > 20 && speedService.findOne(point).get_7h() <= 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_8h() < 30000) {
+                if(speedService.findOne(point).get_8h() > 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_8h() < 60000 && volumeService.findOne(point).get_8h() >= 30000) {
+                } else if(speedService.findOne(point).get_8h() > 20 && speedService.findOne(point).get_8h() <= 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_17h() < 30000) {
+                if(speedService.findOne(point).get_17h() > 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_17h() < 60000 && volumeService.findOne(point).get_17h() >= 30000) {
+                } else if(speedService.findOne(point).get_17h() > 20 && speedService.findOne(point).get_17h() <= 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_18h() < 30000) {
+                if(speedService.findOne(point).get_18h() > 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_18h() < 60000 && volumeService.findOne(point).get_18h() >= 30000) {
+                } else if(speedService.findOne(point).get_18h() > 20 && speedService.findOne(point).get_18h() <= 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_19h() < 30000) {
+                if(speedService.findOne(point).get_19h() > 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
-                } else if(volumeService.findOne(point).get_19h() < 60000 && volumeService.findOne(point).get_19h() >= 30000) {
+                } else if(speedService.findOne(point).get_19h() > 20 && speedService.findOne(point).get_19h() <= 40) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
                 }
-            } else if(volumeService.findOne(point).getName().charAt(0) == 'B') {
-                if(volumeService.findOne(point).get_6h() < 60000) {
+            } else {  // 고속도로일 경우
+                if(speedService.findOne(point).get_6h() > 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_6h() < 150000 && volumeService.findOne(point).get_6h() >= 60000) {
+                } else if(speedService.findOne(point).get_6h() > 50 && speedService.findOne(point).get_6h() <= 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_7h() < 60000) {
+                if(speedService.findOne(point).get_7h() > 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_7h() < 150000 && volumeService.findOne(point).get_7h() >= 60000) {
+                } else if(speedService.findOne(point).get_7h() > 50 && speedService.findOne(point).get_7h() <= 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_8h() < 60000) {
+                if(speedService.findOne(point).get_8h() > 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_8h() < 150000 && volumeService.findOne(point).get_8h() >= 60000) {
+                } else if(speedService.findOne(point).get_8h() > 50 && speedService.findOne(point).get_8h() <= 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_17h() < 60000) {
+                if(speedService.findOne(point).get_17h() > 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_17h() < 150000 && volumeService.findOne(point).get_17h() >= 60000) {
+                } else if(speedService.findOne(point).get_17h() > 50 && speedService.findOne(point).get_17h() <= 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_18h() < 60000) {
+                if(speedService.findOne(point).get_18h() > 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_18h() < 150000 && volumeService.findOne(point).get_18h() >= 60000) {
+                } else if(speedService.findOne(point).get_18h() > 50 && speedService.findOne(point).get_18h() <= 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 서행할 것으로 예상됩니다,";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 정체될 것으로 예상됩니다,";
                 }
 
-                if(volumeService.findOne(point).get_19h() < 60000) {
+                if(speedService.findOne(point).get_19h() > 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
-                } else if(volumeService.findOne(point).get_19h() < 150000 && volumeService.findOne(point).get_19h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
-                }
-            } else if(volumeService.findOne(point).getName().charAt(0) == 'C') {
-                if(volumeService.findOne(point).get_6h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_6h() < 150000 && volumeService.findOne(point).get_6h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_7h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_7h() < 150000 && volumeService.findOne(point).get_7h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_8h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_8h() < 150000 && volumeService.findOne(point).get_8h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_17h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_17h() < 150000 && volumeService.findOne(point).get_17h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_18h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_18h() < 150000 && volumeService.findOne(point).get_18h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_19h() < 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
-                } else if(volumeService.findOne(point).get_19h() < 150000 && volumeService.findOne(point).get_19h() >= 60000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
-                }
-            } else if(volumeService.findOne(point).getName().charAt(0) == 'D') {
-                if(volumeService.findOne(point).get_6h() < 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_6h() < 80000 && volumeService.findOne(point).get_6h() >= 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_7h() < 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_7h() < 80000 && volumeService.findOne(point).get_7h() >= 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_8h() < 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_8h() < 80000 && volumeService.findOne(point).get_8h() >= 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_17h() < 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_17h() < 80000 && volumeService.findOne(point).get_17h() >= 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_18h() < 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_18h() < 80000 && volumeService.findOne(point).get_18h() >= 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_19h() < 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
-                } else if(volumeService.findOne(point).get_19h() < 80000 && volumeService.findOne(point).get_19h() >= 50000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";
-                }
-            } else {
-                if(volumeService.findOne(point).get_6h() < 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_6h() < 200000 && volumeService.findOne(point).get_6h() >= 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 6~7시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_7h() < 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_7h() < 200000 && volumeService.findOne(point).get_7h() >= 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 7~8시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_8h() < 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_8h() < 200000 && volumeService.findOne(point).get_8h() >= 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오전 8~9시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_17h() < 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_17h() < 200000 && volumeService.findOne(point).get_17h() >= 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 5~6시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_18h() < 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 원활할 것으로 예상됩니다,";
-                } else if(volumeService.findOne(point).get_18h() < 200000 && volumeService.findOne(point).get_18h() >= 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 서행할 것으로 예상됩니다,";
-                } else {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 6~7시경에는 정체될 것으로 예상됩니다,";
-                }
-
-                if(volumeService.findOne(point).get_19h() < 100000) {
-                    subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 원활할 것으로 예상됩니다/";
-                } else if(volumeService.findOne(point).get_19h() < 200000 && volumeService.findOne(point).get_19h() >= 100000) {
+                } else if(speedService.findOne(point).get_19h() > 50 && speedService.findOne(point).get_19h() <= 80) {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 서행할 것으로 예상됩니다/";
                 } else {
                     subResult += volumeService.findOne(point).getName() + "부근에서 오후 7~8시경에는 정체될 것으로 예상됩니다/";

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <title>FindMyself 로그인</title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        Kakao.init('3307bbc0407ac229de9a6bffbd700bed');
+
+        function loginWithKakao(){
+            Kakao.Auth.authorize({
+                redirectUri: '/'
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="logo-wrap">
+        <a th:href="@{/}">
+            <img src="/image/logo4.png">
+        </a>
+    </div>
+</div>
+<div class="container">
+    <div id="login-wrap">
+        <h2>Login</h2>
+        <a id="kakao-login-btn" href="javascript:loginWithKakao()">
+            <img id="kakao-login-img" src="/image/kakao-login.png">
+        </a>
+    </div>
+</div>
+<div class="copyright">
+    Copyright © by FindMyself 2021, Inc. All rights reserved
+</div>
+</body>
+</html>

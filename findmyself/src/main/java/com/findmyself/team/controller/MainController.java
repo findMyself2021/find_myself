@@ -54,4 +54,9 @@ public class MainController {
 
         return "main";
     }
+
+    @GetMapping("/login")
+    public String openLogin(){
+        return "login";
+    }
 }

@@ -7,13 +7,18 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/login.css">
     <title>FindMyself 로그인</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
-        Kakao.init('3307bbc0407ac229de9a6bffbd700bed');
-
         function loginWithKakao(){
-            Kakao.Auth.authorize({
-                redirectUri: '/'
+            $.ajax({
+                url: '/login/getKakaoAuthUrl',
+                type: 'get',
+                async: false,
+                dataType: 'text',
+                success: function (res) {
+                    location.href = res;
+                }
             });
         }
     </script>

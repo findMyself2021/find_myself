@@ -176,7 +176,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">편의시설</h5>
-                                            <div id="conv_chart" class="card-body" style="padding-left: 0px"></div>
+                                            <div id="conv_chart" class="card-body" style="width: 100%; padding: 0px"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">남녀비율</h5>
-                                            <div id="sex_chart" class="card-body" style="padding-left: 0px"></div>
+                                            <div id="sex_chart" class="card-body" style="width: 100%; padding: 0px"></div>
                                         </div>
                                     </div>
                                     <p class="mt-3 mb-0 text-muted text-sm">
@@ -206,7 +206,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">거주연령</h5>
-                                            <div id="age_chart" class="card-body" style="padding-left: 0px"></div>
+                                            <div id="age_chart" class="card-body" style="width: 100%; padding: 0px"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -448,7 +448,7 @@
                 ['교육',    edu]
             ]);
             var options = {
-                width:500,
+                height: 200,
                 backgroundColor: { fill: "#e9f1f5" }
             };
             var chart = new google.visualization.PieChart(document.getElementById('conv_chart'));
@@ -465,7 +465,7 @@
                 ['여성', woman_ratio, 'red', woman_ratio+'%' ]
             ]);
             var options = {
-                width:500,
+                height: 200,
                 backgroundColor: { fill: "#e9f1f5" },
                 hAxis: {
                     minValue: 0,
@@ -497,7 +497,7 @@
                 ["노년층", elder, "color: #e5e4e2"]
             ]);
             var options = {
-                width:500,
+                height: 200,
                 backgroundColor: { fill: "#e9f1f5" }
             };
             var chart = new google.visualization.ColumnChart(document.getElementById("age_chart"));

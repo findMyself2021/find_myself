@@ -6,9 +6,10 @@ import com.findmyself.team.service.AnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -55,8 +56,39 @@ public class MainController {
         return "main";
     }
 
+    //로그인 관련
     @GetMapping("/login")
     public String openLogin(){
         return "login";
+    }
+
+    private String REST_API_KEY = "ac10321dd65139494e4aaa45ff35d52d";
+    private String REDIRECT_URI = "http://localhost:8080/login/oauth";
+
+    // 카카오 로그인 인가코드 받기
+    @RequestMapping(value = "/login/getKakaoAuthUrl")
+    public @ResponseBody String getKakaoAuthUrl() throws Exception {
+        String reqUrl = " https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="
+                + REST_API_KEY
+                + "&redirect_uri="
+                + REDIRECT_URI
+                + "&response_type=code";
+        return reqUrl;
+    }
+
+    // 카카오 로그인 토큰 받기
+    @RequestMapping(value = "/login/oauth")
+    public String oauthKakao(@RequestParam("code") String code) throws Exception {
+        System.out.println("인가코드: "+code);
+
+        //로그인 및 회원가입 코드 작성
+
+        String reqUrl = " https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id="
+                + REST_API_KEY
+                + "&redirect_uri="
+                + REDIRECT_URI
+                + "&code="
+                + code;
+        return reqUrl;
     }
 }

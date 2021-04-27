@@ -9,19 +9,6 @@
     <title>FindMyself 로그인</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <script>
-        function loginWithKakao(){
-            $.ajax({
-                url: '/login/getKakaoAuthUrl',
-                type: 'get',
-                async: false,
-                dataType: 'text',
-                success: function (res) {
-                    location.href = res;
-                }
-            });
-        }
-    </script>
 </head>
 <body>
 <div class="header">
@@ -34,7 +21,7 @@
 <div class="container">
     <div id="login-wrap">
         <h2>Login</h2>
-        <a id="kakao-login-btn" href="javascript:loginWithKakao()">
+        <a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=ac10321dd65139494e4aaa45ff35d52d&redirect_uri=http://localhost:8080/login/oauth&response_type=code">
             <img id="kakao-login-img" src="/image/kakao-login.png">
         </a>
     </div>

@@ -34,9 +34,7 @@ public class KakaoController {
     public String login(@RequestParam("code") String code, HttpSession session) {
         String access_Token = kakao.getAccessToken(code);
         HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-        System.out.println("로그인 성공");
         System.out.println("login Controller: "+userInfo);
-
 
         // 클라이언트의 id가 존재할 때
         if(userInfo.get("id")!=null){
@@ -45,6 +43,7 @@ public class KakaoController {
             List<Member> memberCheck = memberService.findById((Long) userInfo.get("id"));
             if(!memberCheck.isEmpty()){
                 System.out.println("이미 존재하는 회원입니다.");
+                System.out.println("로그인 성공");
             }
             //존재하지 않다면
             else{

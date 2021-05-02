@@ -17,6 +17,9 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
+    <script th:inline="javascript" th:if="${session.id!=null}">
+        alert("로그인 성공");
+    </script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         var topInfoList = /*[[ ${topInfoList} ]]*/;
@@ -49,6 +52,9 @@
 </head>
 <body>
     <div class="header">
+        <a th:href="@{login}" style="text-decoration:none;">
+            <h3 style="text-align: right;" >로그인</h3>
+        </a>
         <div class="logo-wrap">
             <a th:href="@{/}">
                 <img src="/image/logo4.png">

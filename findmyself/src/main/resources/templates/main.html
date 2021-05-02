@@ -17,10 +17,28 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
-    <script th:inline="javascript" th:if="${session.id!=null}">
-        alert("로그인 성공");
-    </script>
     <script th:inline="javascript">
+        function click_login_btn(){ //로그인 or 로그아웃 버튼 클릭 시
+            /*<![CDATA[*/
+            var id = /*[[ ${session.id} ]]*/;
+            /*]]*/
+            if(id != null){ //로그아웃 구현
+                alert(id+"님을 로그아웃 하겠습니다.");
+                var logout_form = document.createElement("form");
+                logout_form.id = "logout-form";
+                logout_form.action="/logout";
+                document.body.append(logout_form);
+                document.getElementById("logout-form").submit();
+            }else{  //로그인 구현
+                alert("로그인 하겠습니다.");
+                var login_form = document.createElement("form");
+                login_form.id = "login-form";
+                login_form.action="/login";
+                document.body.append(login_form);
+                document.getElementById("login-form").submit();
+            }
+        }
+
         /*<![CDATA[*/
         var topInfoList = /*[[ ${topInfoList} ]]*/;
         /*]]*/
@@ -52,9 +70,9 @@
 </head>
 <body>
     <div class="header">
-        <a th:href="@{login}" style="text-decoration:none;">
-            <h3 style="text-align: right;" >로그인</h3>
-        </a>
+        <button name="login-btn" id="login-btn" onclick="click_login_btn();">
+            <h3 id="login-btn-text">로그인</h3>
+        </button>
         <div class="logo-wrap">
             <a th:href="@{/}">
                 <img src="/image/logo4.png">
@@ -63,7 +81,7 @@
     </div>
     <div class="container">
         <div class="map_wrap">
-            <div id="map" style="width: 100%; height: 500px;position:relative; overflow:hidden; border-radius: 4px" >
+            <div id="map" style="width: 100%; height: 700px;position:relative; overflow:hidden; border-radius: 4px" >
                 <script th:inline="javascript">
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
@@ -401,4 +419,14 @@
         Copyright © by FindMyself 2021, Inc. All rights reserved
     </div>
 </body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var id = /*[[ ${session.id} ]]*/;
+    /*]]*/
+
+    //로그인 or 로그아웃 버튼 글자 바꾸기
+    if(id != null){
+        document.getElementById("login-btn-text").innerText = "로그아웃";
+    }
+</script>
 </html>

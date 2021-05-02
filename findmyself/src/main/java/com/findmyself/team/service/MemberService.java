@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,4 +44,17 @@ public class MemberService {
     public Member findOne(Long memberIdx){
         return memberRepository.findOne(memberIdx);
     }
+
+    //사용자 조회 수 top3 조회
+    public List<Integer> findTopListById(Long id){
+
+        List<Integer> clickList = new ArrayList<>();
+        Member member = findOne(id);
+        clickList.add(member.getTop1());
+        clickList.add(member.getTop2());
+        clickList.add(member.getTop3());
+
+        return clickList;
+    }
+
 }

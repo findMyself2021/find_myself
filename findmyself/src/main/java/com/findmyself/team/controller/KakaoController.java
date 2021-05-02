@@ -57,6 +57,7 @@ public class KakaoController {
             }
             //세션에 등록
             session.setAttribute("id",userInfo.get("id"));
+            session.setAttribute("access_Token",access_Token);
         }
 
         return "redirect:/";
@@ -66,38 +67,40 @@ public class KakaoController {
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session, HttpServletRequest req){
 
-//        HttpSession kakao_check = req.getSession();
+        //HttpSession kakao_check = req.getSession();
 
         //로그인을 한 상태인지 체크
-        String id = (String) session.getAttribute("id");
+        String id = session.getAttribute("id").toString();
 
         //로그인을 한 상태이고
         if(id != null)
         {
-            System.out.println("userId = " + id);
+            System.out.println("현재 로그인한 userId = " + id);
+            kakao.kakaoLogout((String) session.getAttribute("access_Token"));
+            session.removeAttribute("id");
+            session.removeAttribute("access_Token");
 
             //카카오로 로그인 한 건지 체크
             Boolean kakao_get_check = (Boolean) session.getAttribute("kakao");
 
-            if(kakao_get_check == true) //카카오로 로그인 한 거라면
-            {
-                this.kakao.kakaoLogout((String) session.getAttribute("access_Token"));
+//            if(kakao_get_check == true) //카카오로 로그인 한 거라면
+//            {
+//                this.kakao.kakaoLogout((String) session.getAttribute("access_Token"));
 //                session.removeAttribute("access_Token");
 //                session.removeAttribute("email");
 //                session.removeAttribute("nickname");
 //                session.removeAttribute("kakao");
-
-                System.out.println("kakao logout");
-
-                return "redirect:/";
-            }
-
-            System.out.println("logout");
+//
+//                System.out.println("로그아웃 완료 !");
+//
+//                return "redirect:/";
+//            }
+//            System.out.println("카카오로 로그인한 상태가 아닙니다.");
 
             return "redirect:/";
         }
         //로그인을 하지 않은 상태라면
-        System.out.println("did not login");
+        System.out.println("현재 로그인한 상태가 아닙니다.");
 
         return "redirect:/";
     }

@@ -1,3 +1,9 @@
+#login-btn{
+    float: right;
+    text-align: center;
+    background: none;
+    border: 0; outline: 0; border: none;
+}
 .container{
     margin-top: 50px; margin-bottom: 50px;
     padding-left: 50px; padding-right: 50px;

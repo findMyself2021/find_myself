@@ -31,7 +31,9 @@ public class KakaoController {
     }
 
     @RequestMapping(value = "/login/oauth")
-    public String login(@RequestParam("code") String code, HttpSession session) {
+    public String login(@RequestParam("code") String code, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
         String access_Token = kakao.getAccessToken(code);
         HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
         System.out.println("login Controller: "+userInfo);
@@ -65,42 +67,31 @@ public class KakaoController {
 
     //로그아웃 버튼 눌림
     @RequestMapping(value = "/logout")
-    public String logout(HttpSession session, HttpServletRequest req){
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession();
 
-        //HttpSession kakao_check = req.getSession();
+        System.out.println("로그아웃 시도");
 
         //로그인을 한 상태인지 체크
-        String id = session.getAttribute("id").toString();
+        String id = (String) session.getAttribute("id");
 
         //로그인을 한 상태이고
+        //왜 여기로 안들어가는데 로그아웃 되지?
         if(id != null)
         {
             System.out.println("현재 로그인한 userId = " + id);
             kakao.kakaoLogout((String) session.getAttribute("access_Token"));
-            session.removeAttribute("id");
-            session.removeAttribute("access_Token");
-
-            //카카오로 로그인 한 건지 체크
-            Boolean kakao_get_check = (Boolean) session.getAttribute("kakao");
-
-//            if(kakao_get_check == true) //카카오로 로그인 한 거라면
-//            {
-//                this.kakao.kakaoLogout((String) session.getAttribute("access_Token"));
-//                session.removeAttribute("access_Token");
-//                session.removeAttribute("email");
-//                session.removeAttribute("nickname");
-//                session.removeAttribute("kakao");
-//
-//                System.out.println("로그아웃 완료 !");
-//
-//                return "redirect:/";
-//            }
-//            System.out.println("카카오로 로그인한 상태가 아닙니다.");
+            //세션 초기화
+            request.getSession().invalidate();
+            request.getSession(true);
 
             return "redirect:/";
         }
-        //로그인을 하지 않은 상태라면
-        System.out.println("현재 로그인한 상태가 아닙니다.");
+        else{
+            //로그인을 하지 않은 상태라면 => 그럴 일 없음
+        }
+
+        System.out.println("로그아웃 성공");
 
         return "redirect:/";
     }

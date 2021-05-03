@@ -4,6 +4,7 @@ import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Convenient;
+import com.findmyself.team.data.domain.Member;
 import com.findmyself.team.data.domain.residence.ResidenceGender;
 import com.findmyself.team.data.service.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
@@ -44,6 +45,9 @@ public class AnalysisService {
 
     @Autowired
     GudongService gudongService;
+
+    @Autowired
+    MemberService memberService;
 
     // 필터링 분석
     public List<Long> analysis(Requirements rq){
@@ -213,5 +217,52 @@ public class AnalysisService {
         AnalysisInfo result = new AnalysisInfo(deposit_avg_charter,deposit_avg_monthly,monthly_avg_monthly,man_ratio,woman_ratio);
 
         return result;
+    }
+
+    //거리 오름차순 top4 계산
+    public List<DongInfo> sortTopDis(String listByDistance){
+        Map<Double,Long> listByDistanceResult = new HashMap<>();
+        String[] setArray1 = listByDistance.split("/"); //거리1,코드1
+        String[] setArray2;
+        for(int i=0; i<setArray1.length; i++){
+            setArray2 = setArray1[i].split(",");
+            listByDistanceResult.put(Double.parseDouble(setArray2[0]),Long.parseLong(setArray2[1]));
+        }
+
+        List<Double> keys = new ArrayList<>(listByDistanceResult.keySet());
+        Collections.sort(keys);
+
+        List<DongInfo> topDisInfoList = new ArrayList<>();
+        for(int i=0; i<4; i++){
+            double dis = Math.ceil((keys.get(i))*100)/100;   //둘쨋자리 까지 반올림
+            Long code = listByDistanceResult.get(keys.get(i));
+            String gu = gudongService.findOne(code).getGu();
+            String dong = gudongService.findOne(code).getH_dong();
+
+            System.out.println("distance: "+dis+", h_dong: "+dong);
+
+            DongInfo dongInfo = new DongInfo(gu,dong,code,dis);
+            topDisInfoList.add(dongInfo);
+        }
+
+        return  topDisInfoList;
+    }
+
+    //조회수 오름차순 top4 계산
+    public List<DongInfo> sortTopClick(Long userId, Long h_code){
+        List<DongInfo> topClickInfoList = new ArrayList<>();
+
+        List<Integer> parseClickList = memberService.parsingClickList(userId);
+        int code = h_code.intValue();
+
+        //현재 분석화면에 해당하는 행정동 조회수 카운팅
+        for(int i=0; i<parseClickList.size(); i+=2){
+            if(parseClickList.get(i)  == code){ //1. 현재 조회 리스트에 해당 행정동 존재하는 경우 -> 조회수 + 1, 재정렬
+                parseClickList.set(i+1, parseClickList.get(i+1)+1);
+            }
+        }
+        //2. 현재 조회 리스트에 해당 행정동 존재하지 않는 경우 -> 기존 리스트 비교하여 오름차순 정렬하기(하나 탈락 시켜야 함)
+
+        return  topClickInfoList;
     }
 }

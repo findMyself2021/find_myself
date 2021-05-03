@@ -130,7 +130,7 @@ function displayArea(coordinates) {
 }
 
 //행정동 기준으로 폴리곤 생성
-function Draw_HangJungDong(h_code, addr, fillColor){
+function Draw_HangJungDong(h_code, addr, fillColor, userId){
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -149,7 +149,7 @@ function Draw_HangJungDong(h_code, addr, fillColor){
             if(h_code == code)
             {
                 // alert(addr);
-                displayHangJungDong(coordinates, name,code,addr, fillColor);
+                displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
             }
         })
     })
@@ -158,7 +158,7 @@ function Draw_HangJungDong(h_code, addr, fillColor){
 var polygons = [];
 
 // 특정 행정동 색칠
-function displayHangJungDong(coordinates, name,code,dest, fillColor){
+function displayHangJungDong(coordinates, name,code,dest, fillColor, userId){
     var path = [];
     var points = [];
     var bounds = new Tmapv2.LatLngBounds();
@@ -235,13 +235,14 @@ function displayHangJungDong(coordinates, name,code,dest, fillColor){
         // 추천 행정동 분석 - 거리 가까운
         findListByDistance(topInfoList,dest);
 
-        // 해당 행정동 분석화면으로 이동
+        // !!!!!!!!!!!!해당 행정동 분석화면으로 이동!!!!!!!!!!!!
         document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
             '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
             '<input type="hidden" id="center_x" name="center_x" value="'+ center.lat() +'">' +
             '<input type="hidden" id="center_y" name="center_y" value="'+ center.lng() +'">' +
             '<input type="hidden" id="addr" name="addr" value="'+ dest +'">' +
             '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
+            '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
             '</form>');
     });
 }

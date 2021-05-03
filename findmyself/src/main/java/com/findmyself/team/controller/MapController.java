@@ -41,10 +41,7 @@ public class MapController {
 
         //map.js 에서 넘어온 행정동 코드
         String s_hcode = httpServletRequest.getParameter("hcode");
-        long h_code = Long.parseLong(s_hcode);
-
-        //받아온 도착지
-        String address = httpServletRequest.getParameter("addr");
+        Long h_code = Long.parseLong(s_hcode);
 
         //행정동 중심좌표
         String s_center_x = httpServletRequest.getParameter("center_x");
@@ -53,38 +50,30 @@ public class MapController {
         String s_center_y = httpServletRequest.getParameter("center_y");
         Double lng = Double.valueOf(s_center_y);
 
-        String listByDistance = httpServletRequest.getParameter("listByDistance");
-        System.out.println("!!!!!: "+ listByDistance);
+        //받아온 도착지
+        String address = httpServletRequest.getParameter("addr");
 
+        //상위 20개 행정동의 거리,코드 리스트 받아옴
         // 거리1,코드1/거리2,코드2/...
-        Map<Double,Long> listByDistanceResult = new HashMap<>();
-        String[] setArray1 = listByDistance.split("/"); //거리1,코드1
-        String[] setArray2;
-        for(int i=0; i<setArray1.length; i++){
-            setArray2 = setArray1[i].split(",");
-            listByDistanceResult.put(Double.parseDouble(setArray2[0]),Long.parseLong(setArray2[1]));
-        }
+        String listByDistance = httpServletRequest.getParameter("listByDistance");
+        //System.out.println("!!!!!: "+ listByDistance);
 
-        List<Double> keys = new ArrayList<>(listByDistanceResult.keySet());
-        Collections.sort(keys);
+        //로그인 한 사용자 id 받아오기
+        Long userId = Long.parseLong(httpServletRequest.getParameter("userId"));
+        //System.out.println("분석화면으로 넘어온 userid: "+userId);
 
-        List<DongInfo> topDisInfoList = new ArrayList<>();
-        for(int i=0; i<4; i++){
-            double dis = Math.ceil((keys.get(i))*100)/100;   //둘쨋자리 까지 반올림
-            Long code = listByDistanceResult.get(keys.get(i));
-            String gu = gudongService.findOne(code).getGu();
-            String dong = gudongService.findOne(code).getH_dong();
 
-            System.out.println("distance: "+dis+", h_dong: "+dong);
+        //거리 오름차순 top4 계산
+        List<DongInfo> topDisInfoList = analysisService.sortTopDis(listByDistance);
 
-            DongInfo dongInfo = new DongInfo(gu,dong,code,dis);
-            topDisInfoList.add(dongInfo);
-        }
-
+        //상세 분석
         AnalysisInfo analysisInfos = analysisService.analysisDetail(h_code);
 
+        //행정동 조회수 분석 --- 개발중
+        //List<DongInfo> topClickInfoList = analysisService.sortTopClick(userId, h_code);
+
         // 테스트중
-        String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
+        //String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
         //String test = trafficService.searchSubwayInfo(stations);
 
         //행정구

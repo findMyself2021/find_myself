@@ -22,9 +22,10 @@ public class Member {
     // 카카오 로그인으로 넘어온 값
     private Long id;
 
-    //조회수 top3
-    private int top1;
-    private int top2;
-    private int top3;
+    //조회수 top4
+    private String top1;
+    private String top2;
+    private String top3;
+    private String top4;
 
 }

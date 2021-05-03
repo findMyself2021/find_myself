@@ -98,33 +98,37 @@
                     /*<![CDATA[*/
                     var codeList = /*[[ ${codeList} ]]*/;
                     var topInfoList = /*[[ ${topInfoList} ]]*/;
+                    var userId = /*[[ ${session.id} ]]*/;
 
-                    if(codeList != null) {
+                    if(userId == null){
+                        alert("Draw_HangJungDong 함수 진입 전 userId 널값 !");
+                    }
+
+                    if(codeList != null && userId != null) {
                         codeList.forEach(function(code) {
                             if(topInfoList[0].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#0A3C7A");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#0A3C7A", userId);
                             }else if(topInfoList[1].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#115493");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#115493", userId);
                             }else if(topInfoList[2].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#1C75B7");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#1C75B7", userId);
                             }else if(topInfoList[3].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#289CDB");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#289CDB", userId);
                             }else if(topInfoList[4].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#38C6FF");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#38C6FF", userId);
                             }else if(topInfoList[5].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#69DEFF");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#69DEFF", userId);
                             }else if(topInfoList[6].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#87EDFF");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#87EDFF", userId);
                             }else if(topInfoList[7].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#AFF8FF");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#AFF8FF", userId);
                             }else if(topInfoList[8].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#D7FEFF");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#D7FEFF", userId);
                             }else if(topInfoList[9].h_code == code){
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#c1d3d4");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#c1d3d4", userId);
                             }else{
-                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#d7dae0");
+                                Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#d7dae0", userId);
                             }
-
                         });
                     }
                     /*]]*/

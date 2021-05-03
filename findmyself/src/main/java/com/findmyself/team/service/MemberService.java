@@ -45,16 +45,46 @@ public class MemberService {
         return memberRepository.findOne(memberIdx);
     }
 
-    //사용자 조회 수 top3 조회
-    public List<Integer> findTopListById(Long id){
+    //사용자 조회 수 top4 조회
+    public List<String> findTopClickListById(Long id){
 
-        List<Integer> clickList = new ArrayList<>();
+        List<String> clickList = new ArrayList<>();
         Member member = findOne(id);
         clickList.add(member.getTop1());
         clickList.add(member.getTop2());
         clickList.add(member.getTop3());
+        clickList.add(member.getTop4());
 
         return clickList;
     }
 
+    // 조회 수 리스트 파싱
+    public List<Integer> parsingClickList(Long id) {
+
+        //사용자 id기반 DB에 저장된 조회수 리스트
+        List<String> clickList = findTopClickListById(id);
+
+        //파싱된 조회수 리스트(top1코드,top1조회수,top2코드,top2조회수, ...)
+        List<Integer> parseClickList = new ArrayList<>();
+
+        for(String i:clickList){
+            int deli = i.indexOf(",");
+            if(deli == -1){ //,로 구분된 문자열 존재 X -> 조회한 행정동 X
+                System.out.println(",로 구분된 문자열 존재 X");
+
+                parseClickList.add(0);
+                parseClickList.add(0);
+            }else{
+                parseClickList.add(
+                        Integer.parseInt(i.substring(0,deli))   //행정동 코드
+                );
+                parseClickList.add(
+                        Integer.parseInt(i.substring(deli+1))   //조회수
+                );
+            }
+        }
+
+        return parseClickList;
+
+    }
 }

@@ -6,8 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,32 +58,29 @@ public class MemberService {
     }
 
     // 조회 수 리스트 파싱
-    public List<Integer> parsingClickList(Long id) {
+    public Map<Long, Integer> parsingClickList(Long id) {
 
         //사용자 id기반 DB에 저장된 조회수 리스트
         List<String> clickList = findTopClickListById(id);
 
-        //파싱된 조회수 리스트(top1코드,top1조회수,top2코드,top2조회수, ...)
-        List<Integer> parseClickList = new ArrayList<>();
+        //파싱된 조회수 맵(top1코드:top1조회수,top2코드:top2조회수, ...)
+        Map<Long, Integer> linkedParseClickList = new LinkedHashMap<>();
 
         for(String i:clickList){
             int deli = i.indexOf(",");
             if(deli == -1){ //,로 구분된 문자열 존재 X -> 조회한 행정동 X
                 System.out.println(",로 구분된 문자열 존재 X");
 
-                parseClickList.add(0);
-                parseClickList.add(0);
+                linkedParseClickList.put(0L,0);
             }else{
-                parseClickList.add(
-                        Integer.parseInt(i.substring(0,deli))   //행정동 코드
-                );
-                parseClickList.add(
-                        Integer.parseInt(i.substring(deli+1))   //조회수
+                linkedParseClickList.put(
+                         Long.parseLong(i.substring(0,deli))   //행정동 코드
+                        ,Integer.parseInt(i.substring(deli+1))   //조회수
                 );
             }
         }
 
-        return parseClickList;
+        return linkedParseClickList;
 
     }
 }

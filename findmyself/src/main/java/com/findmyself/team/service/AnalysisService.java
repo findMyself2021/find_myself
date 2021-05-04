@@ -252,16 +252,31 @@ public class AnalysisService {
     public List<DongInfo> sortTopClick(Long userId, Long h_code){
         List<DongInfo> topClickInfoList = new ArrayList<>();
 
-        List<Integer> parseClickList = memberService.parsingClickList(userId);
-        int code = h_code.intValue();
+        //파싱된 조회수 맵(top1코드:top1조회수,top2코드:top2조회수, ...)
+        Map<Long, Integer> linkedParseClickList = memberService.parsingClickList(userId);
 
-        //현재 분석화면에 해당하는 행정동 조회수 카운팅
-        for(int i=0; i<parseClickList.size(); i+=2){
-            if(parseClickList.get(i)  == code){ //1. 현재 조회 리스트에 해당 행정동 존재하는 경우 -> 조회수 + 1, 재정렬
-                parseClickList.set(i+1, parseClickList.get(i+1)+1);
+        //조회수 맵에 현재 클릭한 행정동 조회수 처리 여부
+        boolean isInsert = false;
+
+        //1. 현재 분석화면에 해당하는 행정동 조회수 카운팅
+        for(Long key: linkedParseClickList.keySet()) {
+            //1-1. 현재 조회 맵에 해당 행정동 코드(키 값)가 존재하는 경우 -> 조회수 + 1
+            if((key.toString()).equals(h_code.toString())){
+                linkedParseClickList.put(key,linkedParseClickList.get(key)+1);
+                isInsert = true;
+                break;
             }
         }
-        //2. 현재 조회 리스트에 해당 행정동 존재하지 않는 경우 -> 기존 리스트 비교하여 오름차순 정렬하기(하나 탈락 시켜야 함)
+
+        //1-2. 현재 조회수 맵에 해당 행정동 존재하지 않는 경우 -> new코드 : new조회수 추가
+        if(!isInsert){
+            linkedParseClickList.put(h_code,1);
+        }
+
+        //2. 조회수 맵 오름차순 정렬하기(무조건 결과 맵의 길이: 4)
+
+
+        //3. 조회수 오름차순 DongInfo 객체 생성 후, 결과 리스트 반환
 
         return  topClickInfoList;
     }

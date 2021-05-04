@@ -73,7 +73,7 @@ public class KakaoController {
         System.out.println("로그아웃 시도");
 
         //로그인을 한 상태인지 체크
-        String id = (String) session.getAttribute("id");
+        String id = String.valueOf(session.getAttribute("id"));
 
         //로그인을 한 상태이고
         //왜 여기로 안들어가는데 로그아웃 되지?

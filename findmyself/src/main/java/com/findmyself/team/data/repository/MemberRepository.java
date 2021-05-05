@@ -19,20 +19,13 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    //    회원 찾기(단건 조회)
-    public Member findOne(Long idx){
-        return em.find(Member.class,idx);
+    //카카오 로그인 id로 찾기
+    public Member findOne(Long id){
+        return em.find(Member.class,id);
     }
 
     public List<Member> findAll(){
         return em.createQuery("select m from Member m", Member.class)
-                .getResultList();
-    }
-
-    //카카오 로그인 id로 찾기
-    public List<Member> findById(Long id){
-        return em.createQuery("select m from Member m where m.id = :id", Member.class)
-                .setParameter("id",id)
                 .getResultList();
     }
 

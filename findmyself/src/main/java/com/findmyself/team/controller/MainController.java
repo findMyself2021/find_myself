@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -16,7 +19,7 @@ public class MainController {
     AnalysisService analysisService;
 
     @GetMapping(value="/")	//로그인 화면으로 이동할때(개발중)
-    public String openMain(Model model) {
+    public String openMain(Model model, HttpServletRequest request) {
 
         Requirements rq = new Requirements().defaultRequirements();
         List<Long> codeList = null;
@@ -25,12 +28,18 @@ public class MainController {
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
+        try{
+            HttpSession session = request.getSession();
+            session.setAttribute("id",session.getAttribute("id"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         return "main";
     }
 
     @PostMapping(value="/find.do")	//요구 사항 기반 검색
-    public String find(Requirements rq, Model model) {
+    public String find(Requirements rq, Model model, HttpServletRequest request) {
 
 //        System.out.println("거주타입: "+rq.getHome_type());
 //        System.out.println("보증금: "+rq.getDeposit());
@@ -49,7 +58,12 @@ public class MainController {
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
-
+        try{
+            HttpSession session = request.getSession();
+            session.setAttribute("id",session.getAttribute("id"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "main";
     }
 

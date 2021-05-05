@@ -70,7 +70,7 @@ public class MapController {
         AnalysisInfo analysisInfos = analysisService.analysisDetail(h_code);
 
         //행정동 조회수 분석 --- 개발중
-        //List<DongInfo> topClickInfoList = analysisService.sortTopClick(userId, h_code);
+        analysisService.sortTopClick(userId, h_code);
 
         // 테스트중
         //String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정

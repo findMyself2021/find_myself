@@ -40,10 +40,9 @@ public class KakaoController {
 
         // 클라이언트의 id가 존재할 때
         if(userInfo.get("id")!=null){
-
             // 이미 존재하는 회원이면 => 로그인 되게
-            List<Member> memberCheck = memberService.findById((Long) userInfo.get("id"));
-            if(!memberCheck.isEmpty()){
+            Member memberCheck = memberService.findOne((Long) userInfo.get("id"));
+            if(memberCheck != null){
                 System.out.println("이미 존재하는 회원입니다.");
                 System.out.println("로그인 성공");
             }

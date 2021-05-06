@@ -84,15 +84,19 @@ public class MemberService {
 
     //조회 수 top4 리스트 데이터 갱신
     @Transactional
-    public void setTop4(Long id, List<String> topClickInfoList){
-        Member member = findOne(id);
+    public void updateTop4(Long id, List<String> topClickInfoList){
+
+        Member member = memberRepository.findOne(id);
+
         int size = topClickInfoList.size();
 
         if(size>0){
             member.setTop1(topClickInfoList.get(0));
+            //System.out.println(member.getTop1());
         }
         if(size>1){
             member.setTop2(topClickInfoList.get(1));
+            //System.out.println(member.getTop2());
         }
         if(size>2){
             member.setTop3(topClickInfoList.get(2));

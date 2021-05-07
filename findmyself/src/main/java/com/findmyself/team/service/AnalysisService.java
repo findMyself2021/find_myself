@@ -310,7 +310,7 @@ public class AnalysisService {
         }
 
         //3. 갱신된 조회 수 데이터 업데이트
-        memberService.setTop4(userId,topClickInfoList);
+        memberService.updateTop4(userId,topClickInfoList);
 
         //return topClickInfoList;
     }

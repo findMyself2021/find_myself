@@ -3,17 +3,15 @@ package com.findmyself.team.data.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name= "member")
 @Getter @Setter
 public class Member {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     // 카카오 로그인으로 넘어온 값
     private Long id;
 

@@ -49,6 +49,7 @@ public class KakaoController {
             //존재하지 않다면
             else{
                 // 회원 가입
+                System.out.println("회원가입 진행");
                 Member member = new Member();
                 member.setId((Long) userInfo.get("id"));
                 member.setDate((String) userInfo.get("time"));

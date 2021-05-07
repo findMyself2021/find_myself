@@ -95,7 +95,8 @@ public class MemberService {
     @Transactional
     public void updateTop4(Long id, List<String> topClickInfoList){
 
-        Member member = memberRepository.findOne(id);
+        //카카오 id로 멤버 찾기
+        Member member = findOneById(id);
 
         int size = topClickInfoList.size();
 

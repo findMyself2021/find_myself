@@ -30,7 +30,7 @@ public class MemberRepository {
 //        findMember.setDate(member.getDate());
 //    }
 
-    //카카오 로그인 id로 찾기
+    //기본키로 찾기
     public Member findOne(Long idx){
         return em.find(Member.class,idx);
     }
@@ -47,6 +47,7 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    //카카오 로그인 id로 찾기
     public List<Member> findById(Long id){
         return em.createQuery("select m from Member m where m.id = :id", Member.class)
                 .setParameter("id",id)

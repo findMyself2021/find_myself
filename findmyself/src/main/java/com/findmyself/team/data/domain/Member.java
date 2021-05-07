@@ -11,7 +11,8 @@ import javax.persistence.*;
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    private Long idx; // 기본키
+
     // 카카오 로그인으로 넘어온 값
     private Long id;
 

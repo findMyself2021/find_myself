@@ -13,17 +13,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberRepository {
 
+    @PersistenceContext
     private final EntityManager em;
 
     //    회원 저장
-    public void save(Member member){
+    public Long save(Member member){
         System.out.println("save 함수: "+member);
         em.persist(member);
+
+        return member.getId();
     }
 
+//    public void update(Member member){
+//        Member findMember = em.find(Member.class, member.getIdx());
+//        findMember.setId(member.getId());
+//        findMember.setDate(member.getDate());
+//    }
+
     //카카오 로그인 id로 찾기
-    public Member findOne(Long id){
-        return em.find(Member.class,id);
+    public Member findOne(Long idx){
+        return em.find(Member.class,idx);
     }
 
     //중복 회원 검증
@@ -35,6 +44,12 @@ public class MemberRepository {
 
     public List<Member> findAll(){
         return em.createQuery("select m from Member m", Member.class)
+                .getResultList();
+    }
+
+    public List<Member> findById(Long id){
+        return em.createQuery("select m from Member m where m.id = :id", Member.class)
+                .setParameter("id",id)
                 .getResultList();
     }
 }

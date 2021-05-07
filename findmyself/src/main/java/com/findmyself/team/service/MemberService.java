@@ -6,13 +6,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@PersistenceContext
 public class MemberService {
     private final MemberRepository memberRepository;
+    private EntityManager em;
 
     //회원 가입
     @Transactional
@@ -37,15 +41,19 @@ public class MemberService {
     }
 
     //카카오 id로 찾기
-    public Member findOne(Long id){
-        return memberRepository.findOne(id);
+    public Member findOneById(Long id){
+        List<Member> Members = memberRepository.findById(id);
+        if(Members.isEmpty()){
+            return null;
+        }
+        return Members.get(0);
     }
 
     //사용자 조회 수 top4 조회
     public List<String> findTopClickListById(Long id){
 
         List<String> clickList = new ArrayList<>();
-        Member member = findOne(id);
+        Member member = findOneById(id);
         clickList.add(member.getTop1());
         clickList.add(member.getTop2());
         clickList.add(member.getTop3());

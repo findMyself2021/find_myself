@@ -37,7 +37,7 @@
 
 /*이거보다 작으면 */
 @media (max-width: 1599px) {
-  #map {
+  #map,#map1 {
     width: inherit;
   }
 }
@@ -172,10 +172,6 @@ h6 {
   margin-bottom: 0.5rem;
 }
 
-p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
 ol,
 ul,
 dl {
@@ -270,7 +266,6 @@ button:focus {
   outline: 5px auto -webkit-focus-ring-color;
 }
 
-input,
 button,
 select,
 optgroup,
@@ -281,8 +276,7 @@ textarea {
   line-height: inherit;
 }
 
-button,
-input {
+button{
   overflow: visible;
 }
 
@@ -2233,7 +2227,6 @@ a.text-darker:focus {
     page-break-inside: avoid;
   }
 
-  p,
   h2,
   h3 {
     orphans: 3;
@@ -3262,11 +3255,7 @@ textarea[resize="horizontal"] {
   padding-right: 1.5rem;
 }
 
-p {
-  font-size: 1rem;
-  font-weight: 300;
-  line-height: 1.7;
-}
+
 
 .heading {
   letter-spacing: 0.025em;

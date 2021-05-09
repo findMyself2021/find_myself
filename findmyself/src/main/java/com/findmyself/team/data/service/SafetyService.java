@@ -2,11 +2,14 @@ package com.findmyself.team.data.service;
 
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Safety;
+import com.findmyself.team.data.domain.SafetyCluster;
+import com.findmyself.team.data.domain.home.HomeCluster;
 import com.findmyself.team.data.repository.SafetyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -31,18 +34,67 @@ public class SafetyService {
 
     public int findMin(){ return safetyRepository.findMin(); }
 
-    public HashSet<Long> analysis(int safety){  //데이터 값 낮을수록 안전이 좋은..
-        int max = findMax();
-        int std = Math.round(max / 100);
-        HashSet<Long> codeList = new HashSet<>();
+    public int findMaxNo(){
+        return safetyRepository.findMaxNo();
+    }
 
-        List<Safety> safetyList = this.findAll();
-        for(int i=0; i<safetyList.size(); i++){
-            if(safetyList.get(i).getNum() <= (100-safety)*std){
-                codeList.add(safetyList.get(i).getH_code());
+    public List<Safety> findByNo(int no){
+        return safetyRepository.findByNo(no);
+    }
+
+    public List<SafetyCluster> findClusters(){
+        return safetyRepository.findClusters();
+    }
+
+    public SafetyCluster findClusterByNo(int no){
+        return safetyRepository.findClusterByNo(no);
+    }
+
+    //설정값을 포함하는 군집번호 찾기
+    public List<Integer> findClusterNo(int safety){
+
+        int std_value = getStdVaule(safety);
+
+        List<SafetyCluster> clusters = new ArrayList<>();
+        List<Integer> numbers = new ArrayList<>();
+
+        clusters = safetyRepository.findClusters();
+
+        for(SafetyCluster cluster: clusters){
+            if(cluster.getMin()>=std_value){
+                numbers.add(cluster.getNo());
+            }
+        }
+        return numbers;
+    }
+
+    public List<Long> analysis(int safety){
+
+        List<Long> codeList = new ArrayList<>();
+
+        List<Integer> numbers;  //설정값을 충족하는 클러스터 번호
+        List<Long> tmpCodes;    //특정 번호의 클러스터에 포함된 행정동 코드 리스트
+
+        numbers = findClusterNo(safety);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = safetyRepository.findClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
 
         return codeList;
+    }
+
+    public int getStdVaule(int safety){
+
+        int min = (int)findMin();
+        int max = (int)findMax();
+        int std = Math.round((max-min)/100);
+        int std_value = min+std*safety;
+
+        return std_value;
     }
 }

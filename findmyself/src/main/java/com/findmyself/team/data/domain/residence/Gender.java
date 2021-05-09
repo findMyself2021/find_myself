@@ -8,25 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "residence_age")
+@Table(name = "gender")
 @Getter
 @Setter
-public class ResidenceAge {
+public class Gender {
+
     @Id
     @GeneratedValue
     private Long h_code;
 
-    private int child;
-    private int s2030;
-    private int s4050;
-    private int elder;
-    private int first;
-    private int second;
-
-
-    public ResidenceAge(){
-
-    }
+    private int male;
+    private int female;
+    private double ratio;
+    private int no;
+    private double ratio_min;
+    private double ratio_max;
+    private double ratio_avg;
 }

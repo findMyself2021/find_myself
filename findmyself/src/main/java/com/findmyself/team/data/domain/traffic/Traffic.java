@@ -9,14 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "traffic_info_result")
+@Table(name = "traffic")
 @Getter
 @Setter
-public class TrafficInfoResult {
+public class Traffic {
 
     @Id
     @GeneratedValue
     private Long h_code;
 
-    private int num;
+    private int value;
+    private int no;
+    private int min;
+    private int max;
+    private double avg;
 }

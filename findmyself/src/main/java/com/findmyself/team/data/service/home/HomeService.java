@@ -1,10 +1,6 @@
 package com.findmyself.team.data.service.home;
 
-import com.findmyself.team.Requirements;
-import com.findmyself.team.data.domain.home.HomeApart;
-import com.findmyself.team.data.domain.home.HomeDandok;
-import com.findmyself.team.data.domain.home.HomeDasede;
-import com.findmyself.team.data.domain.home.HomeOfficetel;
+import com.findmyself.team.data.domain.home.HomeCluster;
 import com.findmyself.team.data.repository.home.ApartRepository;
 import com.findmyself.team.data.repository.home.DandokRepository;
 import com.findmyself.team.data.repository.home.DasedeRepository;
@@ -14,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -22,9 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeService {
 
-    @Getter
-    private static int input_max = 20000;
-
     private final ApartRepository apartRepository;
     private final DandokRepository dandokRepository;
     private final DasedeRepository dasedeRepository;
@@ -32,129 +26,93 @@ public class HomeService {
 
     //전세 - 보증금 평균
     public int findDepositAvgByCharter(Long code){
+
         int sum = 0;
-        int cnt = 0;
 
-        if(apartRepository.findOne(code).getCharter_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=apartRepository.findOne(code).getCharter_deposit();
-            cnt++;
-        }
+        sum += apartRepository.findCharterOne(code).getDeposit();
+        sum += dandokRepository.findCharterOne(code).getDeposit();
+        sum += dasedeRepository.findCharterOne(code).getDeposit();
+        sum += officetelRepository.findCharterOne(code).getDeposit();
 
-        if(dandokRepository.findOne(code).getCharter_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=dandokRepository.findOne(code).getCharter_deposit();
-            cnt++;
-        }
-
-        if(dasedeRepository.findOne(code).getCharter_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=dasedeRepository.findOne(code).getCharter_deposit();
-            cnt++;
-        }
-
-        if(officetelRepository.findOne(code).getCharter_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=officetelRepository.findOne(code).getCharter_deposit();
-            cnt++;
-        }
-
-        System.out.println("행정동 "+code+"에는 "+cnt+"가지 유형 거주 데이터 존재");
-        if(cnt==0){
-            return 0;
-        }else{
-            return Math.round(sum/cnt);
-        }
+        return Math.round(sum/4);
     }
 
     //월세 - 보증금 평균
     public int findDepositAvgByMonthly(Long code){
+
         int sum = 0;
-        int cnt = 0;
 
-        if(apartRepository.findOne(code).getMonthly_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=apartRepository.findOne(code).getMonthly_deposit();
-            cnt++;
-        }
+        sum += apartRepository.findMonthlyOne(code).getDeposit();
+        sum += dandokRepository.findMonthlyOne(code).getDeposit();
+        sum += dasedeRepository.findMonthlyOne(code).getDeposit();
+        sum += officetelRepository.findMonthlyOne(code).getDeposit();
 
-        if(dandokRepository.findOne(code).getMonthly_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=dandokRepository.findOne(code).getMonthly_deposit();
-            cnt++;
-        }
-
-        if(dasedeRepository.findOne(code).getMonthly_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=dasedeRepository.findOne(code).getMonthly_deposit();
-            cnt++;
-        }
-
-        if(officetelRepository.findOne(code).getMonthly_deposit() == 0){
-            sum+=0;
-        }else{
-            sum+=officetelRepository.findOne(code).getMonthly_deposit();
-            cnt++;
-        }
-
-        System.out.println("행정동 "+code+"에는 "+cnt+"가지 유형 거주 데이터 존재");
-        if(cnt==0){
-            return 0;
-        }else{
-            return Math.round(sum/cnt);
-        }
+        return Math.round(sum/4);
     }
 
     //월세 - 월세 평균
     public int findMonthlyAvgByMonthly(Long code){
+
         int sum = 0;
-        int cnt = 0;
 
-        if(apartRepository.findOne(code).getMonthly_monthly() == 0){
-            sum+=0;
+        sum += apartRepository.findMonthlyOne(code).getMonthly();
+        sum += dandokRepository.findMonthlyOne(code).getMonthly();
+        sum += dasedeRepository.findMonthlyOne(code).getMonthly();
+        sum += officetelRepository.findMonthlyOne(code).getMonthly();
+
+        return Math.round(sum/4);
+    }
+
+    //설정값을 포함하는 군집번호 찾기
+    public List<Integer> findCharterClusterNo(String type, int deposit){
+
+        List<HomeCluster> clusters = new ArrayList<>();
+        List<Integer> numbers = new ArrayList<>();
+
+        if(type.equals("apart")){
+            clusters = apartRepository.findCharterClusters();
+        }else if(type.equals("dandok")){
+            clusters = dandokRepository.findCharterClusters();
+        }else if(type.equals("dasede")){
+            clusters = dasedeRepository.findCharterClusters();
         }else{
-            sum+=apartRepository.findOne(code).getMonthly_monthly();
-            cnt++;
+            clusters = officetelRepository.findCharterClusters();
         }
 
-        if(dandokRepository.findOne(code).getMonthly_monthly() == 0){
-            sum+=0;
-        }else{
-            sum+=dandokRepository.findOne(code).getMonthly_monthly();
-            cnt++;
+        for(HomeCluster cluster: clusters){
+            if(cluster.getDeposit_min() <= deposit && cluster.getDeposit_max() >= deposit){
+                numbers.add(cluster.getNo());
+            }
         }
+        return numbers;
+    }
+    public List<Integer> findMonthlyClusterNo(String type, int deposit, int monthly){
 
-        if(dasedeRepository.findOne(code).getMonthly_monthly() == 0){
-            sum+=0;
-        }else{
-            sum+=dasedeRepository.findOne(code).getMonthly_monthly();
-            cnt++;
-        }
+        List<HomeCluster> clusters;
+        List<Integer> numbers = new ArrayList<>();
 
-        if(officetelRepository.findOne(code).getMonthly_monthly() == 0){
-            sum+=0;
+        if(type.equals("apart")){
+            clusters = apartRepository.findMonthlyClusters();
+        }else if(type.equals("dandok")){
+            clusters = dandokRepository.findMonthlyClusters();
+        }else if(type.equals("dasede")){
+            clusters = dasedeRepository.findMonthlyClusters();
         }else{
-            sum+=officetelRepository.findOne(code).getMonthly_monthly();
-            cnt++;
+            clusters = officetelRepository.findMonthlyClusters();
         }
-
-        System.out.println("행정동 "+code+"에는 "+cnt+"가지 유형 거주 데이터 존재");
-        if(cnt==0){
-            return 0;
-        }else{
-            return Math.round(sum/cnt);
+        for(HomeCluster cluster: clusters){
+            if(cluster.getDeposit_min() <= deposit && cluster.getDeposit_max() >= deposit &&
+                    cluster.getMonthly_min() <= monthly && cluster.getMonthly_max() >= monthly){
+                numbers.add(cluster.getNo());
+            }
         }
+        return numbers;
     }
 
     // 예산 필터링 분석
+    // 설정 예산값을 포함하는 범위의 클러스터 내 행정동 모두 추가
     public HashSet<Long> analysis(String home_type, int deposit, int monthly){
+
         HashSet<Long> codeList = new HashSet<>();
 
         if(home_type.equals("charter")) { //전세 선택한 경우
@@ -171,76 +129,102 @@ public class HomeService {
     // 전세 예산 분석
     public HashSet<Long> findCharterList(int deposit){
 
-        HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
+        HashSet<Long> codeList = new HashSet<>();   //설정값을 충족하는 행정동 코드 셋(중복 허용하지 않는 Set)
 
-        List<HomeApart> apartList = apartRepository.findAll();
-        List<HomeDandok> dandokList = dandokRepository.findAll();
-        List<HomeDasede> dasedeList = dasedeRepository.findAll();
-        List<HomeOfficetel> officetelList =  officetelRepository.findAll();
+        List<Integer> numbers;  //설정값을 충족하는 클러스터 번호
+        List<Long> tmpCodes;    //특정 번호의 클러스터에 포함된 행정동 코드 리스트
 
-        for(int i=0; i<apartList.size(); i++){
-            if(apartList.get(i).getCharter_deposit() <= deposit && apartList.get(i).getCharter_deposit()!=0){
-                codeList.add(apartList.get(i).getH_code());
+        numbers = findCharterClusterNo("apart",deposit);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = apartRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
 
-        for(int i=0; i<dandokList.size(); i++){
-            if(dandokList.get(i).getCharter_deposit() <= deposit && dandokList.get(i).getCharter_deposit()!=0){
-                codeList.add(dandokList.get(i).getH_code());
+        numbers = findCharterClusterNo("dandok",deposit);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = dandokRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
 
-        for(int i=0; i<dasedeList.size(); i++){
-            if(dasedeList.get(i).getCharter_deposit() <= deposit && dasedeList.get(i).getCharter_deposit()!=0){
-                codeList.add(dasedeList.get(i).getH_code());
+        numbers = findCharterClusterNo("dasede",deposit);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = dasedeRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
 
-        for(int i=0; i<officetelList.size(); i++){
-            if(officetelList.get(i).getCharter_deposit() <= deposit && officetelList.get(i).getCharter_deposit()!=0){
-                codeList.add(officetelList.get(i).getH_code());
+        numbers = findCharterClusterNo("officetel",deposit);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = officetelRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
+
         return codeList;
     }
 
     // 월세 예산 분석
     public HashSet<Long> findMonthlyList(int deposit, int monthly){
 
-        HashSet<Long> codeList = new HashSet<>(); //중복 허용하지 않는 Set
+        HashSet<Long> codeList = new HashSet<>();   //설정값을 충족하는 행정동 코드 셋(중복 허용하지 않는 Set)
 
-        List<HomeApart> apartList = apartRepository.findAll();
-        List<HomeDandok> dandokList = dandokRepository.findAll();
-        List<HomeDasede> dasedeList = dasedeRepository.findAll();
-        List<HomeOfficetel> officetelList =  officetelRepository.findAll();
+        List<Integer> numbers;  //설정값을 충족하는 클러스터 번호
+        List<Long> tmpCodes;    //특정 번호의 클러스터에 포함된 행정동 코드 리스트
 
-        for(int i=0; i<apartList.size(); i++){
-            if(apartList.get(i).getMonthly_deposit() <= deposit && apartList.get(i).getMonthly_monthly() <= monthly
-                && apartList.get(i).getMonthly_deposit()!=0){
-                codeList.add(apartList.get(i).getH_code());
+        numbers = findMonthlyClusterNo("apart", deposit, monthly);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = apartRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
 
-        for(int i=0; i<dandokList.size(); i++){
-            if(dandokList.get(i).getMonthly_deposit() <= deposit && dandokList.get(i).getMonthly_monthly() <= monthly
-                    && dandokList.get(i).getMonthly_deposit()!=0){
-                codeList.add(dandokList.get(i).getH_code());
+        numbers = findMonthlyClusterNo("dandok", deposit, monthly);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = dandokRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
 
-        for(int i=0; i<dasedeList.size(); i++){
-            if(dasedeList.get(i).getMonthly_deposit() <= deposit && dasedeList.get(i).getMonthly_monthly() <= monthly
-                    && dasedeList.get(i).getMonthly_deposit()!=0){
-                codeList.add(dasedeList.get(i).getH_code());
+        numbers = findMonthlyClusterNo("dasede", deposit, monthly);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = dasedeRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
 
-        for(int i=0; i<officetelList.size(); i++){
-            if(officetelList.get(i).getMonthly_deposit() <= deposit && officetelList.get(i).getMonthly_monthly() <= monthly
-                    && officetelList.get(i).getMonthly_deposit()!=0){
-                codeList.add(officetelList.get(i).getH_code());
+        numbers = findMonthlyClusterNo("officetel", deposit, monthly);
+        if(!numbers.isEmpty()){
+            for(Integer no:numbers){
+                tmpCodes = officetelRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code : tmpCodes){
+                    codeList.add(code);
+                }
             }
         }
+
 
         /*Iterator<Long> it = codeList.iterator(); // Iterator(반복자) 생성
         System.out.println("=====행정동 코드=====");

@@ -3,16 +3,14 @@ package com.findmyself.team.service;
 import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
-import com.findmyself.team.data.domain.Convenient;
-import com.findmyself.team.data.domain.Member;
-import com.findmyself.team.data.domain.residence.ResidenceGender;
-import com.findmyself.team.data.service.ConvenientService;
+import com.findmyself.team.data.domain.residence.Gender;
+import com.findmyself.team.data.service.convenient.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.home.HomeService;
-import com.findmyself.team.data.service.residence.AgeService;
+import com.findmyself.team.data.service.residence.age.AgeService;
 import com.findmyself.team.data.service.residence.GenderService;
-import com.findmyself.team.data.service.traffic.InfoResultService;
+import com.findmyself.team.data.service.traffic.TrafficInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class AnalysisService {
     HomeService homeService;
 
     @Autowired
-    InfoResultService infoResultService;
+    TrafficInfoService trafficInfoService;
 
     @Autowired
     ConvenientService convenientService;
@@ -54,11 +52,40 @@ public class AnalysisService {
         List<Long> codeList = new ArrayList<>();
 
         HashSet<Long> homeList = homeService.analysis(rq.getHome_type(), rq.getDeposit(), rq.getMonthly());
-        HashSet<Long> trafficList = infoResultService.analysis(rq.getTraffic());
-        HashSet<Long> convenientList = convenientService.analysis(rq.getConvenient());
-        HashSet<Long> safetyList = safetyService.analysis(rq.getSafety());
-        HashSet<Long> genderList = genderService.analysis(rq.getSex_ratio());
-        HashSet<Long> ageList = ageService.analysis(rq.getAge_type());
+        System.out.println("<<<homeList 분석결과>>>");
+        for(Long code: homeList){
+            System.out.println(code);
+        }
+
+        List<Long> trafficList = trafficInfoService.analysis(rq.getTraffic());
+        System.out.println("<<<trafficList 분석결과>>>");
+        for(Long code: trafficList){
+            System.out.println(code);
+        }
+
+        List<Long> convenientList = convenientService.analysis(rq.getConvenient());
+        System.out.println("<<<convenientList 분석결과>>>");
+        for(Long code: convenientList){
+            System.out.println(code);
+        }
+
+        List<Long> safetyList = safetyService.analysis(rq.getSafety());
+        System.out.println("<<<safetyList 분석결과>>>");
+        for(Long code: safetyList){
+            System.out.println(code);
+        }
+
+        List<Long> genderList = genderService.analysis(rq.getSex_ratio());
+        System.out.println("<<<genderList 분석결과>>>");
+        for(Long code: genderList){
+            System.out.println(code);
+        }
+
+        List<Long> ageList = ageService.analysis(rq.getAge_type());
+        System.out.println("<<<ageList 분석결과>>>");
+        for(Long code: ageList){
+            System.out.println(code);
+        }
 
         /*중복된 행정동 정리
         각 리스트에 공통으로 포함되는 행정동만 추출  !
@@ -79,7 +106,7 @@ public class AnalysisService {
             }if(ageList.contains(code)) {
                 cnt++;
             }
-            if(cnt>=2){ //예산 외 조건 2개 이상 충족하면 추천
+            if(cnt>2){ //예산 외 조건 2개 이상 충족하면 추천
                 codeList.add(code);
             }
         }
@@ -110,44 +137,35 @@ public class AnalysisService {
                 interval += rq.getMonthly() - homeService.findMonthlyAvgByMonthly(code_tmp);
             }
 
-            // 교통량 최댓값에 가까운
-            interval += Math.abs(infoResultService.findMax()
-                    - infoResultService.findOne(code_tmp).getNum());
+            // 교통량 설정값에 가까운
+            interval += Math.abs(trafficInfoService.getStdVaule(rq.getTraffic())
+                    - trafficInfoService.findOne(code_tmp).getValue());
 
-            // 편의 수치 최댓값에 가까운
-            interval += findConvenientInterval(code_tmp);
+            //편의 수치 설정값에 가까운
+            interval += convenientService.findInterval(rq, code_tmp);
 
-            //안전 수치 최솟값에 가까운
-            interval += Math.abs(safetyService.findMin() - safetyService.findOne(code_tmp).getNum());
+            //안전 수치 설정값에 가까운
+            interval += Math.abs(safetyService.getStdVaule(rq.getSafety()) - safetyService.findOne(code_tmp).getValue());
 
             //성비
             String preferGender = genderService.findPrefer(
-                    genderService.getStdVaule(rq.getSex_ratio()),
-                    genderService.getMidValue()
+                    genderService.getStdVaule(rq.getSex_ratio())
             );
 
             if(preferGender.equals("w")){  //여초 선호
-                interval += Math.abs((int)(genderService.findOne(code_tmp).getSex_ratio()
+                interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
                         - genderService.findMin()));
             }else if(preferGender.equals("m")){    //남초 선호
-                interval += Math.abs((int)(genderService.findOne(code_tmp).getSex_ratio()
+                interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
                         - genderService.findMax()));
             }else{  //반반
-                interval += Math.abs((int)(genderService.findOne(code_tmp).getSex_ratio()
+                interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
                         - genderService.getMidValue()));
             }
 
             //선택 연령대 인구수의 최대값에 가까운
             String age_type = rq.getAge_type();
-            if(age_type.equals("child")){
-                interval += Math.abs(ageService.findOne(code_tmp).getChild()- ageService.findMax(age_type));
-            }else if(age_type.equals("s2030")){
-                interval += Math.abs(ageService.findOne(code_tmp).getS2030()- ageService.findMax(age_type));
-            }else if(age_type.equals("s4050")){
-                interval += Math.abs(ageService.findOne(code_tmp).getS4050() - ageService.findMax(age_type));
-            }else{
-                interval += Math.abs(ageService.findOne(code_tmp).getElder()- ageService.findMax(age_type));
-            }
+            interval += ageService.findInterval(code_tmp,age_type);
 
             intervalList.put(interval, code_tmp);
         }
@@ -156,22 +174,6 @@ public class AnalysisService {
         topInfoList = sortIntervalList(intervalList);
 
         return topInfoList;
-    }
-
-    // 편의시설 인터벌값 계산
-    public int findConvenientInterval(Long code){
-        int interval = 0;
-
-        Convenient conv = convenientService.findOne(code);
-
-        interval += Math.abs(convenientService.findMax("joy") - conv.getJoy());
-        interval += Math.abs(convenientService.findMax("shop") - conv.getShop());
-        interval += Math.abs(convenientService.findMax("food") - conv.getFood());
-        interval += Math.abs(convenientService.findMax("life") - conv.getLife());
-        interval += Math.abs(convenientService.findMax("sport") - conv.getSport());
-        interval += Math.abs(convenientService.findMax("edu") - conv.getEdu());
-
-        return Math.round(interval/6);
     }
 
     //인터벌값 오름차순 정렬 top5
@@ -208,7 +210,7 @@ public class AnalysisService {
         int monthly_avg_monthly = homeService.findMonthlyAvgByMonthly(code);
 
         // 성비 구하기
-        ResidenceGender gender = genderService.findOne(code);
+        Gender gender = genderService.findOne(code);
         int sum = gender.getMale()+gender.getFemale();
         double man_ratio = Math.round(((double) gender.getMale()/(double) sum*100)*100)/100.0;
         double woman_ratio = Math.round(((double) gender.getFemale()/(double) sum*100)*100)/100.0;

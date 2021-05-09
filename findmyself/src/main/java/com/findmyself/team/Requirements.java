@@ -1,6 +1,5 @@
 package com.findmyself.team;
 
-import com.findmyself.team.data.domain.Convenient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,7 @@ public class Requirements extends ConvenientTmp{
     private ConvenientTmp convenient;
     private int safety;
     private int sex_ratio;
-    private String age_type; // child, s2030s, s4050, elder
+    private String age_type; // child, s2030, s4050, elder
 
     public Requirements(){
 

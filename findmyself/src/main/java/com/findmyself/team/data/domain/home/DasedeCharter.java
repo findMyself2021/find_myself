@@ -9,19 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "home_apart")
-@Getter @Setter
-public class HomeApart {
+@Table(name = "home_dasede_charter")
+@Getter
+@Setter
+public class DasedeCharter {
 
     @Id
     @GeneratedValue
     private Long h_code;
 
-    private int charter_deposit;
-    private int monthly_deposit;
-    private int monthly_monthly;
-
-    public HomeApart(){
-
-    }
+    private int deposit;
+    private int no;
+    private int deposit_min;
+    private int deposit_max;
+    private double deposit_avg;
 }

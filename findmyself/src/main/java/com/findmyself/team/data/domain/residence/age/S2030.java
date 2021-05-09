@@ -1,4 +1,4 @@
-package com.findmyself.team.data.domain.residence;
+package com.findmyself.team.data.domain.residence.age;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,20 +8,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name = "gender")
-@Getter @Setter
-public class ResidenceGender {
+@Table(name = "age_s2030")
+@Getter
+@Setter
+public class S2030 {
 
     @Id
     @GeneratedValue
     private Long h_code;
 
-    private int male;
-    private int female;
-    private double sex_ratio;
-
-    public ResidenceGender(){
-
-    }
+    private double value;
+    private int no;
+    private int min;
+    private int max;
+    private double avg;
 }

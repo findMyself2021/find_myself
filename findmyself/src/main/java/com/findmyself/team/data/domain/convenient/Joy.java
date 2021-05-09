@@ -1,4 +1,4 @@
-package com.findmyself.team.data.domain.home;
+package com.findmyself.team.data.domain.convenient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,19 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "home_dasede")
-@Getter @Setter
-public class HomeDasede {
+@Table(name="convenient_joy")
+@Getter
+@Setter
+public class Joy {
 
     @Id
     @GeneratedValue
     private Long h_code;
 
-    private int charter_deposit;
-    private int monthly_deposit;
-    private int monthly_monthly;
+    private int value;
+    private int no;
+    private int min;
+    private int max;
+    private double avg;
 
-    public HomeDasede(){
-
-    }
 }

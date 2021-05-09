@@ -2,7 +2,6 @@ package com.findmyself.team.service;
 
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
-import com.findmyself.team.data.service.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.*;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

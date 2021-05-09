@@ -37,7 +37,7 @@
 
 /*이거보다 작으면 */
 @media (max-width: 1599px) {
-  #map {
+  #map,#map1 {
     width: inherit;
   }
 }

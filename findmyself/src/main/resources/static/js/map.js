@@ -1,5 +1,5 @@
 
-function DrawPolygon() {
+function DrawPolygon(mapno) {
 
     //한국 전체 폴리곤 생성
     $.getJSON("/json/koreaMap.json", function(geojson) {
@@ -13,11 +13,11 @@ function DrawPolygon() {
 
             if(val.geometry.type =="MultiPolygon")
             {
-                displayKorea(coordinates,true);
+                displayKorea(coordinates,true,mapno);
             }
             else
             {
-                displayKorea(coordinates,false);
+                displayKorea(coordinates,false,mapno);
             }
         });
     });
@@ -32,13 +32,13 @@ function DrawPolygon() {
 
             coordinates = val.geometry.coordinates;
 
-            displayArea(coordinates);
+            displayArea(coordinates,mapno);
         });
     });
 }
 
-// 다각형을 생성, 색칠
-function displayKorea(coordinates,multi) {
+// 한국 폴리곤 => 어둡게
+function displayKorea(coordinates,multi,mapno) {
 
     if(multi)
     {
@@ -49,7 +49,12 @@ function displayKorea(coordinates,multi) {
         polygon = makePolygon(coordinates);
     }
 
-    polygon.setMap(map);
+    if(mapno==1){
+        polygon.setMap(map1);
+    }
+    else{
+        polygon.setMap(map);
+    }
 }
 
 function makeMultiPolygon(coordinates){
@@ -104,7 +109,7 @@ function makePolygon(coordinates){
 }
 
 // 다각형을 생성, 색칠
-function displayArea(coordinates) {
+function displayArea(coordinates,mapno) {
 
     var path = [];
     var points = [];
@@ -117,16 +122,30 @@ function displayArea(coordinates) {
         path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));            //new kako.maps.LatLng가 없으면 인식을 못해서 path 배열에 추가
     })
 
-    // 다각형을 생성합니다
-    var polygon = new kakao.maps.Polygon({
-        map: map, // 다각형을 표시할 지도 객체
-        path: path,
-        strokeWeight: 4,
-        strokeColor: '#dae9f4',
-        strokeOpacity: 0.2,
-        fillColor: '#fff',
-        fillOpacity: 0.3,
-    });
+    if(mapno==1){
+        // 다각형을 생성합니다
+        var polygon = new kakao.maps.Polygon({
+            map: map1, // 다각형을 표시할 지도 객체
+            path: path,
+            strokeWeight: 4,
+            strokeColor: '#dae9f4',
+            strokeOpacity: 0.2,
+            fillColor: '#fff',
+            fillOpacity: 0.3,
+        });
+    }
+    else{
+        // 다각형을 생성합니다
+        var polygon = new kakao.maps.Polygon({
+            map: map, // 다각형을 표시할 지도 객체
+            path: path,
+            strokeWeight: 4,
+            strokeColor: '#dae9f4',
+            strokeOpacity: 0.2,
+            fillColor: '#fff',
+            fillOpacity: 0.3,
+        });
+    }
 }
 
 //행정동 기준으로 폴리곤 생성
@@ -147,6 +166,31 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId){
 
             //특정 행정동만 그리기
             if(h_code == code)
+            {
+                // alert(addr);
+                displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
+            }
+        })
+    })
+}
+
+function Draw_HangJungDongs(h_code_list,fillColor){
+    //행정동 기준의 json 파일 불러옴
+    $.getJSON("/json/seoulMap.json", function(geojson) {
+
+        var data = geojson.features;
+        var coordinates = [];    //좌표 저장할 배열
+        var name = '';            //행정동 이름
+        var code =''; //행정기관 코드
+
+        $.each(data, function(index, val) {
+
+            coordinates = val.geometry.coordinates;
+            name = val.properties.adm_nm;
+            code = val.properties.adm_cd2;
+
+            //특정 행정동만 그리기
+            if(h_code_list == code)
             {
                 // alert(addr);
                 displayHangJungDong(coordinates, name,code,addr, fillColor, userId);

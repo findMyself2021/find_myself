@@ -25,14 +25,14 @@
             var id = /*[[ ${session.id} ]]*/;
             /*]]*/
             if(id != null){ //로그아웃 구현
-                alert(id+"님을 로그아웃 하겠습니다.");
+                //alert(id+"님을 로그아웃 하겠습니다.");
                 var logout_form = document.createElement("form");
                 logout_form.id = "logout-form";
                 logout_form.action="/logout";
                 document.body.append(logout_form);
                 document.getElementById("logout-form").submit();
             }else{  //로그인 구현
-                alert("로그인 하겠습니다.");
+                //alert("로그인 하겠습니다.");
                 var login_form = document.createElement("form");
                 login_form.id = "login-form";
                 login_form.action="/login";
@@ -101,9 +101,9 @@
                     var codeList = /*[[ ${codeList} ]]*/;
                     var topInfoList = /*[[ ${topInfoList} ]]*/;
                     var userId = /*[[ ${session.id} ]]*/;
-                    alert("userid: "+userId);
+                    //alert("userid: "+userId);
                     if(userId == null){
-                        alert("Draw_HangJungDong 함수 진입 전 userId 널값 !");
+                        //alert("Draw_HangJungDong 함수 진입 전 userId 널값 !");
                     }
 
                     if(codeList != null && userId != null) {

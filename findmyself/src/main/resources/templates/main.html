@@ -2,6 +2,8 @@
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
+    <!-- CSS Files -->
+    <link href="/css/analysis/argon-dashboard.css?" rel="stylesheet" />
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/main.css">
@@ -135,52 +137,61 @@
 
                 </script>
             </div>
-            <div id="map1" style="width: 100%; height: 700px;position:relative; overflow:hidden; border-radius: 4px" >
-                <script th:inline="javascript">
-                    var mapContainer = document.getElementById('map1'), // 지도를 표시할 div
-                        mapOption = {
-                            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-                            level: 9 // 지도의 확대 레벨
-                        };
-``
-                    var map1 = new kakao.maps.Map(mapContainer, mapOption),
-                        customOverlay = new kakao.maps.CustomOverlay({});
+            <br>
+            <div class="card bg-gradient-default shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted ls-1 mb-1">카테고리별</h6>
+                            <h2 class="text-darker mb-0">군집 분석 결과</h2>
+                        </div>
+                        <div class="col">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item">
+                                    <button class="btn btn-sm btn-primary" id="btn_select" onclick=""
+                                            style="font-size: 14px">예산</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="btn btn-sm btn-primary" id="btn_select2" onclick=""
+                                            style="font-size: 14px">교통</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="btn btn-sm btn-primary" id="btn_select3" onclick=""
+                                            style="font-size: 14px">편의시설</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="btn btn-sm btn-primary" id="btn_select4" onclick=""
+                                            style="font-size: 14px">안전</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="btn btn-sm btn-primary" id="btn_select5" onclick=""
+                                            style="font-size: 14px">주변</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
+                <div class="card-body">
+                    <div id="map1" style="height:500px;position:relative;overflow:inherit; border-radius: 10px">
+                        <script th:inline="javascript">
+                            var mapContainer = document.getElementById('map1'), // 지도를 표시할 div
+                                mapOption = {
+                                    center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                                    level: 9 // 지도의 확대 레벨
+                                };
 
-                    // 서울 전체 지도
-                    DrawPolygon(1);
+                            // 맵 초기화
+                            var map1 = new kakao.maps.Map(mapContainer, mapOption),
+                                customOverlay = new kakao.maps.CustomOverlay({});
 
-                    // /*<![CDATA[*/
-                    //
-                    // if(codeList != null && userId != null) {
-                    //     codeList.forEach(function(code) {
-                    //         if(topInfoList[0].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#0A3C7A", userId);
-                    //         }else if(topInfoList[1].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#115493", userId);
-                    //         }else if(topInfoList[2].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#1C75B7", userId);
-                    //         }else if(topInfoList[3].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#289CDB", userId);
-                    //         }else if(topInfoList[4].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#38C6FF", userId);
-                    //         }else if(topInfoList[5].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#69DEFF", userId);
-                    //         }else if(topInfoList[6].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#87EDFF", userId);
-                    //         }else if(topInfoList[7].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#AFF8FF", userId);
-                    //         }else if(topInfoList[8].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#D7FEFF", userId);
-                    //         }else if(topInfoList[9].h_code == code){
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#c1d3d4", userId);
-                    //         }else{
-                    //             Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#d7dae0", userId);
-                    //         }
-                    //     });
-                    // }
-                    // /*]]*/
-
-                </script>
+                            // 서울 전체 지도
+                            DrawPolygon(1);
+                        </script>
+                    </div><br>
+                    <!--                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>-->
+                    <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayTest"></h6>
+                </div>
             </div>
             <div id="top_wrap">
                 <h3 style="padding-left: 30px;"  >매칭률 TOP 5</h3>

@@ -1,4 +1,4 @@
-
+//여기서 mapno 들어옴
 function DrawPolygon(mapno) {
 
     //한국 전체 폴리곤 생성
@@ -42,11 +42,11 @@ function displayKorea(coordinates,multi,mapno) {
 
     if(multi)
     {
-        polygon = makeMultiPolygon(coordinates);
+        polygon = makeMultiPolygon(coordinates,mapno);
     }
     else
     {
-        polygon = makePolygon(coordinates);
+        polygon = makePolygon(coordinates,mapno);
     }
 
     if(mapno==1){
@@ -57,7 +57,7 @@ function displayKorea(coordinates,multi,mapno) {
     }
 }
 
-function makeMultiPolygon(coordinates){
+function makeMultiPolygon(coordinates,mapno){
     var path = [];
     var points = [];
 
@@ -84,7 +84,7 @@ function makeMultiPolygon(coordinates){
     });
 }
 
-function makePolygon(coordinates){
+function makePolygon(coordinates,mapno){
     var path = [];
     var points = [];
 

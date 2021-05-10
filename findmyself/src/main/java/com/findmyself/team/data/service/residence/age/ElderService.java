@@ -49,7 +49,7 @@ public class ElderService {
 
     public int findMaxValueCluster(){
         List<AgeCluster> ageClusters = findClusters();
-        int max = 0;
+        double max = 0;
         int max_no = -1;  //수치가 가장 높은 클러스터 번호
         for(AgeCluster ageCluster : ageClusters){
             if(max < ageCluster.getMax()){

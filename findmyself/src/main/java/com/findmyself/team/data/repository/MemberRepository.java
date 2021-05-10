@@ -24,15 +24,16 @@ public class MemberRepository {
         return member.getId();
     }
 
-//    public void update(Member member){
-//        Member findMember = em.find(Member.class, member.getIdx());
-//        findMember.setId(member.getId());
-//        findMember.setDate(member.getDate());
-//    }
-
     //기본키로 찾기
     public Member findOne(Long idx){
         return em.find(Member.class,idx);
+    }
+
+    //회원 아이디로 찾기
+    public Member findOneById(Long id){
+        return em.createQuery("select m from Member m where m.id = :id", Member.class)
+                .setParameter("id",id)
+                .getSingleResult();
     }
 
     //중복 회원 검증

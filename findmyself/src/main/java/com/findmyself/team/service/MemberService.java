@@ -18,6 +18,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private EntityManager em;
 
+    public Member findOneById(Long id){
+        return memberRepository.findOneById(id);
+    }
     //회원 가입
     @Transactional
     public Long join(Member member){
@@ -38,15 +41,6 @@ public class MemberService {
     //회원 전체 조회
     public List<Member> findMembers(){
         return memberRepository.findAll();
-    }
-
-    //카카오 id로 찾기
-    public Member findOneById(Long id){
-        List<Member> Members = memberRepository.findById(id);
-        if(Members.isEmpty()){
-            return null;
-        }
-        return Members.get(0);
     }
 
     //사용자 조회 수 top4 조회
@@ -96,7 +90,7 @@ public class MemberService {
     public void updateTop4(Long id, List<String> topClickInfoList){
 
         //카카오 id로 멤버 찾기
-        Member member = findOneById(id);
+        Member member = memberRepository.findOneById(id);
 
         int size = topClickInfoList.size();
 

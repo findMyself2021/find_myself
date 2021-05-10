@@ -71,6 +71,7 @@ public class MapController {
 
         //행정동 조회수 분석 --- 개발중
         analysisService.sortTopClick(userId, h_code);
+        List<DongInfo> resultByClikck = analysisService.analysisTopClick(userId);
 
         // 테스트중
         //String stations = "충무로/을지로3가/종로3가/안국/경복궁/독립문/무악재"; // 분석화면에서 역 이름 문자열 받는다고 가정
@@ -89,6 +90,7 @@ public class MapController {
         model.addAttribute("center_y",lng);
         model.addAttribute("topDisInfoList",topDisInfoList);
         model.addAttribute("analysisInfos",analysisInfos);
+        model.addAttribute("resultByClikck",resultByClikck);
 
         return "analysis";
     }

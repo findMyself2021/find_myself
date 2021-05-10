@@ -301,10 +301,10 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>oo동</td>
-                                <td>oo동</td>
-                                <td>oo동</td>
-                                <td>oo동</td>
+                                <td id="clickTop1"></td>
+                                <td id="clickTop2"></td>
+                                <td id="clickTop3"></td>
+                                <td id="clickTop4"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -430,8 +430,10 @@
 
         /*<![CDATA[*/
         var topDisInfoList = /*[[ ${topDisInfoList} ]]*/;
+        var resultByClikck = /*[[ ${resultByClikck} ]]*/;
         /*]]*/
         loadDisTopList();
+        loadClickTopList();
         function loadDisTopList(){
             if(topDisInfoList != null) {
                 document.getElementById("disTop1").innerText = topDisInfoList[0].gu+" "+topDisInfoList[0].h_dong;
@@ -442,6 +444,19 @@
                 document.getElementById("disTop3Km").innerText = topDisInfoList[2].dis+"km";
                 document.getElementById("disTop4").innerText = topDisInfoList[3].gu+" "+topDisInfoList[3].h_dong;
                 document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis+"km";
+
+            }
+        }
+        function loadClickTopList(){
+            if(resultByClikck != null) {
+                document.getElementById("clickTop1").innerText = resultByClikck[0].gu+" "+resultByClikck[0].h_dong;
+                //document.getElementById("disTop1Km").innerText = topDisInfoList[0].dis+"km";
+                document.getElementById("clickTop2").innerText = resultByClikck[1].gu+" "+resultByClikck[1].h_dong;
+                //document.getElementById("disTop2Km").innerText = topDisInfoList[1].dis+"km";
+                document.getElementById("clickTop3").innerText = resultByClikck[2].gu+" "+resultByClikck[2].h_dong;
+                //document.getElementById("disTop3Km").innerText = topDisInfoList[2].dis+"km";
+                document.getElementById("clickTop4").innerText = resultByClikck[3].gu+" "+resultByClikck[3].h_dong;
+                //document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis+"km";
 
             }
         }

@@ -3,6 +3,7 @@ package com.findmyself.team.service;
 import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
+import com.findmyself.team.data.domain.Gudong;
 import com.findmyself.team.data.domain.residence.Gender;
 import com.findmyself.team.data.service.convenient.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
@@ -52,66 +53,92 @@ public class AnalysisService {
         List<Long> codeList = new ArrayList<>();
 
         HashSet<Long> homeList = homeService.analysis(rq.getHome_type(), rq.getDeposit(), rq.getMonthly());
-        System.out.println("<<<homeList 분석결과>>>");
-        for(Long code: homeList){
-            System.out.println(code);
-        }
+//        System.out.println("<<<homeList 분석결과>>>");
+//        for(Long code: homeList){
+//            System.out.println(code);
+//        }
 
         List<Long> trafficList = trafficInfoService.analysis(rq.getTraffic());
-        System.out.println("<<<trafficList 분석결과>>>");
-        for(Long code: trafficList){
-            System.out.println(code);
-        }
+//        System.out.println("<<<trafficList 분석결과>>>");
+//        for(Long code: trafficList){
+//            System.out.println(code);
+//        }
 
         List<Long> convenientList = convenientService.analysis(rq.getConvenient());
-        System.out.println("<<<convenientList 분석결과>>>");
-        for(Long code: convenientList){
-            System.out.println(code);
-        }
+//        System.out.println("<<<convenientList 분석결과>>>");
+//        for(Long code: convenientList){
+//            System.out.println(code);
+//        }
 
         List<Long> safetyList = safetyService.analysis(rq.getSafety());
-        System.out.println("<<<safetyList 분석결과>>>");
-        for(Long code: safetyList){
-            System.out.println(code);
-        }
+//        System.out.println("<<<safetyList 분석결과>>>");
+//        for(Long code: safetyList){
+//            System.out.println(code);
+//        }
 
         List<Long> genderList = genderService.analysis(rq.getSex_ratio());
-        System.out.println("<<<genderList 분석결과>>>");
-        for(Long code: genderList){
-            System.out.println(code);
-        }
+//        System.out.println("<<<genderList 분석결과>>>");
+//        for(Long code: genderList){
+//            System.out.println(code);
+//        }
 
         List<Long> ageList = ageService.analysis(rq.getAge_type());
-        System.out.println("<<<ageList 분석결과>>>");
-        for(Long code: ageList){
-            System.out.println(code);
-        }
+//        System.out.println("<<<ageList 분석결과>>>");
+//        for(Long code: ageList){
+//            System.out.println(code);
+//        }
 
         /*중복된 행정동 정리
         각 리스트에 공통으로 포함되는 행정동만 추출  !
         후 일치율 높은 행정동 추천기능 수행 !*/
         Long code;
-        int cnt=0;
-        Iterator<Long> it_h = homeList.iterator();  //예산은 항상 충족하도록
-        while (it_h.hasNext()) {
-            code = it_h.next();
-            if(trafficList.contains(code)){
-               cnt++;
-            }if(convenientList.contains(code)){
-                cnt++;
-            }if(safetyList.contains(code)){
-                cnt++;
-            }if(genderList.contains(code)){
-                cnt++;
-            }if(ageList.contains(code)) {
-                cnt++;
+        int cnt;
+
+        if(homeList.size() == 0){
+            for(Gudong gudong:gudongService.findAll()){
+                cnt=0;
+                code = gudong.getH_code();
+                if(trafficList.contains(code)){
+                    cnt++;
+                }if(convenientList.contains(code)){
+                    cnt++;
+                }if(safetyList.contains(code)){
+                    cnt++;
+                }if(genderList.contains(code)){
+                    cnt++;
+                }if(ageList.contains(code)) {
+                    cnt++;
+                }
+                if(cnt>=2){ //예산 외 조건 2개 이상 충족하면 추천
+                    codeList.add(code);
+                }
             }
-            if(cnt>2){ //예산 외 조건 2개 이상 충족하면 추천
-                codeList.add(code);
+        }else{
+            Iterator<Long> it_h = homeList.iterator();  //예산은 항상 충족하도록
+            while (it_h.hasNext()) {
+                cnt=0;
+                code = it_h.next();
+                if(trafficList.contains(code)){
+                    cnt++;
+                }if(convenientList.contains(code)){
+                    cnt++;
+                }if(safetyList.contains(code)){
+                    cnt++;
+                }if(genderList.contains(code)){
+                    cnt++;
+                }if(ageList.contains(code)) {
+                    cnt++;
+                }
+                if(cnt>=2){ //예산 외 조건 2개 이상 충족하면 추천
+                    codeList.add(code);
+                }
             }
         }
 
+        System.out.println("<<<<<최종 추천 행정동 리스트>>>>>");
+        System.out.println(codeList);
         return codeList;
+
     }
 
     // 매칭률 top5 분석
@@ -184,8 +211,12 @@ public class AnalysisService {
         List<Integer> keys = new ArrayList<>(intervalList.keySet());
         Collections.sort(keys);
 
+        int cnt=20;
+        if(intervalList.size() < 20){
+            cnt = intervalList.size();
+        }
         // 결과 출력
-        for (int i=0; i<20; i++)
+        for (int i=0; i<cnt; i++)
         {
             int itv = keys.get(i);
             Long h_code = intervalList.get(keys.get(i));
@@ -251,6 +282,7 @@ public class AnalysisService {
     }
 
     //조회수 오름차순 top4 계산
+    @Transactional
     public void sortTopClick(Long userId, Long h_code){
         List<String> topClickInfoList = new ArrayList<>();
 
@@ -313,9 +345,23 @@ public class AnalysisService {
 
         //3. 갱신된 조회 수 데이터 업데이트
         memberService.updateTop4(userId,topClickInfoList);
-
-        //return topClickInfoList;
     }
-    
+
+    public List<DongInfo> analysisTopClick(Long userId){
+        //파싱된 조회수 맵(top1코드:top1조회수,top2코드:top2조회수, ...)
+        Map<Long, Integer> linkedParseClickMap = memberService.parsingClickList(userId);
+
+        List<DongInfo> resultByClikck = new ArrayList<DongInfo>();
+        for(Long code:linkedParseClickMap.keySet()){
+            if(code == 0){
+                resultByClikck.add(new DongInfo("0","0",0L));
+            }else{
+                Gudong gudong = gudongService.findOne(code);
+                resultByClikck.add(new DongInfo(gudong.getGu(),gudong.getH_dong(),gudong.getH_code()));
+            }
+        }
+
+        return resultByClikck;
+    }
     //조회 수 top4 기반 관련 행정동 추천
 }

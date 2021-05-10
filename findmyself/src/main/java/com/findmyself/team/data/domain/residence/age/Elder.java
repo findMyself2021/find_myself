@@ -20,7 +20,7 @@ public class Elder {
 
     private double value;
     private int no;
-    private int min;
-    private int max;
+    private double min;
+    private double max;
     private double avg;
 }

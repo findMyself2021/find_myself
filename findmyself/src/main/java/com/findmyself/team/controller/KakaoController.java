@@ -45,7 +45,9 @@ public class KakaoController {
 
             //id 로 찾기 => 기본키가 아니라 쿼리 날려야됨
             Member memberCheck = memberService.findOneById((Long) userInfo.get("id"));
-            System.out.println("Membercheck = "+memberCheck);
+
+            //System.out.println("Membercheck = "+memberCheck);
+
             if(memberCheck != null){
                 System.out.println("이미 존재하는 회원입니다.");
                 System.out.println("로그인 성공");

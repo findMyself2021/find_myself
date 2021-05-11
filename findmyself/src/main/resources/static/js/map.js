@@ -181,6 +181,7 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){
 }
 
 function Clustering_HangJungDong(category_num,list,userId,address){
+    deletePolygon(polygons);
     //예산
     if(category_num==1){
 
@@ -511,4 +512,11 @@ function deg2rad(deg) {
 
 function rad2deg(rad) {
     return (rad * 180 / Math.PI);
+}
+
+function deletePolygon(polygons){
+    for(var i=0;i<polygons.length;i++){
+        polygons[i].setMap(null);
+    }
+    polygons=[];
 }

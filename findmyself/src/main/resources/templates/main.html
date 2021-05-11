@@ -84,6 +84,37 @@
     <div class="container">
         <div class="map_wrap">
             <div id="map" style="width: 100%; height: 700px;position:relative; overflow:hidden; border-radius: 4px" >
+                <div id="top_wrap">
+                    <div id="top_info">
+                        <h4>매칭률 TOP 5</h4>
+                        <ul>
+                            <li>
+                                <b>1위</b><br>
+                                <a id="top1" href="#"></a>
+                            </li>
+                            <li>
+                                <b>2위</b><br>
+                                <a id="top2" href="#"></a>
+                            </li>
+                            <li>
+                                <b>3위</b><br>
+                                <a id="top3" href="#"></a>
+                            </li>
+                            <li>
+                                <b>4위</b><br>
+                                <a id="top4" href="#"></a>
+                            </li>
+                            <li>
+                                <b>5위</b><br>
+                                <a id="top5" href="#"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="top_btn_wrap">
+                        <input type="button" id="top_btn" value="<" onclick="moveTopWrap();"/>
+                    </div>
+
+                </div>
                 <script th:inline="javascript">
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
@@ -135,7 +166,20 @@
                         });
                     }
                     /*]]*/
-
+                    function moveTopWrap(){
+                        var top_info = document.getElementById("top_info");
+                        var top_btn = document.getElementById("top_btn");
+                        var top_btn_wrap = document.getElementById("top_btn_wrap");
+                        if(top_info.style.display == "none"){   //닫힌 경우 -> 펼치기(보이게 하기)
+                            top_info.style.display="inline-block";
+                            top_btn_wrap.style.float="right";
+                            top_btn.value="<";
+                        }else{
+                            top_info.style.display="none";
+                            top_btn_wrap.style.float="left";
+                            top_btn.value=">";
+                        }
+                    }
                 </script>
             </div>
             <br>
@@ -200,31 +244,6 @@
                     <!--                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>-->
                     <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayTest"></h6>
                 </div>
-            </div>
-            <div id="top_wrap">
-                <h3 style="padding-left: 30px;"  >매칭률 TOP 5</h3>
-                <ul class="lists bottom-line">
-                    <li>
-                        <b>1위</b><br>
-                        <a id="top1" href="#"></a>
-                    </li>
-                    <li>
-                        <b>2위</b><br>
-                        <a id="top2" href="#"></a>
-                    </li>
-                    <li>
-                        <b>3위</b><br>
-                        <a id="top3" href="#"></a>
-                    </li>
-                    <li>
-                        <b>4위</b><br>
-                        <a id="top4" href="#"></a>
-                    </li>
-                    <li>
-                        <b>5위</b><br>
-                        <a id="top5" href="#"></a>
-                    </li>
-                </ul>
             </div>
             <script>
                 loadTopList();

@@ -36,6 +36,9 @@
 
 <body class="">
     <div class="header">
+        <button name="login-btn" id="login-btn" onclick="click_login_btn();">
+            <h3 id="login-btn-text">로그인</h3>
+        </button>
         <div class="logo-wrap">
             <a th:href="@{/}">
                 <img src="/image/logo4.png">
@@ -565,5 +568,8 @@
     <form id="postCarRouteForm" name="postCarRouteForm">
         <input class="car_Result" id="car_Result" name="car_Result" type="hidden">
     </form>
+    <div class="copyright">
+        Copyright © by FindMyself 2021, Inc. All rights reserved
+    </div>
 </body>
 </html>

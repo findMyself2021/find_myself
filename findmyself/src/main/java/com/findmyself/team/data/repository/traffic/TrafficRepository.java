@@ -1,7 +1,5 @@
 package com.findmyself.team.data.repository.traffic;
 
-import com.findmyself.team.data.domain.Safety;
-import com.findmyself.team.data.domain.SafetyCluster;
 import com.findmyself.team.data.domain.traffic.Traffic;
 import org.springframework.stereotype.Repository;
 

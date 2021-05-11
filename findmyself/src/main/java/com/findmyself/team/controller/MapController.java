@@ -24,8 +24,6 @@ import java.util.*;
 public class MapController {
 
     private final GudongService gudongService;
-    private final CenterLocationService centerLocationService;
-
     private final TrafficService trafficService;
 
     @Autowired

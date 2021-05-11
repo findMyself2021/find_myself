@@ -57,6 +57,7 @@ function displayKorea(coordinates,multi,mapno) {
     }
 }
 
+//한국 전체 폴리곤
 function makeMultiPolygon(coordinates,mapno){
     var path = [];
     var points = [];
@@ -108,7 +109,7 @@ function makePolygon(coordinates,mapno){
     });
 }
 
-// 다각형을 생성, 색칠
+// 서울 전체 폴리곤
 function displayArea(coordinates,mapno) {
 
     var path = [];
@@ -149,7 +150,7 @@ function displayArea(coordinates,mapno) {
 }
 
 //행정동 기준으로 폴리곤 생성
-function Draw_HangJungDong(h_code, addr, fillColor, userId){
+function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -164,39 +165,66 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId){
             name = val.properties.adm_nm;
             code = val.properties.adm_cd2;
 
-            //특정 행정동만 그리기
+            //특정 행정동만 그리기 => 매개 변수로 들어오는 h_code와 일치 하는 것만 색칠
             if(h_code == code)
             {
                 // alert(addr);
-                displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
+                if(mapno==1){
+                    displayCluster(coordinates, name,code,addr, fillColor, userId);
+                }
+                else{
+                    displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
+                }
             }
         })
     })
 }
 
-function Draw_HangJungDongs(h_code_list,fillColor){
-    //행정동 기준의 json 파일 불러옴
-    $.getJSON("/json/seoulMap.json", function(geojson) {
+function Clustering_HangJungDong(category_num,list,userId,address){
+    //예산
+    if(category_num==1){
 
-        var data = geojson.features;
-        var coordinates = [];    //좌표 저장할 배열
-        var name = '';            //행정동 이름
-        var code =''; //행정기관 코드
-
-        $.each(data, function(index, val) {
-
-            coordinates = val.geometry.coordinates;
-            name = val.properties.adm_nm;
-            code = val.properties.adm_cd2;
-
-            //특정 행정동만 그리기
-            if(h_code_list == code)
-            {
-                // alert(addr);
-                displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
+    }
+    //교통
+    else if (category_num==2){
+        if(list != null && userId != null) {
+            for(var i=0; i<list.length;i++){
+                if(list[i].no == 0){
+                    Draw_HangJungDong(list[i].h_code,address,"#0A3C7A", userId,1);
+                }
+                else if(list[i].no ==1){
+                    Draw_HangJungDong(list[i].h_code,address,"#115493", userId,1);
+                }
+                else if(list[i].no==2){
+                    Draw_HangJungDong(list[i].h_code,address,"#1C75B7", userId,1);
+                }
+                else if(list[i].no==3){
+                    Draw_HangJungDong(list[i].h_code,address,"#289CDB", userId,1);
+                }
+                else if(list[i].no==4){
+                    Draw_HangJungDong(list[i].h_code,address,"#38C6FF", userId,1);
+                }
+                else{
+                    Draw_HangJungDong(list[i].h_code,address,"#b5e7ff", userId,1);
+                }
             }
-        })
-    })
+            //임시로
+            Draw_HangJungDong(1168051000,address,"#b5e7ff", userId,1);
+        }
+
+    }
+    //편의시설
+    else if(category_num==3){
+
+    }
+    //안전
+    else if(category_num==4){
+
+    }
+    //주변
+    else if(category_num==5){
+
+    }
 }
 
 var polygons = [];
@@ -277,7 +305,7 @@ function displayHangJungDong(coordinates, name,code,dest, fillColor, userId){
         // deletePolygon(polygons);                    //폴리곤 제거
 
         // 추천 행정동 분석 - 거리 가까운
-        findListByDistance(topInfoList,dest);
+        findListByDistance(topInfoList,dest,1);
 
         // !!!!!!!!!!!!해당 행정동 분석화면으로 이동!!!!!!!!!!!!
         document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
@@ -291,12 +319,90 @@ function displayHangJungDong(coordinates, name,code,dest, fillColor, userId){
     });
 }
 
+// 군집 분석용
+function displayCluster(coordinates, name,code,dest, fillColor, userId){
+    var path = [];
+    var points = [];
+    var bounds = new Tmapv2.LatLngBounds();
+
+    $.each(coordinates[0], function(index, coordinate) {        //console.log(coordinates)를 확인해보면 보면 [0]번째에 배열이 주로 저장이 됨.  그래서 [0]번째 배열에서 꺼내줌.
+        var point = new Object();
+        point.x = coordinate[1];
+        point.y = coordinate[0];
+        points.push(point);
+        path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));            //new kako.maps.LatLng가 없으면 인식을 못해서 path 배열에 추가
+        bounds.extend(new Tmapv2.LatLng(coordinate[1], coordinate[0]));
+    })
+
+    var center = bounds.getCenter();
+
+    // 다각형을 생성합니다
+    var polygon = new kakao.maps.Polygon({
+        map: map1, // 다각형을 표시할 지도 객체
+        path: path,
+        strokeWeight: 2,
+        strokeColor: fillColor,
+        strokeOpacity: 0.8,
+        fillColor: fillColor,
+        fillOpacity: 0.9,
+    });
+
+    polygons.push(polygon);            //폴리곤 제거하기 위한 배열
+
+    // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
+    // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
+    kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
+        polygon.setOptions({
+            fillColor : fillColor,
+            strokeColor: fillColor
+        });
+
+        customOverlay.setContent('<div class="area">' + name + '</div>');
+
+        customOverlay.setPosition(mouseEvent.latLng);
+        customOverlay.setMap(map1);
+    });
+
+    // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
+    kakao.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
+
+        customOverlay.setPosition(mouseEvent.latLng);
+    });
+
+    // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
+    // 커스텀 오버레이를 지도에서 제거합니다
+    kakao.maps.event.addListener(polygon, 'mouseout', function() {
+        polygon.setOptions({
+            fillColor : fillColor,
+            strokeColor: fillColor
+        });
+        customOverlay.setMap(null);
+    });
+
+    // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역 확대, 행정동 코드 보임
+    kakao.maps.event.addListener(polygon, 'click', function() {
+        //
+        // // 추천 행정동 분석 - 거리 가까운
+        // findListByDistance(topInfoList,dest);
+
+        // !!!!!!!!!!!!해당 행정동 분석화면으로 이동!!!!!!!!!!!!
+        document.write('<form action="/mapAnalysis" id="smb_form1" method="post">' +
+            '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
+            '<input type="hidden" id="center_x" name="center_x" value="'+ center.lat() +'">' +
+            '<input type="hidden" id="center_y" name="center_y" value="'+ center.lng() +'">' +
+            '<input type="hidden" id="addr" name="addr" value="'+ dest +'">' +
+            '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
+            '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
+            '</form>');
+    });
+}
+
 //topInfoList(상위20개 행정동) 내 학교/직장까지 거리가 가까운 행정동 찾기
-function findListByDistance(topInfoList,dest){
+function findListByDistance(topInfoList,dest,mapno){
     var listByDistance = ""; //(행정동코드, 거리)
 
     for(var i=0; i<topInfoList.length;i++){
-        findCenter1(i,topInfoList[i].h_code, dest);
+        findCenter1(i,topInfoList[i].h_code, dest,mapno);
     }
 }
 
@@ -305,7 +411,7 @@ function sleep(ms) {
     while (Date.now() < wakeUpTime) {}
 }
 
-function findCenter1(i,h_code, dest){
+function findCenter1(i,h_code, dest,mapno){
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -324,12 +430,12 @@ function findCenter1(i,h_code, dest){
             if(h_code == code)
             {
                 // alert(addr);
-                findCenter2(i,h_code,coordinates,dest);
+                findCenter2(i,h_code,coordinates,dest,mapno);
             }
         })
     })
 }
-function findCenter2(i,code,coordinates,dest) {
+function findCenter2(i,code,coordinates,dest,mapno) {
 
     var path = [];
     var points = [];
@@ -345,9 +451,9 @@ function findCenter2(i,code,coordinates,dest) {
     })
 
     var center = bounds.getCenter();
-    findDestCoord(i,code,center.lat(),center.lng(),dest);
+    findDestCoord(i,code,center.lat(),center.lng(),dest,mapno);
 }
-function findDestCoord(i,code,startX,startY,dest){
+function findDestCoord(i,code,startX,startY,dest,mapno){
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
 
@@ -357,14 +463,14 @@ function findDestCoord(i,code,startX,startY,dest){
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
             //도착지 좌표값 전달
-            findRouteDistance(i,code,startX,startY,result[0].y,result[0].x);
+            findRouteDistance(i,code,startX,startY,result[0].y,result[0].x,mapno);
         }
         else{
             alert('도로명 주소를 입력해주세요');
         }
     });
 }
-function findRouteDistance(i,code,startX,startY,endX,endY) {
+function findRouteDistance(i,code,startX,startY,endX,endY,mapno) {
     var tDistance = distance(startX,startY,endX,endY);
     var input = document.getElementById("listByDistance");
     var value_tmp = input.getAttribute("value");
@@ -373,8 +479,15 @@ function findRouteDistance(i,code,startX,startY,endX,endY) {
     input.setAttribute("value", value_tmp);
 
     console.log(value_tmp);
-    if(i == 19){
-        document.getElementById("smb_form").submit();
+    if(mapno==1){
+        if(i == 19){
+            document.getElementById("smb_form1").submit();
+        }
+    }
+    else{
+        if(i == 19){
+            document.getElementById("smb_form").submit();
+        }
     }
 }
 

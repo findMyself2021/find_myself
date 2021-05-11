@@ -101,7 +101,8 @@
                     var codeList = /*[[ ${codeList} ]]*/;
                     var topInfoList = /*[[ ${topInfoList} ]]*/;
                     var userId = /*[[ ${session.id} ]]*/;
-                    //alert("userid: "+userId);
+                    var address = /*[[ ${rq.address} ]]*/;
+                    //alert("userid: "+userId
                     if(userId == null){
                         //alert("Draw_HangJungDong 함수 진입 전 userId 널값 !");
                     }
@@ -148,23 +149,23 @@
                         <div class="col">
                             <ul class="nav nav-pills justify-content-end">
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select" onclick=""
+                                    <button class="btn btn-sm btn-primary" id="btn_select" onclick="Clustering_HangJungDong(1);"
                                             style="font-size: 14px">예산</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select2" onclick=""
+                                    <button class="btn btn-sm btn-primary" id="btn_select2" onclick="Clustering_HangJungDong(2,cluster_traffic,userId,address);"
                                             style="font-size: 14px">교통</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select3" onclick=""
+                                    <button class="btn btn-sm btn-primary" id="btn_select3" onclick="Clustering_HangJungDong(3);"
                                             style="font-size: 14px">편의시설</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select4" onclick=""
+                                    <button class="btn btn-sm btn-primary" id="btn_select4" onclick="Clustering_HangJungDong(4);"
                                             style="font-size: 14px">안전</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select5" onclick=""
+                                    <button class="btn btn-sm btn-primary" id="btn_select5" onclick="Clustering_HangJungDong(5);"
                                             style="font-size: 14px">주변</button>
                                 </li>
                             </ul>
@@ -187,6 +188,13 @@
 
                             // 서울 전체 지도
                             DrawPolygon(1);
+
+                            /*<![CDATA[*/
+                            var cluster_traffic = /*[[ ${trafficClustering} ]]*/;
+                            var userId = /*[[ ${session.id} ]]*/;
+                            /*]]*/
+
+
                         </script>
                     </div><br>
                     <!--                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>-->
@@ -484,6 +492,7 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     var id = /*[[ ${session.id} ]]*/;
+
     /*]]*/
 
     //로그인 or 로그아웃 버튼 글자 바꾸기

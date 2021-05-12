@@ -51,10 +51,13 @@ public class MainController {
 
         List<Long> codeList = analysisService.analysis(rq);
         List<DongInfo> topInfoList = analysisService.findMatchingTop5(rq,codeList);
+        List<TrafficLite> trafficClustering = this.trafficClustering.clusterTraffic();
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
+        model.addAttribute("trafficClustering",trafficClustering);
+
         try{
             HttpSession session = request.getSession();
             session.setAttribute("id",session.getAttribute("id"));

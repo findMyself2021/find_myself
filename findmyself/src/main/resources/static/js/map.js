@@ -181,7 +181,7 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){
 }
 
 function Clustering_HangJungDong(category_num,list,userId,address){
-    deletePolygon(polygons);
+    deletePolygon(polygons1);
     //예산
     if(category_num==1){
 
@@ -229,6 +229,7 @@ function Clustering_HangJungDong(category_num,list,userId,address){
 }
 
 var polygons = [];
+var polygons1 = [];
 
 // 특정 행정동 색칠
 function displayHangJungDong(coordinates, name,code,dest, fillColor, userId){
@@ -348,7 +349,7 @@ function displayCluster(coordinates, name,code,dest, fillColor, userId){
         fillOpacity: 0.9,
     });
 
-    polygons.push(polygon);            //폴리곤 제거하기 위한 배열
+    polygons1.push(polygon);            //폴리곤 제거하기 위한 배열
 
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
@@ -518,5 +519,5 @@ function deletePolygon(polygons){
     for(var i=0;i<polygons.length;i++){
         polygons[i].setMap(null);
     }
-    polygons=[];
+    polygons1=[];
 }

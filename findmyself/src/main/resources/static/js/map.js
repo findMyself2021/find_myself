@@ -215,8 +215,6 @@ function Clustering_HangJungDong(category_num,list,userId,address){
         Draw_HangJungDong(1168051000,address,fillColors[5], userId,1);
     }
 }
-
-var polygons = [];
 var polygons1 = [];
 
 // 특정 행정동 색칠
@@ -246,10 +244,6 @@ function displayHangJungDong(coordinates, name, code, addr, fillColor, userId){
         fillColor: fillColor,
         fillOpacity: 0.9,
     });
-
-    polygon.
-
-    polygons.push(polygon);            //폴리곤 제거하기 위한 배열
 
     // 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
     // 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
@@ -363,29 +357,36 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId){
     kakao.maps.event.addListener(polygon, 'click', function() {
 
         // 추천 행정동 분석 - 거리 가까운
-        findListByDistance(topInfoList, addr);
+        var value = findListByDistance(topInfoList, addr);
 
-        // find.do로 보내는 form 직접 작성
-        document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
-            '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
-            '<input type="hidden" id="center_x" name="center_x" value="'+ center.lat() +'">' +
-            '<input type="hidden" id="center_y" name="center_y" value="'+ center.lng() +'">' +
-            '<input type="hidden" id="addr" name="addr" value="'+ addr +'">' +
-            '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
-            '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
-            '</form>');
+        if(value!=false){
+            // find.do로 보내는 form 직접 작성
+            document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
+                '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
+                '<input type="hidden" id="center_x" name="center_x" value="'+ center.lat() +'">' +
+                '<input type="hidden" id="center_y" name="center_y" value="'+ center.lng() +'">' +
+                '<input type="hidden" id="addr" name="addr" value="'+ addr +'">' +
+                '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
+                '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
+                '</form>');
+        }
     });
 }
 
 //topInfoList(상위20개 행정동) 내 학교/직장까지 거리가 가까운 행정동 찾기
 function findListByDistance(topInfoList,addr){    //(추천 행정동 리스트, 학교및직장 주소, 맵 번호)
-    var topList_cnt = topInfoList.length;
-
-    for(var i=0; i<topList_cnt;i++){
-        if(i == topList_cnt-1){ //마지막 원소인 경우 -> form 제출위해 알리기
-            findCenter1(topInfoList[i].h_code, addr,1);
-        }else{
-            findCenter1(topInfoList[i].h_code, addr);
+    if(topInfoList == null){
+        alert("찾기 버튼을 눌러주세요!");
+        return false;
+    }
+    else{
+        var topList_cnt = topInfoList.length;
+        for(var i=0; i<topList_cnt;i++){
+            if(i == topList_cnt-1){ //마지막 원소인 경우 -> form 제출위해 알리기
+                findCenter1(topInfoList[i].h_code, addr,1);
+            }else{
+                findCenter1(topInfoList[i].h_code, addr);
+            }
         }
     }
 }

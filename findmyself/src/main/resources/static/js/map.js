@@ -150,7 +150,7 @@ function displayArea(coordinates,mapno) {
 }
 
 //행정동 기준으로 폴리곤 생성
-function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){
+function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){  //(행정동코드, 학교및직장 주소, 색칠값, 사용자아이디, 맵 번호)
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -169,10 +169,10 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){
             if(h_code == code)
             {
                 // alert(addr);
-                if(mapno==1){
+                if(mapno==1){   //군집 결과 그리기
                     displayCluster(coordinates, name,code,addr, fillColor, userId);
                 }
-                else{
+                else{   //추천 행정동 그리기
                     displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
                 }
             }
@@ -216,7 +216,7 @@ var polygons = [];
 var polygons1 = [];
 
 // 특정 행정동 색칠
-function displayHangJungDong(coordinates, name,code,dest, fillColor, userId){
+function displayHangJungDong(coordinates, name, code, addr, fillColor, userId){
     var path = [];
     var points = [];
     var bounds = new Tmapv2.LatLngBounds();
@@ -275,38 +275,26 @@ function displayHangJungDong(coordinates, name,code,dest, fillColor, userId){
         customOverlay.setMap(null);
     });
 
-    // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역 확대, 행정동 코드 보임
+    // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역 확대, 행정동 코드 보임\
+    // 클릭한 행정동의 분석화면으로 넘어감 !
     kakao.maps.event.addListener(polygon, 'click', function() {
-
-        // customOverlay.setContent('<div class="area">' + code + '</div>');
-        //
-        // // 현재 지도 레벨에서 2레벨 확대한 레벨
-        // var level = map.getLevel()-2;
-        //
-        // // 지도를 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다
-        // map.setLevel(level, {anchor: centroid(points), animate: {
-        //         duration: 350            //확대 애니메이션 시간
-        //     }});
-        //
-        // deletePolygon(polygons);                    //폴리곤 제거
-
         // 추천 행정동 분석 - 거리 가까운
-        findListByDistance(topInfoList,dest,1);
+        findListByDistance(topInfoList,addr);
 
-        // !!!!!!!!!!!!해당 행정동 분석화면으로 이동!!!!!!!!!!!!
+        // find.do로 보내는 form 직접 작성
         document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
             '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
             '<input type="hidden" id="center_x" name="center_x" value="'+ center.lat() +'">' +
             '<input type="hidden" id="center_y" name="center_y" value="'+ center.lng() +'">' +
-            '<input type="hidden" id="addr" name="addr" value="'+ dest +'">' +
+            '<input type="hidden" id="addr" name="addr" value="'+ addr +'">' +
             '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
             '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
             '</form>');
     });
 }
 
-// 군집 분석용
-function displayCluster(coordinates, name,code,dest, fillColor, userId){
+// 군집 분석용(displayHangJungDong과 비슷한 기능)
+function displayCluster(coordinates, name,code,addr, fillColor, userId){
     var path = [];
     var points = [];
     var bounds = new Tmapv2.LatLngBounds();
@@ -367,16 +355,16 @@ function displayCluster(coordinates, name,code,dest, fillColor, userId){
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역 확대, 행정동 코드 보임
     kakao.maps.event.addListener(polygon, 'click', function() {
-        //
-        // // 추천 행정동 분석 - 거리 가까운
-        // findListByDistance(topInfoList,dest);
 
-        // !!!!!!!!!!!!해당 행정동 분석화면으로 이동!!!!!!!!!!!!
-        document.write('<form action="/mapAnalysis" id="smb_form1" method="post">' +
+        // 추천 행정동 분석 - 거리 가까운
+        findListByDistance(topInfoList, addr);
+
+        // find.do로 보내는 form 직접 작성
+        document.write('<form action="/mapAnalysis" id="smb_form" method="post">' +
             '<input type="hidden" id="hcode" name="hcode" value="'+ code +'">' +
             '<input type="hidden" id="center_x" name="center_x" value="'+ center.lat() +'">' +
             '<input type="hidden" id="center_y" name="center_y" value="'+ center.lng() +'">' +
-            '<input type="hidden" id="addr" name="addr" value="'+ dest +'">' +
+            '<input type="hidden" id="addr" name="addr" value="'+ addr +'">' +
             '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
             '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
             '</form>');
@@ -384,20 +372,20 @@ function displayCluster(coordinates, name,code,dest, fillColor, userId){
 }
 
 //topInfoList(상위20개 행정동) 내 학교/직장까지 거리가 가까운 행정동 찾기
-function findListByDistance(topInfoList,dest,mapno){
-    var listByDistance = ""; //(행정동코드, 거리)
+function findListByDistance(topInfoList,addr){    //(추천 행정동 리스트, 학교및직장 주소, 맵 번호)
+    var topList_cnt = topInfoList.length;
 
-    for(var i=0; i<topInfoList.length;i++){
-        findCenter1(i,topInfoList[i].h_code, dest,mapno);
+    for(var i=0; i<topList_cnt;i++){
+        if(i == topList_cnt-1){ //마지막 원소인 경우 -> form 제출위해 알리기
+            findCenter1(topInfoList[i].h_code, addr,1);
+        }else{
+            findCenter1(topInfoList[i].h_code, addr);
+        }
     }
 }
 
-function sleep(ms) {
-    const wakeUpTime = Date.now() + ms
-    while (Date.now() < wakeUpTime) {}
-}
-
-function findCenter1(i,h_code, dest,mapno){
+//특정 행정동의 중심 좌표 구하기1
+function findCenter1(h_code, addr, isEnd){
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -416,12 +404,14 @@ function findCenter1(i,h_code, dest,mapno){
             if(h_code == code)
             {
                 // alert(addr);
-                findCenter2(i,h_code,coordinates,dest,mapno);
+                findCenter2(h_code,coordinates,addr, isEnd);
             }
         })
     })
 }
-function findCenter2(i,code,coordinates,dest,mapno) {
+
+//특정 행정동의 좌표 구하기2
+function findCenter2(code,coordinates,addr,isEnd) {
 
     var path = [];
     var points = [];
@@ -437,46 +427,44 @@ function findCenter2(i,code,coordinates,dest,mapno) {
     })
 
     var center = bounds.getCenter();
-    findDestCoord(i,code,center.lat(),center.lng(),dest,mapno);
+    findDestCoord(code,center.lat(),center.lng(),addr,isEnd);
 }
-function findDestCoord(i,code,startX,startY,dest,mapno){
+
+//학교및직장 주소기반 좌표 구하기
+function findDestCoord(code,startX,startY,addr,isEnd){
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
 
-// 주소로 좌표를 검색합니다
-    geocoder.addressSearch(dest, function(result, status) {
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch(addr, function(result, status) {
 
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
             //도착지 좌표값 전달
-            findRouteDistance(i,code,startX,startY,result[0].y,result[0].x,mapno);
+            findRouteDistance(code,startX,startY,result[0].y,result[0].x,isEnd);
         }
         else{
             alert('도로명 주소를 입력해주세요');
         }
     });
 }
-function findRouteDistance(i,code,startX,startY,endX,endY,mapno) {
-    var tDistance = distance(startX,startY,endX,endY);
-    var input = document.getElementById("listByDistance");
-    var value_tmp = input.getAttribute("value");
 
-    value_tmp+=tDistance+","+code+"/";
-    input.setAttribute("value", value_tmp);
+//특정 행정동 - 직장/학교 사이의 거리 구하기1: 계산한 거리값 실제로 넘겨주는 부분
+function findRouteDistance(code,startX,startY,endX,endY,isEnd) {  //(행정동코드, 행정동x, 행정동y, 학교및직장x, ...)
 
-    console.log(value_tmp);
-    if(mapno==1){
-        if(i == 19){
-            document.getElementById("smb_form1").submit();
-        }
-    }
-    else{
-        if(i == 19){
-            document.getElementById("smb_form").submit();
-        }
+    var tDistance = distance(startX,startY,endX,endY);  //계산된 거리 값
+    var input = document.getElementById("listByDistance");  //submit form 내 거리 속성 엘리먼트
+    var value_tmp = input.getAttribute("value");  // 이전에 저장된 거리 값(기존 값)
+
+    value_tmp+=tDistance+","+code+"/";  //거리1,코드1/거리2,코드2/ ... 형태로 저장 (기존 값에 추가하는 형태)
+    input.setAttribute("value", value_tmp); //submit form 내 거리 속성의 값 할당
+
+    if(isEnd==1){ //추천 행정동 리스트의 마지막 순서인 경우 submit
+        document.getElementById("smb_form").submit();
     }
 }
 
+//특정 행정동 - 직장/학교 사이의 거리 구하기2: 실제 좌표간의 거리 계산
 function distance(startX,startY,endX,endY) {
 
     var theta = startY - endY;
@@ -491,10 +479,12 @@ function distance(startX,startY,endX,endY) {
     return (dist);
 }
 
+//degree to radian
 function deg2rad(deg) {
     return (deg * Math.PI / 180.0);
 }
 
+//radian to degree
 function rad2deg(rad) {
     return (rad * 180 / Math.PI);
 }

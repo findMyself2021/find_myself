@@ -5,6 +5,12 @@
     text-align: center;
     background-color: white;
 }
+#login-btn{
+    float: right;
+    text-align: center;
+    background: none;
+    border: 0; outline: 0; border: none;
+}
 img{
     width: 250px;
 }

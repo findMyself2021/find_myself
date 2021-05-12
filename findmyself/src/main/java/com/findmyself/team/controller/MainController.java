@@ -40,6 +40,7 @@ public class MainController {
         model.addAttribute("topInfoList", topInfoList);
         model.addAttribute("trafficClustering",trafficClustering);
         model.addAttribute("safetyClustering",safetyClustering);
+
         try{
             HttpSession session = request.getSession();
             session.setAttribute("id",session.getAttribute("id"));

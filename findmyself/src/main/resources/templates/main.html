@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/icheck-bootstrap.css">
     <link rel="stylesheet" href="/css/toggle-radios.css">
     <link rel="stylesheet" href="/css/input.css">
-    <title>FindMyself 메인</title>
+    <title>나혼자 찾는다</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx054e772885bf4fd6bff6bbf96c1884af"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -19,56 +19,6 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
-    <script th:inline="javascript">
-        function click_login_btn(){ //로그인 or 로그아웃 버튼 클릭 시
-            /*<![CDATA[*/
-            var id = /*[[ ${session.id} ]]*/;
-            /*]]*/
-            if(id != null){ //로그아웃 구현
-                //alert(id+"님을 로그아웃 하겠습니다.");
-                var logout_form = document.createElement("form");
-                logout_form.id = "logout-form";
-                logout_form.action="/logout";
-                document.body.append(logout_form);
-                document.getElementById("logout-form").submit();
-            }else{  //로그인 구현
-                //alert("로그인 하겠습니다.");
-                var login_form = document.createElement("form");
-                login_form.id = "login-form";
-                login_form.action="/login";
-                document.body.append(login_form);
-                document.getElementById("login-form").submit();
-            }
-        }
-
-        /*<![CDATA[*/
-        var topInfoList = /*[[ ${topInfoList} ]]*/;
-        /*]]*/
-        function loadTopList(){
-            if(topInfoList != null) {
-                document.getElementById("top_wrap").style.display="block";
-                document.getElementById("top1").innerText = topInfoList[0].gu+" "+topInfoList[0].h_dong;
-                document.getElementById("top2").innerText = topInfoList[1].gu+" "+topInfoList[1].h_dong;
-                document.getElementById("top3").innerText = topInfoList[2].gu+" "+topInfoList[2].h_dong;
-                document.getElementById("top4").innerText = topInfoList[3].gu+" "+topInfoList[3].h_dong;
-                document.getElementById("top5").innerText = topInfoList[4].gu+" "+topInfoList[4].h_dong;
-            }else{// 처음에 순위부분 숨기기
-                document.getElementById("top_wrap").style.visibility="hidden";
-            }
-        }
-
-        var click_cnt = 1;
-        function click_detail_btn(){
-            if(click_cnt%2 == 1) { //숨긴 상태 -> 펼치기
-                document.getElementById("convenient_detail").style.display="block";
-                document.getElementById("detail_btn_img").src = "/image/close.png";
-            }else{ // 펼친 상태 -> 숨기기
-                document.getElementById("convenient_detail").style.display="none";
-                document.getElementById("detail_btn_img").src = "/image/open.png";
-            }
-            click_cnt++;
-        }
-    </script>
 </head>
 <body>
     <div class="header">
@@ -83,6 +33,7 @@
     </div>
     <div class="container">
         <div class="map_wrap">
+<!--        메인 지도-->
             <div id="map" style="width: 100%; height: 700px;position:relative; overflow:hidden; border-radius: 4px" >
                 <div id="top_wrap">
                     <div id="top_info">
@@ -113,7 +64,6 @@
                     <div id="top_btn_wrap">
                         <input type="button" id="top_btn" value="<" onclick="moveTopWrap();"/>
                     </div>
-
                 </div>
                 <script th:inline="javascript">
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -133,12 +83,12 @@
                     var topInfoList = /*[[ ${topInfoList} ]]*/;
                     var userId = /*[[ ${session.id} ]]*/;
                     var address = /*[[ ${rq.address} ]]*/;
-                    //alert("userid: "+userId
+
                     if(userId == null){
-                        //alert("Draw_HangJungDong 함수 진입 전 userId 널값 !");
+                        console.log("userId가 널값입니다.");
                     }
 
-                    if(codeList != null && userId != null) {
+                    if(codeList != null && userId != null) {    //추천 행정동 리스트, 유저 아이디 있는 경우에만 로드
                         codeList.forEach(function(code) {
                             if(topInfoList[0].h_code == code){
                                 Draw_HangJungDong(code, /*[[ ${rq.address} ]]*/, "#0A3C7A", userId);
@@ -166,7 +116,7 @@
                         });
                     }
                     /*]]*/
-                    function moveTopWrap(){
+                    function moveTopWrap(){ //매칭률 top5 리스트 펼치기,닫기
                         var top_info = document.getElementById("top_info");
                         var top_btn = document.getElementById("top_btn");
                         var top_btn_wrap = document.getElementById("top_btn_wrap");
@@ -182,7 +132,7 @@
                     }
                 </script>
             </div>
-            <br>
+<!--        군집 지도(mapno=1)-->
             <div class="card bg-gradient-default shadow">
                 <div class="card-header bg-transparent">
                     <div class="row align-items-center">
@@ -216,7 +166,6 @@
                         </div>
                     </div>
                 </div>
-                <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
                 <div class="card-body">
                     <div id="map1" style="height:500px;position:relative;overflow:inherit; border-radius: 10px">
                         <script th:inline="javascript">
@@ -238,18 +187,12 @@
                             var cluster_safety = /*[[ ${safetyClustering} ]]*/;
                             var userId = /*[[ ${session.id} ]]*/;
                             /*]]*/
-
-
                         </script>
                     </div><br>
-                    <!--                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>-->
-                    <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayTest"></h6>
                 </div>
             </div>
-            <script>
-                loadTopList();
-            </script>
         </div>
+<!--        사용자 설정 부분-->
         <div class="choice_wrap">
             <form name="choice_form" action="/find.do" th:object="${rq}" method="post"  onsubmit="return check()">
                 <div class="requirements" id="budget1">
@@ -512,12 +455,60 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     var id = /*[[ ${session.id} ]]*/;
-
     /*]]*/
 
     //로그인 or 로그아웃 버튼 글자 바꾸기
     if(id != null){
         document.getElementById("login-btn-text").innerText = "로그아웃";
+    }
+
+    function click_login_btn(){ //로그인 or 로그아웃 버튼 클릭 시
+        /*<![CDATA[*/
+        var id = /*[[ ${session.id} ]]*/;
+        /*]]*/
+        if(id != null){ //로그아웃 구현
+            //alert(id+"님을 로그아웃 하겠습니다.");
+            var logout_form = document.createElement("form");
+            logout_form.id = "logout-form";
+            logout_form.action="/logout";
+            document.body.append(logout_form);
+            document.getElementById("logout-form").submit();
+        }else{  //로그인 구현
+            //alert("로그인 하겠습니다.");
+            var login_form = document.createElement("form");
+            login_form.id = "login-form";
+            login_form.action="/login";
+            document.body.append(login_form);
+            document.getElementById("login-form").submit();
+        }
+    }
+    loadTopList();  //매칭률 top5 리스트 로드
+    /*<![CDATA[*/
+    var topInfoList = /*[[ ${topInfoList} ]]*/;
+    /*]]*/
+    function loadTopList(){ //매칭률 top5 리스트 로드
+        if(topInfoList != null) {
+            document.getElementById("top_wrap").style.display="block";
+            document.getElementById("top1").innerText = topInfoList[0].gu+" "+topInfoList[0].h_dong;
+            document.getElementById("top2").innerText = topInfoList[1].gu+" "+topInfoList[1].h_dong;
+            document.getElementById("top3").innerText = topInfoList[2].gu+" "+topInfoList[2].h_dong;
+            document.getElementById("top4").innerText = topInfoList[3].gu+" "+topInfoList[3].h_dong;
+            document.getElementById("top5").innerText = topInfoList[4].gu+" "+topInfoList[4].h_dong;
+        }else{// 처음에 순위부분 숨기기
+            document.getElementById("top_wrap").style.visibility="hidden";
+        }
+    }
+
+    var click_cnt = 1;
+    function click_detail_btn(){    //편의시설 상세 설정 부분 펼치기,숨기기
+        if(click_cnt%2 == 1) { //숨긴 상태 -> 펼치기
+            document.getElementById("convenient_detail").style.display="block";
+            document.getElementById("detail_btn_img").src = "/image/close.png";
+        }else{ // 펼친 상태 -> 숨기기
+            document.getElementById("convenient_detail").style.display="none";
+            document.getElementById("detail_btn_img").src = "/image/open.png";
+        }
+        click_cnt++;
     }
 </script>
 </html>

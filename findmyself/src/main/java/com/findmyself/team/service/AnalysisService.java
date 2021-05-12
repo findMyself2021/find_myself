@@ -197,13 +197,12 @@ public class AnalysisService {
             intervalList.put(interval, code_tmp);
         }
 
-        //인터벌값 오름차순 정렬 top5
         topInfoList = sortIntervalList(intervalList);
 
         return topInfoList;
     }
 
-    //인터벌값 오름차순 정렬 top5
+    //인터벌값 오름차순 정렬(매칭률 top5): 상위 20개 선출 -> 상위 5개 출력
     public List<DongInfo> sortIntervalList(Map<Integer, Long> intervalList){
 
         List<DongInfo> topInfoList = new ArrayList<>();
@@ -212,9 +211,10 @@ public class AnalysisService {
         Collections.sort(keys);
 
         int cnt=20;
-        if(intervalList.size() < 20){
+        if(intervalList.size() < 20){   //분석 결과가 20개 미만인 경우
             cnt = intervalList.size();
         }
+
         // 결과 출력
         for (int i=0; i<cnt; i++)
         {
@@ -223,7 +223,7 @@ public class AnalysisService {
             String gu = gudongService.findOne(h_code).getGu();
             String h_dong = gudongService.findOne(h_code).getH_dong();
 
-            System.out.println("interval: "+itv+", h_dong: "+h_dong);
+            //System.out.println("interval: "+itv+", h_dong: "+h_dong);
 
             DongInfo dongInfo = new DongInfo(gu,h_dong,h_code);
             topInfoList.add(dongInfo);
@@ -235,12 +235,13 @@ public class AnalysisService {
     //상세분석 관련 서비스
     public AnalysisInfo analysisDetail(Long code){
 
+        //평균 전월세가
         int deposit_avg_charter = homeService.findDepositAvgByCharter(code);
 
         int deposit_avg_monthly = homeService.findDepositAvgByMonthly(code);
         int monthly_avg_monthly = homeService.findMonthlyAvgByMonthly(code);
 
-        // 성비 구하기
+        //성비
         Gender gender = genderService.findOne(code);
         int sum = gender.getMale()+gender.getFemale();
         double man_ratio = Math.round(((double) gender.getMale()/(double) sum*100)*100)/100.0;

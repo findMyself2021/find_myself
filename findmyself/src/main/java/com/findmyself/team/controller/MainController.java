@@ -2,10 +2,10 @@ package com.findmyself.team.controller;
 
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
-import com.findmyself.team.data.domain.traffic.Traffic;
-import com.findmyself.team.data.repository.mapcluster.TrafficClustering;
-import com.findmyself.team.data.repository.mapcluster.TrafficLite;
-import com.findmyself.team.data.service.traffic.TrafficInfoService;
+import com.findmyself.team.data.mapcluster.SafetyClustering;
+import com.findmyself.team.data.mapcluster.SafetyLite;
+import com.findmyself.team.data.mapcluster.TrafficClustering;
+import com.findmyself.team.data.mapcluster.TrafficLite;
 import com.findmyself.team.service.AnalysisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,7 @@ public class MainController {
 
     private final AnalysisService analysisService;
     private final TrafficClustering trafficClustering;
+    private final SafetyClustering safetyClustering;
 
     @GetMapping(value="/")	//로그인 화면으로 이동할때(개발중)
     public String openMain(Model model, HttpServletRequest request) {
@@ -30,12 +31,15 @@ public class MainController {
         List<Long> codeList = null;
         List<DongInfo> topInfoList = null;
         List<TrafficLite> trafficClustering = this.trafficClustering.clusterTraffic();
+        List<SafetyLite> safetyClustering = this.safetyClustering.clusterSafety();
+
         System.out.println(trafficClustering.get(0).getNo());
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
         model.addAttribute("trafficClustering",trafficClustering);
+        model.addAttribute("safetyClustering",safetyClustering);
         try{
             HttpSession session = request.getSession();
             session.setAttribute("id",session.getAttribute("id"));
@@ -52,11 +56,14 @@ public class MainController {
         List<Long> codeList = analysisService.analysis(rq);
         List<DongInfo> topInfoList = analysisService.findMatchingTop5(rq,codeList);
         List<TrafficLite> trafficClustering = this.trafficClustering.clusterTraffic();
+        List<SafetyLite> safetyClustering = this.safetyClustering.clusterSafety();
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
         model.addAttribute("trafficClustering",trafficClustering);
+        model.addAttribute("safetyClustering",safetyClustering);
+
 
         try{
             HttpSession session = request.getSession();

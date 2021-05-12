@@ -205,7 +205,7 @@
                                             style="font-size: 14px">편의시설</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select4" onclick="Clustering_HangJungDong(4);"
+                                    <button class="btn btn-sm btn-primary" id="btn_select4" onclick="Clustering_HangJungDong(4,cluster_safety,userId,address);"
                                             style="font-size: 14px">안전</button>
                                 </li>
                                 <li class="nav-item">
@@ -235,6 +235,7 @@
 
                             /*<![CDATA[*/
                             var cluster_traffic = /*[[ ${trafficClustering} ]]*/;
+                            var cluster_safety = /*[[ ${safetyClustering} ]]*/;
                             var userId = /*[[ ${session.id} ]]*/;
                             /*]]*/
 

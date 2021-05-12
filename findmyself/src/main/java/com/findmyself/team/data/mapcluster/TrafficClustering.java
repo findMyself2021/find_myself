@@ -1,4 +1,4 @@
-package com.findmyself.team.data.repository.mapcluster;
+package com.findmyself.team.data.mapcluster;
 
 import com.findmyself.team.data.domain.traffic.Traffic;
 import com.findmyself.team.data.service.traffic.TrafficInfoService;
@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)

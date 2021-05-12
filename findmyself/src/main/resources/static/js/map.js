@@ -188,31 +188,7 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     }
     //교통
     else if (category_num==2){
-        if(list != null && userId != null) {
-            for(var i=0; i<list.length;i++){
-                if(list[i].no == 0){
-                    Draw_HangJungDong(list[i].h_code,address,"#0A3C7A", userId,1);
-                }
-                else if(list[i].no ==1){
-                    Draw_HangJungDong(list[i].h_code,address,"#115493", userId,1);
-                }
-                else if(list[i].no==2){
-                    Draw_HangJungDong(list[i].h_code,address,"#1C75B7", userId,1);
-                }
-                else if(list[i].no==3){
-                    Draw_HangJungDong(list[i].h_code,address,"#289CDB", userId,1);
-                }
-                else if(list[i].no==4){
-                    Draw_HangJungDong(list[i].h_code,address,"#38C6FF", userId,1);
-                }
-                else{
-                    Draw_HangJungDong(list[i].h_code,address,"#b5e7ff", userId,1);
-                }
-            }
-            //임시로
-            Draw_HangJungDong(1168051000,address,"#b5e7ff", userId,1);
-        }
-
+        var fillColors = ["#0A3C7A","#115493","#1C75B7","#289CDB","#38C6FF","#b5e7ff"];
     }
     //편의시설
     else if(category_num==3){
@@ -220,11 +196,19 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     }
     //안전
     else if(category_num==4){
-
+        var fillColors = ["#ed9282","#ed9282","#f7b6aa","#fac8bf","#fddbd4","#ffede9"];
     }
     //주변
     else if(category_num==5){
 
+    }
+
+    if(list != null && userId != null) {
+        for(var i=0; i<list.length;i++){
+            Draw_HangJungDong(list[i].h_code,address,fillColors[list[i].no], userId,1);
+        }
+        //임시로
+        Draw_HangJungDong(1168051000,address,fillColors[5], userId,1);
     }
 }
 

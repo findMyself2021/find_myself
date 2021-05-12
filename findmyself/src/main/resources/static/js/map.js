@@ -181,6 +181,10 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){  //(행정동
 }
 
 function Clustering_HangJungDong(category_num,list,userId,address){
+    if(userId == null){
+        alert("로그인 후 이용 가능합니다.");
+        return;
+    }
     deletePolygon(polygons1);
     //예산
     if(category_num==1){
@@ -242,6 +246,8 @@ function displayHangJungDong(coordinates, name, code, addr, fillColor, userId){
         fillColor: fillColor,
         fillOpacity: 0.9,
     });
+
+    polygon.
 
     polygons.push(polygon);            //폴리곤 제거하기 위한 배열
 

@@ -7,7 +7,13 @@ function findAddress(){ //학교 or 직장 찾기 api
     }).open();
 }
 
-function check(){ //전월세, 연령 선택 값 얻기
+function check(){ //submit 전 확인 :전월세, 연령 선택 값 얻기, 로그인 여부
+
+    if(userId == null){   //비회원은 분석결과 조회 불가
+        alert("로그인 후 이용 가능합니다.");
+        return false;
+    }
+
     var chk_home = document.getElementsByName('home-type');
     var home_type;
     for(var i=0; i<chk_home.length; i++){
@@ -24,27 +30,19 @@ function check(){ //전월세, 연령 선택 값 얻기
         }
     }
 
-    if(home_type == "" || age_type == "" ){
-        alert("유형 선택 안됨!");
-        return false;
-    }else{
-        var form = document.choice_form;
+    var form = document.choice_form;
 
-        var home_type_input = document.createElement("input");
-        home_type_input.setAttribute("type","hidden");
-        home_type_input.setAttribute("name","home_type");
-        home_type_input.setAttribute("value",home_type);
-        form.append(home_type_input);
+    var home_type_input = document.createElement("input");
+    home_type_input.setAttribute("type","hidden");
+    home_type_input.setAttribute("name","home_type");
+    home_type_input.setAttribute("value",home_type);
+    form.append(home_type_input);
 
-        var age_type_input = document.createElement("input");
-        age_type_input.setAttribute("type","hidden");
-        age_type_input.setAttribute("name","age_type");
-        age_type_input.setAttribute("value",age_type);
-        form.append(age_type_input);
-
-        return true;
-    }
-    return true;
+    var age_type_input = document.createElement("input");
+    age_type_input.setAttribute("type","hidden");
+    age_type_input.setAttribute("name","age_type");
+    age_type_input.setAttribute("value",age_type);
+    form.append(age_type_input);
 }
 
 function hideMonthly(){

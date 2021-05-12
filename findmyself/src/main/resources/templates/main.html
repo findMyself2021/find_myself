@@ -19,6 +19,7 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!--다음 도로명 주소 api -->
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
 </head>
 <body>
     <div class="header">
@@ -83,10 +84,6 @@
                     var topInfoList = /*[[ ${topInfoList} ]]*/;
                     var userId = /*[[ ${session.id} ]]*/;
                     var address = /*[[ ${rq.address} ]]*/;
-
-                    if(userId == null){
-                        console.log("userId가 널값입니다.");
-                    }
 
                     if(codeList != null && userId != null) {    //추천 행정동 리스트, 유저 아이디 있는 경우에만 로드
                         codeList.forEach(function(code) {
@@ -194,7 +191,7 @@
         </div>
 <!--        사용자 설정 부분-->
         <div class="choice_wrap">
-            <form name="choice_form" action="/find.do" th:object="${rq}" method="post"  onsubmit="return check()">
+            <form name="choice_form" action="/find.do" th:object="${rq}" method="post" onsubmit="return check();">
                 <div class="requirements" id="budget1">
                     <p>예산</p>
                     <span class="radio icheck-info">
@@ -456,32 +453,11 @@
     /*<![CDATA[*/
     var id = /*[[ ${session.id} ]]*/;
     /*]]*/
-
     //로그인 or 로그아웃 버튼 글자 바꾸기
     if(id != null){
         document.getElementById("login-btn-text").innerText = "로그아웃";
     }
 
-    function click_login_btn(){ //로그인 or 로그아웃 버튼 클릭 시
-        /*<![CDATA[*/
-        var id = /*[[ ${session.id} ]]*/;
-        /*]]*/
-        if(id != null){ //로그아웃 구현
-            //alert(id+"님을 로그아웃 하겠습니다.");
-            var logout_form = document.createElement("form");
-            logout_form.id = "logout-form";
-            logout_form.action="/logout";
-            document.body.append(logout_form);
-            document.getElementById("logout-form").submit();
-        }else{  //로그인 구현
-            //alert("로그인 하겠습니다.");
-            var login_form = document.createElement("form");
-            login_form.id = "login-form";
-            login_form.action="/login";
-            document.body.append(login_form);
-            document.getElementById("login-form").submit();
-        }
-    }
     loadTopList();  //매칭률 top5 리스트 로드
     /*<![CDATA[*/
     var topInfoList = /*[[ ${topInfoList} ]]*/;

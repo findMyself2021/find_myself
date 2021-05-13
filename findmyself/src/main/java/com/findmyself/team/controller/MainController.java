@@ -62,7 +62,7 @@ public class MainController {
     public String find(Requirements rq, Model model, HttpServletRequest request) {
 
         List<Long> codeList = analysisService.analysis(rq);
-        List<DongInfo> topInfoList = analysisService.findMatchingTop5(rq,codeList);
+        List<DongInfo> topInfoList = analysisService.findMatchingTop(rq,codeList);
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
 

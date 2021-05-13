@@ -5,11 +5,14 @@ import com.findmyself.team.DongInfo;
 import com.findmyself.team.TrafficInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Gudong;
+import com.findmyself.team.data.domain.home.HomeType;
 import com.findmyself.team.data.domain.residence.Gender;
+import com.findmyself.team.data.service.SatisfyService;
 import com.findmyself.team.data.service.convenient.ConvenientService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.home.HomeService;
+import com.findmyself.team.data.service.home.HomeTypeService;
 import com.findmyself.team.data.service.residence.age.AgeService;
 import com.findmyself.team.data.service.residence.GenderService;
 import com.findmyself.team.data.service.traffic.TrafficInfoService;
@@ -27,6 +30,9 @@ public class AnalysisService {
 
     @Autowired
     HomeService homeService;
+
+    @Autowired
+    HomeTypeService homeTypeService;
 
     @Autowired
     TrafficInfoService trafficInfoService;
@@ -48,6 +54,9 @@ public class AnalysisService {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    SatisfyService satisfyService;
 
     // 필터링 분석
     public List<Long> analysis(Requirements rq){
@@ -89,13 +98,14 @@ public class AnalysisService {
 //            System.out.println(code);
 //        }
 
+
         /*중복된 행정동 정리
         각 리스트에 공통으로 포함되는 행정동만 추출  !
         후 일치율 높은 행정동 추천기능 수행 !*/
         Long code;
         int cnt;
 
-        if(homeList.size() == 0){
+        if(homeList.size() == 0){   //예산 충족 리스트가 아예 없는 경우
             for(Gudong gudong:gudongService.findAll()){
                 cnt=0;
                 code = gudong.getH_code();
@@ -142,9 +152,9 @@ public class AnalysisService {
 
     }
 
-    // 매칭률 top5 분석
+    // top 매칭률 분석
     // (위 분석에서)필터링 된 리스트 이용
-    public List<DongInfo> findMatchingTop5(Requirements rq, List<Long> codeList){
+    public List<DongInfo> findMatchingTop(Requirements rq, List<Long> codeList){
 
         List<DongInfo> topInfoList;
 
@@ -238,9 +248,15 @@ public class AnalysisService {
 
         //평균 전월세가
         int deposit_avg_charter = homeService.findDepositAvgByCharter(code);
-
         int deposit_avg_monthly = homeService.findDepositAvgByMonthly(code);
         int monthly_avg_monthly = homeService.findMonthlyAvgByMonthly(code);
+
+        //거주 유형
+        HomeType homeType = homeTypeService.findOne(code);
+        double dandok = homeType.getDandok();
+        double apart = homeType.getApart();
+        double dasede = homeType.getDasede();
+        double officetel = homeType.getOfficetel();
 
         //성비
         Gender gender = genderService.findOne(code);
@@ -249,12 +265,23 @@ public class AnalysisService {
         double woman_ratio = Math.round(((double) gender.getFemale()/(double) sum*100)*100)/100.0;
         System.out.println(man_ratio+", "+woman_ratio);
 
-        //교통 상황 요약
-        TrafficInfo ti = new TrafficInfo();
-        String subwayInfo = ti.getStationInfo();
-        String carInfo = ti.getCarInfo();
+        double child = ageService.findOne(code,"child");
+        double s2030 = ageService.findOne(code,"s2030");;
+        double s4050 = ageService.findOne(code,"s4050");;
+        double elder = ageService.findOne(code,"elder");;
 
-        AnalysisInfo result = new AnalysisInfo(deposit_avg_charter,deposit_avg_monthly,monthly_avg_monthly,man_ratio,woman_ratio);
+        //매칭률
+        double matching_ratio = 0.0;
+        //거주자 만족도
+        double satisfy_ratio = satisfyService.findOne(code).getValue();
+
+        AnalysisInfo result = new AnalysisInfo(
+                  deposit_avg_charter,deposit_avg_monthly,monthly_avg_monthly
+                , dandok, apart, dasede, officetel
+                , man_ratio,woman_ratio
+                , child, s2030, s4050, elder
+                , matching_ratio
+                , satisfy_ratio);
 
         return result;
     }

@@ -586,6 +586,6 @@ function summarizeCarResult() {
         carSummaryArr[j] = carSummaryArr[j].split(',');
     }
 
-    console.log(carTrafficArr);
-    console.log(carSummaryArr);
+    console.log("carTrafficArr정보: "+ carTrafficArr);
+    console.log("carSummaryArr정보: "+ carSummaryArr);
 }

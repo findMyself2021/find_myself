@@ -23,6 +23,18 @@ public class AgeService {
     private final S4050Service s4050Service;
     private final ElderService elderService;
 
+    public Double findOne(Long code, String age_type){
+        if(age_type.equals("child")){
+            return childService.findOne(code).getValue();
+        }else if(age_type.equals("s2030")){
+            return s2030Service.findOne(code).getValue();
+        }else if(age_type.equals("s4050")){
+            return s4050Service.findOne(code).getValue();
+        }else {
+            return elderService.findOne(code).getValue();
+        }
+    }
+
     public Double findInterval(Long code, String age_type){
         if(age_type.equals("child")){
             return Math.abs(childService.findOne(code).getValue() - childService.findMax());

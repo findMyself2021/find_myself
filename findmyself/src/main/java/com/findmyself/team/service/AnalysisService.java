@@ -2,6 +2,7 @@ package com.findmyself.team.service;
 
 import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
+import com.findmyself.team.TrafficInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Gudong;
 import com.findmyself.team.data.domain.residence.Gender;
@@ -247,6 +248,11 @@ public class AnalysisService {
         double man_ratio = Math.round(((double) gender.getMale()/(double) sum*100)*100)/100.0;
         double woman_ratio = Math.round(((double) gender.getFemale()/(double) sum*100)*100)/100.0;
         System.out.println(man_ratio+", "+woman_ratio);
+
+        //교통 상황 요약
+        TrafficInfo ti = new TrafficInfo();
+        String subwayInfo = ti.getStationInfo();
+        String carInfo = ti.getCarInfo();
 
         AnalysisInfo result = new AnalysisInfo(deposit_avg_charter,deposit_avg_monthly,monthly_avg_monthly,man_ratio,woman_ratio);
 

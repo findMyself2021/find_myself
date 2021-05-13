@@ -29,8 +29,8 @@ public class MapController {
     @Autowired
     AnalysisService analysisService;
 
-    private String test;
-    private String test2;
+    private String stationInfo;
+    private String carInfo;
     private int pubFinishCheck;
     private int carFinishCheck;
 
@@ -97,7 +97,7 @@ public class MapController {
 
         String stations = httpServletRequest.getParameter("sub_Result");
         System.out.println("test : " + stations);
-        test = trafficService.searchSubwayInfo(stations);
+        stationInfo = trafficService.searchSubwayInfo(stations);
 
         pubFinishCheck = 1;
         return null;
@@ -112,7 +112,7 @@ public class MapController {
                 break;
         }
 
-        return test;
+        return stationInfo;
     }
 
     @RequestMapping(value = "/mapAnalysis4")
@@ -123,7 +123,7 @@ public class MapController {
 
         String carRouteInfo = httpServletRequest.getParameter("car_Result");
         System.out.println("test2 : " + carRouteInfo);
-        test2 = trafficService.searchCarRootInfo(carRouteInfo);
+        carInfo = trafficService.searchCarRootInfo(carRouteInfo);
 
         carFinishCheck = 1;
         return null;
@@ -138,6 +138,6 @@ public class MapController {
                 break;
         }
 
-        return test2;
+        return carInfo;
     }
 }

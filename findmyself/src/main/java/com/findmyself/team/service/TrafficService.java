@@ -1,10 +1,7 @@
 package com.findmyself.team.service;
 
-import com.findmyself.team.TrafficData;
-import com.findmyself.team.data.service.traffic.AddressService;
-import com.findmyself.team.data.service.traffic.SpeedService;
-import com.findmyself.team.data.service.traffic.SubwayService;
-import com.findmyself.team.data.service.traffic.VolumeService;
+import com.findmyself.team.TrafficInfo;
+import com.findmyself.team.data.service.traffic.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,7 +87,11 @@ public class TrafficService {
             if(i == 0 || i == stations.length - 1)
                 summarizeResult(stations[i], 1);
         }
+
+        TrafficInfo infoResult = new TrafficInfo();
+        infoResult.setStationInfo(subResult2);
         result += "|" + subResult2;
+
         return result;
     }
 
@@ -170,6 +171,8 @@ public class TrafficService {
             System.out.println("경유 지점 확인 :" + volumeService.findOne(point).getName());
         }
 
+        TrafficInfo infoResult = new TrafficInfo();
+        infoResult.setCarInfo(subResult);
         result += "|" + subResult;
         return result;
     }

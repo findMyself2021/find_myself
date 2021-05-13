@@ -174,7 +174,8 @@
 
                             // 맵 초기화
                             var map1 = new kakao.maps.Map(mapContainer, mapOption),
-                                customOverlay = new kakao.maps.CustomOverlay({});
+                                customOverlay = new kakao.maps.CustomOverlay({}),
+                                customOverlay1 = new kakao.maps.CustomOverlay({});
 
                             // 서울 전체 지도
                             DrawPolygon(1);

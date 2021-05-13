@@ -1,3 +1,6 @@
+var hcode_list=[];
+
+
 //여기서 mapno 들어옴
 function DrawPolygon(mapno) {
 
@@ -149,8 +152,15 @@ function displayArea(coordinates,mapno) {
     }
 }
 
+function Get_Hcode(list){
+    for (var i=0;i<list.length;i++)
+    {
+        hcode_list.push(list[i].h_code);
+    }
+}
+
 //행정동 기준으로 폴리곤 생성
-function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){  //(행정동코드, 학교및직장 주소, 색칠값, 사용자아이디, 맵 번호)
+function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list){  //(행정동코드, 학교및직장 주소, 색칠값, 사용자아이디, 맵 번호)
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -165,12 +175,18 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno){  //(행정동
             name = val.properties.adm_nm;
             code = val.properties.adm_cd2;
 
+            //여기서 name 넘김 => list 사용해서 군집 값 구하기
             //특정 행정동만 그리기 => 매개 변수로 들어오는 h_code와 일치 하는 것만 색칠
             if(h_code == code)
             {
-                // alert(addr);
+                  // alert(addr);
                 if(mapno==1){   //군집 결과 그리기
-                    displayCluster(coordinates, name,code,addr, fillColor, userId);
+                    //해당하는 인덱스
+                    var index = hcode_list.indexOf(h_code);
+                    var min = list[index].min;
+                    var max = list[index].max;
+                    var avg = list[index].avg;
+                    displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg);
                 }
                 else{   //추천 행정동 그리기
                     displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
@@ -186,6 +202,8 @@ function Clustering_HangJungDong(category_num,list,userId,address){
         return;
     }
     deletePolygon(polygons1);
+    Get_Hcode(list);
+
     //예산
     if(category_num==1){
 
@@ -200,6 +218,8 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     }
     //안전
     else if(category_num==4){
+        var fillColors = ["#ed9282","#ed9282","#f7b6aa","#fac8bf","#ed9282","#ffede9"];
+
         var fillColors = ["#ed9282","#ed9282","#f7b6aa","#fac8bf","#fddbd4","#ffede9"];
     }
     //주변
@@ -209,10 +229,9 @@ function Clustering_HangJungDong(category_num,list,userId,address){
 
     if(list != null && userId != null) {
         for(var i=0; i<list.length;i++){
-            Draw_HangJungDong(list[i].h_code,address,fillColors[list[i].no], userId,1);
+            //군집 리스트 넘김
+            Draw_HangJungDong(list[i].h_code,address,fillColors[list[i].no], userId,1,list);
         }
-        //임시로
-        Draw_HangJungDong(1168051000,address,fillColors[5], userId,1);
     }
 }
 var polygons1 = [];
@@ -294,7 +313,7 @@ function displayHangJungDong(coordinates, name, code, addr, fillColor, userId){
 }
 
 // 군집 분석용(displayHangJungDong과 비슷한 기능)
-function displayCluster(coordinates, name,code,addr, fillColor, userId){
+function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg){
     var path = [];
     var points = [];
     var bounds = new Tmapv2.LatLngBounds();
@@ -332,9 +351,13 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId){
         });
 
         customOverlay.setContent('<div class="area">' + name + '</div>');
+        customOverlay1.setContent('<div class="cluster">'+min+","+max+","+avg);
 
         customOverlay.setPosition(mouseEvent.latLng);
+        customOverlay1.setPosition();
         customOverlay.setMap(map1);
+        customOverlay1.setMap(map1);
+
     });
 
     // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
@@ -351,6 +374,7 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId){
             strokeColor: fillColor
         });
         customOverlay.setMap(null);
+        customOverlay1.setMap(null);
     });
 
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역 확대, 행정동 코드 보임

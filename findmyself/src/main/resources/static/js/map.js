@@ -160,7 +160,7 @@ function Get_Hcode(list){
 }
 
 //행정동 기준으로 폴리곤 생성
-function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list){  //(행정동코드, 학교및직장 주소, 색칠값, 사용자아이디, 맵 번호)
+function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list,cluster_name){  //(행정동코드, 학교및직장 주소, 색칠값, 사용자아이디, 맵 번호)
     //행정동 기준의 json 파일 불러옴
     $.getJSON("/json/seoulMap.json", function(geojson) {
 
@@ -186,7 +186,7 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list){  //(행�
                     var min = list[index].min;
                     var max = list[index].max;
                     var avg = list[index].avg;
-                    displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg);
+                    displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg,cluster_name);
                 }
                 else{   //추천 행정동 그리기
                     displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
@@ -204,13 +204,17 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     deletePolygon(polygons1);
     Get_Hcode(list);
 
+    // var fillColors = ["#0A3C7A","#115493","#1C75B7","#289CDB","#38C6FF","#b5e7ff"];
+
     //예산
     if(category_num==1){
 
     }
     //교통
     else if (category_num==2){
-        var fillColors = ["#0A3C7A","#115493","#1C75B7","#289CDB","#38C6FF","#b5e7ff"];
+        // 0 - 4 - 2 - 3 - 1
+        var fillColors = ["#0A3C7A","#38C6FF","#1C75B7","#289CDB","#115493"];
+        cluster_name = "교통 군집";
     }
     //편의시설
     else if(category_num==3){
@@ -218,9 +222,9 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     }
     //안전
     else if(category_num==4){
-        var fillColors = ["#ed9282","#ed9282","#f7b6aa","#fac8bf","#ed9282","#ffede9"];
-
-        var fillColors = ["#ed9282","#ed9282","#f7b6aa","#fac8bf","#fddbd4","#ffede9"];
+        //1 - 4 - 2 - 3 - 0
+        var fillColors = ["#38C6FF","#0A3C7A","#1C75B7","#289CDB","#115493"];
+        cluster_name = "안전 군집";
     }
     //주변
     else if(category_num==5){
@@ -230,7 +234,7 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     if(list != null && userId != null) {
         for(var i=0; i<list.length;i++){
             //군집 리스트 넘김
-            Draw_HangJungDong(list[i].h_code,address,fillColors[list[i].no], userId,1,list);
+            Draw_HangJungDong(list[i].h_code,address,fillColors[list[i].no], userId,1,list,cluster_name);
         }
     }
 }
@@ -313,7 +317,7 @@ function displayHangJungDong(coordinates, name, code, addr, fillColor, userId){
 }
 
 // 군집 분석용(displayHangJungDong과 비슷한 기능)
-function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg){
+function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg,cluster_name){
     var path = [];
     var points = [];
     var bounds = new Tmapv2.LatLngBounds();
@@ -351,11 +355,36 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,a
         });
 
         customOverlay.setContent('<div class="area">' + name + '</div>');
-        customOverlay1.setContent('<div class="cluster">'+min+","+max+","+avg);
+
+        var content = '<div class="overlaybox">' +
+            '<div class="boxtitle">'+cluster_name+ ' 상세 정보</div>'+
+            '   <ul>' +
+            '       <li class="up">' +
+            '           <span class="title">군집 평균 값: '+avg+'</span>'+
+            '       </li>'+
+            '       <li>'+
+            '           <span class="title">군집 최소 값: '+min+'</span>'+
+            '       </li>'+
+            '       <li>'+
+            '           <span class="title">군집 최대 값: '+max+'</span>'+
+            '       </li>'+
+            '   </ul>'+
+            '</div>';
+
 
         customOverlay.setPosition(mouseEvent.latLng);
-        customOverlay1.setPosition();
         customOverlay.setMap(map1);
+        // 커스텀 오버레이를 생성합니다
+
+        customOverlay1 = new kakao.maps.CustomOverlay({
+            position: new kakao.maps.LatLng(37.59865057069701, 126.79716762447826),
+            content: content,
+            //왼쪽 오른쪽
+            xAnchor: 0.3, //0 => 오른쪽에 나타남
+            //위 아래
+            yAnchor: 0.91
+        });
+
         customOverlay1.setMap(map1);
 
     });

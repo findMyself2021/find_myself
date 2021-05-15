@@ -500,6 +500,6 @@ function summarizePubResult() {
         stationSummaryArr[j] = stationSummaryArr[j].split(',');
     }
 
-    console.log(stationTrafficArr);
-    console.log(stationSummaryArr);
+    console.log("stationTrafficArr정보: "+stationTrafficArr);
+    console.log("stationSummaryArr정보: "+stationSummaryArr);
 }

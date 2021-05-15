@@ -33,334 +33,307 @@
     <script type="text/javascript" src="/js/pubTransRoute.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> <!--구글 차트 이용-->
     <script type="text/javascript" src="/js/login.js"></script>
-
+    <script type="text/javascript" src="/js/analysis.js"></script>
 </head>
-
 <body class="">
-<div class="header">
-    <button name="login-btn" id="login-btn" onclick="click_login_btn();">
-        <h3 id="login-btn-text">로그인</h3>
-    </button>
-    <div class="logo-wrap">
-        <a th:href="@{/}">
-            <img src="/image/logo4.png">
-        </a>
-    </div>
-</div>
-<div class="main-content">
-    <div class="header bg-gradient-primary pt-5 pt-md-8">
-    </div>
-    <div class="container-fluid mt--7">
-        <div class="row">
-            <div class="col-xl-8 mb-5 mb-xl-0">
-
-                <div class="card bg-gradient-default shadow">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h6 class="text-uppercase text-muted ls-1 mb-1">서울특별시</h6>
-                                <h2 class="text-darker mb-0" th:text="${gu} + ' '+ ${hdong}"></h2>
-                            </div>
-                            <div class="col">
-                                <ul class="nav nav-pills justify-content-end">
-                                    <li class="nav-item">
-                                        <button class="btn btn-sm btn-primary" id="btn_select"
-                                            style="font-size: 14px">자동차 경로 검색</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="btn btn-sm btn-primary" id="btn_select2"
-                                                style="font-size: 14px">대중교통 경로 검색</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postCarRouteInfo(); getCarRouteInfo();"
-                                                style="font-size: 14px">자동차 경로내 교통량 분석</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="btn btn-sm btn-primary" id="btn_select4" onclick="postStationInfo(); getStationInfo();"
-                                                style="font-size: 14px">대중교통 경로내 교통량 분석</button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
-                    <div class="card-body">
-                        <div id="map" style="height:500px;position:relative;overflow:inherit; border-radius: 10px">
-                            <script th:inline="javascript">
-                                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                                    mapOption = {
-                                        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-                                        level: 9 // 지도의 확대 레벨
-                                    };
-
-                                // 맵 초기화
-                                var map = new kakao.maps.Map(mapContainer, mapOption),
-                                    customOverlay = new kakao.maps.CustomOverlay({});
-
-                                // 서울 전체 지도
-                                DrawPolygon();
-
-                                // 행정동 코드 가져오기
-                                var hcode = [[${hcode}]];
-                                //목적지
-                                var dest = [[${addr}]];
-
-                                //행정동 별 중심 위도, 경도
-                                var center_x = [[${center_x}]];
-                                var center_y = [[${center_y}]];
-
-                                Draw_HangJungDong(hcode,dest,"#4b87c6");
-
-                                // 도착지점 지정
-                                initDestSearch(center_x,center_y,dest);
-                            </script>
-                        </div><br>
-<!--                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>-->
-                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayTest"></h6>
-                    </div>
-                </div>
-                <br>
-<!--                교통 분석 들어갈 곳-->
-                <div class="card bg-gradient-default shadow">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${gu} + ' '+ ${hdong}"></h6>
-                                <h2 class="mb-0">교통 분석</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">출근시간 교통 분석</h5>
-                                            <span class="h2 font-weight-bold mb-0">ㅇㅇㅇ 역에서 통행량이 많습니다. </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">퇴근시간 교통 분석</h5>
-                                            <span class="h2 font-weight-bold mb-0">ㅇㅇㅇ 부근에서 차량통행량이 많을 예정입니다.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-xl-4" id="detail-analysis-wrap">
-                <div class="card shadow">
-                    <div class="card-header bg-transparent">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${gu} + ' '+ ${hdong}"></h6>
-                                <h2 class="mb-0">상세 분석</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">평균시세</h5>
-                                            <span class="h2 font-weight-bold mb-0" id="charter-info1" th:text="${analysisInfos.deposit_avg_charter} "></span>
-                                            <span class="h3 font-weight-bold mb-0" id="charter-info2">만원</span>
-                                            <span class="h2 font-weight-bold mb-0" id="monthly-info1" th:text="${analysisInfos.deposit_avg_monthly} "></span>
-                                            <span class="h3 font-weight-bold mb-0" id="monthly-info2">만원</span>
-                                            <span class="h2 font-weight-bold mb-0" id="monthly-info3" th:text="${analysisInfos.monthly_avg_monthly} "></span>
-                                            <span class="h3 font-weight-bold mb-0" id="monthly-info4">만원</span>
-                                            <div id="home_chart" class="card-body" style="padding-left: 0px"></div>
-                                        </div>
-                                        <a href="#!" class="btn btn-sm btn-primary" id="charter-info-btn" onclick="charter_info_click()">전세가</a>
-                                        <a href="#!" class="btn btn-sm btn-primary" id="monthly-info-btn" onclick="monthly_info_click()">월세가</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">교통량</h5>
-                                            <span class="h2 font-weight-bold mb-0">2,356</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">안전</h5>
-                                            <span class="h2 font-weight-bold mb-0">924</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">편의시설</h5>
-                                            <div id="conv_chart" class="card-body" style="width: 100%; padding: 0px"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">남녀비율</h5>
-                                            <div id="sex_chart" class="card-body" style="width: 100%; padding: 0px"></div>
-                                        </div>
-                                    </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span id="gender_text" class="text-warning mr-2"><i class="fas fa-arrow-down"></i></span>
-                                        <span class="text-nowrap">의 비율이</span>
-                                        <span id="gender_diff" class="text-warning mr-2"><i class="fas fa-arrow-down"></i></span>
-                                        <span class="text-nowrap">정도 높음</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">거주연령</h5>
-                                            <div id="age_chart" class="card-body" style="width: 100%; padding: 0px"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="header">
+        <button name="login-btn" id="login-btn" onclick="click_login_btn();">
+            <h3 id="login-btn-text">로그인</h3>
+        </button>
+        <div class="logo-wrap">
+            <a th:href="@{/}">
+                <img src="/image/logo4.png">
+            </a>
         </div>
-        <div class="row mt-5">
-            <div class="col-xl-8 mb-5 mb-xl-0">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h2 class="mb-0">추천 동네</h2>
+    </div>
+    <div class="main-content">
+        <div class="header bg-gradient-primary pt-5 pt-md-8">
+        </div>
+        <div class="container-fluid mt--7">
+            <div class="row">
+                <div class="col-xl-8 mb-5 mb-xl-0">
+
+                    <div class="card bg-gradient-default shadow">
+                        <div class="card-header bg-transparent">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h6 class="text-uppercase text-muted ls-1 mb-1">서울특별시</h6>
+                                    <h2 class="text-darker mb-0" th:text="${gu} + ' '+ ${hdong}"></h2>
+                                </div>
+                                <div class="col">
+                                    <ul class="nav nav-pills justify-content-end">
+                                        <li class="nav-item">
+                                            <button class="btn btn-sm btn-primary" id="btn_select"
+                                                style="font-size: 14px">자동차 경로 검색</button>
+                                        </li>
+                                        <li class="nav-item">
+                                            <button class="btn btn-sm btn-primary" id="btn_select2"
+                                                    style="font-size: 14px">대중교통 경로 검색</button>
+                                        </li>
+                                        <li class="nav-item">
+                                            <button class="btn btn-sm btn-primary" id="btn_select3" onclick="postCarRouteInfo(); getCarRouteInfo();"
+                                                    style="font-size: 14px">자동차 경로내 교통량 분석</button>
+                                        </li>
+                                        <li class="nav-item">
+                                            <button class="btn btn-sm btn-primary" id="btn_select4" onclick="postStationInfo(); getStationInfo();"
+                                                    style="font-size: 14px">대중교통 경로내 교통량 분석</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <h3 id="matching-ratio" style="color:red;" th:text="'매칭률: '+ ${analysisInfos.matching_ratio}+ '%'"></h3>
+                            </div>
+                            <div class="row align-items-center">
+                                <h3 id="satisfy-ratio" style="color:red;" th:text="'만족도: 상위 '+ ${analysisInfos.satisfy_ratio}+ '%'"></h3>
                             </div>
                         </div>
-                    </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                            <tr>
-                                <th scope="col" colspan="2">학교/직장과 가까운</th>
-                                <th scope="col" colspan="2"></th>
-                                <th scope="col" colspan="2"></th>
-                                <th scope="col" colspan="2" th:text="${addr}" style="text-align: right"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="disTop1"></td>
-                                    <td class="disKm" id="disTop1Km" style="padding-left:0; padding-right:0"></td>
-                                    <td id="disTop2"></td>
-                                    <td class="disKm" id="disTop2Km" style="padding-left:0; padding-right:0"></td>
-                                    <td id="disTop3"></td>
-                                    <td class="disKm" id="disTop3Km" style="padding-left:0; padding-right:0"></td>
-                                    <td id="disTop4"></td>
-                                    <td class="disKm" id="disTop4Km" style="padding-left:0; padding-right:0"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                            <tr>
-                                <th scope="col">개인 맞춤형 추천</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td id="clickTop1"></td>
-                                <td id="clickTop2"></td>
-                                <td id="clickTop3"></td>
-                                <td id="clickTop4"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4">
-                <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h2 class="mb-0">여긴 뭐하지?</h2>
-                            </div>
+                        <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
+                        <div class="card-body">
+                            <div id="map" style="height:500px;position:relative;overflow:inherit; border-radius: 10px">
+                                <script th:inline="javascript">
+                                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                                        mapOption = {
+                                            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                                            level: 9 // 지도의 확대 레벨
+                                        };
+
+                                    // 맵 초기화
+                                    var map = new kakao.maps.Map(mapContainer, mapOption),
+                                        customOverlay = new kakao.maps.CustomOverlay({});
+
+                                    // 서울 전체 지도
+                                    DrawPolygon();
+
+                                    // 행정동 코드 가져오기
+                                    var hcode = [[${hcode}]];
+                                    //목적지
+                                    var dest = [[${addr}]];
+
+                                    //행정동 별 중심 위도, 경도
+                                    var center_x = [[${center_x}]];
+                                    var center_y = [[${center_y}]];
+
+                                    Draw_HangJungDong(hcode,dest,"#4b87c6");
+
+                                    // 도착지점 지정
+                                    initDestSearch(center_x,center_y,dest);
+                                </script>
+                            </div><br>
+    <!--                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>-->
+                            <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayTest"></h6>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Referral</th>
-                                <th scope="col">Visitors</th>
-                                <th scope="col"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        Facebook
-                                    </th>
-                                    <td>
-                                        1,480
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="mr-2">60%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                                                </div>
+                    <br>
+    <!--                교통 분석 들어갈 곳-->
+                    <div class="card bg-gradient-default shadow">
+                        <div class="card-header bg-transparent">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${gu} + ' '+ ${hdong}"></h6>
+                                    <h2 class="mb-0">교통 분석</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">출근시간 교통 분석</h5>
+                                                <h7 id="sam1"></h7>
+                                                <h7 id="sam2"></h7>
+                                                <span class="h2 font-weight-bold mb-0">ㅇㅇㅇ 역에서 통행량이 많습니다. </span>
                                             </div>
                                         </div>
-                                    </td>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">퇴근시간 교통 분석</h5>
+                                                <span class="h2 font-weight-bold mb-0">ㅇㅇㅇ 부근에서 차량통행량이 많을 예정입니다.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xl-4" id="detail-analysis-wrap">
+                    <div class="card shadow">
+                        <div class="card-header bg-transparent">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${gu} + ' '+ ${hdong}"></h6>
+                                    <h2 class="mb-0">상세 분석</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">평균시세</h5>
+                                                <span class="h2 font-weight-bold mb-0" id="charter-info1" th:text="${analysisInfos.deposit_avg_charter} "></span>
+                                                <span class="h3 font-weight-bold mb-0" id="charter-info2">만원</span>
+                                                <span class="h2 font-weight-bold mb-0" id="monthly-info1" th:text="${analysisInfos.deposit_avg_monthly} "></span>
+                                                <span class="h3 font-weight-bold mb-0" id="monthly-info2">만원</span>
+                                                <span class="h2 font-weight-bold mb-0" id="monthly-info3" th:text="${analysisInfos.monthly_avg_monthly} "></span>
+                                                <span class="h3 font-weight-bold mb-0" id="monthly-info4">만원</span>
+                                            </div>
+                                            <div class="col">
+                                                <a href="#!" class="btn btn-sm btn-primary" id="charter-info-btn" onclick="charter_info_click()">전세가</a>
+                                                <a href="#!" class="btn btn-sm btn-primary" id="monthly-info-btn" onclick="monthly_info_click()">월세가</a>
+                                            </div>
+                                        </div>
+                                        <div id="home_chart" class="card-body" style="padding-left: 0px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">안전</h5>
+                                                <span class="h2 font-weight-bold mb-0">924</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">편의시설</h5>
+                                            </div>
+                                        </div>
+                                        <div id="conv_chart" class="card-body" style="width: 100%; padding: 0px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">남녀 비율</h5>
+                                            </div>
+                                        </div>
+                                        <div id="sex_chart" class="card-body" style="width: 100%; padding: 0px"></div>
+                                        <p class="mt-3 mb-0 text-muted text-sm">
+                                            <span id="gender_text" class="text-warning mr-2"><i class="fas fa-arrow-down"></i></span>
+                                            <span class="text-nowrap">의 비율이</span>
+                                            <span id="gender_diff" class="text-warning mr-2"><i class="fas fa-arrow-down"></i></span>
+                                            <span class="text-nowrap">정도 높음</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">거주 연령 비율</h5>
+                                            </div>
+                                        </div>
+                                        <div id="age_chart" class="card-body" style="width: 100%; padding: 0px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-xl-8 mb-5 mb-xl-0">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="mb-0">추천 동네</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" colspan="2">학교/직장과 가까운</th>
+                                    <th scope="col" colspan="2"></th>
+                                    <th scope="col" colspan="2"></th>
+                                    <th scope="col" colspan="2" th:text="${addr}" style="text-align: right"></th>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="disTop1"></td>
+                                        <td class="disKm" id="disTop1Km" style="padding-left:0; padding-right:0"></td>
+                                        <td id="disTop2"></td>
+                                        <td class="disKm" id="disTop2Km" style="padding-left:0; padding-right:0"></td>
+                                        <td id="disTop3"></td>
+                                        <td class="disKm" id="disTop3Km" style="padding-left:0; padding-right:0"></td>
+                                        <td id="disTop4"></td>
+                                        <td class="disKm" id="disTop4Km" style="padding-left:0; padding-right:0"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">개인 맞춤형 추천</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="clickTop1"></td>
+                                    <td id="clickTop2"></td>
+                                    <td id="clickTop3"></td>
+                                    <td id="clickTop4"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="mb-0">행정동 분포도</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0" th:text="${gu} + ' '+ ${hdong}">거주연령</h5>
+                                    <div id="cluster_chart" class="card-body" style="width: 100%; padding: 0px"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <div class="copyright">
         Copyright © by FindMyself 2021, Inc. All rights reserved
     </div>
@@ -373,203 +346,43 @@
             document.getElementById("login-btn-text").innerText = "로그아웃";
         }
 
-        function postStationInfo() {
-            console.log(subwayStationResults);
-            $('.sub_Result').val(subwayStationResults);
-            $.ajax({
-                type : "POST",
-                url : "/mapAnalysis2",
-                data : $("#postStationForm").serialize(),
-                error : function(error) {
-                    console.log("error");
-                },
-                success : function(data) {
-                    console.log("success");
+        /*var busInfoSample = getStationInfo();
+        var carInfoSample = getCarRouteInfo();
 
-                }
-            });
-        }
-
-        function  getStationInfo() {
-            setTimeout(function () {
-                $.ajax({
-                    type : "GET",
-                    url : "/mapAnalysis3",
-                    error : function(error) {
-                        console.log("error");
-                    },
-                    success : function(data) {
-                        console.log("success");
-                        stationInfo = data;
-                        summarizePubResult();
-                    }
-                });
-            }, 300);
-        }
-
-        function postCarRouteInfo() {
-            $('.car_Result').val(carLocationResults);
-            $.ajax({
-                type : "POST",
-                url : "/mapAnalysis4",
-                data : $("#postCarRouteForm").serialize(),
-                error : function(error) {
-                    console.log("error");
-                },
-                success : function(data) {
-                    console.log("success");
-
-                }
-            });
-        }
-
-        function  getCarRouteInfo() {
-            setTimeout(function () {
-                $.ajax({
-                    type : "GET",
-                    url : "/mapAnalysis5",
-                    error : function(error) {
-                        console.log("error");
-                    },
-                    success : function(data) {
-                        console.log("success");
-                        carInfo = data;
-                        summarizeCarResult();
-                    }
-                });
-            }, 300);
-        }
+        document.getElementById("sam1").innerHTML = busInfoSample;
+        document.getElementById("sam2").innerHTML = carInfoSample;*/
 
         /*<![CDATA[*/
         var topDisInfoList = /*[[ ${topDisInfoList} ]]*/;
         var resultByClikck = /*[[ ${resultByClikck} ]]*/;
         /*]]*/
+
         loadDisTopList();
         loadClickTopList();
-        function loadDisTopList(){
-            if(topDisInfoList != null) {
-                document.getElementById("disTop1").innerText = topDisInfoList[0].gu+" "+topDisInfoList[0].h_dong;
-                document.getElementById("disTop1Km").innerText = topDisInfoList[0].dis+"km";
-                document.getElementById("disTop2").innerText = topDisInfoList[1].gu+" "+topDisInfoList[1].h_dong;
-                document.getElementById("disTop2Km").innerText = topDisInfoList[1].dis+"km";
-                document.getElementById("disTop3").innerText = topDisInfoList[2].gu+" "+topDisInfoList[2].h_dong;
-                document.getElementById("disTop3Km").innerText = topDisInfoList[2].dis+"km";
-                document.getElementById("disTop4").innerText = topDisInfoList[3].gu+" "+topDisInfoList[3].h_dong;
-                document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis+"km";
 
-            }
-        }
-        function loadClickTopList(){
-            if(resultByClikck != null) {
-                document.getElementById("clickTop1").innerText = resultByClikck[0].gu+" "+resultByClikck[0].h_dong;
-                //document.getElementById("disTop1Km").innerText = topDisInfoList[0].dis+"km";
-                document.getElementById("clickTop2").innerText = resultByClikck[1].gu+" "+resultByClikck[1].h_dong;
-                //document.getElementById("disTop2Km").innerText = topDisInfoList[1].dis+"km";
-                document.getElementById("clickTop3").innerText = resultByClikck[2].gu+" "+resultByClikck[2].h_dong;
-                //document.getElementById("disTop3Km").innerText = topDisInfoList[2].dis+"km";
-                document.getElementById("clickTop4").innerText = resultByClikck[3].gu+" "+resultByClikck[3].h_dong;
-                //document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis+"km";
-
-            }
-        }
-
+        document.getElementById("monthly-info-btn").focus();
         document.getElementById("monthly-info-btn").click();
 
-        function charter_info_click(){  //전세가 클릭시
-            document.getElementById("monthly-info1").style.display="none";
-            document.getElementById("monthly-info2").style.display="none";
-            document.getElementById("monthly-info3").style.display="none";
-            document.getElementById("monthly-info4").style.display="none";
-            document.getElementById("charter-info1").style.display="inline-block";
-            document.getElementById("charter-info2").style.display="inline-block";
-        }
-        function monthly_info_click(){  //월세가 클릭시
-            document.getElementById("charter-info1").style.display="none";
-            document.getElementById("charter-info2").style.display="none";
-            document.getElementById("monthly-info1").style.display="inline-block";
-            document.getElementById("monthly-info2").style.display="inline-block";
-            document.getElementById("monthly-info3").style.display="inline-block";
-            document.getElementById("monthly-info4").style.display="inline-block";
-        }
+        //차트 관련
+        /*<![CDATA[*/
+        var apart = /*[[ ${analysisInfos.apart} ]]*/;
+        var dandok =/*[[ ${analysisInfos.dandok} ]]*/;
+        var dasede = /*[[ ${analysisInfos.dasede} ]]*/;
+        var officetel =/*[[ ${analysisInfos.officetel} ]]*/;
+        var man_ratio = /*[[ ${analysisInfos.man_ratio} ]]*/;
+        var woman_ratio =/*[[ ${analysisInfos.woman_ratio} ]]*/;
+        var child=/*[[ ${analysisInfos.child} ]]*/;;
+        var s2030=/*[[ ${analysisInfos.s2030} ]]*/;;
+        var s4050=/*[[ ${analysisInfos.s4050} ]]*/;;
+        var elder=/*[[ ${analysisInfos.elder} ]]*/;;
+        /*]]*/
 
         google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawHomeChart);
         google.charts.setOnLoadCallback(drawConvChart);
         google.charts.setOnLoadCallback(drawSexChart);
         google.charts.setOnLoadCallback(drawAgeChart);
-
-        function drawConvChart() {
-            var joy=10;
-            var shop=10;
-            var food=10;
-            var life=10;
-            var sport=10;
-            var edu=10;
-
-            var data = google.visualization.arrayToDataTable([
-                ['category', '비율'],
-                ['오락',     joy],
-                ['상점',      shop],
-                ['음식',  food],
-                ['생활서비스', life],
-                ['스포츠',    sport],
-                ['교육',    edu]
-            ]);
-            var options = {
-                height: 200,
-                backgroundColor: { fill: "#e9f1f5" }
-            };
-            var chart = new google.visualization.PieChart(document.getElementById('conv_chart'));
-            chart.draw(data, options);
-        }
-        function drawSexChart() {
-            /*<![CDATA[*/
-            var man_ratio = /*[[ ${analysisInfos.man_ratio} ]]*/;
-            var woman_ratio =/*[[ ${analysisInfos.woman_ratio} ]]*/;
-            /*]]*/
-            var data = google.visualization.arrayToDataTable([
-                ['Element', '비율', { role: 'style' }, { role: 'annotation' } ],
-                ['남성', man_ratio, 'blue', man_ratio+'%' ],
-                ['여성', woman_ratio, 'red', woman_ratio+'%' ]
-            ]);
-            var options = {
-                height: 200,
-                backgroundColor: { fill: "#e9f1f5" },
-                hAxis: {
-                    minValue: 0,
-                    maxValue: 100
-                },
-            };
-            if(man_ratio>woman_ratio){
-                document.getElementById("gender_text").innerText="남성";
-                document.getElementById("gender_diff").innerText=(man_ratio-woman_ratio).toFixed(2)+"%";
-            }else if(woman_ratio>man_ratio){
-                document.getElementById("gender_text").innerText="여성";
-                document.getElementById("gender_diff").innerText=(woman_ratio-man_ratio).toFixed(2)+"%";
-            }else{
-                //비율 같은 경우...
-            }
-            var chart = new google.visualization.BarChart(document.getElementById('sex_chart'));
-            chart.draw(data, options);
-        }
-        function drawAgeChart() {
-            var child=10;
-            var s2030=20;
-            var s4050=30;
-            var elder=40;
-            var data = google.visualization.arrayToDataTable([
-                ['Element', '인구수', { role: 'style' }],
-                ["유소년", child, "#b87333"],
-                ["2030대", s2030, "silver"],
-                ["4050대", s4050, "gold"],
-                ["노년층", elder, "color: #e5e4e2"]
-            ]);
-            var options = {
-                height: 200,
-                backgroundColor: { fill: "#e9f1f5" }
-            };
-            var chart = new google.visualization.ColumnChart(document.getElementById("age_chart"));
-            chart.draw(data, options);
-        }
+        google.charts.setOnLoadCallback(drawClusterChart);
     </script>
     <form id="postStationForm" name="postStationForm">
         <input class="sub_Result" id="sub_Result" name="sub_Result" type="hidden">
@@ -577,8 +390,5 @@
     <form id="postCarRouteForm" name="postCarRouteForm">
         <input class="car_Result" id="car_Result" name="car_Result" type="hidden">
     </form>
-    <div class="copyright">
-        Copyright © by FindMyself 2021, Inc. All rights reserved
-    </div>
 </body>
 </html>

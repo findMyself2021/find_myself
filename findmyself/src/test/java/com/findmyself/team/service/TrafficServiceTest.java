@@ -29,7 +29,7 @@ public class TrafficServiceTest {
     @Autowired
     SubwayService subwayService;
 
-    TrafficData td = new TrafficData();
+    //TrafficData td = new TrafficData();
 
     @Test
     public void 테스트() {

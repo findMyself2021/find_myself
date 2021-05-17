@@ -105,6 +105,29 @@ function monthly_info_click(){  //월세가 클릭시
 }
 
 //분야별 구글차트 그리기
+function drawTrafficChart(){
+    var data = google.visualization.arrayToDataTable([
+        ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
+        ['am 6-7시', 1000, 400],
+        ['am 7-8시', 1170, 460],
+        ['am 8-9시', 660, 1120],
+        ['pm 5-6시', 1000, 400],
+        ['pm 6-7시', 1170, 460],
+        ['pm 7-8시', 660, 1120]
+    ]);
+
+    var options = {
+        chart: {
+            width: '100%',
+            height: 200,
+            backgroundColor: { fill: "#e9f1f5" }
+        }
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+}
+
 function drawHomeChart() {
     var data = google.visualization.arrayToDataTable([
         ['category', '비율'],

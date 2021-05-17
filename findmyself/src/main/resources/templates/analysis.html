@@ -61,10 +61,22 @@
                                     <h2 class="text-darker mb-0" th:text="${gu} + ' '+ ${hdong}"></h2>
                                 </div>
                                 <div class="col">
+                                    <h3 id="matching-ratio" th:text="'매칭률: '+ ${analysisInfos.matching_ratio}+ '%'"></h3>
+                                    <h3 id="satisfy-ratio" th:text="'만족도: 상위 '+ ${analysisInfos.satisfy_ratio}+ '%'"></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="mb-0">교통 분석</h2>
+                                </div>
+                                <div class="col">
                                     <ul class="nav nav-pills justify-content-end">
                                         <li class="nav-item">
                                             <button class="btn btn-sm btn-primary" id="btn_select"
-                                                style="font-size: 14px">자동차 경로 검색</button>
+                                                    style="font-size: 14px">자동차 경로 검색</button>
                                         </li>
                                         <li class="nav-item">
                                             <button class="btn btn-sm btn-primary" id="btn_select2"
@@ -81,15 +93,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="row align-items-center">
-                                <h3 id="matching-ratio" style="color:red;" th:text="'매칭률: '+ ${analysisInfos.matching_ratio}+ '%'"></h3>
-                            </div>
-                            <div class="row align-items-center">
-                                <h3 id="satisfy-ratio" style="color:red;" th:text="'만족도: 상위 '+ ${analysisInfos.satisfy_ratio}+ '%'"></h3>
-                            </div>
-                        </div>
-                        <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
-                        <div class="card-body">
                             <div id="map" style="height:500px;position:relative;overflow:inherit; border-radius: 10px">
                                 <script th:inline="javascript">
                                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -120,51 +123,15 @@
                                     initDestSearch(center_x,center_y,dest);
                                 </script>
                             </div><br>
-    <!--                        <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayResult"></h6>-->
-                            <h6 class="text-uppercase text-light ls-1 mb-1" style="font-size: medium" id="subwayTest"></h6>
+                            <div class="col">
+                                <h6 class="h3 font-weight-bold mb-0" id="show_route"></h6>
+                                <h5 class="card-title text-uppercase text-muted mb-0">출퇴근시간 교통 분석</h5>
+                                <div id="traffic-chart" class="card-body" style="padding-left: 0px"></div>
+<!--                                <span class="h3 font-weight-bold mb-0">ㅇㅇㅇ 역에서 통행량이 많습니다. </span>-->
+                            </div>
                         </div>
                     </div>
                     <br>
-    <!--                교통 분석 들어갈 곳-->
-                    <div class="card bg-gradient-default shadow">
-                        <div class="card-header bg-transparent">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${gu} + ' '+ ${hdong}"></h6>
-                                    <h2 class="mb-0">교통 분석</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-xl-3 col-lg-6">
-                                <div class="card card-stats mb-4 mb-xl-0">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <h5 class="card-title text-uppercase text-muted mb-0">출근시간 교통 분석</h5>
-                                                <h7 id="sam1"></h7>
-                                                <h7 id="sam2"></h7>
-                                                <span class="h2 font-weight-bold mb-0">ㅇㅇㅇ 역에서 통행량이 많습니다. </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6">
-                                <div class="card card-stats mb-4 mb-xl-0">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <h5 class="card-title text-uppercase text-muted mb-0">퇴근시간 교통 분석</h5>
-                                                <span class="h2 font-weight-bold mb-0">ㅇㅇㅇ 부근에서 차량통행량이 많을 예정입니다.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="col-xl-4" id="detail-analysis-wrap">
                     <div class="card shadow">
@@ -378,6 +345,7 @@
         /*]]*/
 
         google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawTrafficChart);
         google.charts.setOnLoadCallback(drawHomeChart);
         google.charts.setOnLoadCallback(drawConvChart);
         google.charts.setOnLoadCallback(drawSexChart);

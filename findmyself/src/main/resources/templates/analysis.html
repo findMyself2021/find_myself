@@ -61,8 +61,8 @@
                                     <h2 class="text-darker mb-0" th:text="${gu} + ' '+ ${hdong}"></h2>
                                 </div>
                                 <div class="col">
-                                    <h3 id="matching-ratio" th:text="'매칭률: '+ ${analysisInfos.matching_ratio}+ '%'"></h3>
-                                    <h3 id="satisfy-ratio" th:text="'만족도: 상위 '+ ${analysisInfos.satisfy_ratio}+ '%'"></h3>
+                                    <h3 style="text-align: right" th:text="'설정값 매칭률: '+ ${analysisInfos.matching_ratio}+ '%'"></h3>
+                                    <h3 style="text-align: right" th:text="'생활 만족도: 상위 '+ ${analysisInfos.satisfy_ratio}+ '%'"></h3>
                                 </div>
                             </div>
                         </div>
@@ -123,11 +123,11 @@
                                     initDestSearch(center_x,center_y,dest);
                                 </script>
                             </div><br>
+<!--                            car-chart만들어서 버튼 클릭에 따라 보이게 하기-->
                             <div class="col">
                                 <h6 class="h3 font-weight-bold mb-0" id="show_route"></h6>
-                                <h5 class="card-title text-uppercase text-muted mb-0">출퇴근시간 교통 분석</h5>
-                                <div id="traffic-chart" class="card-body" style="padding-left: 0px"></div>
-<!--                                <span class="h3 font-weight-bold mb-0">ㅇㅇㅇ 역에서 통행량이 많습니다. </span>-->
+                                <h5 class="card-title text-uppercase text-muted mb-0">출퇴근시간 대중교통량</h5>
+                                <div id="subway-chart" class="card-body" style="padding-left: 0px"></div>
                             </div>
                         </div>
                     </div>
@@ -336,8 +336,17 @@
         var dandok =/*[[ ${analysisInfos.dandok} ]]*/;
         var dasede = /*[[ ${analysisInfos.dasede} ]]*/;
         var officetel =/*[[ ${analysisInfos.officetel} ]]*/;
+
+        var joy =/*[[ ${analysisInfos.joy} ]]*/;
+        var shop =/*[[ ${analysisInfos.shop} ]]*/;
+        var food =/*[[ ${analysisInfos.food} ]]*/;
+        var life =/*[[ ${analysisInfos.life} ]]*/;
+        var sport =/*[[ ${analysisInfos.sport} ]]*/;
+        var edu =/*[[ ${analysisInfos.edu} ]]*/;
+
         var man_ratio = /*[[ ${analysisInfos.man_ratio} ]]*/;
         var woman_ratio =/*[[ ${analysisInfos.woman_ratio} ]]*/;
+
         var child=/*[[ ${analysisInfos.child} ]]*/;;
         var s2030=/*[[ ${analysisInfos.s2030} ]]*/;;
         var s4050=/*[[ ${analysisInfos.s4050} ]]*/;;

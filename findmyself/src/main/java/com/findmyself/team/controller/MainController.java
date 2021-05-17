@@ -74,6 +74,7 @@ public class MainController {
         model.addAttribute("trafficClustering",trafficClustering);
         model.addAttribute("safetyClustering",safetyClustering);
         model.addAttribute("monthlyClustering",monthlyClustering);
+        model.addAttribute("isLoad",1);
 
         try{
             HttpSession session = request.getSession();

@@ -115,16 +115,13 @@ function drawTrafficChart(){
         ['pm 6-7시', 1170, 460],
         ['pm 7-8시', 660, 1120]
     ]);
-
     var options = {
-        chart: {
-            width: '100%',
-            height: 200,
-            backgroundColor: { fill: "#e9f1f5" }
-        }
+        width: '100%',
+        height: 200,
+        backgroundColor: { fill: "#e9f1f5" }
     };
 
-    var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
+    var chart = new google.charts.Bar(document.getElementById('subway-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
 
@@ -145,17 +142,10 @@ function drawHomeChart() {
     chart.draw(data, options);
 }
 function drawConvChart() {
-    var joy=10;
-    var shop=10;
-    var food=10;
-    var life=10;
-    var sport=10;
-    var edu=10;
-
     var data = google.visualization.arrayToDataTable([
         ['category', '비율'],
         ['오락',     joy],
-        ['상점',      shop],
+        ['소매',      shop],
         ['음식',  food],
         ['생활서비스', life],
         ['스포츠',    sport],

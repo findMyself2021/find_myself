@@ -258,6 +258,15 @@ public class AnalysisService {
         double dasede = homeType.getDasede();
         double officetel = homeType.getOfficetel();
 
+        //편의시설 현황
+        int[] convenientArr = convenientService.findValues(code);
+        int joy = convenientArr[0];
+        int shop = convenientArr[1];
+        int food = convenientArr[2];
+        int life = convenientArr[3];
+        int sport = convenientArr[4];
+        int edu = convenientArr[5];
+
         //성비
         Gender gender = genderService.findOne(code);
         int sum = gender.getMale()+gender.getFemale();
@@ -278,6 +287,7 @@ public class AnalysisService {
         AnalysisInfo result = new AnalysisInfo(
                   deposit_avg_charter,deposit_avg_monthly,monthly_avg_monthly
                 , dandok, apart, dasede, officetel
+                , joy, shop, food, life, sport, edu
                 , man_ratio,woman_ratio
                 , child, s2030, s4050, elder
                 , matching_ratio

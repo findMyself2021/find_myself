@@ -20,8 +20,24 @@
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
     <script type="text/javascript" src="/js/login.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var isLoad = /*[[ ${isLoad} ]]*/;
+        /*]]*/
+        if(isLoad != null){
+            $(".loading").hide();
+        }
+    </script>
 </head>
 <body>
+    <div class="loading" id="loading">
+        <img style="padding-top: 100px" src="/image/logo4.png">
+        <h4 style="padding-top: 15px">설정값을 기반으로 적합한 주거지를 찾고 있습니다.</h4>
+        <img style="padding-top: 15px" src="/image/loading.gif">
+    </div>
+    <script>
+        $(".loading").hide();
+    </script>
     <div class="header">
         <button name="login-btn" id="login-btn" onclick="click_login_btn();">
             <h3 id="login-btn-text">로그인</h3>

@@ -26,6 +26,18 @@ public class ConvenientService {
     private final ShopRepository shopRepository;
     private final LifeRepository lifeRepository;
 
+    public int[] findValues(Long code){
+        int[] valueArr = new int[6];
+
+        valueArr[0] = joyRepository.findOne(code).getValue();
+        valueArr[1] = shopRepository.findOne(code).getValue();
+        valueArr[2] = foodRepository.findOne(code).getValue();
+        valueArr[3] = lifeRepository.findOne(code).getValue();
+        valueArr[4] = sportRepository.findOne(code).getValue();
+        valueArr[5] = eduRepository.findOne(code).getValue();
+
+        return valueArr;
+    }
     //설정값을 포함하는 군집번호 찾기
     public List<Integer> findClusterNo(String type, int value){
         int std_value = getStdVaule(type, value);

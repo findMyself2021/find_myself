@@ -140,7 +140,7 @@
                         <div class="col">
                             <ul class="nav nav-pills justify-content-end">
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select" onclick="Clustering_HangJungDong(1);"
+                                    <button class="btn btn-sm btn-primary" id="btn_select" onclick="Clustering_HangJungDong(1,cluster_monthly,userId,address);"
                                             style="font-size: 14px">예산</button>
                                 </li>
                                 <li class="nav-item">
@@ -183,6 +183,7 @@
                             /*<![CDATA[*/
                             var cluster_traffic = /*[[ ${trafficClustering} ]]*/;
                             var cluster_safety = /*[[ ${safetyClustering} ]]*/;
+                            var cluster_monthly = /*[[ ${monthlyClustering} ]]*/;
                             var userId = /*[[ ${session.id} ]]*/;
                             /*]]*/
                         </script>

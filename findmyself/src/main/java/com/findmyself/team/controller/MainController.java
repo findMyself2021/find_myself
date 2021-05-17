@@ -4,10 +4,8 @@ import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Safety;
 import com.findmyself.team.data.domain.traffic.Traffic;
-import com.findmyself.team.data.mapcluster.SafetyClustering;
-import com.findmyself.team.data.mapcluster.SafetyLite;
-import com.findmyself.team.data.mapcluster.TrafficClustering;
-import com.findmyself.team.data.mapcluster.TrafficLite;
+import com.findmyself.team.data.mapcluster.domain.ClusterMonthly;
+import com.findmyself.team.data.mapcluster.service.MonthlyService;
 import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.traffic.TrafficInfoService;
 import com.findmyself.team.service.AnalysisService;
@@ -27,6 +25,7 @@ public class MainController {
     private final AnalysisService analysisService;
     private final TrafficInfoService trafficInfoService;
     private final SafetyService safetyService;
+    private final MonthlyService monthlyService;
 //    private final TrafficClustering trafficClustering;
 //    private final SafetyClustering safetyClustering;
 
@@ -39,6 +38,7 @@ public class MainController {
 
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
+        List<ClusterMonthly> monthlyClustering = monthlyService.findAll();
 
         System.out.println(trafficClustering.get(0).getNo());
 
@@ -47,6 +47,7 @@ public class MainController {
         model.addAttribute("topInfoList", topInfoList);
         model.addAttribute("trafficClustering",trafficClustering);
         model.addAttribute("safetyClustering",safetyClustering);
+        model.addAttribute("monthlyClustering",monthlyClustering);
 
         try{
             HttpSession session = request.getSession();
@@ -65,14 +66,14 @@ public class MainController {
         List<DongInfo> topInfoList = analysisService.findMatchingTop(rq,codeList);
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
-
+        List<ClusterMonthly> monthlyClustering = monthlyService.findAll();
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
         model.addAttribute("trafficClustering",trafficClustering);
         model.addAttribute("safetyClustering",safetyClustering);
-
+        model.addAttribute("monthlyClustering",monthlyClustering);
 
         try{
             HttpSession session = request.getSession();

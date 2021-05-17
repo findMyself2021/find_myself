@@ -183,10 +183,20 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list,cluster_na
                 if(mapno==1){   //군집 결과 그리기
                     //해당하는 인덱스
                     var index = hcode_list.indexOf(h_code);
-                    var min = list[index].min;
-                    var max = list[index].max;
-                    var avg = list[index].avg;
-                    displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg,cluster_name);
+                    if (cluster_name=="월세 군집"){
+                        var deposit_avg = list[index].deposit_avg;
+                        var monthly_avg = list[index].monthly_avg;
+                        var monthly_min = list[index].monthly_min;
+
+                        displayCluster(coordinates, name,code,addr, fillColor, userId,deposit_avg,monthly_avg,monthly_min,cluster_name);
+                    }
+                    else {
+                        var min = list[index].min;
+                        var max = list[index].max;
+                        var avg = list[index].avg;
+
+                        displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg,cluster_name);
+                    }
                 }
                 else{   //추천 행정동 그리기
                     displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
@@ -208,6 +218,9 @@ function Clustering_HangJungDong(category_num,list,userId,address){
 
     //예산
     if(category_num==1){
+        // 1 - 3 - 0 - 2 - 4
+        var fillColors = ["#1C75B7","#0A3C7A","#289CDB","#115493","#38C6FF"];
+        cluster_name = "월세 군집";
 
     }
     //교통
@@ -356,21 +369,41 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,a
 
         customOverlay.setContent('<div class="area">' + name + '</div>');
 
-        var content = '<div class="overlaybox">' +
-            '<div class="boxtitle">'+cluster_name+ ' 상세 정보</div>'+
-            '   <ul>' +
-            '       <li class="up">' +
-            '           <span class="title">군집 평균 값: '+avg+'</span>'+
-            '       </li>'+
-            '       <li>'+
-            '           <span class="title">군집 최소 값: '+min+'</span>'+
-            '       </li>'+
-            '       <li>'+
-            '           <span class="title">군집 최대 값: '+max+'</span>'+
-            '       </li>'+
-            '   </ul>'+
-            '</div>';
+        // displayCluster(coordinates, name,code,addr, fillColor, userId,deposit_avg,monthly_avg,monthly_min,cluster_name);
+        // displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg,cluster_name){
 
+        if (cluster_name=="월세 군집"){
+            var content = '<div class="overlaybox">' +
+                '<div class="boxtitle">'+cluster_name+ ' 상세 정보</div>'+
+                '   <ul>' +
+                '       <li class="up">' +
+                '           <span class="title">보증금 평균: '+parseInt(min)+ ' 만원</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">월세 평균: '+parseInt(max)+ ' 만원</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">월세 최소: '+parseInt(avg)+ ' 만원</span>'+
+                '       </li>'+
+                '   </ul>'+
+                '</div>';
+        }
+        else{
+            var content = '<div class="overlaybox">' +
+                '<div class="boxtitle">'+cluster_name+ ' 상세 정보</div>'+
+                '   <ul>' +
+                '       <li class="up">' +
+                '           <span class="title">군집 평균 값: '+avg+'</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">군집 최소 값: '+min+'</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">군집 최대 값: '+max+'</span>'+
+                '       </li>'+
+                '   </ul>'+
+                '</div>';
+        }
 
         customOverlay.setPosition(mouseEvent.latLng);
         customOverlay.setMap(map1);

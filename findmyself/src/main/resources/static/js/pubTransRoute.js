@@ -271,7 +271,7 @@ function searchSubwayStations(sx, sy, ex, ey) {
                             '           <span class="title">'+totalTime+'</span>'+
                             '       </li>'+
                             '       <li>'+
-                            '           <span class="title">'+"경유 횟수 : 지하철"+station_cnt+"개, 버스 "+bus_cnt+"개"+'</span>'+
+                            '           <span class="title" id="route_num_cnt">'+"경유 횟수 : 지하철"+station_cnt+"개, 버스 "+bus_cnt+"개"+'</span>'+
                             '       </li>'+
                             '       <li>'+
                             '          <span class="title">'+"환승 횟수 : "+transfer_cnt+"번"+'</span>'+
@@ -351,6 +351,16 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         console.log(totalTime);
                         console.log(pathGuide);
                         subwayStationResults = stationResult;
+                        $("#route_num_cnt") //경유 횟수 패널 클릭시, 지도 아래에 경유 역 표시
+                            .click(
+                                function () {
+                                    var stationArr = subwayStationResults.split("/");
+                                    var show_route = document.getElementById("show_route");
+                                    show_route.innerText = "경유 역: ";
+                                    for(var i=0; i<stationArr.length; i++){
+                                        show_route.innerHTML = stationArr[i]+" ";
+                                    }
+                                });
                     }
                 }
             });

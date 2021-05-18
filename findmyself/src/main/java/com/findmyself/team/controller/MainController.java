@@ -4,7 +4,11 @@ import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Safety;
 import com.findmyself.team.data.domain.traffic.Traffic;
+import com.findmyself.team.data.mapcluster.domain.ClusterCharter;
+import com.findmyself.team.data.mapcluster.domain.ClusterConvenient;
 import com.findmyself.team.data.mapcluster.domain.ClusterMonthly;
+import com.findmyself.team.data.mapcluster.service.CharterService;
+import com.findmyself.team.data.mapcluster.service.TotalConvenientService;
 import com.findmyself.team.data.mapcluster.service.MonthlyService;
 import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.traffic.TrafficInfoService;
@@ -26,8 +30,8 @@ public class MainController {
     private final TrafficInfoService trafficInfoService;
     private final SafetyService safetyService;
     private final MonthlyService monthlyService;
-//    private final TrafficClustering trafficClustering;
-//    private final SafetyClustering safetyClustering;
+    private final CharterService charterService;
+    private final TotalConvenientService totalConvenientService;
 
     @GetMapping(value="/")	//로그인 화면으로 이동할때(개발중)
     public String openMain(Model model, HttpServletRequest request) {
@@ -39,6 +43,8 @@ public class MainController {
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
         List<ClusterMonthly> monthlyClustering = monthlyService.findAll();
+        List<ClusterCharter> charterClustering = charterService.findAll();
+        List<ClusterConvenient> convenientClustering = totalConvenientService.findAll();
 
         System.out.println(trafficClustering.get(0).getNo());
 
@@ -48,6 +54,10 @@ public class MainController {
         model.addAttribute("trafficClustering",trafficClustering);
         model.addAttribute("safetyClustering",safetyClustering);
         model.addAttribute("monthlyClustering",monthlyClustering);
+        model.addAttribute("charterClustering",charterClustering);
+
+        model.addAttribute("convenientClustering",convenientClustering);
+
 
         try{
             HttpSession session = request.getSession();
@@ -67,6 +77,8 @@ public class MainController {
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
         List<ClusterMonthly> monthlyClustering = monthlyService.findAll();
+        List<ClusterCharter> charterClustering = charterService.findAll();
+        List<ClusterConvenient> convenientClustering = totalConvenientService.findAll();
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
@@ -74,6 +86,9 @@ public class MainController {
         model.addAttribute("trafficClustering",trafficClustering);
         model.addAttribute("safetyClustering",safetyClustering);
         model.addAttribute("monthlyClustering",monthlyClustering);
+        model.addAttribute("charterClustering",charterClustering);
+        model.addAttribute("convenientClustering",convenientClustering);
+
         model.addAttribute("isLoad",1);
 
         try{

@@ -218,8 +218,8 @@ function Clustering_HangJungDong(category_num,list,userId,address){
 
     //예산
     if(category_num==1){
-        // 1 - 3 - 0 - 2 - 4
-        var fillColors = ["#1C75B7","#0A3C7A","#289CDB","#115493","#38C6FF"];
+        // 3 - 1 - 2 - 0
+        var fillColors = ["#289CDB","#115493","#1C75B7","#0A3C7A"];
         cluster_name = "월세 군집";
 
     }
@@ -231,6 +231,9 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     }
     //편의시설
     else if(category_num==3){
+        //2-0-3-1-4
+        var fillColors = ["#115493","#289CDB","#0A3C7A","#1C75B7","#38C6FF"];
+        cluster_name = "편의시설 군집";
 
     }
     //안전

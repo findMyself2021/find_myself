@@ -164,7 +164,7 @@
                                             style="font-size: 14px">교통</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select3" onclick="Clustering_HangJungDong(3);"
+                                    <button class="btn btn-sm btn-primary" id="btn_select3" onclick="Clustering_HangJungDong(3,cluster_convenient,userId,address);"
                                             style="font-size: 14px">편의시설</button>
                                 </li>
                                 <li class="nav-item">
@@ -200,6 +200,8 @@
                             var cluster_traffic = /*[[ ${trafficClustering} ]]*/;
                             var cluster_safety = /*[[ ${safetyClustering} ]]*/;
                             var cluster_monthly = /*[[ ${monthlyClustering} ]]*/;
+                            var cluster_convenient = /*[[ ${convenientClustering} ]]*/;
+
                             var userId = /*[[ ${session.id} ]]*/;
                             /*]]*/
                         </script>

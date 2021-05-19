@@ -20,14 +20,6 @@
     <script type="text/javascript" src="/js/requirements.js"></script>
     <script type="text/javascript" src="/js/slider.js"></script>
     <script type="text/javascript" src="/js/login.js"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var isLoad = /*[[ ${isLoad} ]]*/;
-        /*]]*/
-        if(isLoad != null){
-            $(".loading").hide();
-        }
-    </script>
 </head>
 <body>
     <div class="loading" id="loading">
@@ -35,9 +27,6 @@
         <h4 style="padding-top: 15px">설정값을 기반으로 적합한 주거지를 찾고 있습니다.</h4>
         <img style="padding-top: 15px" src="/image/loading.gif">
     </div>
-    <script>
-        $(".loading").hide();
-    </script>
     <div class="header">
         <button name="login-btn" id="login-btn" onclick="click_login_btn();">
             <h3 id="login-btn-text">로그인</h3>
@@ -146,7 +135,7 @@
                 </script>
             </div>
 <!--        군집 지도(mapno=1)-->
-            <div class="card bg-gradient-default shadow">
+            <div class="card bg-gradient-default shadow" id="cluster-map">
                 <div class="card-header bg-transparent">
                     <div class="row align-items-center">
                         <div class="col">
@@ -156,7 +145,7 @@
                         <div class="col">
                             <ul class="nav nav-pills justify-content-end">
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select" onclick="Clustering_HangJungDong(1,cluster_monthly,userId,address);"
+                                    <button class="btn btn-sm btn-primary" id="btn_select" onclick="home_clustering(cluster_charter,cluster_monthly,userId,address);"
                                             style="font-size: 14px">예산</button>
                                 </li>
                                 <li class="nav-item">
@@ -199,6 +188,7 @@
                             /*<![CDATA[*/
                             var cluster_traffic = /*[[ ${trafficClustering} ]]*/;
                             var cluster_safety = /*[[ ${safetyClustering} ]]*/;
+                            var cluster_charter = /*[[ ${charterClustering} ]]*/;
                             var cluster_monthly = /*[[ ${monthlyClustering} ]]*/;
                             var cluster_convenient = /*[[ ${convenientClustering} ]]*/;
 
@@ -471,11 +461,19 @@
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
+    var isLoad = /*[[ ${isLoad} ]]*/;
     var id = /*[[ ${session.id} ]]*/;
     /*]]*/
     //로그인 or 로그아웃 버튼 글자 바꾸기
     if(id != null){
         document.getElementById("login-btn-text").innerText = "로그아웃";
+    }
+    if(isLoad != null){
+        $(".loading").hide();
+        $("#cluster-map").show();
+    }else{
+        $(".loading").hide();
+        $("#cluster-map").hide();
     }
 
     loadTopList();  //매칭률 top5 리스트 로드
@@ -505,6 +503,22 @@
             document.getElementById("detail_btn_img").src = "/image/open.png";
         }
         click_cnt++;
+    }
+
+    function home_clustering(cluster_charter,cluster_monthly,userId,address){
+        var chk_home = document.getElementsByName('home-type');
+        var home_type;
+        for(var i=0; i<chk_home.length; i++){
+            if(chk_home[i].checked ==true){
+                home_type = chk_home[i].value;
+            }
+        }
+        console.log("home_type: "+home_type);
+        if(home_type == "charter"){
+            Clustering_HangJungDong(0,cluster_charter,userId,address);
+        }else{
+            Clustering_HangJungDong(1,cluster_monthly,userId,address);
+        }
     }
 </script>
 </html>

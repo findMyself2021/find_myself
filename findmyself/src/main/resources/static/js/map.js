@@ -206,7 +206,7 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list,cluster_na
     })
 }
 
-function Clustering_HangJungDong(category_num,list,userId,address){
+function Clustering_HangJungDong(category_num,list,userId,address, home_type){
     if(userId == null){
         alert("로그인 후 이용 가능합니다.");
         return;
@@ -217,11 +217,15 @@ function Clustering_HangJungDong(category_num,list,userId,address){
     // var fillColors = ["#0A3C7A","#115493","#1C75B7","#289CDB","#38C6FF","#b5e7ff"];
 
     //예산
-    if(category_num==1){
+    if(category_num==0){
+        // 3 - 1 - 2 - 0
+        var fillColors = ["#289CDB","#115493","#1C75B7","#0A3C7A"];
+        cluster_name = "전세 군집";
+    }
+    else if(category_num==1){
         // 3 - 1 - 2 - 0
         var fillColors = ["#289CDB","#115493","#1C75B7","#0A3C7A"];
         cluster_name = "월세 군집";
-
     }
     //교통
     else if (category_num==2){

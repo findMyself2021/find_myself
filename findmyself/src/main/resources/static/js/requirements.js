@@ -9,12 +9,12 @@ function findAddress(){ //학교 or 직장 찾기 api
 
 function check(){ //submit 전 확인 :전월세, 연령 선택 값 얻기, 로그인 여부
 
-    //로딩 중 화면 시작 !
-    $('#loading').show();
-
     if(userId == null){   //비회원은 분석결과 조회 불가
         alert("로그인 후 이용 가능합니다.");
         return false;
+    }else{
+        //로딩 중 화면 시작 !
+        $('#loading').show();
     }
 
     var chk_home = document.getElementsByName('home-type');

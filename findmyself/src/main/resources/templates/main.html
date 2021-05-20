@@ -206,12 +206,11 @@
                     <p>예산</p>
                     <span class="radio icheck-info">
                         <input type="radio" id="info1" name="home-type" value="charter"
-                               onclick='hideMonthly()'>
+                               onclick='hideMonthly()' th:checked="${#strings.equals(rq.home_type, 'charter')}">
                         <label for="info1">전세</label>
-                    </span>
                     <span class="radio icheck-info">
                         <input type="radio" id="info2" name="home-type" value="monthly"
-                               onclick='showMonthly()' checked="checked">
+                               onclick='showMonthly()' th:checked="${#strings.equals(rq.home_type, 'monthly')}">
                         <label for="info2">월세</label><br><br>
                     </span>
                     <div id="depoist_wrap">

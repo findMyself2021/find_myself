@@ -152,7 +152,7 @@ function searchCarRoute(startX,startY,endX,endY) {
                                 '<div class="boxtitle">자동차 경로 검색 결과</div>'+
                                 '   <ul>' +
                                 '       <li class="up">' +
-                                '           <span class="title">'+tDistance+'</span>'+
+                                '           <span class="title" >'+tDistance+'</span>'+
                                 '       </li>'+
                                 '       <li>'+
                                 '           <span class="title">'+tTime+'</span>'+
@@ -588,4 +588,7 @@ function summarizeCarResult() {
 
     console.log("carTrafficArr정보: "+ carTrafficArr);
     console.log("carSummaryArr정보: "+ carSummaryArr);
+
+    // 상세 경로 보여주기
+    //document.getElementById("show_route").innerText = ??;
 }

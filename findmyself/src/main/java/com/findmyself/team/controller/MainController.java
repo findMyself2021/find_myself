@@ -34,11 +34,20 @@ public class MainController {
     private final TotalConvenientService totalConvenientService;
 
     @GetMapping(value="/")	//로그인 화면으로 이동할때(개발중)
-    public String openMain(Model model, HttpServletRequest request) {
+    public String openMain(Requirements rq,Model model, HttpServletRequest request) {
 
-        Requirements rq = new Requirements().defaultRequirements();
-        List<Long> codeList = null;
-        List<DongInfo> topInfoList = null;
+        List<Long> codeList;
+        List<DongInfo> topInfoList;
+
+        if(rq.getHome_type() == null){
+            rq = new Requirements().defaultRequirements();
+            codeList = null;
+            topInfoList = null;
+        }else{
+            codeList = analysisService.analysis(rq);
+            topInfoList = analysisService.findMatchingTop(rq,codeList);
+        }
+
 
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
@@ -46,7 +55,7 @@ public class MainController {
         List<ClusterCharter> charterClustering = charterService.findAll();
         List<ClusterConvenient> convenientClustering = totalConvenientService.findAll();
 
-        System.out.println(trafficClustering.get(0).getNo());
+        //System.out.println(trafficClustering.get(0).getNo());
 
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
@@ -74,6 +83,7 @@ public class MainController {
 
         List<Long> codeList = analysisService.analysis(rq);
         List<DongInfo> topInfoList = analysisService.findMatchingTop(rq,codeList);
+
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
         List<ClusterMonthly> monthlyClustering = monthlyService.findAll();

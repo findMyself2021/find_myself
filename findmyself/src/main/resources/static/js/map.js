@@ -198,7 +198,8 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list,cluster_na
                         displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg,cluster_name);
                     }
                 }
-                else{   //추천 행정동 그리기
+                //추천 행정동 그리기
+                else{
                     displayHangJungDong(coordinates, name,code,addr, fillColor, userId);
                 }
             }
@@ -214,12 +215,12 @@ function Clustering_HangJungDong(category_num,list,userId,address, home_type){
     deletePolygon(polygons1);
     Get_Hcode(list);
 
-    // var fillColors = ["#0A3C7A","#115493","#1C75B7","#289CDB","#38C6FF","#b5e7ff"];
+    //var fillColors = ["#0A3C7A","#115493","#1C75B7","#289CDB","#38C6FF","#b5e7ff"];
 
     //예산
     if(category_num==0){
-        // 3 - 1 - 2 - 0
-        var fillColors = ["#289CDB","#115493","#1C75B7","#0A3C7A"];
+        //3 - 1 - 4 -2 - 0
+        var fillColors = ["#38C6FF","#115493","#289CDB","#0A3C7A","#1C75B7"];
         cluster_name = "전세 군집";
     }
     else if(category_num==1){
@@ -395,18 +396,34 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,a
                 '   </ul>'+
                 '</div>';
         }
+        else if (cluster_name=="전세 군집"){
+            var content = '<div class="overlaybox">' +
+                '<div class="boxtitle">'+cluster_name+ ' 상세 정보</div>'+
+                '   <ul>' +
+                '       <li class="up">' +
+                '           <span class="title">보증금 평균: '+parseInt(avg)+' 만원</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">보증금 최소: '+parseInt(min)+' 만원</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">보증금 최대: '+parseInt(max)+' 만원</span>'+
+                '       </li>'+
+                '   </ul>'+
+                '</div>';
+        }
         else{
             var content = '<div class="overlaybox">' +
                 '<div class="boxtitle">'+cluster_name+ ' 상세 정보</div>'+
                 '   <ul>' +
                 '       <li class="up">' +
-                '           <span class="title">군집 평균 값: '+avg+'</span>'+
+                '           <span class="title">평균: '+avg+'</span>'+
                 '       </li>'+
                 '       <li>'+
-                '           <span class="title">군집 최소 값: '+min+'</span>'+
+                '           <span class="title">최소: '+min+'</span>'+
                 '       </li>'+
                 '       <li>'+
-                '           <span class="title">군집 최대 값: '+max+'</span>'+
+                '           <span class="title">최대: '+max+'</span>'+
                 '       </li>'+
                 '   </ul>'+
                 '</div>';

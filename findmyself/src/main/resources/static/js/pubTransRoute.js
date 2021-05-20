@@ -4,7 +4,7 @@ var startArrIdx = 0, endArrIdx = 0;
 var test = 0;
 var subwayStationResults = "";
 var stationInfo = ""; // 대중교통 경로 분석 결과 요약 데이터
-var stationInfoArr, stationTrafficArr, stationSummaryArr;
+var stationInfoArr, stationTrafficArr, stationSummaryArr, stationNumArr;
 
 // 대중교통 길찾기 지도에 표시하는 함수
 function searchPubTransRoute(sx, sy, ex, ey) {
@@ -499,6 +499,7 @@ function summarizePubResult() {
     stationInfoArr = stationInfo.split('|');
     stationTrafficArr = stationInfoArr[0].split('/');
     stationSummaryArr = stationInfoArr[1].split('/');
+    stationNumArr = stationInfoArr[2].split('/');
 
     // 자세한 정보
     for(var i = 0; i < stationTrafficArr.length-1; i++) {
@@ -510,6 +511,12 @@ function summarizePubResult() {
         stationSummaryArr[j] = stationSummaryArr[j].split(',');
     }
 
-    console.log("stationTrafficArr정보: "+stationTrafficArr);
-    console.log("stationSummaryArr정보: "+stationSummaryArr);
+    // 승하차인원 정보
+    for(var j = 0; j < stationNumArr.length-1; j++) {
+        stationNumArr[j] = stationNumArr[j].split(',');
+    }
+
+    console.log(stationTrafficArr);
+    console.log(stationSummaryArr);
+    console.log(stationNumArr);
 }

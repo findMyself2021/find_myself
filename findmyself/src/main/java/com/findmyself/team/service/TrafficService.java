@@ -90,7 +90,21 @@ public class TrafficService {
 
         TrafficInfo infoResult = new TrafficInfo();
         infoResult.setStationInfo(subResult2);
-        result += "|" + subResult2;
+        result += "|" + subResult2 + "|";
+
+        // 지하철 승하차 인원
+        result += ((int)(subwayService.findOne(stations[0]).getIn_6h()/365 + 1) + (int)(subwayService.findOne(stations[0]).getOut_6h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[0]).getIn_7h()/365 + 1) + (int)(subwayService.findOne(stations[0]).getOut_7h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[0]).getIn_8h()/365 + 1) + (int)(subwayService.findOne(stations[0]).getOut_8h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[0]).getIn_17h()/365 + 1) + (int)(subwayService.findOne(stations[0]).getOut_17h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[0]).getIn_18h()/365 + 1) + (int)(subwayService.findOne(stations[0]).getOut_18h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[0]).getIn_19h()/365 + 1) + (int)(subwayService.findOne(stations[0]).getOut_19h()/365 + 1)) + "/";
+        result += ((int)(subwayService.findOne(stations[stations.length-1]).getIn_6h()/365 + 1) + (int)(subwayService.findOne(stations[stations.length-1]).getOut_6h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[stations.length-1]).getIn_7h()/365 + 1) + (int)(subwayService.findOne(stations[stations.length-1]).getOut_7h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[stations.length-1]).getIn_8h()/365 + 1) + (int)(subwayService.findOne(stations[stations.length-1]).getOut_8h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[stations.length-1]).getIn_17h()/365 + 1) + (int)(subwayService.findOne(stations[stations.length-1]).getOut_17h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[stations.length-1]).getIn_18h()/365 + 1) + (int)(subwayService.findOne(stations[stations.length-1]).getOut_18h()/365 + 1)) + ",";
+        result += ((int)(subwayService.findOne(stations[stations.length-1]).getIn_19h()/365 + 1) + (int)(subwayService.findOne(stations[stations.length-1]).getOut_19h()/365 + 1));
 
         return result;
     }
@@ -101,10 +115,9 @@ public class TrafficService {
         int latitudeIdx = 0;
         int dupCheck = 0;
         String result = "";
-        //String subResult = "";
         List<String> trafficPoints = new ArrayList<String>();
 
-        //subwayStations 문자열 리스트로 나누고 검색하고 리턴
+        //carRouteInfo 문자열 리스트로 나누고 검색하고 리턴
         String[] carRoute = carRouteInfo.split(",");
         List<Float> carRouteLocation = new ArrayList<Float>();
 
@@ -173,7 +186,20 @@ public class TrafficService {
 
         TrafficInfo infoResult = new TrafficInfo();
         infoResult.setCarInfo(subResult);
-        result += "|" + subResult;
+        result += "|" + subResult + "|";
+
+        // 교통량 정보
+        for(int i = 0; i < trafficPoints.size(); i++) {
+            if(i == 0 || i == trafficPoints.size() - 1) {
+                result += (int)(volumeService.findOne(trafficPoints.get(i)).get_6h()/30) + ",";
+                result += (int)(volumeService.findOne(trafficPoints.get(i)).get_7h()/30) + ",";
+                result += (int)(volumeService.findOne(trafficPoints.get(i)).get_8h()/30) + ",";
+                result += (int)(volumeService.findOne(trafficPoints.get(i)).get_17h()/30) + ",";
+                result += (int)(volumeService.findOne(trafficPoints.get(i)).get_18h()/30) + ",";
+                result += (int)(volumeService.findOne(trafficPoints.get(i)).get_19h()/30) + "/";
+            }
+        }
+
         return result;
     }
 

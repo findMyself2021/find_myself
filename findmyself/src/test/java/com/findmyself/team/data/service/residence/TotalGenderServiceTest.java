@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class GenderServiceTest {
+public class TotalGenderServiceTest {
 
     @PersistenceContext
     EntityManager em;

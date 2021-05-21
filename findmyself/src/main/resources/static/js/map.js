@@ -247,9 +247,17 @@ function Clustering_HangJungDong(category_num,list,userId,address, home_type){
         var fillColors = ["#38C6FF","#0A3C7A","#1C75B7","#289CDB","#115493"];
         cluster_name = "안전 군집";
     }
-    //주변
+    //성비
     else if(category_num==5){
-
+        //0 - 4 - 1 - 2 - 3
+        var fillColors = ["#0A3C7A","#1C75B7","#289CDB","#38C6FF","#115493"];
+        cluster_name= "성비 군집";
+    }
+    //나이
+    else if(category_num==6){
+        //0 - 4 - 1 - 3 - 2 - 5
+        var fillColors = ["#0a3c7a","#6977a5","#b3b8d2","#8e97bb","#42588f","#d9dbe8"];
+        cluster_name="나이 군집";
     }
 
     if(list != null && userId != null) {

@@ -161,8 +161,12 @@
                                             style="font-size: 14px">안전</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-primary" id="btn_select5" onclick="Clustering_HangJungDong(5);"
-                                            style="font-size: 14px">주변</button>
+                                    <button class="btn btn-sm btn-primary" id="btn_select5" onclick="Clustering_HangJungDong(5,cluster_gender,userId,address);"
+                                            style="font-size: 14px">성비</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="btn btn-sm btn-primary" id="btn_select6" onclick="Clustering_HangJungDong(6,cluster_age,userId,address);"
+                                            style="font-size: 14px">나이</button>
                                 </li>
                             </ul>
                         </div>
@@ -191,6 +195,9 @@
                             var cluster_charter = /*[[ ${charterClustering} ]]*/;
                             var cluster_monthly = /*[[ ${monthlyClustering} ]]*/;
                             var cluster_convenient = /*[[ ${convenientClustering} ]]*/;
+                            var cluster_gender = /*[[ ${genderClustering} ]]*/;
+                            var cluster_age = /*[[ ${ageClustering} ]]*/;
+
 
                             var userId = /*[[ ${session.id} ]]*/;
                             /*]]*/

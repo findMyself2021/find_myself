@@ -155,8 +155,10 @@ function displayArea(coordinates,mapno) {
 function Get_Hcode(list){
     for (var i=0;i<list.length;i++)
     {
-        hcode_list.push(list[i].h_code);
+        hcode_list[i] = list[i].h_code;
+        // hcode_list.push(list[i].h_code);
     }
+    console.log(hcode_list);
 }
 
 //행정동 기준으로 폴리곤 생성
@@ -257,7 +259,7 @@ function Clustering_HangJungDong(category_num,list,userId,address, home_type){
     else if(category_num==6){
         //0 - 4 - 1 - 3 - 2 - 5
         var fillColors = ["#0a3c7a","#6977a5","#b3b8d2","#8e97bb","#42588f","#d9dbe8"];
-        cluster_name="나이 군집";
+        cluster_name="평균 나이 군집";
     }
 
     if(list != null && userId != null) {
@@ -416,6 +418,22 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,a
                 '       </li>'+
                 '       <li>'+
                 '           <span class="title">보증금 최대: '+parseInt(max)+' 만원</span>'+
+                '       </li>'+
+                '   </ul>'+
+                '</div>';
+        }
+        else if (cluster_name=="평균 나이 군집"){
+            var content = '<div class="overlaybox">' +
+                '<div class="boxtitle">'+cluster_name+ ' 상세 정보</div>'+
+                '   <ul>' +
+                '       <li class="up">' +
+                '           <span class="title">군집 평균 나이: '+parseInt(avg)+' 세</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">군집 내 최소(평균) 나이: '+parseInt(min)+' 세</span>'+
+                '       </li>'+
+                '       <li>'+
+                '           <span class="title">군집 내 최대(평균) 나이: '+parseInt(max)+' 세</span>'+
                 '       </li>'+
                 '   </ul>'+
                 '</div>';

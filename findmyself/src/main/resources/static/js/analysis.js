@@ -1,35 +1,42 @@
 function postStationInfo() {
     console.log(subwayStationResults);
-    $('.sub_Result').val(subwayStationResults);
-    $.ajax({
-        type : "POST",
-        url : "/mapAnalysis2",
-        data : $("#postStationForm").serialize(),
-        error : function(error) {
-            console.log("error");
-        },
-        success : function(data) {
-            console.log("success");
 
-        }
-    });
+    if(subwayStationResults !== "") {
+        $('.sub_Result').val(subwayStationResults);
+        $.ajax({
+            type: "POST",
+            url: "/mapAnalysis2",
+            data: $("#postStationForm").serialize(),
+            error: function (error) {
+                console.log("error");
+            },
+            success: function (data) {
+                console.log("success");
+
+            }
+        });
+    } else {
+        console.log("경유 지하철역 없음");
+    }
 }
 
 function  getStationInfo() {
-    setTimeout(function () {
-        $.ajax({
-            type : "GET",
-            url : "/mapAnalysis3",
-            error : function(error) {
-                console.log("error");
-            },
-            success : function(data) {
-                console.log("success");
-                stationInfo = data;
-                summarizePubResult();
-            }
-        });
-    }, 300);
+    if(subwayStationResults !== "") {
+        setTimeout(function () {
+            $.ajax({
+                type: "GET",
+                url: "/mapAnalysis3",
+                error: function (error) {
+                    console.log("error");
+                },
+                success: function (data) {
+                    console.log("success");
+                    stationInfo = data;
+                    summarizePubResult();
+                }
+            });
+        }, 300);
+    }
 }
 
 function postCarRouteInfo() {

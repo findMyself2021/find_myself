@@ -33,6 +33,7 @@ public class TrafficService {
     public String searchSubwayInfo(String subwayStations) {
 
         String result = "";
+        subResult2 = "";
 
         //subwayStations 문자열 리스트로 나누고 검색하고 리턴
         String[] stations = subwayStations.split("/");
@@ -115,6 +116,7 @@ public class TrafficService {
         int latitudeIdx = 0;
         int dupCheck = 0;
         String result = "";
+        subResult = "";
         List<String> trafficPoints = new ArrayList<String>();
 
         //carRouteInfo 문자열 리스트로 나누고 검색하고 리턴

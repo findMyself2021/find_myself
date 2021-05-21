@@ -76,6 +76,7 @@ public class MainController {
         model.addAttribute("rq",rq);
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
+
         model.addAttribute("trafficClustering",trafficClustering);
         model.addAttribute("safetyClustering",safetyClustering);
         model.addAttribute("monthlyClustering",monthlyClustering);

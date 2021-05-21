@@ -116,11 +116,11 @@ function drawTrafficChart(carNumArr, len){
     var data = google.visualization.arrayToDataTable([
         ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
         ['am 6-7시', carNumArr[0][0], carNumArr[len-2][0]],
-        ['am 7-8시', carNumArr[0][1], carNumArr[len-2][0]],
-        ['am 8-9시', carNumArr[0][2], carNumArr[len-2][0]],
-        ['pm 5-6시', carNumArr[0][3], carNumArr[len-2][0]],
-        ['pm 6-7시', carNumArr[0][4], carNumArr[len-2][0]],
-        ['pm 7-8시', carNumArr[0][5], carNumArr[len-2][0]]
+        ['am 7-8시', carNumArr[0][1], carNumArr[len-2][1]],
+        ['am 8-9시', carNumArr[0][2], carNumArr[len-2][2]],
+        ['pm 5-6시', carNumArr[0][3], carNumArr[len-2][3]],
+        ['pm 6-7시', carNumArr[0][4], carNumArr[len-2][4]],
+        ['pm 7-8시', carNumArr[0][5], carNumArr[len-2][5]]
     ]);
     var options = {
         width: '100%',
@@ -135,11 +135,11 @@ function drawTrafficChart_pub(carNumArr, len){
     var data = google.visualization.arrayToDataTable([
         ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
         ['am 6-7시', carNumArr[0][0], carNumArr[len-1][0]],
-        ['am 7-8시', carNumArr[0][1], carNumArr[len-1][0]],
-        ['am 8-9시', carNumArr[0][2], carNumArr[len-1][0]],
-        ['pm 5-6시', carNumArr[0][3], carNumArr[len-1][0]],
-        ['pm 6-7시', carNumArr[0][4], carNumArr[len-1][0]],
-        ['pm 7-8시', carNumArr[0][5], carNumArr[len-1][0]]
+        ['am 7-8시', carNumArr[0][1], carNumArr[len-1][1]],
+        ['am 8-9시', carNumArr[0][2], carNumArr[len-1][2]],
+        ['pm 5-6시', carNumArr[0][3], carNumArr[len-1][3]],
+        ['pm 6-7시', carNumArr[0][4], carNumArr[len-1][4]],
+        ['pm 7-8시', carNumArr[0][5], carNumArr[len-1][5]]
     ]);
     var options = {
         width: '100%',

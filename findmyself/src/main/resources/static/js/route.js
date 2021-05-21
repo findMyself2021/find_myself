@@ -595,8 +595,6 @@ function summarizeCarResult() {
     console.log(carSummaryArr);
     console.log(carNumArr)
 
-    showCarTrafficChart(carNumArr);
-
     var carRouteName = '';
 
     for(var j = 0; j < carSummaryArr.length-1; j++) {
@@ -605,9 +603,16 @@ function summarizeCarResult() {
             carRouteName += ' ';
         }
     }
-    $('#detail-route').show();
-    $('#traffic-chart-title').show();
-    document.getElementById("show_route").innerText = carRouteName;
+    if(carNumArr.length != 1){
+        showCarTrafficChart(carNumArr);
+        $('#detail-route').show();
+        $('#traffic-chart-title').show();
+        document.getElementById("show_route").innerText = carRouteName;
+    }else{
+        $('#detail-route').show();
+        document.getElementById("show_route").innerText = "상세 경로 표시하기에 짧은 거리 입니다.";
+    }
+
 }
 function showCarTrafficChart(carNumArr){
     var len = carNumArr.length;

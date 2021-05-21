@@ -16,6 +16,7 @@ import com.findmyself.team.data.service.home.HomeTypeService;
 import com.findmyself.team.data.service.residence.age.AgeService;
 import com.findmyself.team.data.service.residence.GenderService;
 import com.findmyself.team.data.service.traffic.TrafficInfoService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ import java.util.*;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AnalysisService {
+
+    private Map<Long, Double> intervalValues = new HashMap<>();
 
     @Autowired
     HomeService homeService;
@@ -140,8 +143,11 @@ public class AnalysisService {
                 }if(ageList.contains(code)) {
                     cnt++;
                 }
-                if(cnt>=2){ //예산 외 조건 2개 이상 충족하면 추천
-                    codeList.add(code);
+                if(cnt==5){ //조건 모두 충족하면 추천
+                    //codeList.add(code);
+                }else if(cnt >= 2){ //조건 3개 이상 충족
+                    //군집화2 결과 이용 !
+                    codeList.add(code);//임시!
                 }
             }
         }
@@ -153,23 +159,22 @@ public class AnalysisService {
     }
 
     // top 매칭률 분석
-    // (위 분석에서)필터링 된 리스트 이용
+    // (위 분석에서)추천된 리스트 이용
     public List<DongInfo> findMatchingTop(Requirements rq, List<Long> codeList){
 
         List<DongInfo> topInfoList;
 
-        Map<Integer, Long> intervalList = new HashMap<>();
+        Map<Double, Long> intervalList = new HashMap<>();
 
-        int interval = 0;
-
+        double interval = 0;
+        //보증금, 월세, 교통량, 편의시설, 안전, 성비, 연령 -> 7
         // 추출한 추천 행정동 리스트에서 매칭률 높은곳 찾기
         // 인터벌 값이 작을수록 좋음
         for(Long code_tmp: codeList){
-            //System.out.println("행정동 코드: "+ code_tmp);
-
             // 전월세 설정값에 가까운
             if(rq.getHome_type().equals("charter")){    //전세 필터링 경우
                 interval += rq.getDeposit() - homeService.findDepositAvgByCharter(code_tmp);
+                interval += 100; //월세부분 무시하기 위해
             }else{  //월세 필터링 경우
                 interval += rq.getDeposit() - homeService.findDepositAvgByMonthly(code_tmp);
                 interval += rq.getMonthly() - homeService.findMonthlyAvgByMonthly(code_tmp);
@@ -196,7 +201,7 @@ public class AnalysisService {
             }else if(preferGender.equals("m")){    //남초 선호
                 interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
                         - genderService.findMax()));
-            }else{  //반반
+            }else{  //"none"
                 interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
                         - genderService.getMidValue()));
             }
@@ -204,8 +209,9 @@ public class AnalysisService {
             //선택 연령대 인구수의 최대값에 가까운
             String age_type = rq.getAge_type();
             interval += ageService.findInterval(code_tmp,age_type);
-
+            interval = interval/7*100;
             intervalList.put(interval, code_tmp);
+            intervalValues.put(code_tmp, interval);
         }
 
         topInfoList = sortIntervalList(intervalList);
@@ -213,12 +219,12 @@ public class AnalysisService {
         return topInfoList;
     }
 
-    //인터벌값 오름차순 정렬(매칭률 top5): 상위 20개 선출 -> 상위 5개 출력
-    public List<DongInfo> sortIntervalList(Map<Integer, Long> intervalList){
+    //인터벌값 오름차순 정렬(매칭률 top): 상위 20개 선출 -> 상위 5개 출력
+    public List<DongInfo> sortIntervalList(Map<Double, Long> intervalList){
 
         List<DongInfo> topInfoList = new ArrayList<>();
 
-        List<Integer> keys = new ArrayList<>(intervalList.keySet());
+        List<Double> keys = new ArrayList<>(intervalList.keySet());
         Collections.sort(keys);
 
         int cnt=20;
@@ -229,7 +235,7 @@ public class AnalysisService {
         // 결과 출력
         for (int i=0; i<cnt; i++)
         {
-            int itv = keys.get(i);
+            double itv = keys.get(i);
             Long h_code = intervalList.get(keys.get(i));
             String gu = gudongService.findOne(h_code).getGu();
             String h_dong = gudongService.findOne(h_code).getH_dong();
@@ -280,7 +286,7 @@ public class AnalysisService {
         double elder = ageService.findOne(code,"elder");;
 
         //매칭률
-        double matching_ratio = 0.0;
+        double matching_ratio = intervalValues.get(code);
         //거주자 만족도
         double satisfy_ratio = satisfyService.findOne(code).getValue();
 

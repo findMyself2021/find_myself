@@ -507,7 +507,7 @@ function summarizePubResult() {
     }
 
     // 승하차인원 정보
-    for(var j = 0; j < stationNumArr.length-1; j++) {
+    for(var j = 0; j < stationNumArr.length; j++) {
         stationNumArr[j] = stationNumArr[j].split(',');
     }
 

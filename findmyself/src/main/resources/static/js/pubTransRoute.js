@@ -350,17 +350,12 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         console.log(stationResult);
                         console.log(totalTime);
                         console.log(pathGuide);
+
+                        $('#detail-route').hide();
+                        $('#show_route').hide();
+                        document.getElementById("show_route").innerText = pathGuide;
+
                         subwayStationResults = stationResult;
-                        $("#route_num_cnt") //경유 횟수 패널 클릭시, 지도 아래에 경유 역 표시
-                            .click(
-                                function () {
-                                    var stationArr = subwayStationResults.split("/");
-                                    var show_route = document.getElementById("show_route");
-                                    show_route.innerText = "경유 역: ";
-                                    for(var i=0; i<stationArr.length; i++){
-                                        show_route.innerHTML = stationArr[i]+" ";
-                                    }
-                                });
                     }
                 }
             });
@@ -519,4 +514,16 @@ function summarizePubResult() {
     console.log(stationTrafficArr);
     console.log(stationSummaryArr);
     console.log(stationNumArr);
+
+    showPubTrafficChart(stationNumArr);
+
+    var pubRouteName = '';
+
+    $('#detail-route').show();
+    $('#show_route').show();
+    $('#traffic-chart-title').show();
+}
+function showPubTrafficChart(carNumArr){
+    var len = carNumArr.length;
+    drawTrafficChart_pub(carNumArr, len);
 }

@@ -105,15 +105,15 @@ function monthly_info_click(){  //월세가 클릭시
 }
 
 //분야별 구글차트 그리기
-function drawTrafficChart(){
+function drawTrafficChart(carNumArr, len){
     var data = google.visualization.arrayToDataTable([
         ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
-        ['am 6-7시', 1000, 400],
-        ['am 7-8시', 1170, 460],
-        ['am 8-9시', 660, 1120],
-        ['pm 5-6시', 1000, 400],
-        ['pm 6-7시', 1170, 460],
-        ['pm 7-8시', 660, 1120]
+        ['am 6-7시', carNumArr[0][0], carNumArr[len-2][0]],
+        ['am 7-8시', carNumArr[0][1], carNumArr[len-2][0]],
+        ['am 8-9시', carNumArr[0][2], carNumArr[len-2][0]],
+        ['pm 5-6시', carNumArr[0][3], carNumArr[len-2][0]],
+        ['pm 6-7시', carNumArr[0][4], carNumArr[len-2][0]],
+        ['pm 7-8시', carNumArr[0][5], carNumArr[len-2][0]]
     ]);
     var options = {
         width: '100%',
@@ -121,10 +121,28 @@ function drawTrafficChart(){
         backgroundColor: { fill: "#e9f1f5" }
     };
 
-    var chart = new google.charts.Bar(document.getElementById('subway-chart'));
+    var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
+function drawTrafficChart_pub(carNumArr, len){
+    var data = google.visualization.arrayToDataTable([
+        ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
+        ['am 6-7시', carNumArr[0][0], carNumArr[len-1][0]],
+        ['am 7-8시', carNumArr[0][1], carNumArr[len-1][0]],
+        ['am 8-9시', carNumArr[0][2], carNumArr[len-1][0]],
+        ['pm 5-6시', carNumArr[0][3], carNumArr[len-1][0]],
+        ['pm 6-7시', carNumArr[0][4], carNumArr[len-1][0]],
+        ['pm 7-8시', carNumArr[0][5], carNumArr[len-1][0]]
+    ]);
+    var options = {
+        width: '100%',
+        height: 200,
+        backgroundColor: { fill: "#e9f1f5" }
+    };
 
+    var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+}
 function drawHomeChart() {
     var data = google.visualization.arrayToDataTable([
         ['category', '비율'],

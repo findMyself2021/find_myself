@@ -106,7 +106,6 @@ function searchCarRoute(startX,startY,endX,endY) {
     $("#btn_select")
         .click(
             function() {
-
                 //기존 맵에 있던 정보들 초기화
                 resettingMap();
 
@@ -596,6 +595,21 @@ function summarizeCarResult() {
     console.log(carSummaryArr);
     console.log(carNumArr)
 
-    // 상세 경로 보여주기
-    //document.getElementById("show_route").innerText = ??;
+    showCarTrafficChart(carNumArr);
+
+    var carRouteName = '';
+
+    for(var j = 0; j < carSummaryArr.length-1; j++) {
+        carRouteName += (carSummaryArr[j][0].split("부근"))[0];
+        if(j != carSummaryArr.length-2 ){
+            carRouteName += ' ';
+        }
+    }
+    $('#detail-route').show();
+    $('#traffic-chart-title').show();
+    document.getElementById("show_route").innerText = carRouteName;
+}
+function showCarTrafficChart(carNumArr){
+    var len = carNumArr.length;
+    drawTrafficChart(carNumArr, len);
 }

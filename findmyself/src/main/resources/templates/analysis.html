@@ -125,11 +125,10 @@
                             </div><br>
 <!--                            car-chart만들어서 버튼 클릭에 따라 보이게 하기-->
                             <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0">상세 경로</h5>
-                                <h4 class="h3 font-weight-bold mb-0" id="show_route"></h4>
-                                <h5 class="card-title text-uppercase text-muted mb-0">출퇴근시간 대중교통량</h5>
-                                <div id="subway-chart" class="card-body" style="padding-left: 0px"></div>
-
+                                <h5 class="card-title text-uppercase text-muted mb-0" id="detail-route" style="display: none">상세 경로</h5><br><br>
+                                <h4 class="h4 font-weight-bold mb-0" id="show_route" style="padding-top: 5px;"></h4><br><br><br>
+                                <h5 class="card-title text-uppercase text-muted mb-0" id="traffic-chart-title" style="display: none; padding-top: 10px;" >출퇴근시간 교통량</h5>
+                                <div id="traffic-chart" class="card-body" style="padding-left: 0px"></div>
                             </div>
                         </div>
                     </div>
@@ -315,12 +314,6 @@
             document.getElementById("login-btn-text").innerText = "로그아웃";
         }
 
-        /*var busInfoSample = getStationInfo();
-        var carInfoSample = getCarRouteInfo();
-
-        document.getElementById("sam1").innerHTML = busInfoSample;
-        document.getElementById("sam2").innerHTML = carInfoSample;*/
-
         /*<![CDATA[*/
         var topDisInfoList = /*[[ ${topDisInfoList} ]]*/;
         var resultByClikck = /*[[ ${resultByClikck} ]]*/;
@@ -356,7 +349,7 @@
         /*]]*/
 
         google.charts.load('current', {packages: ['corechart', 'bar']});
-        google.charts.setOnLoadCallback(drawTrafficChart);
+        //google.charts.setOnLoadCallback(drawTrafficChart);
         google.charts.setOnLoadCallback(drawHomeChart);
         google.charts.setOnLoadCallback(drawConvChart);
         google.charts.setOnLoadCallback(drawSexChart);

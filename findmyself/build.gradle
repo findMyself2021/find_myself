@@ -18,7 +18,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     //쿼리 파라미터 로그
-    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+    //implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
     compile 'mysql:mysql-connector-java'
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'

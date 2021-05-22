@@ -61,12 +61,12 @@
                                     <h2 class="text-darker mb-0" th:text="${gu} + ' '+ ${hdong}"></h2>
                                 </div>
                                 <div class="col">
-                                    <h3 style="text-align: right" th:text="'설정값 매칭률: '+ ${analysisInfos.matching_ratio}+ '%'"></h3>
+                                    <h3 style="text-align: right" th:text="'매칭률: '+ ${analysisInfos.matching_ratio}+ '%'"></h3>
                                     <h3 style="text-align: right" th:text="'생활 만족도: 상위 '+ ${analysisInfos.satisfy_ratio}+ '%'"></h3>
                                 </div>
                             </div>
                         </div>
-                        <!--    <p class="hcode" th:text="'행정동코드: ' + ${hcode}"></p>-->
+<!--                        교통지도+분석 부분-->
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -125,8 +125,8 @@
                             </div><br>
 <!--                            car-chart만들어서 버튼 클릭에 따라 보이게 하기-->
                             <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0" id="detail-route" style="display: none">상세 경로</h5><br><br>
-                                <h4 class="h4 font-weight-bold mb-0" id="show_route"></h4><br><br><br>
+                                <h5 class="card-title text-uppercase text-muted mb-0" id="detail-route" style="display: none">상세 경로</h5><br>
+                                <h4 class="h4 font-weight-bold mb-0" id="show_route"></h4><br><br>
                                 <h5 class="card-title text-uppercase text-muted mb-0" id="traffic-chart-title" style="display: none" >출퇴근시간 교통량</h5>
                                 <div id="traffic-chart" class="card-body" style="padding-left: 0px"></div>
                             </div>
@@ -134,6 +134,7 @@
                     </div>
                     <br>
                 </div>
+<!--                분야별 상세 분석 부분-->
                 <div class="col-xl-4" id="detail-analysis-wrap">
                     <div class="card shadow">
                         <div class="card-header bg-transparent">
@@ -225,6 +226,7 @@
                     </div>
                 </div>
             </div>
+<!--            추천 분석 부분(거리가 가까운, 사용자 활동 기반)-->
             <div class="row mt-5">
                 <div class="col-xl-8 mb-5 mb-xl-0">
                     <div class="card shadow">
@@ -240,7 +242,11 @@
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th scope="col" colspan="2">학교/직장과 가까운</th>
+                                    <th scope="col" colspan="2">학교/직장과 가까운
+                                        <a href="#!" onclick="dis_info_btn()">
+                                            <img src="/image/information.png" style="width: 5%">
+                                        </a>
+                                    </th>
                                     <th scope="col" colspan="2"></th>
                                     <th scope="col" colspan="2"></th>
                                     <th scope="col" colspan="2" th:text="${addr}" style="text-align: right"></th>
@@ -262,7 +268,11 @@
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">개인 맞춤형 추천</th>
+                                    <th scope="col">개인 맞춤형 추천
+                                        <a href="#!" onclick="user_info_btn()">
+                                            <img src="/image/information.png" style="width: 5%">
+                                        </a>
+                                    </th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
@@ -280,20 +290,31 @@
                         </div>
                     </div>
                 </div>
+<!--                유사도 기반 추천-->
                 <div class="col-xl-4">
                     <div class="card shadow">
-                        <div class="card-header border-0">
+                        <div class="card-header bg-transparent">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h2 class="mb-0">행정동 분포도</h2>
+                                    <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${hdong}">과(와) 유사한 동네</h6>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0" th:text="${gu} + ' '+ ${hdong}">거주연령</h5>
-                                    <div id="cluster_chart" class="card-body" style="width: 100%; padding: 0px"></div>
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <span class="h2 font-weight-bold mb-0">1동</span>
+                                                <span class="h2 font-weight-bold mb-0">2동</span>
+                                            </div>
+                                            <div class="col">
+                                                <span class="h4 font-weight-bold mb-0">11%</span>
+                                                <span class="h4 font-weight-bold mb-0">22%</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -354,7 +375,6 @@
         google.charts.setOnLoadCallback(drawConvChart);
         google.charts.setOnLoadCallback(drawSexChart);
         google.charts.setOnLoadCallback(drawAgeChart);
-        google.charts.setOnLoadCallback(drawClusterChart);
     </script>
     <form id="postStationForm" name="postStationForm">
         <input class="sub_Result" id="sub_Result" name="sub_Result" type="hidden">

@@ -375,7 +375,7 @@ public class AnalysisService {
             }
         });
 
-        System.out.println("내림 차순 정렬 완료");
+        //System.out.println("내림 차순 정렬 완료");
         linkedParseClickMap.clear();
 
         //top4로 자르기
@@ -389,7 +389,7 @@ public class AnalysisService {
 
         //member 테이블 내 top4 데이터 수정
         for(Long key: linkedParseClickMap.keySet()) {
-            System.out.println(key+", "+linkedParseClickMap.get(key));
+            //System.out.println(key+", "+linkedParseClickMap.get(key));
             topClickInfoList.add(key.toString()+","+linkedParseClickMap.get(key).toString());
         }
 
@@ -412,6 +412,9 @@ public class AnalysisService {
         }
 
         return resultByClikck;
+
+        //조회 수 top4 기반 특성이 비슷한 행정동 추천
+        //-> 군집화2 결과 같은 군집에 속하는 행정동
     }
-    //조회 수 top4 기반 관련 행정동 추천
+
 }

@@ -17,6 +17,8 @@ function postStationInfo() {
         });
     } else {
         console.log("경유 지하철역 없음");
+        $('#detail-route').show();
+        $('#show_route').show();
     }
 }
 
@@ -231,28 +233,9 @@ function drawAgeChart() {
     var chart = new google.visualization.BarChart(document.getElementById("age_chart"));
     chart.draw(data, options);
 }
-
-function drawClusterChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Age', 'Weight'],
-        [ 8,      12],
-        [ 4,      5.5],
-        [ 11,     14],
-        [ 4,      5],
-        [ 3,      3.5],
-        [ 6.5,    7]
-    ]);
-
-    var options = {
-        title: 'Age vs. Weight comparison',
-        hAxis: {title: 'Age', minValue: 0, maxValue: 15},
-        vAxis: {title: 'Weight', minValue: 0, maxValue: 15},
-        legend: 'none',
-        width: '100%',
-        height: 200,
-        backgroundColor: { fill: "#e9f1f5" }
-    };
-
-    var chart = new google.visualization.ScatterChart(document.getElementById('cluster_chart'));
-    chart.draw(data, options);
+function dis_info_btn(){
+    alert("거리가 가까운 행정동 ~~~을 추천~~.");
+}
+function user_info_btn(){
+    alert("사용자 행동기반 ~~ 행정동 ~~~을 추천~~.");
 }

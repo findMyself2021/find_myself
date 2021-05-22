@@ -517,8 +517,6 @@ function summarizePubResult() {
 
     showPubTrafficChart(stationNumArr);
 
-    var pubRouteName = '';
-
     $('#detail-route').show();
     $('#show_route').show();
     $('#traffic-chart-title').show();

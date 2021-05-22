@@ -603,7 +603,7 @@ function summarizeCarResult() {
             carRouteName += ' ';
         }
     }
-    if(carNumArr.length != 1){
+    if(carSummaryArr.length != 1){
         showCarTrafficChart(carNumArr);
         $('#detail-route').show();
         $('#traffic-chart-title').show();

@@ -19,6 +19,8 @@ function postStationInfo() {
         console.log("경유 지하철역 없음");
         $('#detail-route').show();
         $('#show_route').show();
+        $('#traffic-chart-title').hide();
+        $('#traffic-chart').hide();
     }
 }
 
@@ -114,41 +116,106 @@ function monthly_info_click(){  //월세가 클릭시
 }
 
 //분야별 구글차트 그리기
+
+//자동차 경로 분석 차트
 function drawTrafficChart(carNumArr, len){
-    var data = google.visualization.arrayToDataTable([
-        ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
-        ['am 6-7시', carNumArr[0][0], carNumArr[len-2][0]],
-        ['am 7-8시', carNumArr[0][1], carNumArr[len-2][1]],
-        ['am 8-9시', carNumArr[0][2], carNumArr[len-2][2]],
-        ['pm 5-6시', carNumArr[0][3], carNumArr[len-2][3]],
-        ['pm 6-7시', carNumArr[0][4], carNumArr[len-2][4]],
-        ['pm 7-8시', carNumArr[0][5], carNumArr[len-2][5]]
-    ]);
-    var options = {
-        width: '100%',
-        height: 200,
-        backgroundColor: { fill: "#e9f1f5" }
-    };
+    if(len==2){ //지나는 경로가 1개인 경우
+        var data = google.visualization.arrayToDataTable([
+            ['시간대별', '교통량'],
+            ['am 6-7시', carNumArr[0][0]],
+            ['am 7-8시', carNumArr[0][1]],
+            ['am 8-9시', carNumArr[0][2]],
+            ['pm 5-6시', carNumArr[0][3]],
+            ['pm 6-7시', carNumArr[0][4]],
+            ['pm 7-8시', carNumArr[0][5]]
+        ]);
+        var options = {
+            width: '100%',
+            height: 200,
+            vAxis: {format: 'short'},
+            backgroundColor: { fill: "#e9f1f5" },
+            colors: ['#f5e076'],
+            legend:{
+                textStyle:{
+                    fontSize:'14'
+                }
+            }
+        };
+    }else {
+        var data = google.visualization.arrayToDataTable([
+            ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
+            ['am 6-7시', carNumArr[0][0], carNumArr[len - 2][0]],
+            ['am 7-8시', carNumArr[0][1], carNumArr[len - 2][1]],
+            ['am 8-9시', carNumArr[0][2], carNumArr[len - 2][2]],
+            ['pm 5-6시', carNumArr[0][3], carNumArr[len - 2][3]],
+            ['pm 6-7시', carNumArr[0][4], carNumArr[len - 2][4]],
+            ['pm 7-8시', carNumArr[0][5], carNumArr[len - 2][5]]
+        ]);
+        var options = {
+            width: '100%',
+            height: 200,
+            vAxis: {format: 'short'},
+            backgroundColor: {fill: "#e9f1f5"},
+            colors: ['#f5e076', '#c5db8c',],
+            legend: {
+                textStyle: {
+                    fontSize: '14'
+                }
+            }
+        };
+    }
 
     var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
-function drawTrafficChart_pub(carNumArr, len){
-    var data = google.visualization.arrayToDataTable([
-        ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
-        ['am 6-7시', carNumArr[0][0], carNumArr[len-1][0]],
-        ['am 7-8시', carNumArr[0][1], carNumArr[len-1][1]],
-        ['am 8-9시', carNumArr[0][2], carNumArr[len-1][2]],
-        ['pm 5-6시', carNumArr[0][3], carNumArr[len-1][3]],
-        ['pm 6-7시', carNumArr[0][4], carNumArr[len-1][4]],
-        ['pm 7-8시', carNumArr[0][5], carNumArr[len-1][5]]
-    ]);
-    var options = {
-        width: '100%',
-        height: 200,
-        backgroundColor: { fill: "#e9f1f5" }
-    };
 
+//대중교통 경로 분석 차트
+function drawTrafficChart_pub(stationNumArr, len){
+    if(len==1){ //지나는 경로가 1개인 경우
+        var data = google.visualization.arrayToDataTable([
+            ['시간대별', '교통량'],
+            ['am 6-7시', stationNumArr[0][0]],
+            ['am 7-8시', stationNumArr[0][1]],
+            ['am 8-9시', stationNumArr[0][2]],
+            ['pm 5-6시', stationNumArr[0][3]],
+            ['pm 6-7시', stationNumArr[0][4]],
+            ['pm 7-8시', stationNumArr[0][5]]
+        ]);
+        var options = {
+            width: '100%',
+            height: 200,
+            vAxis: {format: 'short'},
+            backgroundColor: { fill: "#e9f1f5" },
+            colors: ['#f5e076'],
+            legend:{
+                textStyle:{
+                    fontSize:'14'
+                }
+            }
+        };
+    }else{
+        var data = google.visualization.arrayToDataTable([
+            ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
+            ['am 6-7시', stationNumArr[0][0], stationNumArr[len-1][0]],
+            ['am 7-8시', stationNumArr[0][1], stationNumArr[len-1][1]],
+            ['am 8-9시', stationNumArr[0][2], stationNumArr[len-1][2]],
+            ['pm 5-6시', stationNumArr[0][3], stationNumArr[len-1][3]],
+            ['pm 6-7시', stationNumArr[0][4], stationNumArr[len-1][4]],
+            ['pm 7-8시', stationNumArr[0][5], stationNumArr[len-1][5]]
+        ]);
+        var options = {
+            width: '100%',
+            height: 200,
+            vAxis: {format: 'short'},
+            backgroundColor: { fill: "#e9f1f5" },
+            colors: ['#f5e076', '#c5db8c',],
+            legend:{
+                textStyle:{
+                    fontSize:'14'
+                }
+            }
+        };
+    }
     var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
@@ -232,10 +299,4 @@ function drawAgeChart() {
     };
     var chart = new google.visualization.BarChart(document.getElementById("age_chart"));
     chart.draw(data, options);
-}
-function dis_info_btn(){
-    alert("거리가 가까운 행정동 ~~~을 추천~~.");
-}
-function user_info_btn(){
-    alert("사용자 행동기반 ~~ 행정동 ~~~을 추천~~.");
 }

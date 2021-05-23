@@ -278,7 +278,7 @@ public class AnalysisService {
         int sum = gender.getMale()+gender.getFemale();
         double man_ratio = Math.round(((double) gender.getMale()/(double) sum*100)*100)/100.0;
         double woman_ratio = Math.round(((double) gender.getFemale()/(double) sum*100)*100)/100.0;
-        System.out.println(man_ratio+", "+woman_ratio);
+        //System.out.println(man_ratio+", "+woman_ratio);
 
         double child = ageService.findOne(code,"child");
         double s2030 = ageService.findOne(code,"s2030");;
@@ -322,7 +322,7 @@ public class AnalysisService {
             String gu = gudongService.findOne(code).getGu();
             String dong = gudongService.findOne(code).getH_dong();
 
-            System.out.println("distance: "+dis+", h_dong: "+dong);
+            //System.out.println("distance: "+dis+", h_dong: "+dong);
 
             DongInfo dongInfo = new DongInfo(gu,dong,code,dis);
             topDisInfoList.add(dongInfo);
@@ -346,9 +346,13 @@ public class AnalysisService {
         //1. 현재 분석화면에 해당하는 행정동 조회수 카운팅
         for(Long key: linkedParseClickMap.keySet()) {
             //1-1. 현재 조회 맵에 해당 행정동 코드(키 값)가 존재하는 경우 -> 조회수 +1
+//            System.out.println("키값: "+ key.toString());
+//            System.out.println("클릭된 코드: "+h_code.toString());
+//            System.out.println("------------------------------");
             if((key.toString()).equals(h_code.toString())){
                 linkedParseClickMap.put(key,linkedParseClickMap.get(key)+1);
                 isInsert = true;
+                //System.out.println("+1해야해!: "+ linkedParseClickMap);
                 break;
             }
         }
@@ -392,6 +396,7 @@ public class AnalysisService {
             //System.out.println(key+", "+linkedParseClickMap.get(key));
             topClickInfoList.add(key.toString()+","+linkedParseClickMap.get(key).toString());
         }
+        //System.out.println("갱신된 top리스트: "+topClickInfoList);
 
         //3. 갱신된 조회 수 데이터 업데이트
         memberService.updateTop4(userId,topClickInfoList);

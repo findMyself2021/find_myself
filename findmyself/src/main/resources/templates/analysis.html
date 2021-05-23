@@ -243,9 +243,9 @@
                                 <thead class="thead-light">
                                 <tr>
                                     <th scope="col" colspan="2">학교/직장과 가까운
-                                        <a href="#!" onclick="dis_info_btn()">
+                                        <span title="학교 및 직장까지의 거리를 우선적으로 고려하여 추천된 동네">
                                             <img src="/image/information.png" style="width: 5%">
-                                        </a>
+                                        </span>
                                     </th>
                                     <th scope="col" colspan="2"></th>
                                     <th scope="col" colspan="2"></th>
@@ -269,9 +269,9 @@
                                 <thead class="thead-light">
                                 <tr>
                                     <th scope="col">개인 맞춤형 추천
-                                        <a href="#!" onclick="user_info_btn()">
+                                        <span title="사용자가 관심을 많이 보이는 곳과 특징이 유사한 동네">
                                             <img src="/image/information.png" style="width: 5%">
-                                        </a>
+                                        </span>
                                     </th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
@@ -287,36 +287,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                </div>
-<!--                유사도 기반 추천-->
-                <div class="col-xl-4">
-                    <div class="card shadow">
-                        <div class="card-header bg-transparent">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${hdong}">과(와) 유사한 동네</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-xl-3 col-lg-6">
-                                <div class="card card-stats mb-4 mb-xl-0">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <span class="h2 font-weight-bold mb-0">1동</span>
-                                                <span class="h2 font-weight-bold mb-0">2동</span>
-                                            </div>
-                                            <div class="col">
-                                                <span class="h4 font-weight-bold mb-0">11%</span>
-                                                <span class="h4 font-weight-bold mb-0">22%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

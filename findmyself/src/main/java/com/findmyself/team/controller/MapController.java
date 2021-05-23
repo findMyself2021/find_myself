@@ -122,7 +122,7 @@ public class MapController {
         carFinishCheck = 0;
 
         String carRouteInfo = httpServletRequest.getParameter("car_Result");
-        System.out.println("test2 : " + carRouteInfo);
+        //System.out.println("test2 : " + carRouteInfo);
         carInfo = trafficService.searchCarRootInfo(carRouteInfo);
 
         carFinishCheck = 1;

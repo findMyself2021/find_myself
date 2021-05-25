@@ -140,19 +140,15 @@
                         <div class="card-header bg-transparent">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h6 class="text-uppercase text-muted ls-1 mb-1">서울특별시</h6>
-                                    <h2 class="text-darker mb-0" th:text="${gu} + ' '+ ${hdong}"></h2>
+                                    <h6 class="text-uppercase text-muted ls-1 mb-1" th:text="${gu} + ' '+ ${hdong}"></h6>
+                                    <h2 class="text-darker mb-0">상관관계 분석</h2>
                                 </div>
                             </div>
                         </div>
-                        <!--                        교통지도+분석 부분-->
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h2 class="mb-0">상관관계 분석</h2>
-                                </div>
-                                <div class="col">
-                                </div>
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">집값 & 교통 </h5>
+                                <h4 class="h4 font-weight-bold mb-0"  th:text="${gu} + ' '+ ${hdong} +'의 집값은 낮은 편에 속하고, 교통편도 낮은 수치를 보여줍니다.'"></h4>
                             </div>
                             <br>
                         </div>

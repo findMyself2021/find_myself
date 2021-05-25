@@ -53,7 +53,7 @@ function initDestSearch(startX,startY,addr){
             searchSubwayStations(startY, startX, result[0].x, result[0].y);
 
             var content = '<div class="customoverlay">' +
-                '  <a href="#" target="_blank">' +
+                '  <a href="#" onclick="return false;" target="_blank">' +
                 '    <span class="title">도착지</span>' +
                 '  </a>' +
                 '</div>';
@@ -89,7 +89,7 @@ function searchCarRoute(startX,startY,endX,endY) {
         });
 
     var content = '<div class="start_customoverlay">' +
-        '  <a href="#" target="_blank">' +
+        '  <a href="#" onclick="return false;" target="_blank">' +
         '    <span class="title">출발지</span>' +
         '  </a>' +
         '</div>';

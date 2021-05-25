@@ -158,7 +158,7 @@ function Get_Hcode(list){
         hcode_list[i] = list[i].h_code;
         // hcode_list.push(list[i].h_code);
     }
-    console.log(hcode_list);
+    // console.log(hcode_list);
 }
 
 //행정동 기준으로 폴리곤 생성

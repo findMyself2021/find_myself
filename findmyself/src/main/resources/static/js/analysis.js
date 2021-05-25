@@ -164,7 +164,7 @@ function drawTrafficChart(carNumArr, len){
             }
         };
     }
-
+    document.getElementById("hide").style.display="block";
     var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
@@ -216,6 +216,7 @@ function drawTrafficChart_pub(stationNumArr, len){
             }
         };
     }
+    document.getElementById("hide").style.display="block";
     var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }

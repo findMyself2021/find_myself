@@ -65,6 +65,9 @@ public class MainController {
         List<Long> codeList = analysisService.analysis(rq);
         List<DongInfo> topInfoList = analysisService.findMatchingTop(rq,codeList);
 
+        //매칭률 넘겨주기
+
+
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
         List<ClusterMonthly> monthlyClustering = monthlyService.findAll();

@@ -69,7 +69,7 @@ public class AnalysisServiceTest {
 
         //삽입 후 확인
         for(Long key: linkedParseClickMap.keySet()) {
-            System.out.println(key+", "+linkedParseClickMap.get(key));
+            //System.out.println(key+", "+linkedParseClickMap.get(key));
         }
 
         //2. 조회수 맵 내림차순 정렬하기(무조건 결과 맵의 길이: 4)

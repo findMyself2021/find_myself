@@ -1,3 +1,41 @@
+function postMatching(){
+    var on = "/image/match_on.png";
+    var off = "/image/match_off.png";
+
+    console.log("matching_ratio: "+matching_ratio);
+    if(matching_ratio == 5){
+        document.getElementById("match1").src = on;
+        document.getElementById("match2").src = on;
+        document.getElementById("match3").src = on;
+        document.getElementById("match4").src = on;
+        document.getElementById("match5").src = on;
+    }else if(matching_ratio == 4){
+        document.getElementById("match1").src = on;
+        document.getElementById("match2").src = on;
+        document.getElementById("match3").src = on;
+        document.getElementById("match4").src = on;
+        document.getElementById("match5").src = off;
+    }else if(matching_ratio == 3){
+        document.getElementById("match1").src = on;
+        document.getElementById("match2").src = on;
+        document.getElementById("match3").src = on;
+        document.getElementById("match4").src = off;
+        document.getElementById("match5").src = off;
+    }else if(matching_ratio == 2){
+        document.getElementById("match1").src = on;
+        document.getElementById("match2").src = on;
+        document.getElementById("match3").src = off;
+        document.getElementById("match4").src = off;
+        document.getElementById("match5").src = off;
+    }else {
+        document.getElementById("match1").src = on;
+        document.getElementById("match2").src = off;
+        document.getElementById("match3").src = off;
+        document.getElementById("match4").src = off;
+        document.getElementById("match5").src = off;
+    }
+}
+
 function postStationInfo() {
     console.log(subwayStationResults);
 
@@ -132,7 +170,6 @@ function drawTrafficChart(carNumArr, len){
         var options = {
             width: '100%',
             height: 200,
-            vAxis: {format: 'short'},
             backgroundColor: { fill: "#e9f1f5" },
             colors: ['#f5e076'],
             legend:{
@@ -154,7 +191,6 @@ function drawTrafficChart(carNumArr, len){
         var options = {
             width: '100%',
             height: 200,
-            vAxis: {format: 'short'},
             backgroundColor: {fill: "#e9f1f5"},
             colors: ['#f5e076', '#c5db8c',],
             legend: {
@@ -182,9 +218,8 @@ function drawTrafficChart_pub(stationNumArr, len){
             ['pm 7-8시', stationNumArr[0][5]]
         ]);
         var options = {
-            width: '100%',
+            width: '90%',
             height: 200,
-            vAxis: {format: 'short'},
             backgroundColor: { fill: "#e9f1f5" },
             colors: ['#f5e076'],
             legend:{
@@ -204,9 +239,8 @@ function drawTrafficChart_pub(stationNumArr, len){
             ['pm 7-8시', stationNumArr[0][5], stationNumArr[len-1][5]]
         ]);
         var options = {
-            width: '100%',
+            width: '90%',
             height: 200,
-            vAxis: {format: 'short'},
             backgroundColor: { fill: "#e9f1f5" },
             colors: ['#f5e076', '#c5db8c',],
             legend:{
@@ -231,7 +265,8 @@ function drawHomeChart() {
     var options = {
         width: '100%',
         height: 200,
-        backgroundColor: { fill: "#e9f1f5" }
+        backgroundColor: { fill: "#e9f1f5" },
+        colors: ['#88BFBA', '#38A692','#F2EB88','#F2B950']
     };
     var chart = new google.visualization.PieChart(document.getElementById('home_chart'));
     chart.draw(data, options);
@@ -249,7 +284,8 @@ function drawConvChart() {
     var options = {
         width: '100%',
         height: 200,
-        backgroundColor: { fill: "#e9f1f5" }
+        backgroundColor: { fill: "#e9f1f5" },
+        colors: ['#88BFBA', '#38A692','#F2EB88','#F2B950','#BF3434','#499bf2']
     };
     var chart = new google.visualization.PieChart(document.getElementById('conv_chart'));
     chart.draw(data, options);
@@ -264,6 +300,7 @@ function drawSexChart() {
         width: '100%',
         height: 200,
         backgroundColor: { fill: "#e9f1f5" },
+        colors: ['#88BFBA', '#38A692'],
         hAxis: {
             minValue: 0,
             maxValue: 100
@@ -293,6 +330,7 @@ function drawAgeChart() {
         width: '100%',
         height: 200,
         backgroundColor: { fill: "#e9f1f5" },
+        colors: ['#88BFBA', '#38A692','#F2EB88','#F2B950'],
         hAxis: {
             minValue: 0,
             maxValue: 100

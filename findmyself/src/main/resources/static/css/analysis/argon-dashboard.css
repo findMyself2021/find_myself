@@ -34,6 +34,17 @@
   left: 15px;
   padding:2px;
 }
+#match-ul{
+  display: initial;
+}
+#match-ul li{
+  list-style-type: none;
+  float: right;
+}
+#match-ul li img{
+  width: 40px;
+  padding: 1px;
+}
 
 /*이거보다 작으면 */
 @media (max-width: 1599px) {

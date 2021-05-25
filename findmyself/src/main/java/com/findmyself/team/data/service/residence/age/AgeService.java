@@ -37,13 +37,13 @@ public class AgeService {
 
     public Double findInterval(Long code, String age_type){
         if(age_type.equals("child")){
-            return Math.abs(childService.findOne(code).getValue());
+            return Math.abs(childService.findMax() - childService.findOne(code).getValue());
         }else if(age_type.equals("s2030")){
-            return Math.abs(s2030Service.findOne(code).getValue());
+            return Math.abs(s2030Service.findMax() - s2030Service.findOne(code).getValue());
         }else if(age_type.equals("s4050")){
-            return Math.abs(s4050Service.findOne(code).getValue());
+            return Math.abs(s4050Service.findMax() - s4050Service.findOne(code).getValue());
         }else {
-            return Math.abs(elderService.findOne(code).getValue());
+            return Math.abs(elderService.findMax() - elderService.findOne(code).getValue());
         }
     }
     //해당 연령 타입의 군집중 값이 가장큰 군집 내 행정동 반환

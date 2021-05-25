@@ -96,7 +96,7 @@ public class MapController {
         pubFinishCheck = 0;
 
         String stations = httpServletRequest.getParameter("sub_Result");
-        System.out.println("test : " + stations);
+        //System.out.println("test : " + stations);
         stationInfo = trafficService.searchSubwayInfo(stations);
 
         pubFinishCheck = 1;

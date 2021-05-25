@@ -29,7 +29,9 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AnalysisService {
 
-    private Map<Long, Double> intervalValues = new HashMap<>();
+    //매칭률 구하기 위해 인터벌 저장
+    Map<Long, Double> intervals = new HashMap<>();
+    int std1, std2, std3, std4;
 
     @Autowired
     HomeService homeService;
@@ -152,8 +154,8 @@ public class AnalysisService {
             }
         }
 
-        System.out.println("<<<<<최종 추천 행정동 리스트>>>>>");
-        System.out.println(codeList);
+        //System.out.println("<<<<<최종 추천 행정동 리스트>>>>>");
+        //System.out.println(codeList);
         return codeList;
 
     }
@@ -167,56 +169,103 @@ public class AnalysisService {
         Map<Double, Long> intervalList = new HashMap<>();
 
         double interval = 0;
-        //보증금, 월세, 교통량, 편의시설, 안전, 성비, 연령 -> 7
         // 추출한 추천 행정동 리스트에서 매칭률 높은곳 찾기
         // 인터벌 값이 작을수록 좋음
         for(Long code_tmp: codeList){
-            // 전월세 설정값에 가까운
-            if(rq.getHome_type().equals("charter")){    //전세 필터링 경우
-                interval += rq.getDeposit() - homeService.findDepositAvgByCharter(code_tmp);
-                interval += 100; //월세부분 무시하기 위해
-            }else{  //월세 필터링 경우
-                interval += rq.getDeposit() - homeService.findDepositAvgByMonthly(code_tmp);
-                interval += rq.getMonthly() - homeService.findMonthlyAvgByMonthly(code_tmp);
-            }
-
-            // 교통량 설정값에 가까운
-            interval += Math.abs(trafficInfoService.getStdVaule(rq.getTraffic())
-                    - trafficInfoService.findOne(code_tmp).getValue());
-
-            //편의 수치 설정값에 가까운
-            interval += convenientService.findInterval(rq, code_tmp);
-
-            //안전 수치 설정값에 가까운
-            interval += Math.abs(safetyService.getStdVaule(rq.getSafety()) - safetyService.findOne(code_tmp).getValue());
-
-            //성비
-            String preferGender = genderService.findPrefer(
-                    genderService.getStdVaule(rq.getSex_ratio())
-            );
-
-            if(preferGender.equals("w")){  //여초 선호
-                interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
-                        - genderService.findMin()));
-            }else if(preferGender.equals("m")){    //남초 선호
-                interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
-                        - genderService.findMax()));
-            }else{  //"none"
-                interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
-                        - genderService.getMidValue()));
-            }
-
-            //선택 연령대 인구수의 최대값에 가까운
-            String age_type = rq.getAge_type();
-            interval += ageService.findInterval(code_tmp,age_type);
-            interval = interval/7*100;
+            interval = getInterval(rq,code_tmp);
             intervalList.put(interval, code_tmp);
-            intervalValues.put(code_tmp, interval);
+            intervals.put(code_tmp,interval);
         }
 
         topInfoList = sortIntervalList(intervalList);
-
         return topInfoList;
+    }
+
+    //인터벌값 구하기 함수
+    public double getInterval(Requirements rq,Long code_tmp){
+
+        double interval = 0;
+
+        // 전월세 설정값에 가까운
+        if(rq.getHome_type().equals("charter")){    //전세 필터링 경우
+            interval += Math.abs(rq.getDeposit() - homeService.findDepositAvgByCharter(code_tmp));
+        }else{  //월세 필터링 경우
+            interval += Math.abs(rq.getDeposit() - homeService.findDepositAvgByMonthly(code_tmp));
+            interval += Math.abs(rq.getMonthly() - homeService.findMonthlyAvgByMonthly(code_tmp));
+        }
+
+        // 교통량 설정값에 가까운
+        interval += Math.abs(trafficInfoService.getStdVaule(rq.getTraffic())
+                - trafficInfoService.findOne(code_tmp).getValue());
+
+        //편의 수치 설정값에 가까운
+        interval += convenientService.findInterval(rq, code_tmp);
+
+        //안전 수치 설정값에 가까운
+        interval += Math.abs(safetyService.getStdVaule(rq.getSafety()) - safetyService.findOne(code_tmp).getValue());
+
+        //성비
+        String preferGender = genderService.findPrefer(
+                genderService.getStdVaule(rq.getSex_ratio())
+        );
+
+        if(preferGender.equals("w")){  //여초 선호
+            interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
+                    - genderService.findMin()));
+        }else if(preferGender.equals("m")){    //남초 선호
+            interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
+                    - genderService.findMax()));
+        }else{  //"none"
+            interval += Math.abs((int)(genderService.findOne(code_tmp).getRatio()
+                    - genderService.getMidValue()));
+        }
+
+        //선택 연령대 인구수의 최대값에 가까운
+        String age_type = rq.getAge_type();
+        interval += ageService.findInterval(code_tmp,age_type);
+
+        return interval;
+    }
+    public void findMatchingStd(){
+        double min=1000000000, max=0;
+
+        for(double itv: intervals.values()){
+            if(itv < min){
+                min = itv;
+            }
+            if(itv > max){
+                max = itv;
+            }
+        }
+        int tmp = (int)(max - min)/4;
+        std1 = (int)min+tmp;
+        std2 = std1+tmp;
+        std3 = std2+tmp;
+        std4 = std3+tmp;
+
+        System.out.println("min: "+min);
+        System.out.println("max: "+max);
+        System.out.println("std1: "+std1);
+        System.out.println("std2: "+std2);
+        System.out.println("std3: "+std3);
+        System.out.println("std4: "+std4);
+
+
+    }
+    //매칭정도 구하기 by 인터벌값
+    public int findMatchingValue(double interval){
+
+        if(interval <= std1){
+            return 5;
+        }else if(interval <= std2){
+            return 4;
+        }else if(interval <= std3){
+            return 3;
+        }else if(interval <= std4){
+            return 2;
+        }else {
+            return 1;
+        }
     }
 
     //인터벌값 오름차순 정렬(매칭률 top): 상위 20개 선출 -> 상위 5개 출력
@@ -226,6 +275,9 @@ public class AnalysisService {
 
         List<Double> keys = new ArrayList<>(intervalList.keySet());
         Collections.sort(keys);
+
+//        System.out.println("<<interval 정렬 결과>>");
+//        System.out.println(intervalList);
 
         int cnt=20;
         if(intervalList.size() < 20){   //분석 결과가 20개 미만인 경우
@@ -239,8 +291,6 @@ public class AnalysisService {
             Long h_code = intervalList.get(keys.get(i));
             String gu = gudongService.findOne(h_code).getGu();
             String h_dong = gudongService.findOne(h_code).getH_dong();
-
-            //System.out.println("interval: "+itv+", h_dong: "+h_dong);
 
             DongInfo dongInfo = new DongInfo(gu,h_dong,h_code);
             topInfoList.add(dongInfo);
@@ -286,7 +336,12 @@ public class AnalysisService {
         double elder = ageService.findOne(code,"elder");;
 
         //매칭률
-        double matching_ratio = intervalValues.get(code);
+        //매칭률 범위 5개로 분할하기
+        findMatchingStd();
+        double matching_ratio = findMatchingValue(intervals.get(code));
+        System.out.println("코드,매칭률: "+code+", "+intervals.get(code));
+        System.out.println("매칭 정도: "+matching_ratio);
+
         //거주자 만족도
         double satisfy_ratio = satisfyService.findOne(code).getValue();
 

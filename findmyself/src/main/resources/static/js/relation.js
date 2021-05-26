@@ -1,7 +1,7 @@
 function drawRelation() {
         //x,y
     const charter_traffic = [
-        ['Charter', 'Traffic'],
+        ['Charter', 'Charter / Traffic'],
         [39438,69.28],
         [40626,72.55],
         [23125,52.5],

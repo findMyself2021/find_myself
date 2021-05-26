@@ -17,6 +17,9 @@ public class AnalysisInfo {
     private double dasede;
     private double officetel;
 
+    //안전 비율
+    private double safety_ratio;
+
     //편의시설 업종 별 수치
     private int joy;
     private int shop;
@@ -36,7 +39,7 @@ public class AnalysisInfo {
     private double matching_ratio;
     private double satisfy_ratio;
 
-    public AnalysisInfo(int deposit_avg_charter, int deposit_avg_monthly, int monthly_avg_monthly, double dandok, double apart, double dasede, double officetel, int joy, int shop, int food, int life, int sport, int edu, double man_ratio, double woman_ratio, double child, double s2030, double s4050, double elder, double matching_ratio, double satisfy_ratio) {
+    public AnalysisInfo(int deposit_avg_charter, int deposit_avg_monthly, int monthly_avg_monthly, double dandok, double apart, double dasede, double officetel, double safety_ratio, int joy, int shop, int food, int life, int sport, int edu, double man_ratio, double woman_ratio, double child, double s2030, double s4050, double elder, double matching_ratio, double satisfy_ratio) {
         this.deposit_avg_charter = deposit_avg_charter;
         this.deposit_avg_monthly = deposit_avg_monthly;
         this.monthly_avg_monthly = monthly_avg_monthly;
@@ -44,6 +47,7 @@ public class AnalysisInfo {
         this.apart = apart;
         this.dasede = dasede;
         this.officetel = officetel;
+        this.safety_ratio = safety_ratio;
         this.joy = joy;
         this.shop = shop;
         this.food = food;

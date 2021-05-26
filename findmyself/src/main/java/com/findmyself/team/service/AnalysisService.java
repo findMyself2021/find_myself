@@ -314,6 +314,9 @@ public class AnalysisService {
         double dasede = homeType.getDasede();
         double officetel = homeType.getOfficetel();
 
+        //안전 비율(상위 **퍼센트)
+        double safety_ratio = safetyService.findRatio(code);
+
         //편의시설 현황
         int[] convenientArr = convenientService.findValues(code);
         int joy = convenientArr[0];
@@ -348,6 +351,7 @@ public class AnalysisService {
         AnalysisInfo result = new AnalysisInfo(
                   deposit_avg_charter,deposit_avg_monthly,monthly_avg_monthly
                 , dandok, apart, dasede, officetel
+                , safety_ratio
                 , joy, shop, food, life, sport, edu
                 , man_ratio,woman_ratio
                 , child, s2030, s4050, elder

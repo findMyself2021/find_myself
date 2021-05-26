@@ -34,6 +34,26 @@ public class SafetyService {
 
     public int findMin(){ return safetyRepository.findMin(); }
 
+    public double findRatio(Long code){
+        //석차 구하기
+        int rank=1;
+        List<Safety> safetyList = findAll();
+        for(Safety safety:safetyList){
+            if (findOne(code).getValue() < safety.getValue()) {
+                rank++;
+            }
+        }
+
+        double ratio = Math.round(
+                (((double)rank/(safetyList.size()+1))*100)*100)/100.0;
+        //System.out.println("size: "+safetyList.size());
+        System.out.println("ratio: "+ratio);
+        //System.out.println("rank: "+rank);
+        System.out.println("dd");
+        //상위 퍼센트율로 반환
+        return ratio;
+    }
+
     public int findMaxNo(){
         return safetyRepository.findMaxNo();
     }

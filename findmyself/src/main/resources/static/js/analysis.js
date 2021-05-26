@@ -2,7 +2,7 @@ function postMatching(){
     var on = "/image/match_on.png";
     var off = "/image/match_off.png";
 
-    console.log("matching_ratio: "+matching_ratio);
+    //console.log("matching_ratio: "+matching_ratio);
     if(matching_ratio == 5){
         document.getElementById("match1").src = on;
         document.getElementById("match2").src = on;
@@ -168,49 +168,53 @@ function drawTrafficChart(carNumArr, len){
     if(len==2){ //지나는 경로가 1개인 경우
         var data = google.visualization.arrayToDataTable([
             ['시간대별', '교통량'],
-            ['am 6-7시', carNumArr[0][0]],
-            ['am 7-8시', carNumArr[0][1]],
-            ['am 8-9시', carNumArr[0][2]],
-            ['pm 5-6시', carNumArr[0][3]],
-            ['pm 6-7시', carNumArr[0][4]],
-            ['pm 7-8시', carNumArr[0][5]]
+            ['am 6-7시', parseInt(carNumArr[0][0])],
+            ['am 7-8시', parseInt(carNumArr[0][1])],
+            ['am 8-9시', parseInt(carNumArr[0][2])],
+            ['pm 5-6시', parseInt(carNumArr[0][3])],
+            ['pm 6-7시', parseInt(carNumArr[0][4])],
+            ['pm 7-8시', parseInt(carNumArr[0][5])]
         ]);
         var options = {
-            width: '100%',
+            width: '80%',
             height: 200,
+            bars: 'vertical',
+            vAxis: {format: 'short'},
             backgroundColor: { fill: "#e9f1f5" },
             colors: ['#f5e076'],
             legend:{
                 textStyle:{
-                    fontSize:'14'
+                    fontSize:'12'
                 }
             }
         };
     }else {
         var data = google.visualization.arrayToDataTable([
-            ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
-            ['am 6-7시', carNumArr[0][0], carNumArr[len - 2][0]],
-            ['am 7-8시', carNumArr[0][1], carNumArr[len - 2][1]],
-            ['am 8-9시', carNumArr[0][2], carNumArr[len - 2][2]],
-            ['pm 5-6시', carNumArr[0][3], carNumArr[len - 2][3]],
-            ['pm 6-7시', carNumArr[0][4], carNumArr[len - 2][4]],
-            ['pm 7-8시', carNumArr[0][5], carNumArr[len - 2][5]]
+            ['시간대별', '집 부근', '학교,직장 부근'],
+            ['am 6-7시', parseInt(carNumArr[0][0]), parseInt(carNumArr[len - 2][0])],
+            ['am 7-8시', parseInt(carNumArr[0][1]), parseInt(carNumArr[len - 2][1])],
+            ['am 8-9시', parseInt(carNumArr[0][2]), parseInt(carNumArr[len - 2][2])],
+            ['pm 5-6시', parseInt(carNumArr[0][3]), parseInt(carNumArr[len - 2][3])],
+            ['pm 6-7시', parseInt(carNumArr[0][4]), parseInt(carNumArr[len - 2][4])],
+            ['pm 7-8시', parseInt(carNumArr[0][5]), parseInt(carNumArr[len - 2][5])]
         ]);
         var options = {
-            width: '100%',
+            width: '80%',
             height: 200,
+            bars: 'vertical',
+            vAxis: {format: 'short'},
             backgroundColor: {fill: "#e9f1f5"},
-            colors: ['#f5e076', '#c5db8c',],
+            colors: ['#f5e076','#c5db8c'],
             legend: {
                 textStyle: {
-                    fontSize: '14'
+                    fontSize: '12'
                 }
             }
         };
     }
     document.getElementById("hide").style.display="block";
-    var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
-    chart.draw(data, google.charts.Bar.convertOptions(options));
+    var chart = new google.visualization.ColumnChart(document.getElementById('traffic-chart'));
+    chart.draw(data, options);
 }
 
 //대중교통 경로 분석 차트
@@ -218,49 +222,53 @@ function drawTrafficChart_pub(stationNumArr, len){
     if(len==1){ //지나는 경로가 1개인 경우
         var data = google.visualization.arrayToDataTable([
             ['시간대별', '교통량'],
-            ['am 6-7시', stationNumArr[0][0]],
-            ['am 7-8시', stationNumArr[0][1]],
-            ['am 8-9시', stationNumArr[0][2]],
-            ['pm 5-6시', stationNumArr[0][3]],
-            ['pm 6-7시', stationNumArr[0][4]],
-            ['pm 7-8시', stationNumArr[0][5]]
+            ['am 6-7시', parseInt(stationNumArr[0][0])],
+            ['am 7-8시', parseInt(stationNumArr[0][1])],
+            ['am 8-9시', parseInt(stationNumArr[0][2])],
+            ['pm 5-6시', parseInt(stationNumArr[0][3])],
+            ['pm 6-7시', parseInt(stationNumArr[0][4])],
+            ['pm 7-8시', parseInt(stationNumArr[0][5])]
         ]);
         var options = {
-            width: '90%',
+            width: '80%',
             height: 200,
+            bars: 'vertical',
+            vAxis: {format: 'short'},
             backgroundColor: { fill: "#e9f1f5" },
             colors: ['#f5e076'],
             legend:{
                 textStyle:{
-                    fontSize:'14'
+                    fontSize:'12'
                 }
             }
         };
     }else{
         var data = google.visualization.arrayToDataTable([
-            ['시간대별', '집부근 교통량', '학교,직장부근 교통량'],
-            ['am 6-7시', stationNumArr[0][0], stationNumArr[len-1][0]],
-            ['am 7-8시', stationNumArr[0][1], stationNumArr[len-1][1]],
-            ['am 8-9시', stationNumArr[0][2], stationNumArr[len-1][2]],
-            ['pm 5-6시', stationNumArr[0][3], stationNumArr[len-1][3]],
-            ['pm 6-7시', stationNumArr[0][4], stationNumArr[len-1][4]],
-            ['pm 7-8시', stationNumArr[0][5], stationNumArr[len-1][5]]
+            ['시간대별', '집 부근', '학교,직장 부근'],
+            ['am 6-7시', parseInt(stationNumArr[0][0]), parseInt(stationNumArr[len-1][0])],
+            ['am 7-8시', parseInt(stationNumArr[0][1]), parseInt(stationNumArr[len-1][1])],
+            ['am 8-9시', parseInt(stationNumArr[0][2]), parseInt(stationNumArr[len-1][2])],
+            ['pm 5-6시', parseInt(stationNumArr[0][3]), parseInt(stationNumArr[len-1][3])],
+            ['pm 6-7시', parseInt(stationNumArr[0][4]), parseInt(stationNumArr[len-1][4])],
+            ['pm 7-8시', parseInt(stationNumArr[0][5]), parseInt(stationNumArr[len-1][5])]
         ]);
         var options = {
-            width: '90%',
+            width: '80%',
             height: 200,
+            bars: 'vertical',
+            vAxis: {format: 'short'},
             backgroundColor: { fill: "#e9f1f5" },
             colors: ['#f5e076', '#c5db8c',],
             legend:{
                 textStyle:{
-                    fontSize:'14'
+                    fontSize:'12'
                 }
             }
         };
     }
     document.getElementById("hide").style.display="block";
-    var chart = new google.charts.Bar(document.getElementById('traffic-chart'));
-    chart.draw(data, google.charts.Bar.convertOptions(options));
+    var chart = new google.visualization.ColumnChart(document.getElementById('traffic-chart'));
+    chart.draw(data, options);
 }
 function drawHomeChart() {
     var data = google.visualization.arrayToDataTable([
@@ -274,9 +282,28 @@ function drawHomeChart() {
         width: '100%',
         height: 200,
         backgroundColor: { fill: "#e9f1f5" },
-        colors: ['#88BFBA', '#38A692','#F2EB88','#F2B950']
+        colors: ['#EF5350', '#E57373','#EF9A9A','#FFCDD2']
     };
     var chart = new google.visualization.PieChart(document.getElementById('home_chart'));
+    chart.draw(data, options);
+}
+function drawSafetyChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['category', '비율'],
+        ['오락',     joy],
+        ['소매',      shop],
+        ['음식',  food],
+        ['생활서비스', life],
+        ['스포츠',    sport],
+        ['교육',    edu]
+    ]);
+    var options = {
+        width: '100%',
+        height: 200,
+        backgroundColor: { fill: "#e9f1f5" },
+        colors: ['#FC9749', '#FFAD63','#FFC58B','#FFD6B3','#FFF5F0','#f7fafc']
+    };
+    var chart = new google.visualization.PieChart(document.getElementById('safety_chart'));
     chart.draw(data, options);
 }
 function drawConvChart() {
@@ -293,7 +320,7 @@ function drawConvChart() {
         width: '100%',
         height: 200,
         backgroundColor: { fill: "#e9f1f5" },
-        colors: ['#88BFBA', '#38A692','#F2EB88','#F2B950','#BF3434','#499bf2']
+        colors: ['#F2B705', '#F2CD5C','#F29F05','#F2D49B','#F2F2F2','#fcf0ca']
     };
     var chart = new google.visualization.PieChart(document.getElementById('conv_chart'));
     chart.draw(data, options);
@@ -301,14 +328,13 @@ function drawConvChart() {
 function drawSexChart() {
     var data = google.visualization.arrayToDataTable([
         ['Element', '비율', { role: 'style' }, { role: 'annotation' } ],
-        ['남성', man_ratio, 'blue', man_ratio+'%' ],
-        ['여성', woman_ratio, 'red', woman_ratio+'%' ]
+        ['남성', man_ratio, '#168039', man_ratio+'%' ],
+        ['여성', woman_ratio, '#45BF55', woman_ratio+'%' ]
     ]);
     var options = {
         width: '100%',
         height: 200,
         backgroundColor: { fill: "#e9f1f5" },
-        colors: ['#88BFBA', '#38A692'],
         hAxis: {
             minValue: 0,
             maxValue: 100
@@ -329,16 +355,15 @@ function drawSexChart() {
 function drawAgeChart() {
     var data = google.visualization.arrayToDataTable([
         ['Element', '비율', { role: 'style' }, { role: 'annotation' } ],
-        ['유소년', child, 'blue', child+'%' ],
-        ['2030대', s2030, 'red', s2030+'%' ],
-        ['4050대', s4050, 'red', s4050+'%' ],
-        ['고령자', elder, 'red', elder+'%' ]
+        ['유소년', child, '#C3D7F0', child+'%' ],
+        ['2030대', s2030, '#AAC8E6', s2030+'%' ],
+        ['4050대', s4050, '#375F82', s4050+'%' ],
+        ['고령자', elder, '#193250', elder+'%' ]
     ]);
     var options = {
         width: '100%',
         height: 200,
         backgroundColor: { fill: "#e9f1f5" },
-        colors: ['#88BFBA', '#38A692','#F2EB88','#F2B950'],
         hAxis: {
             minValue: 0,
             maxValue: 100

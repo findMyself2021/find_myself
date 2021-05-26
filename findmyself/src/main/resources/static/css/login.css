@@ -1,6 +1,8 @@
 .container{
-    margin-top: 50px; margin-bottom: 50px;
-    padding-left: 50px; padding-right: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 25%;
+    padding-right: 25%;
 }
 #login-wrap{
     height: 600px;
@@ -9,5 +11,6 @@
     text-align: center;
 }
 #kakao-login-img{
-    padding: 30%;
+    padding-top: 100px;
+    width: 60%;
 }

@@ -243,12 +243,12 @@ public class AnalysisService {
         std3 = std2+tmp;
         std4 = std3+tmp;
 
-        System.out.println("min: "+min);
-        System.out.println("max: "+max);
-        System.out.println("std1: "+std1);
-        System.out.println("std2: "+std2);
-        System.out.println("std3: "+std3);
-        System.out.println("std4: "+std4);
+//        System.out.println("min: "+min);
+//        System.out.println("max: "+max);
+//        System.out.println("std1: "+std1);
+//        System.out.println("std2: "+std2);
+//        System.out.println("std3: "+std3);
+//        System.out.println("std4: "+std4);
 
 
     }
@@ -339,8 +339,8 @@ public class AnalysisService {
         //매칭률 범위 5개로 분할하기
         findMatchingStd();
         double matching_ratio = findMatchingValue(intervals.get(code));
-        System.out.println("코드,매칭률: "+code+", "+intervals.get(code));
-        System.out.println("매칭 정도: "+matching_ratio);
+//        System.out.println("코드,매칭률: "+code+", "+intervals.get(code));
+//        System.out.println("매칭 정도: "+matching_ratio);
 
         //거주자 만족도
         double satisfy_ratio = satisfyService.findOne(code).getValue();
@@ -371,7 +371,13 @@ public class AnalysisService {
         Collections.sort(keys);
 
         List<DongInfo> topDisInfoList = new ArrayList<>();
-        for(int i=0; i<4; i++){
+
+        int loop_size = 4;
+        if(keys.size() < 4){
+            loop_size = keys.size();
+        }
+
+        for(int i=0; i<loop_size; i++){
             double dis = Math.ceil((keys.get(i))*100)/100;   //둘쨋자리 까지 반올림
             Long code = listByDistanceResult.get(keys.get(i));
             String gu = gudongService.findOne(code).getGu();
@@ -418,7 +424,7 @@ public class AnalysisService {
 
         //삽입 후 확인
         for(Long key: linkedParseClickMap.keySet()) {
-            System.out.println(key+", "+linkedParseClickMap.get(key));
+            //System.out.println(key+", "+linkedParseClickMap.get(key));
         }
 
         //2. 조회수 맵 내림차순 정렬하기(무조건 결과 맵의 길이: 4)

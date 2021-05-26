@@ -10,29 +10,29 @@ function postMatching(){
         document.getElementById("match4").src = on;
         document.getElementById("match5").src = on;
     }else if(matching_ratio == 4){
-        document.getElementById("match1").src = on;
+        document.getElementById("match1").src = off;
         document.getElementById("match2").src = on;
         document.getElementById("match3").src = on;
         document.getElementById("match4").src = on;
-        document.getElementById("match5").src = off;
+        document.getElementById("match5").src = on;
     }else if(matching_ratio == 3){
-        document.getElementById("match1").src = on;
-        document.getElementById("match2").src = on;
+        document.getElementById("match1").src = off;
+        document.getElementById("match2").src = off;
         document.getElementById("match3").src = on;
-        document.getElementById("match4").src = off;
-        document.getElementById("match5").src = off;
+        document.getElementById("match4").src = on;
+        document.getElementById("match5").src = on;
     }else if(matching_ratio == 2){
-        document.getElementById("match1").src = on;
-        document.getElementById("match2").src = on;
+        document.getElementById("match1").src = off;
+        document.getElementById("match2").src = off;
         document.getElementById("match3").src = off;
-        document.getElementById("match4").src = off;
-        document.getElementById("match5").src = off;
+        document.getElementById("match4").src = on;
+        document.getElementById("match5").src = on;
     }else {
-        document.getElementById("match1").src = on;
+        document.getElementById("match1").src = off;
         document.getElementById("match2").src = off;
         document.getElementById("match3").src = off;
         document.getElementById("match4").src = off;
-        document.getElementById("match5").src = off;
+        document.getElementById("match5").src = on;
     }
 }
 
@@ -116,14 +116,22 @@ function  getCarRouteInfo() {
 
 function loadDisTopList(){
     if(topDisInfoList != null) {
-        document.getElementById("disTop1").innerText = topDisInfoList[0].gu+" "+topDisInfoList[0].h_dong;
-        document.getElementById("disTop1Km").innerText = topDisInfoList[0].dis+"km";
-        document.getElementById("disTop2").innerText = topDisInfoList[1].gu+" "+topDisInfoList[1].h_dong;
-        document.getElementById("disTop2Km").innerText = topDisInfoList[1].dis+"km";
-        document.getElementById("disTop3").innerText = topDisInfoList[2].gu+" "+topDisInfoList[2].h_dong;
-        document.getElementById("disTop3Km").innerText = topDisInfoList[2].dis+"km";
-        document.getElementById("disTop4").innerText = topDisInfoList[3].gu+" "+topDisInfoList[3].h_dong;
-        document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis+"km";
+        if(topDisInfoList.length >= 1){
+            document.getElementById("disTop1").innerText = topDisInfoList[0].gu+" "+topDisInfoList[0].h_dong;
+            document.getElementById("disTop1Km").innerText = topDisInfoList[0].dis+"km";
+        }
+        if(topDisInfoList.length >= 2){
+            document.getElementById("disTop2").innerText = topDisInfoList[1].gu+" "+topDisInfoList[1].h_dong;
+            document.getElementById("disTop2Km").innerText = topDisInfoList[1].dis+"km";
+        }
+        if(topDisInfoList.length >= 3) {
+            document.getElementById("disTop3").innerText = topDisInfoList[2].gu + " " + topDisInfoList[2].h_dong;
+            document.getElementById("disTop3Km").innerText = topDisInfoList[2].dis + "km";
+        }
+        if(topDisInfoList.length >= 4) {
+            document.getElementById("disTop4").innerText = topDisInfoList[3].gu + " " + topDisInfoList[3].h_dong;
+            document.getElementById("disTop4Km").innerText = topDisInfoList[3].dis + "km";
+        }
 
     }
 }

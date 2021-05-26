@@ -119,7 +119,7 @@ public class HomeService {
             System.out.println("전세 선택함");
             codeList = findCharterList(deposit);
         }else{ //월세 선택한 경우
-            System.out.println("월세 선택함");
+            //System.out.println("월세 선택함");
             codeList = findMonthlyList(deposit,monthly);
         }
 

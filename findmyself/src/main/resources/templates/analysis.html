@@ -34,6 +34,8 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> <!--구글 차트 이용-->
     <script type="text/javascript" src="/js/login.js"></script>
     <script type="text/javascript" src="/js/analysis.js"></script>
+    <script type="text/javascript" src="/js/relation.js"></script>
+
 </head>
 <body class="">
     <div class="header">
@@ -157,7 +159,8 @@
                         <div class="card-body">
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0">집값 & 교통 </h5>
-                                <h4 class="h4 font-weight-bold mb-0"  th:text="${gu} + ' '+ ${hdong} +'은 집값은 낮은 편에 속하고, 교통편도 낮은 군집에 속합니다.'"></h4>
+                                <h4 class="h4 font-weight-bold mb-0"  th:text="${gu} + ' '+ ${hdong} +'의 집값은 '+${chartertraffic.getValue1()}+'이고 교통량은 '+${chartertraffic.getValue2()}+'입니다.'"></h4>
+                                <div id="chart_relation" style="height:400px;"></div>
                             </div>
                             <br>
                         </div>
@@ -377,6 +380,8 @@
         google.charts.setOnLoadCallback(drawConvChart);
         google.charts.setOnLoadCallback(drawSexChart);
         google.charts.setOnLoadCallback(drawAgeChart);
+        google.charts.setOnLoadCallback(drawRelation);
+
     </script>
     <form id="postStationForm" name="postStationForm">
         <input class="sub_Result" id="sub_Result" name="sub_Result" type="hidden">

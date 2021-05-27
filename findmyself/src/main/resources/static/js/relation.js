@@ -445,7 +445,7 @@ function drawRelation() {
                     row.push('purple');
                 }
                 else if((row[0] >= 18198.5) && (row[0] <= 23306.5)){
-                    row.push('blue');
+                    row.push('purple');
                 }
                 else{
                     row.push('red');

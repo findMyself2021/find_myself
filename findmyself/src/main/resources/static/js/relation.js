@@ -427,6 +427,7 @@ function drawRelation() {
         [24156.75,47.32],
         [23306.5,56.97],
         [29827,76.34],
+        [charter_traffic_value1,charter_traffic_value2],
     ];
 
     charter_traffic.forEach(function (row,index){
@@ -435,22 +436,33 @@ function drawRelation() {
                 role:'style',
                 type:'string'
             });
+            // console.log(charter_traffic_value1,charter_traffic_value2);
         }
         else{
-            if((row[0] >= 13148.5) && (row[0]<=18143)){
-                row.push('green');
+            //해당하는 거 색 다르게
+            if ((row[0] == charter_traffic_value1)&&(row[1]==charter_traffic_value2)){
+                if ((row[0] >= 13148.5) && (row[0] <= 18143)) {
+                    row.push('purple');
+                }
+                else if((row[0] >= 18198.5) && (row[0] <= 23306.5)){
+                    row.push('blue');
+                }
+                else{
+                    row.push('red');
+                }
             }
-            else if((row[0] >= 18198.5) && (row[0]<=23306.5)){
-                row.push('red');
-            }
-            else if((row[0] >= 23485.75) && (row[0]<=32546.75)){
-                row.push('blue');
-            }
-            else if((row[0] >= 33356.5) && (row[0]<=46741.5)){
-                row.push('yellow');
-            }
-            else{
-                row.push('black');
+            else {
+                if ((row[0] >= 13148.5) && (row[0] <= 18143)) {
+                    row.push('green');
+                } else if ((row[0] >= 18198.5) && (row[0] <= 23306.5)) {
+                    row.push('red');
+                } else if ((row[0] >= 23484.75) && (row[0] <= 32546.75)) {
+                    row.push('blue');
+                } else if ((row[0] >= 33356.5) && (row[0] <= 46741.5)) {
+                    row.push('yellow');
+                } else {
+                    row.push('black');
+                }
             }
         }
     });

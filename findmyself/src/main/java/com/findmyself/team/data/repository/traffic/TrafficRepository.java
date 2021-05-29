@@ -23,13 +23,13 @@ public class TrafficRepository {
                 .getResultList();
     }
 
-    public int findMax(){
-        return em.createQuery("select max(t.value) from Traffic t", Integer.class)
+    public double findMax(){
+        return em.createQuery("select max(t.value) from Traffic t", Double.class)
                 .getSingleResult();
     }
 
-    public int findMin(){
-        return em.createQuery("select min(t.value) from Traffic t", Integer.class)
+    public double findMin(){
+        return em.createQuery("select min(t.value) from Traffic t", Double.class)
                 .getSingleResult();
     }
 

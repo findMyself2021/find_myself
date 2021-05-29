@@ -24,13 +24,13 @@ public class SafetyRepository {
                 .getResultList();
     }
 
-    public int findMax(){
-        return em.createQuery("select max(s.value) from Safety s", Integer.class)
+    public double findMax(){
+        return em.createQuery("select max(s.value) from Safety s", Double.class)
                 .getSingleResult();
     }
 
-    public int findMin(){
-        return em.createQuery("select min(s.value) from Safety s", Integer.class)
+    public double findMin(){
+        return em.createQuery("select min(s.value) from Safety s", Double.class)
                 .getSingleResult();
     }
 

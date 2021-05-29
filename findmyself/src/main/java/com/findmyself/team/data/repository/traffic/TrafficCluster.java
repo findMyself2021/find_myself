@@ -10,12 +10,12 @@ import java.util.List;
 public class TrafficCluster {
 
     private int no;
-    private int min;
-    private int max;
+    private double min;
+    private double max;
     private double avg;
     private List<Long> codes;
 
-    public TrafficCluster(int no, int min, int max, double avg, List<Long> codes) {
+    public TrafficCluster(int no, double min, double max, double avg, List<Long> codes) {
         this.no = no;
         this.min = min;
         this.max = max;

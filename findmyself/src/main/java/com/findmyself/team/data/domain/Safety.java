@@ -17,9 +17,9 @@ public class Safety {
     @GeneratedValue
     private Long h_code;
 
-    private int value;
+    private double value;
     private int no;
-    private int min;
-    private int max;
+    private double min;
+    private double max;
     private double avg;
 }

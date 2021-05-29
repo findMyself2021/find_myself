@@ -24,11 +24,11 @@ public class TrafficInfoService {
         return trafficRepository.findAll();
     }
 
-    public int findMax(){
+    public double findMax(){
         return trafficRepository.findMax();
     }
 
-    public int findMin(){
+    public double findMin(){
         return trafficRepository.findMin();
     }
 

@@ -28,11 +28,11 @@ public class SafetyService {
         return safetyRepository.findAll();
     }
 
-    public int findMax() {
+    public double findMax() {
         return safetyRepository.findMax();
     }
 
-    public int findMin(){ return safetyRepository.findMin(); }
+    public double findMin(){ return safetyRepository.findMin(); }
 
     public double findRatio(Long code){
         //석차 구하기

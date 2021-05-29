@@ -64,6 +64,7 @@ public class AgeService {
             ageCluster = elderService.findClusterByNo(elderService.findMaxValueCluster());
         }
 
+        System.out.println("연령 클러스터: "+ageCluster.getNo());
         Codes = ageCluster.getCodes();
 
         for(Long code: Codes){

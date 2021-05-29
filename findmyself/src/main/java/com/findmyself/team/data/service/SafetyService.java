@@ -47,9 +47,8 @@ public class SafetyService {
         double ratio = Math.round(
                 (((double)rank/(safetyList.size()+1))*100)*100)/100.0;
         //System.out.println("size: "+safetyList.size());
-        System.out.println("ratio: "+ratio);
+        //System.out.println("ratio: "+ratio);
         //System.out.println("rank: "+rank);
-        System.out.println("dd");
         //상위 퍼센트율로 반환
         return ratio;
     }

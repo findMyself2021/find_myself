@@ -135,15 +135,22 @@ function loadDisTopList(){
 
     }
 }
-function loadClickTopList(){
-    if(resultByClikck != null) {
-        document.getElementById("clickTop1").innerText = resultByClikck[0].gu+" "+resultByClikck[0].h_dong;
-        document.getElementById("clickTop2").innerText = resultByClikck[1].gu+" "+resultByClikck[1].h_dong;
-        document.getElementById("clickTop3").innerText = resultByClikck[2].gu+" "+resultByClikck[2].h_dong;
-        document.getElementById("clickTop4").innerText = resultByClikck[3].gu+" "+resultByClikck[3].h_dong;
+// function loadClickTopList(){
+//     if(resultByClikck != null) {
+//         document.getElementById("clickTop1").innerText = resultByClikck[0].gu+" "+resultByClikck[0].h_dong;
+//         document.getElementById("clickTop2").innerText = resultByClikck[1].gu+" "+resultByClikck[1].h_dong;
+//         document.getElementById("clickTop3").innerText = resultByClikck[2].gu+" "+resultByClikck[2].h_dong;
+//         document.getElementById("clickTop4").innerText = resultByClikck[3].gu+" "+resultByClikck[3].h_dong;
+//     }
+// }
+function loadSimilarTopList(){
+    if(resultBySimilar != null){
+        document.getElementById("similarTop1").innerText = resultBySimilar[0].gu+" "+resultBySimilar[0].h_dong;
+        document.getElementById("similarTop2").innerText = resultBySimilar[1].gu+" "+resultBySimilar[1].h_dong;
+        document.getElementById("similarTop3").innerText = resultBySimilar[2].gu+" "+resultBySimilar[2].h_dong;
+        document.getElementById("similarTop4").innerText = resultBySimilar[3].gu+" "+resultBySimilar[3].h_dong;
     }
 }
-
 function charter_info_click(){  //전세가 클릭시
     document.getElementById("monthly-info1").style.display="none";
     document.getElementById("monthly-info2").style.display="none";
@@ -287,25 +294,6 @@ function drawHomeChart() {
     var chart = new google.visualization.PieChart(document.getElementById('home_chart'));
     chart.draw(data, options);
 }
-function drawSafetyChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['category', '비율'],
-        ['오락',     joy],
-        ['소매',      shop],
-        ['음식',  food],
-        ['생활서비스', life],
-        ['스포츠',    sport],
-        ['교육',    edu]
-    ]);
-    var options = {
-        width: '100%',
-        height: 200,
-        backgroundColor: { fill: "#e9f1f5" },
-        colors: ['#FC9749', '#FFAD63','#FFC58B','#FFD6B3','#FFF5F0','#f7fafc']
-    };
-    var chart = new google.visualization.PieChart(document.getElementById('safety_chart'));
-    chart.draw(data, options);
-}
 function drawConvChart() {
     var data = google.visualization.arrayToDataTable([
         ['category', '비율'],
@@ -371,4 +359,79 @@ function drawAgeChart() {
     };
     var chart = new google.visualization.BarChart(document.getElementById("age_chart"));
     chart.draw(data, options);
+}
+
+function drawSimilarChart() {
+    var space = document.getElementById('similar-chart');
+    Plotly.d3.csv('https://raw.githubusercontent.com/findMyself2021/find_myself/master/11.csv', function(err, rows){
+
+        function unpack(rows, key) {
+            return rows.map(function(row) { return row[key]; });
+        }
+
+        var data = [{
+            x: unpack(rows, 'x'),
+            y: unpack(rows, 'y'),
+            z: unpack(rows, 'z'),
+            mode: 'markers',
+            type: 'scatter3d',
+            marker: {
+                color: 'rgb(23, 190, 207)',
+                size: 2
+            }
+        },{
+            alphahull: 7,
+            opacity: 0.1,
+            type: 'mesh3d',
+            x: unpack(rows, 'x'),
+            y: unpack(rows, 'y'),
+            z: unpack(rows, 'z')
+        }];
+
+        var layout = {
+            autosize: true,
+            height: 480,
+            scene: {
+                aspectratio: {
+                    x: 1,
+                    y: 1,
+                    z: 1
+                },
+                camera: {
+                    center: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    },
+                    eye: {
+                        x: 1.25,
+                        y: 1.25,
+                        z: 1.25
+                    },
+                    up: {
+                        x: 0,
+                        y: 0,
+                        z: 1
+                    }
+                },
+                xaxis: {
+                    type: 'linear',
+                    zeroline: false
+                },
+                yaxis: {
+                    type: 'linear',
+                    zeroline: false
+                },
+                zaxis: {
+                    type: 'linear',
+                    zeroline: false
+                }
+            },
+            title: '3d point clustering',
+            width: 477
+        };
+
+        Plotly.newPlot(space, data, layout);
+
+    });
 }

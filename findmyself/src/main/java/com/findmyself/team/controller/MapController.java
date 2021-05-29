@@ -72,8 +72,11 @@ public class MapController {
         AnalysisInfo analysisInfos = analysisService.analysisDetail(h_code);
 
         //행정동 조회수 분석 --- 개발중
-        analysisService.sortTopClick(userId, h_code);
-        List<DongInfo> resultByClikck = analysisService.analysisTopClick(userId);
+        //analysisService.sortTopClick(userId, h_code);
+        //List<DongInfo> resultByClikck = analysisService.analysisTopClick(userId);
+
+        //유사한 행정동 분석
+        List<DongInfo> resultBySimilar = analysisService.analysisSimilar(h_code);
 
         //해당 행정동의 연관관계 => 전체를 끌어와서 그래프를 그릴까...?
         CharterTraffic chartertraffic = charterTrafficService.findOne(h_code);
@@ -91,7 +94,8 @@ public class MapController {
         model.addAttribute("center_y",lng);
         model.addAttribute("topDisInfoList",topDisInfoList);
         model.addAttribute("analysisInfos",analysisInfos);
-        model.addAttribute("resultByClikck",resultByClikck);
+        //model.addAttribute("resultByClikck",resultByClikck);
+        model.addAttribute("resultBySimilar",resultBySimilar);
         model.addAttribute("chartertraffic",chartertraffic);
 
         return "analysis";

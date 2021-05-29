@@ -54,7 +54,7 @@ public class GenderService {
     //설정값을 포함하는 군집번호 찾기
     public List<Integer> findClusterNo(int ratio){
 
-        int mid = getMidValue();
+        int mid_value = getMidValue();
         int std_value = getStdVaule(ratio); // 데이터에 맞춰 표준화한 필터값
 
         List<GenderCluster> clusters = new ArrayList<>();
@@ -64,15 +64,15 @@ public class GenderService {
 
         for(GenderCluster cluster: clusters){
             if(findPrefer(std_value).equals("w")){ //여초 선호
-                if(cluster.getRatio_min() >= std_value && cluster.getRatio_max() <= getMidValue()){
+                if(std_value <= cluster.getRatio_max()){
                     numbers.add(cluster.getNo());
                 }
             }else if(findPrefer(std_value).equals("m")){ //남초 선호
-                if(cluster.getRatio_min() >= getMidValue() && std_value <= cluster.getRatio_max()){
+                if(mid_value <= cluster.getRatio_max()){
                     numbers.add(cluster.getNo());
                 }
             }else{ //1:1 성비
-                if(cluster.getRatio_min() >= getMidValue()-40 && cluster.getRatio_max() <= getMidValue()+40){
+                if(cluster.getRatio_min() >= mid_value-40 && cluster.getRatio_max() <= mid_value+40){
                     numbers.add(cluster.getNo());
                 }
             }
@@ -89,6 +89,7 @@ public class GenderService {
         List<Long> tmpCodes;    //특정 번호의 클러스터에 포함된 행정동 코드 리스트
 
         numbers = findClusterNo(ratio);
+        System.out.println("젠더 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
                 tmpCodes = genderRepository.findClusterByNo(no).getCodes();
@@ -105,7 +106,7 @@ public class GenderService {
 
         int min = (int)findMin();
         int max = (int)findMax();
-        int mid = min + Math.round((max-min)/2);
+        int mid = min + Math.round((float)(max-min)/2);
 
         return mid;
     }
@@ -114,7 +115,7 @@ public class GenderService {
 
         int min = (int)findMin();
         int max = (int)findMax();
-        int std = Math.round((max-min)/100);
+        int std = Math.round((float)(max-min)/100);
         int std_value = min+std*ratio;
 
         return std_value;

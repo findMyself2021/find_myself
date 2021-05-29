@@ -606,10 +606,12 @@ function summarizeCarResult() {
     if(carSummaryArr.length != 1){
         showCarTrafficChart(carNumArr);
         $('#detail-route').show();
+        $('#show_route').show();
         $('#traffic-chart-title').show();
         document.getElementById("show_route").innerText = carRouteName;
     }else{
         $('#detail-route').show();
+        $('#show_route').show();
         document.getElementById("show_route").innerText = "상세 경로 표시하기에 짧은 거리 입니다.";
     }
 

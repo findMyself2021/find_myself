@@ -2,9 +2,13 @@ package com.findmyself.team.data.service.convenient;
 
 import com.findmyself.team.ConvenientTmp;
 import com.findmyself.team.Requirements;
+import com.findmyself.team.data.domain.Gudong;
 import com.findmyself.team.data.domain.convenient.ConvenientCluster;
 import com.findmyself.team.data.domain.convenient.Edu;
+import com.findmyself.team.data.repository.GudongRepository;
 import com.findmyself.team.data.repository.convenient.*;
+import com.findmyself.team.data.repository.residence.GenderRepository;
+import com.findmyself.team.data.service.GudongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +29,8 @@ public class ConvenientService {
     private final SportRepository sportRepository;
     private final ShopRepository shopRepository;
     private final LifeRepository lifeRepository;
+
+    private final GudongRepository gudongRepository;
 
     public int[] findValues(Long code){
         int[] valueArr = new int[6];
@@ -169,7 +175,8 @@ public class ConvenientService {
             }
         }
 
-        for(Edu i : totalList){
+        for(Gudong i:gudongRepository.findAll()){
+            cnt = 0;
             if(!eduCodes.isEmpty() && eduCodes.contains(i.getH_code())){
                 cnt++;
             }
@@ -188,8 +195,7 @@ public class ConvenientService {
             if(!sportCodes.isEmpty() && sportCodes.contains(i.getH_code())){
                 cnt++;
             }
-
-            if(cnt>3){
+            if(cnt >= 4){ //조건 모두 충족하면 추천
                 codeList.add(i.getH_code());
             }
         }
@@ -204,32 +210,32 @@ public class ConvenientService {
         if(type.equals("edu")){
             min = (int)eduRepository.findMin();
             max = (int)eduRepository.findMax();
-            std = Math.round((max-min)/100);
+            std = Math.round((float)(max-min)/100);
             std_value = min+std*value;
         }else if(type.equals("food")){
             min = (int)foodRepository.findMin();
             max = (int)foodRepository.findMax();
-            std = Math.round((max-min)/100);
+            std = Math.round((float)(max-min)/100);
             std_value = min+std*value;
         }else if(type.equals("joy")){
             min = (int)joyRepository.findMin();
             max = (int)joyRepository.findMax();
-            std = Math.round((max-min)/100);
+            std = Math.round((float)(max-min)/100);
             std_value = min+std*value;
         }else if(type.equals("sport")){
             min = (int)sportRepository.findMin();
             max = (int)sportRepository.findMax();
-            std = Math.round((max-min)/100);
+            std = Math.round((float)(max-min)/100);
             std_value = min+std*value;
         }else if(type.equals("shop")){
             min = (int)shopRepository.findMin();
             max = (int)shopRepository.findMax();
-            std = Math.round((max-min)/100);
+            std = Math.round((float)(max-min)/100);
             std_value = min+std*value;
         }else{
             min = (int)lifeRepository.findMin();
             max = (int)lifeRepository.findMax();
-            std = Math.round((max-min)/100);
+            std = Math.round((float)(max-min)/100);
             std_value = min+std*value;
         }
 

@@ -27,6 +27,7 @@
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=b7fc83b99b816527f18b3bf2bce8208e&libraries=services"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx054e772885bf4fd6bff6bbf96c1884af"></script>
     <script type="text/javascript" src="/js/map.js"></script>
     <script type="text/javascript" src="/js/route.js"></script>
@@ -35,6 +36,7 @@
     <script type="text/javascript" src="/js/login.js"></script>
     <script type="text/javascript" src="/js/analysis.js"></script>
     <script type="text/javascript" src="/js/relation.js"></script>
+
 
 </head>
 <body class="">
@@ -160,7 +162,7 @@
                         </div>
                         <div class="card-body">
                             <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0">집값 & 교통 </h5>
+                                <h5 class="card-title text-uppercase text-muted mb-0">집값 - 교통의 상관관계 </h5>
                                 <h4 class="h4 font-weight-bold mb-0"  th:text="${gu} + ' '+ ${hdong} +'의 집값은 '+${chartertraffic.getValue1()}+'이고 교통량은 '+${chartertraffic.getValue2()}+'입니다.'"></h4>
                                 <div id="chart_relation" style="width:auto; height:400px;"></div>
                             </div>
@@ -305,8 +307,8 @@
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">개인 맞춤형 추천
-                                        <span title="사용자가 관심을 많이 보이는 곳과 특징이 유사한 동네">
+                                    <th scope="col">특징이 비슷한
+                                        <span title="전반적인 특징의 유사성이 가장 높은 동네">
                                             <img src="/image/information.png" style="width: 5%">
                                         </span>
                                     </th>
@@ -317,12 +319,13 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td id="clickTop1"></td>
-                                    <td id="clickTop2"></td>
-                                    <td id="clickTop3"></td>
-                                    <td id="clickTop4"></td>
+                                    <td id="similarTop1"></td>
+                                    <td id="similarTop2"></td>
+                                    <td id="similarTop3"></td>
+                                    <td id="similarTop4"></td>
                                 </tr>
                                 </tbody>
+                                <div id="similar-chart" class="card-body" style="width: 100%; padding: 0px"></div>
                             </table>
                         </div>
                     </div>
@@ -345,12 +348,14 @@
         /*<![CDATA[*/
         var matching_ratio = /*[[ ${analysisInfos.matching_ratio} ]]*/;
         var topDisInfoList = /*[[ ${topDisInfoList} ]]*/;
-        var resultByClikck = /*[[ ${resultByClikck} ]]*/;
+        var resultBySimilar = /*[[ ${resultBySimilar} ]]*/;
+        //var resultByClikck = /*[[ ${resultByClikck} ]]*/;
         /*]]*/
 
         postMatching(); //매칭률 이미지 로드
-        loadDisTopList();
-        loadClickTopList();
+        loadDisTopList();   //거리 기반 추천 동네 로드
+        //loadClickTopList();   //조회수 기반 추천 동네 로드
+        loadSimilarTopList();// 유사성 높은 동네 로드
 
         document.getElementById("monthly-info-btn").focus();
         document.getElementById("monthly-info-btn").click();
@@ -388,7 +393,8 @@
         google.charts.setOnLoadCallback(drawConvChart);
         google.charts.setOnLoadCallback(drawSexChart);
         google.charts.setOnLoadCallback(drawAgeChart);
-        google.charts.setOnLoadCallback(drawRelation);
+        google.charts.setOnLoadCallback(drawRelation)
+        drawSimilarChart();
 
     </script>
     <form id="postStationForm" name="postStationForm">

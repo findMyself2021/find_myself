@@ -116,7 +116,7 @@ public class HomeService {
         HashSet<Long> codeList = new HashSet<>();
 
         if(home_type.equals("charter")) { //전세 선택한 경우
-            System.out.println("전세 선택함");
+            //System.out.println("전세 선택함");
             codeList = findCharterList(deposit);
         }else{ //월세 선택한 경우
             //System.out.println("월세 선택함");
@@ -132,57 +132,46 @@ public class HomeService {
         HashSet<Long> codeList = new HashSet<>();   //설정값을 충족하는 행정동 코드 셋(중복 허용하지 않는 Set)
 
         List<Integer> numbers;  //설정값을 충족하는 클러스터 번호
-        List<Long> aparts = new ArrayList<>();    //특정 번호의 클러스터에 포함된 행정동 코드 리스트
-        List<Long> dandoks = new ArrayList<>();
-        List<Long> dasedes = new ArrayList<>();
-        List<Long> officetels = new ArrayList<>();
 
         numbers = findCharterClusterNo("apart",deposit);
+        System.out.println("아파트 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                aparts = apartRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code: apartRepository.findCharterClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
 
         numbers = findCharterClusterNo("dandok",deposit);
+        System.out.println("단독 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                dandoks = dandokRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code: dandokRepository.findCharterClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
 
         numbers = findCharterClusterNo("dasede",deposit);
+        System.out.println("다세대 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                dasedes = dasedeRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code: dasedeRepository.findCharterClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
 
         numbers = findCharterClusterNo("officetel",deposit);
+        System.out.println("오피스텔 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                officetels = officetelRepository.findCharterClusterByNo(no).getCodes();
+                for(Long code: officetelRepository.findCharterClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
-
-        int cnt;
-        for(Long tmp:dasedes){
-            cnt=0;
-            if(aparts.contains(tmp)){
-                cnt++;
-            }
-            if(dandoks.contains(tmp)){
-                cnt++;
-            }
-            if(officetels.contains(tmp)){
-                cnt++;
-            }
-
-            if(cnt>=2) {
-                codeList.add(tmp);
-            }
-        }
-
         return codeList;
     }
 
@@ -192,58 +181,46 @@ public class HomeService {
         HashSet<Long> codeList = new HashSet<>();   //설정값을 충족하는 행정동 코드 셋(중복 허용하지 않는 Set)
 
         List<Integer> numbers;  //설정값을 충족하는 클러스터 번호
-        List<Long> aparts = new ArrayList<>();    //특정 번호의 클러스터에 포함된 행정동 코드 리스트
-        List<Long> dandoks = new ArrayList<>();
-        List<Long> dasedes = new ArrayList<>();
-        List<Long> officetels = new ArrayList<>();
 
         numbers = findMonthlyClusterNo("apart", deposit, monthly);
+        System.out.println("아파트 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                aparts = apartRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code: apartRepository.findMonthlyClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
 
         numbers = findMonthlyClusterNo("dandok", deposit, monthly);
+        System.out.println("단독 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                dandoks = dandokRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code: dandokRepository.findMonthlyClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
 
         numbers = findMonthlyClusterNo("dasede", deposit, monthly);
+        System.out.println("다세대 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                dasedes = dasedeRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code: dasedeRepository.findMonthlyClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
 
         numbers = findMonthlyClusterNo("officetel", deposit, monthly);
+        System.out.println("오피스텔 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
-                officetels = officetelRepository.findMonthlyClusterByNo(no).getCodes();
+                for(Long code: officetelRepository.findMonthlyClusterByNo(no).getCodes()){
+                    codeList.add(code);
+                }
             }
         }
-
-
-        int cnt;
-        for(Long tmp:dasedes){
-            cnt=0;
-            if(aparts.contains(tmp)){
-                cnt++;
-            }
-            if(dandoks.contains(tmp)){
-                cnt++;
-            }
-            if(officetels.contains(tmp)){
-                cnt++;
-            }
-
-            if(cnt>=2) {
-                codeList.add(tmp);
-            }
-        }
-
         return codeList;
     }
 

@@ -183,7 +183,7 @@ public class TrafficService {
 
             summarizeResult(point, 0);
 
-            System.out.println("경유 지점 확인 :" + volumeService.findOne(point).getName());
+            //System.out.println("경유 지점 확인 :" + volumeService.findOne(point).getName());
         }
 
         TrafficInfo infoResult = new TrafficInfo();

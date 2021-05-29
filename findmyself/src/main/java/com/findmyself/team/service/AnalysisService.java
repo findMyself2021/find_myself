@@ -4,13 +4,13 @@ import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.TrafficInfo;
 import com.findmyself.team.Requirements;
+import com.findmyself.team.data.domain.AllByCharter;
+import com.findmyself.team.data.domain.AllByMonthly;
 import com.findmyself.team.data.domain.Gudong;
 import com.findmyself.team.data.domain.home.HomeType;
 import com.findmyself.team.data.domain.residence.Gender;
-import com.findmyself.team.data.service.SatisfyService;
+import com.findmyself.team.data.service.*;
 import com.findmyself.team.data.service.convenient.ConvenientService;
-import com.findmyself.team.data.service.GudongService;
-import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.home.HomeService;
 import com.findmyself.team.data.service.home.HomeTypeService;
 import com.findmyself.team.data.service.residence.age.AgeService;
@@ -32,6 +32,9 @@ public class AnalysisService {
     //매칭률 구하기 위해 인터벌 저장
     Map<Long, Double> intervals = new HashMap<>();
     int std1, std2, std3, std4;
+
+    //전월세 유형 선택 정보
+    String home_type;
 
     @Autowired
     HomeService homeService;
@@ -63,9 +66,17 @@ public class AnalysisService {
     @Autowired
     SatisfyService satisfyService;
 
+    @Autowired
+    AllByCharterService allByCharterService;
+
+    @Autowired
+    AllByMonthlyService allByMonthlyService;
+
     // 필터링 분석
     public List<Long> analysis(Requirements rq){
         List<Long> codeList = new ArrayList<>();
+
+        home_type = rq.getHome_type();
 
         HashSet<Long> homeList = homeService.analysis(rq.getHome_type(), rq.getDeposit(), rq.getMonthly());
 //        System.out.println("<<<homeList 분석결과>>>");
@@ -125,7 +136,7 @@ public class AnalysisService {
                 }if(ageList.contains(code)) {
                     cnt++;
                 }
-                if(cnt>=2){ //예산 외 조건 2개 이상 충족하면 추천
+                if(cnt>=3){
                     codeList.add(code);
                 }
             }
@@ -145,17 +156,54 @@ public class AnalysisService {
                 }if(ageList.contains(code)) {
                     cnt++;
                 }
-                if(cnt==5){ //조건 모두 충족하면 추천
-                    //codeList.add(code);
-                }else if(cnt >= 2){ //조건 3개 이상 충족
-                    //군집화2 결과 이용 !
-                    codeList.add(code);//임시!
+                if(cnt>=3){ //조건 모두 충족하면 추천
+                    codeList.add(code);
                 }
             }
         }
 
-        //System.out.println("<<<<<최종 추천 행정동 리스트>>>>>");
-        //System.out.println(codeList);
+        if(codeList.size() == 0){
+            System.out.println("결과가 없습니다.!!!!!!!!!!!");
+        }
+        // 필수적인 10개 추천이 안되는 경우
+        // allCluster 데이터 내 같은 군집에 속하는 행정동 추가
+        if(codeList.size() < 10){
+
+            List<Long> codeList2 = new ArrayList<>();
+
+            System.out.println("<<<<<중간 추천 행정동 리스트>>>>>");
+            System.out.println(codeList);
+
+            int clusterNo;
+
+            Iterator<Long> iterator = codeList.iterator();
+            while (iterator.hasNext()) {
+                Long tmpCode = iterator.next();
+
+                if(rq.getHome_type().equals("charter")){
+                    clusterNo = allByCharterService.findOne(tmpCode).getNo();
+                    for(AllByCharter belong:allByCharterService.findByNo(clusterNo)){
+                        codeList2.add(belong.getH_code());
+                    }
+                }else{
+                    clusterNo = allByMonthlyService.findOne(tmpCode).getNo();
+                    for(AllByMonthly belong:allByMonthlyService.findByNo(clusterNo)){
+                        codeList2.add(belong.getH_code());
+                    }
+                }
+            }
+
+            Iterator<Long> iterator2 = codeList2.iterator();
+            while (iterator2.hasNext()) {
+                codeList.add(iterator2.next());
+            }
+        }
+
+        if(codeList.size() < 10){
+            System.out.println("여전히 결과가 10개 미만 입니다.");
+        }
+        System.out.println("<<<<<최종 추천 행정동 리스트>>>>>");
+        System.out.println(codeList);
         return codeList;
 
     }
@@ -226,6 +274,7 @@ public class AnalysisService {
 
         return interval;
     }
+
     public void findMatchingStd(){
         double min=1000000000, max=0;
 
@@ -249,9 +298,8 @@ public class AnalysisService {
 //        System.out.println("std2: "+std2);
 //        System.out.println("std3: "+std3);
 //        System.out.println("std4: "+std4);
-
-
     }
+
     //매칭정도 구하기 by 인터벌값
     public int findMatchingValue(double interval){
 
@@ -482,9 +530,69 @@ public class AnalysisService {
         }
 
         return resultByClikck;
-
-        //조회 수 top4 기반 특성이 비슷한 행정동 추천
-        //-> 군집화2 결과 같은 군집에 속하는 행정동
     }
 
+    public List<DongInfo> analysisSimilar(Long code){
+        int no;
+
+        double x1,y1,z1;    //현재 분석화면의 대상 행정동 (클러스터)위치 좌표
+        double x2,y2,z2;    //동일 클러스터 내 행정동 좌표 대입...
+
+        Map<Double, Long> resultDis = new HashMap<>(){};    //행정동 코드, 좌표간 거리
+        List<DongInfo> resultList = new ArrayList<DongInfo>();  //top4 특징 유사한 행정동 정보
+
+        if(home_type.equals("charter")){    //전세 선택후 분석화면 온 경우..
+            no = allByCharterService.findOne(code).getNo();
+            x1 = allByCharterService.findOne(code).getComponent1();
+            y1 = allByCharterService.findOne(code).getComponent2();
+            z1 = allByCharterService.findOne(code).getComponent3();
+
+            List<AllByCharter> CharterList = allByCharterService.findByNo(no);
+            for(AllByCharter i:CharterList){
+                x2 = i.getComponent1();
+                y2 = i.getComponent2();
+                z2 = i.getComponent3();
+                resultDis.put(find3dDis(x1,y1,z1,x2,y2,z2),i.getH_code());
+            }
+        }else{
+            no = allByMonthlyService.findOne(code).getNo();
+            x1 = allByMonthlyService.findOne(code).getComponent1();
+            y1 = allByMonthlyService.findOne(code).getComponent2();
+            z1 = allByMonthlyService.findOne(code).getComponent3();
+
+            List<AllByMonthly> CharterList = allByMonthlyService.findByNo(no);
+            for(AllByMonthly i:CharterList){
+                x2 = i.getComponent1();
+                y2 = i.getComponent2();
+                z2 = i.getComponent3();
+                resultDis.put(find3dDis(x1,y1,z1,x2,y2,z2),i.getH_code());
+            }
+        }
+
+        //거리 오름차순 정렬
+        List<Double> keys = new ArrayList<>(resultDis.keySet());
+        Collections.sort(keys);
+
+        for(int i=1; i<5; i++){ //자기 자신 제외
+            Long resultCode = resultDis.get(keys.get(i));
+            System.out.println(resultCode);
+            resultList.add(new DongInfo(
+                     gudongService.findOne(resultCode).getGu()
+                    ,gudongService.findOne(resultCode).getH_dong()
+                    ,resultCode
+            ));
+        }
+        System.out.println(resultDis);
+        //System.out.println(resultList);
+        return resultList;
+    }
+
+    //3차원 좌표 간의 거리 구하기
+    public double find3dDis(double x1, double y1, double z1, double x2, double y2, double z2){
+        return  Math.sqrt(
+                 Math.pow((x1-x2),2)
+                +Math.pow((y1-y2),2)
+                +Math.pow((z1-z2),2)
+        );
+    }
 }

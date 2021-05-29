@@ -1,7 +1,7 @@
 function drawRelation() {
         //x,y
     const charter_traffic = [
-        ['Charter', 'Charter / Traffic'],
+        ['House Price', 'House Price / Traffic'],
         [39438,69.28],
         [40626,72.55],
         [23125,52.5],
@@ -468,8 +468,8 @@ function drawRelation() {
     });
 
     var options = {
-        title: 'Charter Traffic Relation',
-        hAxis: {title: 'Charter', minValue: 10000, maxValue: 65000},
+        // title: 'House Price - Traffic Relation',
+        hAxis: {title: 'House Price', minValue: 10000, maxValue: 65000},
         vAxis: {title: 'Traffic', minValue: 0, maxValue: 100},
         backgroundColor: { fill: "#e9f1f5" },
         legend: 'none'

@@ -52,17 +52,17 @@ public class TrafficInfoService {
     public List<Integer> findClusterNo(int traffic){
 
         int std_value = getStdVaule(traffic);
-
         List<TrafficCluster> clusters = new ArrayList<>();
         List<Integer> numbers = new ArrayList<>();
 
         clusters = trafficRepository.findClusters();
 
         for(TrafficCluster cluster: clusters){
-            if(cluster.getMin()>=std_value){
+            if(cluster.getMax() >= std_value){
                 numbers.add(cluster.getNo());
             }
         }
+        System.out.println(numbers);
         return numbers;
     }
 
@@ -74,6 +74,7 @@ public class TrafficInfoService {
         List<Long> tmpCodes;    //특정 번호의 클러스터에 포함된 행정동 코드 리스트
 
         numbers = findClusterNo(traffic);
+        System.out.println("교통 클러스터: "+numbers);
         if(!numbers.isEmpty()){
             for(Integer no:numbers){
                 tmpCodes = trafficRepository.findClusterByNo(no).getCodes();
@@ -86,13 +87,12 @@ public class TrafficInfoService {
         return codeList;
     }
 
-    public int getStdVaule(int safety){
+    public int getStdVaule(int traffic){
 
         int min = (int)findMin();
         int max = (int)findMax();
-        int std = Math.round((max-min)/100);
-        int std_value = min+std*safety;
-
+        int std = Math.round(((float)(max-min))/100);
+        int std_value = min+std*traffic;
         return std_value;
     }
 }

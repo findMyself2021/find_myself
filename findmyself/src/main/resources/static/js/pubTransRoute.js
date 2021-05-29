@@ -351,9 +351,8 @@ function searchSubwayStations(sx, sy, ex, ey) {
                         console.log(totalTime);
                         console.log(pathGuide);
 
-                        $('#detail-route').hide();
-                        $('#show_route').hide();
                         document.getElementById("show_route").innerText = pathGuide;
+                        $('#show_route').hide();
 
                         subwayStationResults = stationResult;
                     }

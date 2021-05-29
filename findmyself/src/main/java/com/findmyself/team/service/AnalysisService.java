@@ -575,14 +575,14 @@ public class AnalysisService {
 
         for(int i=1; i<5; i++){ //자기 자신 제외
             Long resultCode = resultDis.get(keys.get(i));
-            System.out.println(resultCode);
+            //System.out.println(resultCode);
             resultList.add(new DongInfo(
                      gudongService.findOne(resultCode).getGu()
                     ,gudongService.findOne(resultCode).getH_dong()
                     ,resultCode
             ));
         }
-        System.out.println(resultDis);
+        //System.out.println(resultDis);
         //System.out.println(resultList);
         return resultList;
     }

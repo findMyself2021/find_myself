@@ -363,7 +363,7 @@ function drawAgeChart() {
 
 function drawSimilarChart() {
     var space = document.getElementById('similar-chart');
-    Plotly.d3.csv('https://raw.githubusercontent.com/findMyself2021/find_myself/master/11.csv', function(err, rows){
+    Plotly.d3.csv('https://raw.githubusercontent.com/findMyself2021/find_myself/master/findmyself/src/main/resources/static/csv/all_cluster_monthly.csv', function(err, rows){
 
         function unpack(rows, key) {
             return rows.map(function(row) { return row[key]; });
@@ -427,7 +427,7 @@ function drawSimilarChart() {
                     zeroline: false
                 }
             },
-            title: '3d point clustering',
+            title: '전체 분야의 군집화 결과',
             width: 477
         };
 

@@ -3,10 +3,12 @@ package com.findmyself.team.controller;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Safety;
+import com.findmyself.team.data.domain.residence.Gender;
 import com.findmyself.team.data.domain.traffic.Traffic;
 import com.findmyself.team.data.mapcluster.domain.*;
 import com.findmyself.team.data.mapcluster.service.*;
 import com.findmyself.team.data.service.SafetyService;
+import com.findmyself.team.data.service.residence.GenderService;
 import com.findmyself.team.data.service.traffic.TrafficInfoService;
 import com.findmyself.team.service.AnalysisService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class MainController {
     private final SafetyService safetyService;
     private final MonthlyService monthlyService;
     private final CharterService charterService;
+    private final GenderService genderService;
     private final TotalConvenientService totalConvenientService;
     private final TotalGenderService totalGenderService;
     private final TotalAgeService totalAgeService;
@@ -66,14 +69,15 @@ public class MainController {
         List<DongInfo> topInfoList = analysisService.findMatchingTop(rq,codeList);
 
         //매칭률 넘겨주기
-
-
         List<Traffic> trafficClustering = trafficInfoService.findAll();
         List<Safety> safetyClustering = safetyService.findAll();
         List<ClusterMonthly> monthlyClustering = monthlyService.findAll();
         List<ClusterCharter> charterClustering = charterService.findAll();
         List<ClusterConvenient> convenientClustering = totalConvenientService.findAll();
+
+        //이건 뭐지?
         List<ClusterGender> genderClustering = totalGenderService.findAll();
+        List<Gender> genderClustering_for_map = genderService.findAll();
         List<ClusterAge> ageClustering = totalAgeService.findAll();
 
         model.addAttribute("rq",rq);
@@ -85,7 +89,9 @@ public class MainController {
         model.addAttribute("monthlyClustering",monthlyClustering);
         model.addAttribute("charterClustering",charterClustering);
         model.addAttribute("convenientClustering",convenientClustering);
+        //이건뭐지????
         model.addAttribute("genderClustering",genderClustering);
+        model.addAttribute("genderClustering_for_map",genderClustering_for_map);
         model.addAttribute("ageClustering",ageClustering);
 
         model.addAttribute("isLoad",1);

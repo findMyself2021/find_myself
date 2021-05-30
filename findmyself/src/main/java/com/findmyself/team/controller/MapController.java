@@ -3,7 +3,9 @@ package com.findmyself.team.controller;
 import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.data.relation.domain.CharterTraffic;
+import com.findmyself.team.data.relation.domain.GenderSafety;
 import com.findmyself.team.data.relation.service.CharterTrafficService;
+import com.findmyself.team.data.relation.service.GenderSafetyService;
 import com.findmyself.team.data.service.CenterLocationService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.service.AnalysisService;
@@ -29,6 +31,7 @@ public class MapController {
     private final TrafficService trafficService;
     //상관관계 분석
     private final CharterTrafficService charterTrafficService;
+    private final GenderSafetyService genderSafetyService;
 
     @Autowired
     AnalysisService analysisService;
@@ -80,6 +83,7 @@ public class MapController {
 
         //해당 행정동의 연관관계 => 전체를 끌어와서 그래프를 그릴까...?
         CharterTraffic chartertraffic = charterTrafficService.findOne(h_code);
+        GenderSafety gendersafety = genderSafetyService.findOne(h_code);
 
         //행정구
         final String gu = gudongService.findOne(h_code).getGu();
@@ -97,6 +101,7 @@ public class MapController {
         //model.addAttribute("resultByClikck",resultByClikck);
         model.addAttribute("resultBySimilar",resultBySimilar);
         model.addAttribute("chartertraffic",chartertraffic);
+        model.addAttribute("gendersafety",gendersafety);
 
         return "analysis";
     }

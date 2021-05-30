@@ -192,12 +192,18 @@ function Draw_HangJungDong(h_code, addr, fillColor, userId,mapno,list,cluster_na
 
                         displayCluster(coordinates, name,code,addr, fillColor, userId,deposit_avg,monthly_avg,monthly_min,cluster_name);
                     }
-                    else {
-                        var min = list[index].min;
-                        var max = list[index].max;
-                        var avg = list[index].avg;
-
-                        displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,avg,cluster_name);
+                    else{
+                        if(cluster_name=="성비 군집"){
+                            var min = list[index].ratio_min;
+                            var max = list[index].ratio_max;
+                            var avg = list[index].ratio_avg;
+                        }
+                        else {
+                            var min = list[index].min;
+                            var max = list[index].max;
+                            var avg = list[index].avg;
+                        }
+                        displayCluster(coordinates, name, code, addr, fillColor, userId, min, max, avg, cluster_name);
                     }
                 }
                 //추천 행정동 그리기
@@ -217,6 +223,7 @@ function Clustering_HangJungDong(category_num,list,userId,address, home_type){
     deletePolygon(polygons1);
     Get_Hcode(list);
 
+    console.log(list);
     //var fillColors = ["#0A3C7A","#115493","#1C75B7","#289CDB","#38C6FF","#b5e7ff"];
 
     //예산
@@ -232,8 +239,8 @@ function Clustering_HangJungDong(category_num,list,userId,address, home_type){
     }
     //교통
     else if (category_num==2){
-        // 0 - 4 - 2 - 3 - 1
-        var fillColors = ["#0A3C7A","#38C6FF","#1C75B7","#289CDB","#115493"];
+        // 2- 4 -1 -3 -0
+        var fillColors = ["#38C6FF","#1C75B7","#0A3C7A","#289CDB","#115493"];
         cluster_name = "교통 군집";
     }
     //편의시설
@@ -245,14 +252,15 @@ function Clustering_HangJungDong(category_num,list,userId,address, home_type){
     }
     //안전
     else if(category_num==4){
-        //1 - 4 - 2 - 3 - 0
-        var fillColors = ["#38C6FF","#0A3C7A","#1C75B7","#289CDB","#115493"];
+        //2 - 3 - 1 -0
+        var fillColors = ["#289CDB","#1C75B7","#0A3C7A","#115493"];
         cluster_name = "안전 군집";
     }
     //성비
     else if(category_num==5){
-        //0 - 4 - 1 - 2 - 3
-        var fillColors = ["#0A3C7A","#1C75B7","#289CDB","#38C6FF","#115493"];
+        //3 - 1 - 0 -2
+        console.log(list);
+        var fillColors = ["#1C75B7","#115493","#289CDB","#0A3C7A"];
         cluster_name= "성비 군집";
     }
     //나이

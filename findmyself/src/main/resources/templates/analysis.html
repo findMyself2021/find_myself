@@ -168,6 +168,14 @@
                             </div>
                             <br>
                         </div>
+                        <div class="card-body">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">성비 - 안전정도의 상관관계 </h5>
+                                <h4 class="h4 font-weight-bold mb-0"  th:text="${gu} + ' '+ ${hdong} +'의 성비는 '+${gendersafety.getValue1()}+'이고 안전정도는 '+${gendersafety.getValue2()}+'입니다.'"></h4>
+                                <div id="chart_relation_gender_safety" style="width:auto; height:400px;"></div>
+                            </div>
+                            <br>
+                        </div>
                     </div>
                     <br>
                 </div>
@@ -380,6 +388,9 @@
         var charter_traffic_value1=/*[[ ${chartertraffic.getValue1()} ]]*/;
         var charter_traffic_value2=/*[[ ${chartertraffic.getValue2()} ]]*/;
 
+        var gender_safety_value1=/*[[ ${gendersafety.getValue1()} ]]*/;
+        var gender_safety_value2=/*[[ ${gendersafety.getValue2()} ]]*/;
+
         var child=/*[[ ${analysisInfos.child} ]]*/;;
         var s2030=/*[[ ${analysisInfos.s2030} ]]*/;;
         var s4050=/*[[ ${analysisInfos.s4050} ]]*/;;
@@ -393,7 +404,8 @@
         google.charts.setOnLoadCallback(drawConvChart);
         google.charts.setOnLoadCallback(drawSexChart);
         google.charts.setOnLoadCallback(drawAgeChart);
-        google.charts.setOnLoadCallback(drawRelation)
+        google.charts.setOnLoadCallback(drawRelation);
+        google.charts.setOnLoadCallback(drawRelation_gender_safety);
         drawSimilarChart();
 
     </script>

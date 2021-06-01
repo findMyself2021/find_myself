@@ -1,10 +1,12 @@
 package com.findmyself.team.data.repository;
 
+import com.findmyself.team.Requirements;
 import com.findmyself.team.data.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +33,13 @@ public class MemberRepository {
 
     //회원 아이디로 찾기
     public Member findOneById(Long id){
-        return em.createQuery("select m from Member m where m.id = :id", Member.class)
-                .setParameter("id",id)
-                .getSingleResult();
+        try {
+            return em.createQuery("select m from Member m where m.id = :id", Member.class)
+                    .setParameter("id",id)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     //중복 회원 검증

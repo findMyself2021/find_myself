@@ -361,77 +361,77 @@ function drawAgeChart() {
     chart.draw(data, options);
 }
 
-function drawSimilarChart() {
-    var space = document.getElementById('similar-chart');
-    Plotly.d3.csv('https://raw.githubusercontent.com/findMyself2021/find_myself/master/findmyself/src/main/resources/static/csv/all_cluster_monthly.csv', function(err, rows){
-
-        function unpack(rows, key) {
-            return rows.map(function(row) { return row[key]; });
-        }
-
-        var data = [{
-            x: unpack(rows, 'x'),
-            y: unpack(rows, 'y'),
-            z: unpack(rows, 'z'),
-            mode: 'markers',
-            type: 'scatter3d',
-            marker: {
-                color: 'rgb(23, 190, 207)',
-                size: 2
-            }
-        },{
-            alphahull: 7,
-            opacity: 0.1,
-            type: 'mesh3d',
-            x: unpack(rows, 'x'),
-            y: unpack(rows, 'y'),
-            z: unpack(rows, 'z')
-        }];
-
-        var layout = {
-            autosize: true,
-            height: 480,
-            scene: {
-                aspectratio: {
-                    x: 1,
-                    y: 1,
-                    z: 1
-                },
-                camera: {
-                    center: {
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    },
-                    eye: {
-                        x: 1.25,
-                        y: 1.25,
-                        z: 1.25
-                    },
-                    up: {
-                        x: 0,
-                        y: 0,
-                        z: 1
-                    }
-                },
-                xaxis: {
-                    type: 'linear',
-                    zeroline: false
-                },
-                yaxis: {
-                    type: 'linear',
-                    zeroline: false
-                },
-                zaxis: {
-                    type: 'linear',
-                    zeroline: false
-                }
-            },
-            title: '전체 분야의 군집화 결과',
-            width: 477
-        };
-
-        Plotly.newPlot(space, data, layout);
-
-    });
-}
+// function drawSimilarChart() {
+//     var space = document.getElementById('similar-chart');
+//     Plotly.d3.csv('https://raw.githubusercontent.com/findMyself2021/find_myself/master/findmyself/src/main/resources/static/csv/all_cluster_monthly.csv', function(err, rows){
+//
+//         function unpack(rows, key) {
+//             return rows.map(function(row) { return row[key]; });
+//         }
+//
+//         var data = [{
+//             x: unpack(rows, 'x'),
+//             y: unpack(rows, 'y'),
+//             z: unpack(rows, 'z'),
+//             mode: 'markers',
+//             type: 'scatter3d',
+//             marker: {
+//                 color: 'rgb(23, 190, 207)',
+//                 size: 2
+//             }
+//         },{
+//             alphahull: 7,
+//             opacity: 0.1,
+//             type: 'mesh3d',
+//             x: unpack(rows, 'x'),
+//             y: unpack(rows, 'y'),
+//             z: unpack(rows, 'z')
+//         }];
+//
+//         var layout = {
+//             autosize: true,
+//             height: 480,
+//             scene: {
+//                 aspectratio: {
+//                     x: 1,
+//                     y: 1,
+//                     z: 1
+//                 },
+//                 camera: {
+//                     center: {
+//                         x: 0,
+//                         y: 0,
+//                         z: 0
+//                     },
+//                     eye: {
+//                         x: 1.25,
+//                         y: 1.25,
+//                         z: 1.25
+//                     },
+//                     up: {
+//                         x: 0,
+//                         y: 0,
+//                         z: 1
+//                     }
+//                 },
+//                 xaxis: {
+//                     type: 'linear',
+//                     zeroline: false
+//                 },
+//                 yaxis: {
+//                     type: 'linear',
+//                     zeroline: false
+//                 },
+//                 zaxis: {
+//                     type: 'linear',
+//                     zeroline: false
+//                 }
+//             },
+//             title: '전체 분야의 군집화 결과',
+//             width: 477
+//         };
+//
+//         Plotly.newPlot(space, data, layout);
+//
+//     });
+// }

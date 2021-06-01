@@ -21,6 +21,18 @@ public class Requirements extends ConvenientTmp{
 
     }
 
+    public Requirements(String home_type, int deposit, int monthly, String address, int traffic, ConvenientTmp convenient, int safety, int sex_ratio, String age_type) {
+        this.home_type = home_type;
+        this.deposit = deposit;
+        this.monthly = monthly;
+        this.address = address;
+        this.traffic = traffic;
+        this.convenient = convenient;
+        this.safety = safety;
+        this.sex_ratio = sex_ratio;
+        this.age_type = age_type;
+    }
+
     public Requirements defaultRequirements(){ //기본설정값 셋
         Requirements rq = new Requirements();
         

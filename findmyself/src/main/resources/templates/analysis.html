@@ -45,7 +45,7 @@
             <h3 id="login-btn-text">로그인</h3>
         </button>
         <div class="logo-wrap">
-            <a th:href="@{/}">
+            <a th:href="@{/main}">
                 <img src="/image/logo4.png">
             </a>
         </div>
@@ -163,15 +163,15 @@
                         <div class="card-body">
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0">집값 - 교통의 상관관계 </h5>
-                                <h4 class="h4 font-weight-bold mb-0"  th:text="${gu} + ' '+ ${hdong} +'의 집값은 '+${chartertraffic.getValue1()}+'이고 교통량은 '+${chartertraffic.getValue2()}+'입니다.'"></h4>
+                                <h4 class="h4 font-weight-bold mb-0"  th:text="'집값은 '+${chartertraffic.getValue1()}+'이고 교통량은 '+${chartertraffic.getValue2()}+'입니다.'"></h4>
                                 <div id="chart_relation" style="width:auto; height:400px;"></div>
                             </div>
                             <br>
                         </div>
                         <div class="card-body">
                             <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0">성비 - 안전정도의 상관관계 </h5>
-                                <h4 class="h4 font-weight-bold mb-0"  th:text="${gu} + ' '+ ${hdong} +'의 성비는 '+${gendersafety.getValue1()}+'이고 안전정도는 '+${gendersafety.getValue2()}+'입니다.'"></h4>
+                                <h5 class="card-title text-uppercase text-muted mb-0">성비 - 안전수치의 상관관계 </h5>
+                                <h4 class="h4 font-weight-bold mb-0"  th:text="'성비는 '+${gendersafety.getValue1()}+'이고 안전정도는 '+${gendersafety.getValue2()}+'입니다.'"></h4>
                                 <div id="chart_relation_gender_safety" style="width:auto; height:400px;"></div>
                             </div>
                             <br>
@@ -406,7 +406,7 @@
         google.charts.setOnLoadCallback(drawAgeChart);
         google.charts.setOnLoadCallback(drawRelation);
         google.charts.setOnLoadCallback(drawRelation_gender_safety);
-        drawSimilarChart();
+        //drawSimilarChart();
 
     </script>
     <form id="postStationForm" name="postStationForm">

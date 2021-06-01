@@ -2,6 +2,7 @@ package com.findmyself.team.controller;
 
 import com.findmyself.team.DongInfo;
 import com.findmyself.team.Requirements;
+import com.findmyself.team.data.domain.Member;
 import com.findmyself.team.data.domain.Safety;
 import com.findmyself.team.data.domain.residence.Gender;
 import com.findmyself.team.data.domain.traffic.Traffic;
@@ -11,6 +12,7 @@ import com.findmyself.team.data.service.SafetyService;
 import com.findmyself.team.data.service.residence.GenderService;
 import com.findmyself.team.data.service.traffic.TrafficInfoService;
 import com.findmyself.team.service.AnalysisService;
+import com.findmyself.team.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,8 @@ public class MainController {
     private final TotalGenderService totalGenderService;
     private final TotalAgeService totalAgeService;
 
+    private final MemberService memberService;
+
     @GetMapping(value="/")
     public String index(){
         return "index";
@@ -45,10 +49,25 @@ public class MainController {
         List<Long> codeList;
         List<DongInfo> topInfoList;
 
+        HttpSession session = null;
+
+        try{
+            session = request.getSession();
+            session.setAttribute("id",session.getAttribute("id"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         if(rq.getHome_type() == null){
-            rq = new Requirements().defaultRequirements();
-            codeList = null;
-            topInfoList = null;
+            if(session.getAttribute("id") == null) { //로그인 안한 경우
+                rq = new Requirements().defaultRequirements();
+                codeList = null;
+                topInfoList = null;
+            }else{  //로그인은 했으나 첫 로드인 경우 -> 이전에 설정값 로드
+                rq = memberService.getSettings((Long) session.getAttribute("id"));
+                codeList = null;
+                topInfoList = null;
+            }
         }else{
             codeList = analysisService.analysis(rq);
             topInfoList = analysisService.findMatchingTop(rq,codeList);
@@ -57,18 +76,25 @@ public class MainController {
         model.addAttribute("codeList",codeList);
         model.addAttribute("topInfoList", topInfoList);
 
-        try{
-            HttpSession session = request.getSession();
-            session.setAttribute("id",session.getAttribute("id"));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
         return "main";
     }
 
     @PostMapping(value="/find.do")	//요구 사항 기반 검색
     public String find(Requirements rq, Model model, HttpServletRequest request) {
+
+        HttpSession session = null;
+
+        try{
+            session = request.getSession();
+            session.setAttribute("id",session.getAttribute("id"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //member 테이블에 설정값 저장
+        memberService.setSettings(
+                (Long) session.getAttribute("id"), rq
+        );
 
         List<Long> codeList = analysisService.analysis(rq);
         List<DongInfo> topInfoList = analysisService.findMatchingTop(rq,codeList);
@@ -101,12 +127,6 @@ public class MainController {
 
         model.addAttribute("isLoad",1);
 
-        try{
-            HttpSession session = request.getSession();
-            session.setAttribute("id",session.getAttribute("id"));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         return "main";
     }
 

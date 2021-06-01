@@ -23,4 +23,14 @@ public class ConvenientTmp {
         this.food = 40;
         this.edu = 40;
     }
+
+    public ConvenientTmp(int total, int joy, int life, int shop, int sport, int food, int edu) {
+        this.total = total;
+        this.joy = joy;
+        this.life = life;
+        this.shop = shop;
+        this.sport = sport;
+        this.food = food;
+        this.edu = edu;
+    }
 }

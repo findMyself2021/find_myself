@@ -444,93 +444,93 @@ public class AnalysisService {
         return  topDisInfoList;
     }
 
-    //조회수 오름차순 top4 계산
-    @Transactional
-    public void sortTopClick(Long userId, Long h_code){
-        List<String> topClickInfoList = new ArrayList<>();
-
-        //파싱된 조회수 맵(top1코드:top1조회수,top2코드:top2조회수, ...)
-        Map<Long, Integer> linkedParseClickMap = memberService.parsingClickList(userId);
-
-        //System.out.println("!!!파싱된 맵 결과: "+linkedParseClickMap);
-        //조회수 맵에 현재 클릭한 행정동 조회수 처리 여부
-        boolean isInsert = false;
-
-        //1. 현재 분석화면에 해당하는 행정동 조회수 카운팅
-        for(Long key: linkedParseClickMap.keySet()) {
-            //1-1. 현재 조회 맵에 해당 행정동 코드(키 값)가 존재하는 경우 -> 조회수 +1
-//            System.out.println("키값: "+ key.toString());
-//            System.out.println("클릭된 코드: "+h_code.toString());
-//            System.out.println("------------------------------");
-            if((key.toString()).equals(h_code.toString())){
-                linkedParseClickMap.put(key,linkedParseClickMap.get(key)+1);
-                isInsert = true;
-                //System.out.println("+1해야해!: "+ linkedParseClickMap);
-                break;
-            }
-        }
-        //1-2. 현재 조회수 맵에 해당 행정동 존재하지 않는 경우 -> new코드 : new조회수 추가
-        if(!isInsert){
-            linkedParseClickMap.put(h_code,1);
-        }
-
-        //삽입 후 확인
-        for(Long key: linkedParseClickMap.keySet()) {
-            //System.out.println(key+", "+linkedParseClickMap.get(key));
-        }
-
-        //2. 조회수 맵 내림차순 정렬하기(무조건 결과 맵의 길이: 4)
-        // Map.Entry 리스트 작성
-        List<Map.Entry<Long, Integer>> list_entries = new ArrayList<Map.Entry<Long, Integer>>(linkedParseClickMap.entrySet());
-
-        // 비교함수 Comparator를 사용하여 오름차순으로 정렬
-        Collections.sort(list_entries, new Comparator<Map.Entry<Long, Integer>>() {
-            // compare로 값을 비교
-            public int compare(Map.Entry<Long, Integer> obj1, Map.Entry<Long, Integer> obj2) {
-                // 오름 차순 정렬
-                return obj2.getValue().compareTo(obj1.getValue());
-            }
-        });
-
-        //System.out.println("내림 차순 정렬 완료");
-        linkedParseClickMap.clear();
-
-        //top4로 자르기
-        for(int i=0; i<4; i++) {
-            if (list_entries.size() <= i) {
-                linkedParseClickMap.put(0L, 0);
-            } else {
-                linkedParseClickMap.put(list_entries.get(i).getKey(), list_entries.get(i).getValue());
-            }
-        }
-
-        //member 테이블 내 top4 데이터 수정
-        for(Long key: linkedParseClickMap.keySet()) {
-            //System.out.println(key+", "+linkedParseClickMap.get(key));
-            topClickInfoList.add(key.toString()+","+linkedParseClickMap.get(key).toString());
-        }
-        //System.out.println("갱신된 top리스트: "+topClickInfoList);
-
-        //3. 갱신된 조회 수 데이터 업데이트
-        memberService.updateTop4(userId,topClickInfoList);
-    }
-
-    public List<DongInfo> analysisTopClick(Long userId){
-        //파싱된 조회수 맵(top1코드:top1조회수,top2코드:top2조회수, ...)
-        Map<Long, Integer> linkedParseClickMap = memberService.parsingClickList(userId);
-
-        List<DongInfo> resultByClikck = new ArrayList<DongInfo>();
-        for(Long code:linkedParseClickMap.keySet()){
-            if(code == 0){
-                resultByClikck.add(new DongInfo("0","0",0L));
-            }else{
-                Gudong gudong = gudongService.findOne(code);
-                resultByClikck.add(new DongInfo(gudong.getGu(),gudong.getH_dong(),gudong.getH_code()));
-            }
-        }
-
-        return resultByClikck;
-    }
+//    //조회수 오름차순 top4 계산
+//    @Transactional
+//    public void sortTopClick(Long userId, Long h_code){
+//        List<String> topClickInfoList = new ArrayList<>();
+//
+//        //파싱된 조회수 맵(top1코드:top1조회수,top2코드:top2조회수, ...)
+//        Map<Long, Integer> linkedParseClickMap = memberService.parsingClickList(userId);
+//
+//        //System.out.println("!!!파싱된 맵 결과: "+linkedParseClickMap);
+//        //조회수 맵에 현재 클릭한 행정동 조회수 처리 여부
+//        boolean isInsert = false;
+//
+//        //1. 현재 분석화면에 해당하는 행정동 조회수 카운팅
+//        for(Long key: linkedParseClickMap.keySet()) {
+//            //1-1. 현재 조회 맵에 해당 행정동 코드(키 값)가 존재하는 경우 -> 조회수 +1
+////            System.out.println("키값: "+ key.toString());
+////            System.out.println("클릭된 코드: "+h_code.toString());
+////            System.out.println("------------------------------");
+//            if((key.toString()).equals(h_code.toString())){
+//                linkedParseClickMap.put(key,linkedParseClickMap.get(key)+1);
+//                isInsert = true;
+//                //System.out.println("+1해야해!: "+ linkedParseClickMap);
+//                break;
+//            }
+//        }
+//        //1-2. 현재 조회수 맵에 해당 행정동 존재하지 않는 경우 -> new코드 : new조회수 추가
+//        if(!isInsert){
+//            linkedParseClickMap.put(h_code,1);
+//        }
+//
+//        //삽입 후 확인
+//        for(Long key: linkedParseClickMap.keySet()) {
+//            //System.out.println(key+", "+linkedParseClickMap.get(key));
+//        }
+//
+//        //2. 조회수 맵 내림차순 정렬하기(무조건 결과 맵의 길이: 4)
+//        // Map.Entry 리스트 작성
+//        List<Map.Entry<Long, Integer>> list_entries = new ArrayList<Map.Entry<Long, Integer>>(linkedParseClickMap.entrySet());
+//
+//        // 비교함수 Comparator를 사용하여 오름차순으로 정렬
+//        Collections.sort(list_entries, new Comparator<Map.Entry<Long, Integer>>() {
+//            // compare로 값을 비교
+//            public int compare(Map.Entry<Long, Integer> obj1, Map.Entry<Long, Integer> obj2) {
+//                // 오름 차순 정렬
+//                return obj2.getValue().compareTo(obj1.getValue());
+//            }
+//        });
+//
+//        //System.out.println("내림 차순 정렬 완료");
+//        linkedParseClickMap.clear();
+//
+//        //top4로 자르기
+//        for(int i=0; i<4; i++) {
+//            if (list_entries.size() <= i) {
+//                linkedParseClickMap.put(0L, 0);
+//            } else {
+//                linkedParseClickMap.put(list_entries.get(i).getKey(), list_entries.get(i).getValue());
+//            }
+//        }
+//
+//        //member 테이블 내 top4 데이터 수정
+//        for(Long key: linkedParseClickMap.keySet()) {
+//            //System.out.println(key+", "+linkedParseClickMap.get(key));
+//            topClickInfoList.add(key.toString()+","+linkedParseClickMap.get(key).toString());
+//        }
+//        //System.out.println("갱신된 top리스트: "+topClickInfoList);
+//
+//        //3. 갱신된 조회 수 데이터 업데이트
+//        memberService.updateTop4(userId,topClickInfoList);
+//    }
+//
+//    public List<DongInfo> analysisTopClick(Long userId){
+//        //파싱된 조회수 맵(top1코드:top1조회수,top2코드:top2조회수, ...)
+//        Map<Long, Integer> linkedParseClickMap = memberService.parsingClickList(userId);
+//
+//        List<DongInfo> resultByClikck = new ArrayList<DongInfo>();
+//        for(Long code:linkedParseClickMap.keySet()){
+//            if(code == 0){
+//                resultByClikck.add(new DongInfo("0","0",0L));
+//            }else{
+//                Gudong gudong = gudongService.findOne(code);
+//                resultByClikck.add(new DongInfo(gudong.getGu(),gudong.getH_dong(),gudong.getH_code()));
+//            }
+//        }
+//
+//        return resultByClikck;
+//    }
 
     public List<DongInfo> analysisSimilar(Long code){
         int no;

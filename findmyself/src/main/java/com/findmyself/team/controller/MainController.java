@@ -34,7 +34,12 @@ public class MainController {
     private final TotalGenderService totalGenderService;
     private final TotalAgeService totalAgeService;
 
-    @GetMapping(value="/")	//로그인 화면으로 이동할때(개발중)
+    @GetMapping(value="/")
+    public String index(){
+        return "index";
+    }
+
+    @GetMapping(value="/main")	//로그인 화면으로 이동할때(개발중)
     public String openMain(Requirements rq,Model model, HttpServletRequest request) {
 
         List<Long> codeList;

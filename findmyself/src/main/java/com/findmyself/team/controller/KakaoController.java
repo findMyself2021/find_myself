@@ -69,7 +69,7 @@ public class KakaoController {
             session.setAttribute("access_Token",access_Token);
         }
 
-        return "redirect:/";
+        return "redirect:/main";
     }
 
     //로그아웃 버튼 눌림
@@ -92,7 +92,7 @@ public class KakaoController {
             request.getSession().invalidate();
             request.getSession(true);
 
-            return "redirect:/";
+            return "redirect:/main";
         }
         else{
             //로그인을 하지 않은 상태라면 => 그럴 일 없음
@@ -100,6 +100,6 @@ public class KakaoController {
 
         System.out.println("로그아웃 성공");
 
-        return "redirect:/";
+        return "redirect:/main";
     }
 }

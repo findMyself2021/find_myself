@@ -16,6 +16,10 @@ implement in intellij (springboot, jpa) **개발 진행 중**
 
 ### Screen Shots
 
+0 ) 소개 화면 
+
+<img width="800" src=https://user-images.githubusercontent.com/66946182/120468666-6d5d8900-c3dc-11eb-953f-802da7873952.png>
+
 1 ) 메인 화면
 
 <img width="800" src=https://user-images.githubusercontent.com/66946182/117404014-23e85e00-af44-11eb-8eaa-4daf75481875.png>

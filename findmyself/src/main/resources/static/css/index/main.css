@@ -1298,6 +1298,7 @@ ul.actions {
   display: flex;
   cursor: default;
   list-style: none;
+  font-family: 'Nanum Gothic';
   margin-left: -1em;
   padding-left: 0; }
   ul.actions li {
@@ -1499,7 +1500,7 @@ button,
   color: #87ceeb !important;
   cursor: pointer;
   display: inline-block;
-  font-family: "Roboto Slab", serif;
+  font-family: 'Nanum Gothic';
   font-size: 0.8em;
   font-weight: 700;
   height: 3.5em;
@@ -2087,7 +2088,7 @@ button,
   #header .logo {
     border-bottom: 0;
     color: inherit;
-    font-family: "Roboto Slab", serif;
+    font-family: 'Nanum Gothic';
     font-size: 1.125em; }
   #header .icons {
     text-align: right; }
@@ -2199,7 +2200,7 @@ button,
   -ms-user-select: none;
   user-select: none;
   color: #3d4449;
-  font-family: "Roboto Slab", serif;
+  font-family: 'Nanum Gothic';
   font-weight: 400;
   letter-spacing: 0.075em;
   list-style: none;

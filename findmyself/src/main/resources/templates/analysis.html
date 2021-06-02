@@ -162,7 +162,7 @@
                         </div>
                         <div class="card-body">
                             <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0">집값 - 교통의 상관관계 </h5>
+                                <h5 class="card-title text-uppercase text-muted mb-0" style="line-height: 300%;" >집값 - 교통의 상관관계 </h5>
                                 <h4 class="h4 font-weight-bold mb-0"  th:text="'집값은 '+${chartertraffic.getValue1()}+'이고 교통량은 '+${chartertraffic.getValue2()}+'입니다.'"></h4>
                                 <div id="chart_relation" style="width:auto; height:400px;"></div>
                             </div>
@@ -170,7 +170,7 @@
                         </div>
                         <div class="card-body">
                             <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0">성비 - 안전수치의 상관관계 </h5>
+                                <h5 class="card-title text-uppercase text-muted mb-0" style="line-height: 300%;">성비 - 안전수치의 상관관계 </h5>
                                 <h4 class="h4 font-weight-bold mb-0"  th:text="'성비는 '+${gendersafety.getValue1()}+'이고 안전정도는 '+${gendersafety.getValue2()}+'입니다.'"></h4>
                                 <div id="chart_relation_gender_safety" style="width:auto; height:400px;"></div>
                             </div>
@@ -385,9 +385,11 @@
         var man_ratio = /*[[ ${analysisInfos.man_ratio} ]]*/;
         var woman_ratio =/*[[ ${analysisInfos.woman_ratio} ]]*/;
 
+        var charter_traffic_no=/*[[ ${chartertraffic.getNo()} ]]*/;
         var charter_traffic_value1=/*[[ ${chartertraffic.getValue1()} ]]*/;
         var charter_traffic_value2=/*[[ ${chartertraffic.getValue2()} ]]*/;
 
+        var gender_safety_No=/*[[ ${gendersafety.getNo()} ]]*/;
         var gender_safety_value1=/*[[ ${gendersafety.getValue1()} ]]*/;
         var gender_safety_value2=/*[[ ${gendersafety.getValue2()} ]]*/;
 

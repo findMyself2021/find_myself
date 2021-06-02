@@ -73,8 +73,8 @@ public class AnalysisService {
     AllByMonthlyService allByMonthlyService;
 
     // 필터링 분석
-    public List<Long> analysis(Requirements rq){
-        List<Long> codeList = new ArrayList<>();
+    public HashSet<Long> analysis(Requirements rq){
+        HashSet<Long> codeList = new HashSet<>();
 
         home_type = rq.getHome_type();
 
@@ -122,6 +122,7 @@ public class AnalysisService {
         int cnt;
 
         if(homeList.size() == 0){   //예산 충족 리스트가 아예 없는 경우
+            System.out.println("homeList size is zero");
             for(Gudong gudong:gudongService.findAll()){
                 cnt=0;
                 code = gudong.getH_code();
@@ -162,6 +163,11 @@ public class AnalysisService {
             }
         }
 
+        System.out.println("<<<<<개별군집 조건 충족한>>>>>");
+        System.out.println(codeList);
+
+        //매칭률 높은 4개정도만 골라서 하기..?
+
         if(codeList.size() == 0){
             System.out.println("결과가 없습니다.!!!!!!!!!!!");
         }
@@ -169,7 +175,7 @@ public class AnalysisService {
         // allCluster 데이터 내 같은 군집에 속하는 행정동 추가
         if(codeList.size() < 10){
 
-            List<Long> codeList2 = new ArrayList<>();
+            HashSet<Long> codeList2 = new HashSet<>();
 
             System.out.println("<<<<<중간 추천 행정동 리스트>>>>>");
             System.out.println(codeList);
@@ -210,7 +216,7 @@ public class AnalysisService {
 
     // top 매칭률 분석
     // (위 분석에서)추천된 리스트 이용
-    public List<DongInfo> findMatchingTop(Requirements rq, List<Long> codeList){
+    public List<DongInfo> findMatchingTop(Requirements rq, HashSet<Long> codeList){
 
         List<DongInfo> topInfoList;
 
@@ -278,6 +284,7 @@ public class AnalysisService {
     public void findMatchingStd(){
         double min=1000000000, max=0;
 
+        //System.out.println("intervals: "+intervals);
         for(double itv: intervals.values()){
             if(itv < min){
                 min = itv;
@@ -348,7 +355,7 @@ public class AnalysisService {
     }
 
     //상세분석 관련 서비스
-    public AnalysisInfo analysisDetail(Long code){
+    public AnalysisInfo analysisDetail(Long code, Long userId){
 
         //평균 전월세가
         int deposit_avg_charter = homeService.findDepositAvgByCharter(code);
@@ -389,7 +396,15 @@ public class AnalysisService {
         //매칭률
         //매칭률 범위 5개로 분할하기
         findMatchingStd();
-        double matching_ratio = findMatchingValue(intervals.get(code));
+
+        double matching_ratio = 0;
+
+        if(intervals.get(code) == null){    //추천 리스트가 아닌 행정동 클릭한 경우(군집 지도에서 클릭..)
+            matching_ratio = findMatchingValue(getInterval(memberService.getSettings(userId),code));
+        }else{
+            matching_ratio = findMatchingValue(intervals.get(code));
+        }
+
 //        System.out.println("코드,매칭률: "+code+", "+intervals.get(code));
 //        System.out.println("매칭 정도: "+matching_ratio);
 

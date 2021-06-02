@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.List;
 
 @Controller
@@ -46,7 +47,7 @@ public class MainController {
     @GetMapping(value="/main")	//로그인 화면으로 이동할때(개발중)
     public String openMain(Requirements rq,Model model, HttpServletRequest request) {
 
-        List<Long> codeList;
+        HashSet<Long> codeList;
         List<DongInfo> topInfoList;
 
         HttpSession session = null;
@@ -96,7 +97,7 @@ public class MainController {
                 (Long) session.getAttribute("id"), rq
         );
 
-        List<Long> codeList = analysisService.analysis(rq);
+        HashSet<Long> codeList = analysisService.analysis(rq);
         List<DongInfo> topInfoList = analysisService.findMatchingTop(rq,codeList);
 
         //매칭률 넘겨주기

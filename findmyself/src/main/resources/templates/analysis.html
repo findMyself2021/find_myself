@@ -271,11 +271,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-<!--            추천 분석 부분(거리가 가까운, 사용자 활동 기ㄹ반)-->
-            <div class="row mt-5">
-                <div class="col-xl-8 mb-5 mb-xl-0">
                     <div class="card shadow">
                         <div class="card-header border-0">
                             <div class="row align-items-center">
@@ -286,6 +281,71 @@
                         </div>
                         <div class="table-responsive">
                             <!-- Projects table -->
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" colspan="2">학교/직장과 가까운
+                                        <span title="학교 및 직장까지의 거리를 우선적으로 고려하여 추천된 동네">
+                                            <img src="/image/information.png" style="width: 5%">
+                                        </span>
+                                    </th>
+                                    <th scope="col" colspan="2"></th>
+                                    <th scope="col" colspan="2"></th>
+                                    <th scope="col" colspan="2" th:text="${addr}" style="text-align: right"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="disTop1"></td>
+                                    <td class="disKm" id="disTop1Km" style="padding-left:0; padding-right:0"></td>
+                                    <td id="disTop2"></td>
+                                    <td class="disKm" id="disTop2Km" style="padding-left:0; padding-right:0"></td>
+                                    <td id="disTop3"></td>
+                                    <td class="disKm" id="disTop3Km" style="padding-left:0; padding-right:0"></td>
+                                    <td id="disTop4"></td>
+                                    <td class="disKm" id="disTop4Km" style="padding-left:0; padding-right:0"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">특징이 비슷한
+                                        <span title="전반적인 특징의 유사성이 가장 높은 동네">
+                                            <img src="/image/information.png" style="width: 5%">
+                                        </span>
+                                    </th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="similarTop1"></td>
+                                    <td id="similarTop2"></td>
+                                    <td id="similarTop3"></td>
+                                    <td id="similarTop4"></td>
+                                </tr>
+                                </tbody>
+                                <div id="similar-chart" class="card-body" style="width: 100%; padding: 0px"></div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            추천 분석 부분(거리가 가까운, 사용자 활동 기ㄹ반)-->
+<!--            <div class="row mt-5">
+                <div class="col-xl-8 mb-5 mb-xl-0">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="mb-0">추천 동네</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
                                 <tr>
@@ -338,7 +398,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
     <div class="copyright">

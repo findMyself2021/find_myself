@@ -352,6 +352,9 @@ function displayHangJungDong(coordinates, name, code, addr, fillColor, userId){
             '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
             '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
             '</form>');
+
+        //분석 로딩 화면 띄우기
+        $("#loading2").show();
     });
 }
 
@@ -513,6 +516,8 @@ function displayCluster(coordinates, name,code,addr, fillColor, userId,min,max,a
                 '<input type="hidden" id="listByDistance" name="listByDistance" value="">' +
                 '<input type="hidden" id="userId" name="userId" value="'+ userId +'">' +
                 '</form>');
+
+            $("#loading2").show();
         }
     });
 }

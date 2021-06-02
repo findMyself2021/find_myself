@@ -2,6 +2,7 @@ package com.findmyself.team.controller;
 
 import com.findmyself.team.AnalysisInfo;
 import com.findmyself.team.DongInfo;
+import com.findmyself.team.Requirements;
 import com.findmyself.team.data.relation.domain.CharterTraffic;
 import com.findmyself.team.data.relation.domain.GenderSafety;
 import com.findmyself.team.data.relation.service.CharterTrafficService;
@@ -72,7 +73,7 @@ public class MapController {
         List<DongInfo> topDisInfoList = analysisService.sortTopDis(listByDistance);
 
         //상세 분석
-        AnalysisInfo analysisInfos = analysisService.analysisDetail(h_code);
+        AnalysisInfo analysisInfos = analysisService.analysisDetail(h_code,userId);
 
         //행정동 조회수 분석 --- 개발중
         //analysisService.sortTopClick(userId, h_code);

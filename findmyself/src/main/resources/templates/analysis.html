@@ -163,7 +163,7 @@
                         <div class="card-body">
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0" style="line-height: 300%;" >집값 - 교통의 상관관계 </h5>
-                                <h4 class="h4 font-weight-bold mb-0"  th:text="'집값은 '+${chartertraffic.getValue1()}+'이고 교통량은 '+${chartertraffic.getValue2()}+'입니다.'"></h4>
+                                <h4 class="h4 font-weight-bold mb-0"  th:text="${chartertrafficLog}"></h4>
                                 <div id="chart_relation" style="width:auto; height:400px;"></div>
                             </div>
                             <br>
@@ -171,7 +171,7 @@
                         <div class="card-body">
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0" style="line-height: 300%;">성비 - 안전수치의 상관관계 </h5>
-                                <h4 class="h4 font-weight-bold mb-0"  th:text="'성비는 '+${gendersafety.getValue1()}+'이고 안전정도는 '+${gendersafety.getValue2()}+'입니다.'"></h4>
+                                <h4 class="h4 font-weight-bold mb-0"  th:text="${gendersafetyLog}"></h4>
                                 <div id="chart_relation_gender_safety" style="width:auto; height:400px;"></div>
                             </div>
                             <br>

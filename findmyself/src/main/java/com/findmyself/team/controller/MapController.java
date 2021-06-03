@@ -10,6 +10,7 @@ import com.findmyself.team.data.relation.service.GenderSafetyService;
 import com.findmyself.team.data.service.CenterLocationService;
 import com.findmyself.team.data.service.GudongService;
 import com.findmyself.team.service.AnalysisService;
+import com.findmyself.team.service.RelationService;
 import com.findmyself.team.service.TrafficService;
 import lombok.RequiredArgsConstructor;
 import netscape.javascript.JSObject;
@@ -36,6 +37,9 @@ public class MapController {
 
     @Autowired
     AnalysisService analysisService;
+
+    @Autowired
+    RelationService relationService;
 
     private String stationInfo;
     private String carInfo;
@@ -90,6 +94,9 @@ public class MapController {
         final String gu = gudongService.findOne(h_code).getGu();
         //행정동
         final String h_dong = gudongService.findOne(h_code).getH_dong();
+        //관계분석 결과
+        final String charterTrafficResult = relationService.charterTrafficRelation(h_code);
+        final String genderSafetyResult = relationService.genderSafetyRelation(h_code);
 
         model.addAttribute("hcode",h_code);
         model.addAttribute("gu",gu);
@@ -103,6 +110,8 @@ public class MapController {
         model.addAttribute("resultBySimilar",resultBySimilar);
         model.addAttribute("chartertraffic",chartertraffic);
         model.addAttribute("gendersafety",gendersafety);
+        model.addAttribute("chartertrafficLog",charterTrafficResult);
+        model.addAttribute("gendersafetyLog",genderSafetyResult);
 
         return "analysis";
     }

@@ -2,7 +2,7 @@ function drawRelation() {
     //x,y
     //charter-traffic
     var data = google.visualization.arrayToDataTable([
-        ['ID', 'House Price_Average', 'Traffic_Average', '군집 번호',     '해당 행정동 수'],
+        ['ID', '집값 평균', '교통 편의정도 평균', '군집 번호',     '해당 행정동 수'],
         ['',26924.952651515152,59.80409090909091,'0번 군집',132],
         ['',38434.44680851064,71.64510638297872,'1번 군집',47],
         ['',20480.74251497006,44.39574850299401,'2번 군집',167],
@@ -31,7 +31,7 @@ function drawRelation_gender_safety(){
     //x,y
     //Gender-Safety
     var data = google.visualization.arrayToDataTable([
-        ['ID', 'Gender_Average', 'Safety_Average', '군집 번호',     '해당 행정동 수'],
+        ['ID', '성비 평균', '치안 정도 평균', '군집 번호',     '해당 행정동 수'],
         ['',95.5938211382113,85.1417886178861,'0번 군집',123],
         ['',88.20075,166.5878,'1번 군집',67],
         ['',102.296804123711,43.1809278350515,'2번 군집',97],

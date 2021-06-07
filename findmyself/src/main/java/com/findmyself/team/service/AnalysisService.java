@@ -595,8 +595,10 @@ public class AnalysisService {
                      gudongService.findOne(resultCode).getGu()
                     ,gudongService.findOne(resultCode).getH_dong()
                     ,resultCode
+                    ,Math.ceil((keys.get(i))*100)/100
             ));
         }
+        //System.out.println("군집 간의 거리");
         //System.out.println(resultDis);
         //System.out.println(resultList);
         return resultList;

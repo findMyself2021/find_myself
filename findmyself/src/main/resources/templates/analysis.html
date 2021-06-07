@@ -286,7 +286,7 @@
                                 <tr>
                                     <th scope="col" colspan="2">학교/직장과 가까운
                                         <span title="학교 및 직장까지의 거리를 우선적으로 고려하여 추천된 동네">
-                                            <img src="/image/information.png" style="width: 5%">
+                                            <img src="/image/information.png" style="width: 10%">
                                         </span>
                                     </th>
                                     <th scope="col" colspan="2"></th>
@@ -312,20 +312,24 @@
                                 <tr>
                                     <th scope="col">특징이 비슷한
                                         <span title="전반적인 특징의 유사성이 가장 높은 동네">
-                                            <img src="/image/information.png" style="width: 5%">
+                                            <img src="/image/information.png" style="width: 10%">
                                         </span>
                                     </th>
-                                    <th scope="col"></th>
-                                    <th scope="col"></th>
-                                    <th scope="col"></th>
+                                    <th scope="col" colspan="2"></th>
+                                    <th scope="col" colspan="2"></th>
+                                    <th scope="col" colspan="2" th:text="${gu} + ' '+ ${hdong}" style="text-align: right"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td id="similarTop1"></td>
+                                    <td class="disKm" id="similarTop1per"style="padding-left:0; padding-right:0"></td>
                                     <td id="similarTop2"></td>
+                                    <td class="disKm" id="similarTop2per"style="padding-left:0; padding-right:0"></td>
                                     <td id="similarTop3"></td>
+                                    <td class="disKm" id="similarTop3per"style="padding-left:0; padding-right:0"></td>
                                     <td id="similarTop4"></td>
+                                    <td class="disKm" id="similarTop4per"style="padding-left:0; padding-right:0"></td>
                                 </tr>
                                 </tbody>
                                 <div id="similar-chart" class="card-body" style="width: 100%; padding: 0px"></div>

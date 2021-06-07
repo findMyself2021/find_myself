@@ -149,6 +149,13 @@ function loadSimilarTopList(){
         document.getElementById("similarTop2").innerText = resultBySimilar[1].gu+" "+resultBySimilar[1].h_dong;
         document.getElementById("similarTop3").innerText = resultBySimilar[2].gu+" "+resultBySimilar[2].h_dong;
         document.getElementById("similarTop4").innerText = resultBySimilar[3].gu+" "+resultBySimilar[3].h_dong;
+
+        document.getElementById("similarTop1per").innerText = 100 - resultBySimilar[0].dis+ "%";
+        document.getElementById("similarTop2per").innerText = 100 - resultBySimilar[1].dis+ "%";
+        document.getElementById("similarTop3per").innerText = 100 - resultBySimilar[2].dis+ "%";
+        document.getElementById("similarTop4per").innerText = 100 - resultBySimilar[3].dis+ "%";
+
+
     }
 }
 function charter_info_click(){  //전세가 클릭시

@@ -319,7 +319,8 @@
                         오락
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="joy" type="range" min="0" max="100" step="1" th:field="*{convenient.joy}">
+                                <input id="joy" type="range" min="0" max="100" step="1" th:field="*{convenient.joy}"
+                                    oninput="mergeValues();">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
@@ -334,7 +335,8 @@
                         생활서비스
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="life" type="range" min="0" max="100" step="1" th:field="*{convenient.life}">
+                                <input id="life" type="range" min="0" max="100" step="1" th:field="*{convenient.life}"
+                                       oninput="mergeValues();">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
@@ -349,7 +351,8 @@
                         소매
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="shop" type="range" min="0" max="100" step="1" th:field="*{convenient.shop}">
+                                <input id="shop" type="range" min="0" max="100" step="1" th:field="*{convenient.shop}"
+                                       oninput="mergeValues();">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
@@ -364,7 +367,8 @@
                         스포츠
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="sport" type="range" min="0" max="100" step="1" th:field="*{convenient.sport}">
+                                <input id="sport" type="range" min="0" max="100" step="1" th:field="*{convenient.sport}"
+                                       oninput="mergeValues();">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
@@ -379,7 +383,8 @@
                         음식
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="food" type="range" min="0" max="100" step="1" th:field="*{convenient.food}">
+                                <input id="food" type="range" min="0" max="100" step="1" th:field="*{convenient.food}"
+                                       oninput="mergeValues();">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
@@ -394,7 +399,8 @@
                         교육
                         <div class="range_container">
                             <div class="slider-ui color">
-                                <input id="edu" type="range" min="0" max="100" step="1" th:field="*{convenient.edu}">
+                                <input id="edu" type="range" min="0" max="100" step="1" th:field="*{convenient.edu}"
+                                       oninput="mergeValues();">
                                 <div class="bar">
                                     <span class="min">0</span>
                                     <span class="max">100</span>
@@ -405,7 +411,6 @@
                             </div>
                         </div>
                     </div><br><br>
-                    <a href='javascript:void(0);' onclick="mergeValues();">적용</a>
                 </div>
                 <div class="requirements" id="safety">
                     <p>안전</p>

@@ -221,39 +221,6 @@ function searchCarRoute(startX,startY,endX,endY) {
                                         drawLine(sectionInfos,
                                             trafficArr);
                                     }
-                                    // else {
-                                    //
-                                    //     var markerImg = "";
-                                    //     var pType = "";
-                                    //
-                                    //     if (properties.pointType == "S") { //출발지 마커
-                                    //         markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
-                                    //         pType = "S";
-                                    //     } else if (properties.pointType == "E") { //도착지 마커
-                                    //         markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
-                                    //         pType = "E";
-                                    //     } else { //각 포인트 마커
-                                    //         markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
-                                    //         pType = "P"
-                                    //     }
-                                    //
-                                    //     // 경로들의 결과값들을 포인트 객체로 변환
-                                    //     var latlon = new kakao.maps.Point(
-                                    //         geometry.coordinates[0],
-                                    //         geometry.coordinates[1]);
-                                    //     // 포인트 객체를 받아 좌표값으로 다시 변환
-                                    //     var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                                    //         latlon);
-                                    //
-                                    //     var routeInfoObj = {
-                                    //         markerImage : markerImg,
-                                    //         lng : convertPoint._lng,
-                                    //         lat : convertPoint._lat,
-                                    //         pointType : pType
-                                    //     };
-                                    //     // 마커 추가
-                                    //     addMarkers(routeInfoObj);
-                                    // }
                                 }//for문 [E]
 
                             } else {

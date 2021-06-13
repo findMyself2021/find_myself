@@ -79,7 +79,7 @@ public class MapController {
         //상세 분석
         AnalysisInfo analysisInfos = analysisService.analysisDetail(h_code,userId);
 
-        //행정동 조회수 분석 --- 개발중
+        //행정동 조회수 분석
         //analysisService.sortTopClick(userId, h_code);
         //List<DongInfo> resultByClikck = analysisService.analysisTopClick(userId);
 

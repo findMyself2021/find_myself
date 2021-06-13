@@ -584,9 +584,10 @@ public class AnalysisService {
             }
         }
 
-        //거리 오름차순 정렬
+        //오름차순 정렬
         List<Double> keys = new ArrayList<>(resultDis.keySet());
         Collections.sort(keys);
+
 
         for(int i=1; i<5; i++){ //자기 자신 제외
             Long resultCode = resultDis.get(keys.get(i));

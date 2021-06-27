@@ -1,6 +1,6 @@
 # find_myself
 ### 나 혼자 찾는다
-implement in intellij (springboot, jpa) **개발 진행 중**
+implement in intellij (springboot, jpa)
 
 <img width="400" src=https://user-images.githubusercontent.com/66946182/117409625-58f8ae80-af4c-11eb-810f-0073f528998d.png>
 
